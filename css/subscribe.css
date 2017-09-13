@@ -1,0 +1,1170 @@
+@charset "utf-8";
+/* CSS Document */
+
+.clearfix {
+*zoom:1
+}
+.clearfix:after {
+	content: '';
+	display: table;
+	clear: both
+}
+*, input, :before, :after {
+	box-sizing: border-box
+}
+html, body {
+	padding: 0;
+	margin: 0
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
+	display: block
+}
+audio, canvas, progress, video {
+	display: inline-block;
+	vertical-align: baseline
+}
+input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button {
+height:auto
+}
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {
+-webkit-appearance:none
+}
+
+.fright{
+	float:right;
+}
+
+.fleft{
+	float:left;
+}
+
+.fnone{
+	float:none;
+}
+
+.ui-helper-hidden-accessible{display:none;}
+
+input[type=text]::-ms-clear { display: none; }
+/**/
+
+@font-face {
+	font-family: 'Souvenir';
+	src: url(../font/Souvenir-Light.eot);
+	src: url(../font/Souvenir-Light.eot?%23iefix&2415483338103447027) format("embedded-opentype"), url(../font/Souvenir-Light.woff2) format("woff2"), url(../font/Souvenir-Light.woff) format("woff"), url(../font/Souvenir-Light.ttf) format("truetype");
+	font-weight:300;
+	font-style:normal;
+}
+
+@font-face {
+	font-family: 'Souvenir';
+	src: url(../font/Souvenir-LightItalic.eot);
+	src: url(../font/Souvenir-LightItalic.eot?%23iefix&2415483338103447027) format("embedded-opentype"), url(../font/Souvenir-LightItalic.woff2) format("woff2"), url(../font/Souvenir-LightItalic.woff) format("woff"), url(../font/Souvenir-LightItalic.ttf) format("truetype");
+	font-weight:300;
+	font-style:italic;
+}
+
+@font-face {
+	font-family: 'Souvenir';
+	src: url(../font/Souvenir-Medium.eot);
+	src: url(../font/Souvenir-Medium.eot?%23iefix&2415483338103447027) format("embedded-opentype"), url(../font/Souvenir-Medium.woff2) format("woff2"), url(../font/Souvenir-Medium.woff) format("woff"), url(../font/Souvenir-Medium.ttf) format("truetype");
+	font-weight:400;
+	font-style:normal;
+}
+@font-face {
+	font-family: 'Souvenir';
+	src: url(../font/Souvenir-MediumItalic.eot);
+	src: url(../font/Souvenir-MediumItalic.eot?%23iefix&2415483338103447027) format("embedded-opentype"), url(../font/Souvenir-MediumItalic.woff2) format("woff2"), url(../font/Souvenir-MediumItalic.woff) format("woff"), url(../font/Souvenir-MediumItalic.ttf) format("truetype");
+	font-weight:400;
+	font-style:italic;
+}
+
+@font-face {
+	font-family: 'Souvenir';
+	src: url(../font/Souvenir-Bold.eot);
+	src: url(../font/Souvenir-Bold.eot?%23iefix&2415483338103447027) format("embedded-opentype"), url(../font/Souvenir-Bold.woff2) format("woff2"), url(../font/Souvenir-Bold.woff) format("woff"), 		url(../font/Souvenir-Bold.ttf) format("truetype");
+	font-weight:700;
+	font-style:normal;
+}
+@font-face {
+	font-family: 'Souvenir';
+	src: url(../font/Souvenir-BoldItalic.eot);
+	src: url(../font/Souvenir-BoldItalic.eot?%23iefix&2415483338103447027) format("embedded-opentype"), url(../font/Souvenir-BoldItalic.woff2) format("woff2"), url(../font/Souvenir-BoldItalic.woff) format("woff"), url(../font/Souvenir-BoldItalic.ttf) format("truetype");
+	font-weight:700;
+	font-style:italic;
+}
+
+
+@font-face {
+	font-family: 'Souvenir';
+	src: url(../font/Souvenir-Demi.eot);
+	src: url(../font/Souvenir-Demi.eot?%23iefix&2415483338103447027) format("embedded-opentype"), url(../font/Souvenir-Demi.woff2) format("woff2"), url(../font/Souvenir-Demi.woff) format("woff"), url(../font/Souvenir-Demi.ttf) format("truetype");
+	font-weight:800;
+	font-style:normal;
+}
+
+@font-face {
+	font-family: 'Souvenir';
+	src: url(../font/Souvenir-DemiItalic.eot);
+	src: url(../font/Souvenir-DemiItalic.eot?%23iefix&2415483338103447027) format("embedded-opentype"), url(../font/Souvenir-DemiItalic.woff2) format("woff2"), url(/../font/Souvenir-DemiItalic.woff) format("woff"), url(../font/Souvenir-DemiItalic.ttf) format("truetype");
+	font-weight:800;
+	font-style:italic;
+}
+
+@font-face {
+	font-family: 'HelveticaNeue-Thin';
+	src: url(../font/HelveticaNeue-Thin.ttf) format("truetype");
+	font-weight:normal;
+	font-style:normal;
+}
+
+
+.souvenir{
+	font-family: 'Souvenir';
+}
+
+.work_sans{
+	font-family: 'Work Sans'
+}
+
+/**/
+
+body{
+	color:#43474A;
+}
+
+.showDesktop{display:block !important;}
+.showTablet{display:none !important;}
+.showMobile{display:none !important;}
+
+
+h1{
+	font-family: 'Souvenir';
+	font-size: 54px;
+    line-height: 66px;
+	color: #141720;
+	font-weight:400;
+	font-style:normal;
+}
+
+h2{
+	font-family: 'Souvenir';
+	font-size: 30px;
+	color: #141720;
+	line-height: normal;
+	font-weight:400;
+	font-style:normal;
+}
+
+h3{
+	font-family: 'Souvenir';
+	font-size: 26px;
+	color: #141720;
+	line-height: normal;
+	font-weight:400;
+	font-style:normal;
+}
+
+h4{
+	font-family: 'Souvenir';
+	font-size: 22px;
+	color: #141720;
+	line-height: normal;
+	font-weight:400;
+	font-style:normal;
+}
+
+header{
+	position: relative;
+	top:0;
+	left:0;
+	width:100%;
+	z-index:1;
+	padding:15px 5px;
+	text-align:center;
+	background:#ffffff;
+}
+
+
+/**/
+
+html {
+	  position: relative;
+	  min-height: 100%;
+	}
+	body {
+	  /* Margin bottom by footer height */
+	  margin-bottom: 300px;
+	  background:#ecf9f9;
+	}
+	footer {
+	  position: absolute;
+	  bottom: 0;
+	  width: 100%;
+	  /* Set the fixed height of the footer here */
+	  height: 300px;
+	}
+
+footer{
+	background: #5A5E60;
+	padding:30px 0;
+	text-align:center;
+}
+
+.footer{
+	font-family: 'Work Sans';
+	font-weight:400;
+	font-size: 16px;
+	color: #FFFFFF;
+}
+
+.foot-logo{
+	padding:20px 0 20px;
+}
+
+.shipping, .foot-nav, .copyRight{
+	padding:10px 0;
+}
+
+.foot-nav a{
+	color:#ffffff;
+	margin:0 10px;
+}
+
+.social-container{
+	margin-bottom:20px;
+}
+
+.social-container a {
+    font-size: 52px;
+    color: #ffffff;
+    margin: 0 19px;
+}
+
+.foot-nav a:hover, .social-container a:hover{
+	color:#c8f0ef;
+	text-decoration:none;
+}
+
+/*********/
+/********/
+
+#subscribe-form{
+	background:#ecf9f9;
+	padding:30px 0 50px;
+}
+
+
+#subscribe-form ul.steps{	
+	position:relative;
+	width:550px;
+	margin:0 auto;
+	padding:0;
+	text-align:center;
+	display:flex;
+    display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+}
+
+#subscribe-form .steps:before{
+	position:absolute;
+	top:28px;
+	height:4px;
+	left:0;
+	width:100%;
+	background:#B6BFC5;
+	content:"";
+}
+#subscribe-form ul.steps li{
+	width:33.33%;
+}
+
+#subscribe-form ul.steps li .step{
+	padding:5px 0;
+	background:#ecf9f9;
+	font-family: 'Work Sans';
+	font-size:18px;
+	font-weight:600;
+	color:#B6BFC5;
+	text-align:center;
+	position:relative;
+	z-index:1;
+	min-width:82px;
+	display:table;
+	margin:0 auto;
+}
+
+#subscribe-form ul.steps li:first-child .step{
+	float:left;
+}
+#subscribe-form ul.steps li:last-child .step{
+	float:right;
+}
+
+#subscribe-form ul.steps .step span{
+	width:50px;
+	height:50px;
+	line-height:50px;
+	background:#B6BFC5;
+	border-radius:70%;
+	display:block;
+	margin:0 auto;
+	text-align:center;
+	font-family: 'Work Sans';
+	font-size:38px;
+	font-weight:600;
+	color:#ffffff;
+	position:relative;
+}
+
+#subscribe-form .steps a{
+	text-decoration:none;
+	outline:none;
+}
+
+#subscribe-form .steps li.ui-state-active .step{
+	color:#005E7B;
+}
+
+#subscribe-form .steps li.ui-state-active .step span{
+	background:#32A0BE;
+}
+
+#subscribe-form .steps li .step.done span{
+	background:#32BE8C;
+}
+
+#subscribe-form .steps li .step.done span:after{
+	background:url(../images/tickmark2.png) no-repeat center center;
+	width:100%;
+	height:100%;
+	position:absolute;
+	left:0;
+	top:0;
+	content:"";
+}
+
+#subscribe-form .steps li .step.done{
+	color:#2B2D2F;
+}
+
+.subscribe-desc{
+	display:table;
+	margin:0 auto;
+	padding:50px 0 0;
+}
+
+
+.subscribe-desc h2{
+	text-align:center;
+	font-weight:300;
+	font-size: 36px;
+	color: #2B2D2F;
+	margin:0 0 30px;
+}
+
+.subscribe-desc p{
+	text-align:center;
+	font-size:22px;
+	font-family: 'Work Sans';
+	font-weight:300;
+	color: #5A5D60;
+	line-height:29px;	
+	margin:0 0 20px;
+	letter-spacing: -0.5px;
+}
+
+.subscribe-desc p.shortTxt{
+    font-size: 16px;
+    line-height: 22px;
+    max-width: 360px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.subscribe-desc .list-group{
+	display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+	margin:0;
+}
+
+.subscribe-desc .list-group .form-group{
+	padding:0 30px;
+}
+
+.subscribe-desc .list-group .form-group label{
+	display:block;
+	font-family: 'Work Sans';
+	font-weight:500;
+	font-size: 22px;
+	color: #2B2D2F;
+	line-height: 27px;
+	padding:0;
+	margin:0 0 10px;
+}
+
+.subscribe-desc .list-group .form-group select{
+	visibility:hidden;
+	border: 1px solid #B6BFC5;
+	border-radius:3px;
+	height:50px;
+	line-height:50px;
+	width:160px;
+	padding:0 40px 0 38px;
+	font-family: 'Work Sans';
+	font-weight:600;
+	font-size: 18px;
+	color: #43474A;
+	background:#ffffff url(../images/select-arrow.png) no-repeat right center;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+
+.subscribe-desc .list-group .form-group select option{
+	padding:0 40px 0 38px;
+	font-family: 'Work Sans';
+	font-weight:600;
+	font-size: 18px;
+	color: #6A6A6A;
+	padding:15px 38px;
+	border:none;
+}
+
+#step2 .form-group{
+	display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+}
+
+#step2 .form-group label{
+	padding:10px;
+	margin:0;
+}
+
+
+#step2 .form-group .selectric{
+	width:120px;
+}
+
+#step2 .form-group .selectric .label{
+	padding: 0 40px 0 25px;
+}
+
+#step2 .form-group .selectric-items li{
+	    padding: 15px 25px;
+}
+
+#step2 .findDoctor .form-group, #step2 .findDoctor.loader img.hubble-loader{
+	display:block;
+}
+
+img.hubble-loader, #step2 .findDoctor.loader.optionSelected img.hubble-loader, #step2 .findDoctor.loader .form-group{
+	display:none;
+	margin:0 auto;
+}
+
+
+#step2 .findDoctor{
+	padding-top:15px;
+	position:relative;
+	z-index:10;
+}
+
+#step2 .findDoctor label{
+	display:block;
+	font-family: 'Work Sans';
+	font-weight:400;
+	font-size: 22px;
+	color: #2B2D2F;
+	line-height: 27px;
+	padding:0;
+	margin:0 0 10px;
+	text-align:center;
+}
+
+#step2 .findDoctor span.twitter-typeahead {
+    display: block;
+    width: 100%;
+	position:relative;
+	z-index:999;
+}
+
+#step2 .findDoctor input{
+	background: #FFFFFF url(../images/serch-icon.png) no-repeat 98% 50% !important;
+	border: 1px solid #B7BCC0 !important;
+	border-radius: 3px;
+	font-family: 'Work Sans';
+	font-weight:400;
+	font-size: 18px;
+	color: #2B2D2F;
+	line-height: 29px;
+	height:48px;
+	width:628px;
+	margin:0 auto;
+	display:block;
+	padding:0 40px 0 25px;
+	position:relative !important;
+	outline: none;
+}
+
+#step2 .findDoctor input.tt-hint{
+	display:none;
+}
+
+
+#autoSearchList, #SearchDoc, .tt-menu1{
+	background: #FFFFFF;
+	border: 1px solid #979797;
+	width:820px;
+	margin:30px auto;
+	display:block;
+}
+
+
+.tt-menu1{
+	position:relative !important;
+	z-index:10;
+}
+
+
+#autoSearchList, .tt-menu1{
+	overflow:auto;
+	max-height:350px;
+}
+
+
+#autoSearchList ul, #SearchDoc ul, .tt-menu1 ul{
+	margin:0 ;
+	padding:0;
+	list-style:none;
+}
+
+.tt-menu1 ul{
+	padding:10px;
+	border-bottom: 1px solid #979797;
+}
+
+#autoSearchList ul li, #SearchDoc ul li, .tt-menu1 ul li{
+	font-family: 'Work Sans';
+	font-weight:500;
+	font-size:18px;
+	color: #5A5D60;
+	line-height: 62px;
+	display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+	-webkit-align-items: center;
+    align-items: center;
+	padding:10px;
+	border-bottom: 1px solid #979797;
+}
+
+.tt-menu1 ul li{
+	padding:0;
+	margin-bottom:1px;
+}
+
+#autoSearchList ul li:last-child, .tt-menu1 ul:last-child , .tt-menu1 ul li{
+	border:none;
+}
+
+#SearchDoc ul li{
+	border:none;
+	font-size:16px;
+	position:relative;
+	height:70px;
+}
+
+#autoSearchList ul li div, #SearchDoc ul li div{
+	padding:15px 20px;
+	width:33.33%;
+	line-height:normal;
+}
+
+.tt-menu1 ul li div{
+	padding:10px 20px;
+	width:33.33%;
+	line-height:normal;
+}
+
+#autoSearchList ul li:hover div, .tt-menu1 ul:hover li{
+	background:#ECFAF9;
+	cursor:default;
+}
+
+#step2 .findDoctor.optionSelected{
+	position:relative;
+	width:820px;
+}
+
+#step2 .findDoctor.optionSelected div#SearchDoc {
+    position: absolute;
+    top:100px;
+}
+
+#step2 .findDoctor.optionSelected .form-group{
+	margin-bottom:130px;
+}
+
+#step2 .findDoctor.optionSelected .form-group .tt-menu1{
+	position:relative !important;
+	top:100px !important;
+	margin: 30px auto 0;
+}
+
+a.listLink{
+	font-family: 'Work Sans';
+	font-weight:500;
+	font-size: 22px;
+	color: #5A5D60;
+	line-height: 22px;
+	text-decoration:underline;
+	text-align:center;
+	display:table;
+	margin:30px auto;
+}
+
+a.listLink:hover{
+	text-decoration:none;
+}
+
+#SearchDoc ul li div.deleteSearch{
+	position:absolute;
+	top:50%;
+	margin-top:-27px;
+	right:20px;
+	text-align:right;
+	width:27px;
+	height:27px;
+	cursor:pointer;
+}
+
+ul.steps {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.pTxt{
+	padding:30px 0 0;
+	text-align:center;
+	font-family: 'Work Sans';
+	font-weight:500;
+	font-size: 18px;
+	color: #5A5D60;
+	line-height: 22px;
+}
+
+.pTxt span{
+	display:block;
+	text-decoration:underline;
+	font-weight:300;
+}
+
+.btn-org{
+	background: #DF7D20;
+	border-radius: 3px;
+	font-family: 'Work Sans';
+	font-weight:600;
+	font-size: 18px;
+	color: #FFFFFF;
+	letter-spacing: 0.5px;
+	height:60px;
+	line-height:60px;
+	text-decoration:none;
+	padding:0 20px;
+	display:table;
+	margin:0 auto;
+	min-width:320px;
+	text-align:center;
+}
+
+.btn-org span{
+	background:url(../images/btn-arrow.png) no-repeat center right;
+	background-size:20px auto;
+	padding:0 30px 0 0;
+}
+
+
+ a.btn-org.disableNext {
+        /*background-color: #879494;*/
+		background-color: #DF7D20;
+    }
+
+.btn-org:hover, .btn-org:focus{
+	text-decoration:none;
+	color: #FFFFFF;
+}
+
+
+.reviews{
+	background: #FFFFFF;
+	border: 1px solid #979797;
+	padding:0 20px;
+	max-width:360px;
+	margin:0 auto 30px;
+	display:block;
+}
+
+.reviews ul{
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+
+.reviews ul li{
+	display:block;
+	border-bottom: 1px solid #979797;
+	font-family: 'Work Sans';
+	font-weight:400;
+	font-size: 18px;
+	color: #5A5D60;
+	line-height:30px;
+	padding:20px 0;
+}
+
+.reviews ul li:last-child{
+	border:none;
+}
+
+.reviews ul li .desc{
+	font-weight:500;
+	color:#000000;
+	line-height: 26px;
+	padding:0 15px 0 15px;
+}
+
+.reviews ul li .desc div span{
+	float:right;
+	text-align:right;
+}
+
+.reviews ul li .desc div span:after{
+	display:block;
+	content:"";
+	clear:both;
+}
+
+.reviews ul li a.edit{
+	font-size:16px;
+	color: #5A5D60;
+	text-decoration:underline;
+}
+
+.reviews ul li a.edit:hover{
+	text-decoration:none;
+}
+
+
+.subscribe-desc p.form_error_msg, .dialogForm p.form_error_msg{
+	background: #FFEFBC;
+	font-family: 'Work Sans';
+	font-weight:400;
+	font-size: 18px;
+	color: #43474A;
+	line-height: 25px;
+	text-align:left;
+	padding:15px 30px;
+	width:390px;
+	margin:0 auto 20px;
+}
+
+.subscribe-desc p.form_error_msg img, .dialogForm p.form_error_msg img{
+	float:left;
+	margin:10px 20px;
+}
+
+.subscribe-desc p.form_error_msg span{display:table;}
+.error .selectric, .error .selectric:hover, .error .selectric-open .selectric, .error .selectric-hover .selectric{border:3px solid #DF7D20;}
+.error .selectric .button, .error .selectric .button:hover{border-left:3px solid #DF7D20;}
+
+/*DIALOG BOX POPUP CSS HERE START*/
+.dialogBox{
+	position:absolute;
+	width:100%;
+	height:100%;
+	top:0;
+	left:0;
+	z-index:999;
+}
+
+.dialogBox .overlayBg{
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background:rgba(0,0,0,0.65);
+}
+
+/*.dialogModel{
+	background: #ECFAF9;
+	border: 1px solid #B7BCC0;
+	border-radius: 5px;
+	position:relative;
+	width:800px;
+	max-width:90%;
+	margin:100px auto 0;
+}*/
+
+.dialogModel{
+	background: #ECFAF9;
+	border: 1px solid #B7BCC0;
+	border-radius: 5px;
+	position:fixed;
+	width:800px;
+	max-width:90%;
+	margin:100px auto 0 -400px;
+	left:50%;
+	top:0;
+}
+
+.dialogConent{
+	width:470px;
+	max-width:100%;
+	margin:0 auto;
+	padding:20px;
+}
+
+.dialogConent h3{
+	font-family:'Work Sans';
+	font-weight:500;
+	font-size: 25px;
+	color: #141720;
+	line-height: 35px;
+	text-align:center;
+	margin:25px 0;
+}
+
+.dialogConent hr{
+	display:block;
+	margin:0;
+	padding:0;
+	border:none;
+	height:4px;
+	background:#32A0BE;
+}
+
+.dialogForm{
+	padding:25px;
+}
+
+
+.dialogForm label{
+	font-family:'Work Sans';
+	font-weight:400;
+	font-size: 18px;
+	color: #141720;
+	margin:0 0 15px 0;
+}
+
+.dialogForm input.form-control{
+	background: #FFFFFF;
+	border: 1px solid #B7BCC0;
+	border-radius: 3px;
+	height:48px;
+	font-family:'Work Sans';
+	font-weight:400;
+	font-size: 18px;
+	color: #141720;
+	line-height:48px;
+}
+
+.dialogForm button.btn-org{
+	border:none;
+	min-width:100%;
+	margin-top:20px;
+	margin-bottom:30px;
+	outline:none;
+}
+
+.dialogForm input.form-control.error{
+	border: 3px solid #DF7D20;
+}
+
+.dialogForm p.form_error_msg{padding: 15px 20px;}
+.dialogForm p.form_error_msg img {float: left; margin: 10px 20px 10px 0;}
+.dialogForm p.form_error_msg span{display:table;}
+
+a.closeDialog{
+	background:url(../images/close-popup.jpg) no-repeat;
+	width:16px;
+	height:16px;
+	position:absolute;
+	top:10px;
+	right:10px;
+}
+
+
+
+/*DIALOG BOX POPUP CSS HERE END*/
+
+
+
+
+
+
+/********************************************************************************
+# TABLETS CSS HERE START
+********************************************************************************/
+
+@media only screen and (min-width:992px) and (max-width:1024px) and (orientation:landscape){
+.showDesktop{display:none !important;}
+.showTablet{display:block !important;}
+.showMobile{display:none !important;}
+
+.foot-nav.lands{display:block!important;}
+.foot-nav.port{display:none!important;}
+
+header{padding:10px 0;height:62px;border-bottom:6px solid #00779B;}
+header img{height:38px;	width:auto;}
+
+.subscribe-desc .list-group .form-group select{visibility:visible;}
+#autoSearchList, #SearchDoc, .tt-menu1, #step2 .findDoctor.optionSelected{width: 820px;}
+#autoSearchList ul li div, #SearchDoc ul li div, .tt-menu1 ul li div{padding:12px 10px;}
+
+footer{
+	min-height:300px;
+}
+
+.foot-logo {
+    padding: 0 0 20px;
+}
+
+.dialogModel{margin-top:62px;}
+.dialogConent{padding: 0 20px;}
+.dialogConent hr{height:2px;}
+
+
+}
+
+
+
+@media only screen and (min-width:768px) and (max-width:990px){	
+.showDesktop{display:none !important;}
+.showTablet{display:block !important;}
+.showMobile{display:none !important;}
+
+.foot-nav.lands{display:none!important;}
+.foot-nav.port{display:block!important;}
+
+header{padding:10px 0;height:62px;border-bottom:6px solid #00779B;}
+header img{height:38px;	width:auto;}
+
+.subscribe-desc .list-group .form-group select{visibility:visible;}
+#autoSearchList, #SearchDoc, .tt-menu1, #step2 .findDoctor.optionSelected{width: 716px;}
+#autoSearchList ul li div, #SearchDoc ul li div, .tt-menu1 ul li div{padding:12px 10px; font-size:14px;}
+
+.foot-logo {
+    padding:0 0 20px;
+}
+
+.footer {
+    font-family: 'Work Sans';
+    font-size: 12px;
+    color: #FFFFFF;
+    max-width: 300px;
+    margin: 0 auto;
+    line-height: 24px;
+}
+
+.dialogModel{width:600px; margin:62px auto 0 -300px;}
+.dialogConent{padding: 0 20px;}
+.dialogConent hr{height:2px;}
+
+}
+
+/********************************************************************************
+# MOBILE CSS HERE START
+********************************************************************************/
+@media all and (max-width:767px){
+
+.showDesktop{display:none !important;}
+.showTablet{display:none !important;}
+.showMobile{display:block !important;}
+.showMobile.port{display:block !important;}
+.showMobile.lands{display:none !important;}	
+	
+header{padding:10px 0;height:62px;border-bottom:6px solid #00779B;}
+header img{height:38px;	width:auto;}
+#subscribe-form{padding:12px 0;}
+#subscribe-form ul.steps{width:280px;}
+#subscribe-form ul.steps li .step{min-width:60px; padding:0; font-size:14px; line-height:2;}
+.subscribe-desc{padding:20px 0 0;}
+.subscribe-desc h2{font-size:30px; margin-bottom:10px;}
+.subscribe-desc p{font-size:18px; line-height:27px; margin-bottom:10px;}
+.subscribe-desc p.form_error_msg{max-width:340px; padding:10px;}
+.subscribe-desc .list-group .form-group{padding:0 12px;}
+.subscribe-desc .list-group .form-group label{font-size:18px;}
+#subscribe-form .selectric{width:140px;}
+#subscribe-form .selectric .label{padding:0 30px;}
+.subscribe-desc .list-group .form-group select{visibility:visible; padding: 0 30px; width:140px;}
+.pTxt{font-size:16px; padding:26px 0 0;}
+.subscribe-desc p.shortTxt{ font-size:14px; max-width:300px;}
+.btn-org{height:52px; line-height:52px;}
+a.listLink{font-size:18px; margin:20px auto 10px;}
+
+#subscribe-form #step2 .list-group .form-group{padding:0;}
+#subscribe-form #step2 .selectric{width:100px;}
+#subscribe-form #step2 .selectric .label{padding:0 15px;}
+#subscribe-form #step2 .list-group .form-group select{visibility:visible; padding: 0 15px; width:100px;}
+#step2 .form-group label {padding: 10px 10px 10px 0;}
+#step2 .findDoctor{padding:0;}
+#step2 .findDoctor label{margin:0; padding:0 0 10px;}
+#step2 .findDoctor input{width:100%; font-size:15px; padding: 0 30px 0 10px;}
+#autoSearchList, #SearchDoc, .tt-menu1{margin:10px auto; width:100%;}
+#autoSearchList ul{padding:0 20px;}
+#SearchDoc ul{padding:0 40px 0 10px;}
+#autoSearchList ul li, #SearchDoc ul li, .tt-menu1 ul li{font-size:15px; color: #141720; line-height: 21px; padding:10px 0; display:block;}
+#SearchDoc ul li{height:auto; min-height:60px;}
+#autoSearchList ul li div, #SearchDoc ul li div, .tt-menu1 ul li div {padding: 0; width: initial; line-height: normal; text-align: center;}
+#step2 .findDoctor.optionSelected {position: relative; width: 100%;}
+#SearchDoc ul li div.deleteSearch{right:-30px; margin-top:-15px;}
+.reviews{margin: 20px auto; max-width: 300px; padding: 0 15px;}
+.reviews ul li{font-size:16px; padding: 10px 0;}
+.reviews ul li .desc{line-height:22px; padding: 0px 10px 0 10px;}
+.reviews ul li a.edit{font-size:14px;}
+
+#subscribe-form #step3.subscribe-desc p{font-size:14px;	line-height:20px;}
+#subscribe-form #step3.subscribe-desc p br{display:none;}
+
+footer{min-height:300px;}
+.footer{font-size:12px;}
+.shipping, .foot-nav, .copyRight {padding: 3px 0; line-height:24px;}
+.foot-logo {padding: 0 0 20px;}
+.footer .foot-nav a, .footer .copyRight{font-size:12px;}
+
+.dialogModel {
+    margin: 0 0 0 -160px;
+    width: 320px;
+    left: 50%;
+    top: 8%;
+    position: fixed;
+}
+.dialogConent{padding:0}
+.dialogConent h3{font-size:16px; line-height:24px; margin: 10px 0;}
+.dialogConent hr{height:1px;}
+.dialogForm p.form_error_msg{max-width:340px; padding:5px; width:100%; font-size:16px; line-height:20px; margin: 0 auto 15px;}
+.dialogForm p.form_error_msg img{margin:15px 10px;}
+.dialogForm p.form_error_msg span{display:table;}
+.dialogForm label{font-size:14px; margin-bottom:10px;}
+.dialogForm input.form-control{height:40px; line-height:40px; font-size: 16px;}
+.dialogForm button.btn-org{margin-bottom:5px;}
+.dialogForm {padding:15px 20px;}
+
+}
+
+@media only screen and (max-width:767px) and (orientation:landscape){
+.showMobile.port{display:none !important;}
+.showMobile.lands{display:block !important; min-height:320px;}
+footer {min-height: 300px;}
+.dialogModel{
+    width: 360px;
+    position: relative;
+    margin: 0 auto;
+    left: 0;
+}
+
+}
+
+@media all and (max-width:369px){
+.subscribe-desc h2{font-size:28px;}
+.subscribe-desc p.form_error_msg{max-width:290px; padding:10px; font-size:16px;}
+.subscribe-desc p.form_error_msg img{margin:10px;}
+.subscribe-desc p, .subscribe-desc .list-group .form-group label{font-size:15px;}
+#autoSearchList ul li, #SearchDoc ul li{font-size:14px;}
+#step2.subscribe-desc .list-group .form-group label{font-size:14px;}
+.subscribe-desc .list-group .form-group{padding:0 8px;}
+.btn-org{min-width: 280px; max-width:320px;}
+#subscribe-form .selectric{width:125px;}
+#subscribe-form .selectric .label{padding:0 20px;}
+.subscribe-desc .list-group .form-group select{visibility:visible; padding: 0 20px; width:125px;}
+.footer{font-size: 13px;}	
+.foot-nav a{color: #ffffff; margin: 0 3px;}
+#step2 .findDoctor.loader img.hubble-loader { width:100%; object-fit:cover; display: block;}
+
+.dialogConent h3{font-size: 18px;}
+.dialogForm {padding: 15px;}
+.dialogForm p.form_error_msg img { margin: 10px 10px 10px 0;}
+.dialogForm p.form_error_msg{font-size: 14px; color: #43474A; line-height: 18px; padding: 7px 10px;    margin: 0 auto 10px;}
+.dialogForm label{margin-bottom:5px;}
+.dialogModel {
+    margin: 0 0 0 -145px;
+    width: 290px;
+    left: 50%;
+    top: 6%;
+    position: fixed;
+}
+
+
+}
+@media all and (min-width:1170px){
+	.container {
+		width: 1140px;
+	}
+}
+
+/********************************************************************************
+# MOBILE CSS HERE END
+********************************************************************************/
+
+/*subscribeVerC ver - c add new css July18, 2017 */
+body#subscribeVerC{margin-bottom:145px;}
+body#subscribeVerC footer{height:145px; min-height: 145px;}
+body#subscribeVerC footer .foot-logo {padding: 0 0 15px;}
+body#subscribeVerC .findDoctor.optionSelected #findyourdoctor{display:none;}
+body#subscribeVerC #step2 .findDoctor.optionSelected div#SearchDoc {position:relative; top:0; margin:0 auto 30px;}
+@media all and (max-width:767px){
+body#subscribeVerC #subscribe-form #step2.subscribe-desc p{font-size:14px;	line-height:20px; max-width: 100%;}
+body#subscribeVerC #subscribe-form #step2.subscribe-desc p.shortTxt {max-width: 300px;}
+body#subscribeVerC #subscribe-form #step2.subscribe-desc p br{display:none;}
+
+#subscribe-form{min-height: calc(100vh - 200px);}
+
+}
+
+/*subscribeVerC ver - c add new css July18, 2017 */
+
+.specialPriceBox{display:none;}
+/*Speacial Price Box css add 16August 2017*/
+@media all and (max-width:767px){
+/*Speacial Price Box*/
+.specialPriceBox .yellBg{background:#fff5b0 url(../images/svg/white-dots-3.svg); background-size:120%; position:relative; top:0; left:0; width:100%;}
+.specialPriceBox .noBg{background:#fff5b0;}
+.specialPriceBox {text-align: center; display:flex; width: 100%;}
+.specialPriceBox h1{font-family: "Souvenir"; font-weight:300; font-size: 36px; color: #2B2D2F; line-height: 33px; padding:0; margin:0 auto 15px;}
+.specialPriceBox h1 span{display:block; margin:10% 0 15px; font-family: 'Work Sans'; font-size:18px;  font-weight:400; text-transform:uppercase;}
+.specialPriceBox p{font-size:14px; margin:0 0 15px; font-weight: 400; line-height:19px;}
+.specialPriceBox .btn-org{height:49px; line-height:49px; margin:0 auto 15px; width:225px; background: #00789B;  border-radius:4px;}
+.specialPriceBox .botImg{background:#ffffff; position:relative; left:0; bottom:0; height:100px; width:100%; margin-top:170px;}
+.specialPriceBox .botImg img{position:relative; margin-top:-122px;}
+.specialPriceBox .close-ad{padding:5px; top:15px; right:15px; position:absolute; z-index:100;}
+}
+
+@media all and (max-width:767px) and (orientation:portrait){
+	.specialPriceBox{height:100vh;}
+	.specialPriceBox .botImg{position:absolute;}
+	.specialPriceBox h1 span{ margin:25% 0 15px;}
+}
+
+
+@media all and (max-width:360px){
+	.specialPriceBox h1{font-size:30px; line-height:30px;}
+	.specialPriceBox h1 span{display:block; margin:20% 0 15px;}
+
+}
+
+@media all and (max-width:320px) and (max-height:480px){
+	.specialPriceBox h1, .specialPriceBox p, body.hubbleMobVer .specialPriceBox .btn-org{margin-bottom:10px;}
+	.specialPriceBox h1 span{display:block; margin:10% 0 10px;}
+	.specialPriceBox .botImg{height:80px;}
+	.specialPriceBox .botImg img{position:relative; margin-top:-120px;}
+}

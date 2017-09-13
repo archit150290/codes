@@ -1,0 +1,31 @@
+{
+  "name": "babel",
+  "version": "1.0.0",
+  "description": "babel checking",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel  --presets es2015 src -d dist"
+  },
+  "keywords": [
+    "hello"
+  ],
+  "author": "archit",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "babelify": "^7.3.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.0",
+    "gulp-browserify": "^0.5.1",
+    "gulp-browserify2": "0.0.2"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "bloodhound-js": "^1.2.2",
+    "gulp-babel": "^7.0.0",
+    "gulp-server-livereload": "^1.9.2",
+    "gulp-sourcemaps": "^2.6.1",
+    "gulp-watch": "^4.3.11"
+  }
+}
