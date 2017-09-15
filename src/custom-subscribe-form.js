@@ -6,159 +6,450 @@ import abanalytics from './abanalytics.js';
 const getCookie = abanalytics.getCookie;
 import track from './track.js';
 import Bloodhound from 'bloodhound-js';
-import typeahead from 'bootstrap-3-typeahead';
+import typeahead from 'typeahead';
+import './../js/jquery.typeahead.js';
 
-let objectForValidations = {}
+class custom_subscribe_form{
+    constructor(){
+        this.objectForValidations = {};
+        this.eventFiredStepOne = { leftEye: false, rightEye: false };
+        this.eventFiredStepTwo = { homeState: false };
+        this.cookieValues = { leftEye: "", rightEye: "", homeStateId: "", homeState: "", docList: "", currentState: 0, finalSearchValue : ""};
+        this.doctors = new Array();
+        this.mIndex = {};
+        this.selectedList = "";
+        //========initialize tab and selectric
+        $("#step1").hide()
+        $("#tabs").tabs({
+            create(event, ui) {}
+        });
+        $('select').selectric({
+            maxHeight: 300,
+        });
+        //====================================
+        this.extendedFunction();
+        this.init();
+        this.changingSelectric();
+        this.nextButtonClick();
+        this.doctorChange();
+    }
+
+    getIndex(){
+        return $("ul li.ui-state-active").index();
+    }
+
+    doctorChange(){
+        $(document).on("change", "#searchDoctor", () => {
+            (this.eventFiredStepTwo.homeState == false) ? (track.customEventFire("DoctorStateSelected"), this.eventFiredStepTwo.homeState = true) : "";
+            const SelectedState = $("#searchDoctor").val();
+            //var cookieValues = {leftEye:"", rightEye: "", homeStateId: "", homeState : "", docList: "", currentState : 0};
+            this.cookieValues.homeStateId = mIndexState[SelectedState]
+            this.cookieValues.homeState = SelectedState;
+            document.cookie = `cookieValuesDetailed=${JSON.stringify(this.cookieValues)};  path=/`;
+            $(".deleteSearch").click();
+            this.getDoctorList(SelectedState);
+        });    
+    }
+
+    getDoctorList(state) {
+        $("#docList1").on("keyup", function() {
+            if ($(this).val().length > 1) {
+                $("#docList").val($(this).val());
+                //var abc = $(this).val().split(" ");
+
+                $("#docList").customcomplete("search", $(this).val().trim());
+            } else {
+                removeDocList();
+            }
+        });
+        if(typeof docListthValue != "undefined" && docListthValue)
+            $(".listLink").addClass("disableThis");
+        $(".findDoctor").addClass("loader")
+        $.ajax({
+            type: "get",
+            url: "https://api.hubblecontacts.com/v1/docs/search.js",
+            data: { state },
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'JSONP',
+            success(res) {
+                if(typeof docListthValue == "undefined")
+                    $("#findyourdoctor, .listLink").removeClass("disableThis");
+                else{
+                    $("#findyourdoctor").removeClass("disableThis");
+                }
+                $(".findDoctor").removeClass("loader");
+                console.log("success");
+                doctors = res.data.docs;
+                $.each(doctors, (index, value) => {
+                    doctors[index].label = ` ${doctors[index].name} ${doctors[index].clinic_name} ${doctors[index].address_1} ${doctors[index].city} ${doctors[index].phone} ${doctors[index].postcode}`;
+                    if (doctors[index].name == undefined) {
+                        doctors[index].name = '';
+                    }
+                    if (doctors[index].clinic_name == undefined || doctors[index].clinic_name == '') {
+                        doctors[index].clinic_name = doctors[index].address_1;
+                    }
+
+                    if (doctors[index].city == undefined) {
+                        doctors[index].city = '';
+                    }
+
+                    if (doctors[index].state == undefined) {
+                        doctors[index].state = '';
+                    }
+
+                    if (doctors[index].postcode == undefined) {
+                        doctors[index].postcode = '';
+                    }
+
+                    if (doctors[index].phone == undefined) {
+                        doctors[index].phone = '';
+                    }
+
+                    doctors[index].address = [
+                        doctors[index].city,
+                        doctors[index].state,
+                        doctors[index].postcode
+
+                    ]
+
+                });
+                bloodhound();
+
+                typeaheadcheck();
+                if(typeof docListthValue != "undefined" && docListthValue){
+                    $("#docListth").focus();
+                }
+
+            },
+            timeout: 15000,
+            error(res) {
+                console.log(res)
+            }
+
+        });
+    }
+    
+    //===========for selected list
+    selectingCookieSelectedList(){
+      let selectedListCookie = getCookie("selectedList");
+      var removeEx = new RegExp("'<div", 'g');
+      selectedListCookie = selectedListCookie.replace(removeEx, '<div');
+      var removeEx = new RegExp("/div>'", 'g');
+      selectedListCookie = selectedListCookie.replace(removeEx, '/div>');
+      return selectedListCookie;
+    }
+
+    init(){
+        //=maintaining data index for this
+        const mIndex        = {};
+        const xyz           = $(".selectric-scroll ul")[0];
+        
+        $($(xyz).find("li")).each(function() {
+            $(this).attr("data-index")
+            mIndex[$(this).text()] = $(this).attr("data-index");
+        })
+
+        this.mIndex = mIndex;
+
+        setTimeout(() => {
+            const xyzState = $(".selectric-scroll ul")[2];
+            const mIndexState   = {}; 
+            $($(xyzState).find("li")).each(function() {
+                $(this).attr("data-index")
+                mIndexState[$(this).text()] = $(this).attr("data-index");
+            })
+
+
+        }, 0)
+
+        $("#tabs").tabs("option", "disabled", [1, 2]);
+
+        //===========
+        
+
+        $("#tabs").tabs({
+            show: { effect: "fade", duration: 200 },
+            activate : (event, ui) => {
+                track.customEventFire("firePageView");
+                const checkIndex = this.getIndex();
+                this.cookieValues.currentState = checkIndex;
+                document.cookie = `cookieValuesDetailed=${JSON.stringify(this.cookieValues)};  path=/`;
+                if (checkIndex == 0){
+                    eventFiredStepOne = { leftEye: false, rightEye: false };
+
+                }
+                if (checkIndex == 1)
+                    this.eventFiredStepTwo = { homeState: false };
+                if (checkIndex == 2){
+                    document.getElementById("leftSelected").innerHTML = ($("#leftEye").val() > 0) ? `+${$("#leftEye").val()}`: $("#leftEye").val();
+                    document.getElementById("rightSelected").innerHTML = ($("#rightEye").val() > 0) ? `+${$("#rightEye").val()}`: $("#rightEye").val();
+                    // $("#leftSelected").text($("#leftEye").val())
+                    // $("#rightSelected").text($("#rightEye").val())
+                }
+            }
+        });
+
+
+        $("#step1").animate({ opacity: 1 }, 1500)
+
+        if (getCookie("cookieValuesDetailed") != "") {
+            const getFilledDetail = JSON.parse(getCookie("cookieValuesDetailed"));
+            this.fillTheDetailandCheck(getFilledDetail);
+        }
+    }
+
+    extendedFunction(){
+        this.objectForValidations.formOneValidation = function(){
+            $('.left_eye').removeClass('error');
+            $('.right_eye').removeClass('error');
+            if (($("#leftEye").val() != null && $("#leftEye").val() != "") && ($("#rightEye").val() != null && $("#rightEye").val() != "")) {
+                $(".nextStepButton[data-CrStepNo='0']").removeClass("disableNext");
+                $('.form_error_msg').addClass('hide');
+                return true
+            }
+            setTimeout(() => {
+                if (!$(".form_error_msg").hasClass("hide")) {
+                    if (($("#leftEye").val() == null || $("#leftEye").val() == "")) {
+                        $('.left_eye').addClass('error');
+                    }
+                    if (($("#rightEye").val() == null || $("#rightEye").val() == "")) {
+                        $('.right_eye').addClass('error');
+                    }
+                }
+            }, 10);
+            return false;
+        }
+
+        this.objectForValidations.formTwoValidation = function(){
+            if ($("#docListHidden").val() != "") {
+                $(".steps").find("a[href='#step2'] div").addClass("done");
+                const selectedListCookie = selectingCookieSelectedList();
+                $(".reviews .desc").last().html(selectedListCookie);
+                $("#leftSelected").text($("#leftEye").val())
+                $("#rightSelected").text($("#rightEye").val())
+                return true;
+            }
+            return false;
+        }
+
+        this.objectForValidations.formThreeModalValidation = function(docName, ClinicName, docCity, BdocName, BClinicName, BdocCity, checkall){
+            //===========docname handling
+            if (docName != "" && docName.length >= minLengthReq[0]) {
+                BdocName = 1;
+                $("input[name='doctorName']").removeClass("error")
+            } else if (checkall == 1)
+                $("input[name='doctorName']").addClass("error")
+
+            //===========ClinicName handling
+            if (ClinicName != "" && ClinicName.length >= minLengthReq[1]) {
+                BClinicName = 1;
+                $("input[name='clinicName']").removeClass("error")
+            } else if (checkall == 1)
+                $("input[name='clinicName']").addClass("error")
+
+            //===========docCity handling
+            if (docCity != "" && docCity.length >= minLengthReq[2]) {
+                BdocCity = 1;
+                $("input[name='docCity']").removeClass("error")
+            } else if (checkall == 1)
+                $("input[name='docCity']").addClass("error")
+
+            const myValues = `${BdocName}${BClinicName}${BdocCity}`;
+            return myValues;
+        }
+    }
+
+    enablityTabOption(whichone){
+        for(let tmp in whichone){
+            $(".steps").find(`a[href='#step${whichone[tmp]}'] div`).addClass("done");
+            $("#tabs").tabs("enable", whichone[tmp]);
+        }
+    }
+
+    fillTheDetailandCheck(getFilledDetail) {
+        if (getFilledDetail.currentState == 2) {
+            this.enablityTabOption([1,2]);
+
+        } else if (getFilledDetail.currentState == 1) {
+            this.enablityTabOption([1])
+        }
+        if (getCookie("selectedList") != "") {
+            if(getFilledDetail.currentState > 0)
+                this.enablityTabOption([1]);
+            var selectedListCookie = selectingCookieSelectedList();
+            $(".reviews .desc").last().html(selectedListCookie);
+            selectedList = getCookie("selectedList");
+        }
+
+        //====activating current state for the tab
+        $("#tabs").tabs({
+            active: getFilledDetail.currentState
+        });
+
+        if (getFilledDetail.leftEye != "") {
+            $('#leftEye').prop('selectedIndex', getFilledDetail.leftEye).selectric('refresh');
+            this.cookieValues.leftEye = getFilledDetail.leftEye;
+        }
+        if (getFilledDetail.rightEye != "") {
+            $('#rightEye').prop('selectedIndex', getFilledDetail.rightEye).selectric('refresh');
+            this.cookieValues.rightEye = getFilledDetail.rightEye;
+        }
+        if (getFilledDetail.homeStateId != "") {
+            $('#searchDoctor').prop('selectedIndex', getFilledDetail.homeStateId).selectric('refresh');
+            this.cookieValues.homeStateId = getFilledDetail.homeStateId;
+            this.cookieValues.homeState = getFilledDetail.homeState;
+            getDoctorList(getFilledDetail.homeState);
+            if(typeof docListthValue == "undefined")
+                $(".findDoctor").removeClass("loader");
+        }
+        if (getFilledDetail.docList != "") {
+            var selectedListCookie = selectingCookieSelectedList();
+            $("#findyourdoctor").removeClass("disableThis");
+            //$("#docListth").val("arc")
+            $("#SearchDoc").removeClass("disableThis")
+            $("#SearchDoc ul li").html(selectedListCookie);
+            $("#SearchDoc ul li").append('<div class="deleteSearch"><img src="images/delete_icon.png" alt="" /></div>');
+            $("#docListHidden").val(getFilledDetail.docList);
+            $(".nextStepButton[data-CrStepNo='1']").removeClass("disableThis");
+            //$(".findDoctor").addClass("optionSelected");
+            if (getFilledDetail.currentState == 2) {
+                $("#leftSelected").text($("#leftEye").val())
+                $("#rightSelected").text($("#rightEye").val())
+            }
+            if(typeof docListthValue != "undefined" && docListthValue)
+                $('.findDoctor').removeClass('loader');
+            this.cookieValues.docList = getFilledDetail.docList;
+            this.cookieValues.finalSearchValue = getFilledDetail.finalSearchValue;
+
+            
+        }
+        document.cookie = `cookieValuesDetailed=${JSON.stringify(this.cookieValues)};  path=/`;
+    }
+
+    changingSelectric(){
+        $('#leftEye, #rightEye').selectric().on('change', () => {
+            ($(this).attr("id") == "leftEye" && this.eventFiredStepOne.leftEye == false) ? (track.customEventFire("LeftEyePrescription"), domReady.eventFiredStepOne.leftEye = true) : "";
+            ($(this).attr("id") == "rightEye" && this.eventFiredStepOne.rightEye == false) ? (track.customEventFire("RightEyePrescription"), domReady.eventFiredStepOne.rightEye = true) : "";
+            //=====handling cookie
+            if ($(this).attr("id") == "leftEye") {
+                var value = $(this).val();
+                if($(this).val() > 0)
+                    value = `+${$(this).val()}`;
+                
+                domReady.cookieValues.leftEye = this.mIndex[value]
+                document.cookie = `cookieValuesDetailed=${JSON.stringify(domReady.cookieValues)};  path=/`;
+            }
+            if ($(this).attr("id") == "rightEye") {
+                var value = $(this).val();
+                if($(this).val() > 0)
+                    value = `+${$(this).val()}`;
+                domReady.cookieValues.rightEye = this.mIndex[value]
+                document.cookie = `cookieValuesDetailed=${JSON.stringify(domReady.cookieValues)};  path=/`;
+            }
+
+            $("#leftSelected").text($("#leftEye").val())
+            $("#rightSelected").text($("#rightEye").val())
+            this.objectForValidations.formOneValidation();
+        });
+    }
+
+    //========clicking of next button
+    nextButtonClick(){
+         $(document).on("click", ".nextStepButton", (e) => {
+            const currentIndex = this.getIndex();
+            console.log(currentIndex)
+            if (currentIndex == 0) {
+                var formValidation = this.objectForValidations.formOneValidation();
+                
+                if (formValidation) {
+                    $(".steps").find("a[href='#step1'] div").addClass("done");
+                    track.customEventFire("SubscribeRxToSubscribeDoctor,SubscribeDoctorPageVisit");
+                } else {
+                    $('.form_error_msg').removeClass('hide');
+                }
+            } else if (currentIndex == 1) {
+                var formValidation = this.objectForValidations.formTwoValidation();
+                track.customEventFire("SubscribeDoctorToSubscribeReview,SubscribeReviewPageVisit");
+            }
+            const activateStepNo = parseInt($(e.currentTarget).attr("data-EnStepNo"));
+            if (currentIndex < 2 && formValidation == true) {
+                //var rel = $(this).attr('rel');
+                //track.customEventFire(rel);
+                $("#tabs").tabs("enable", activateStepNo);
+                $("#tabs").tabs({
+                    active: activateStepNo
+                });
+                $('html, body').animate({
+                    scrollTop: $("header").offset().top
+                }, 1000);
+            }
+        })
+    }
+   
+}
+
+
+
+
+
+
+
+/*let objectForValidations = {}
 let eventFiredStepOne = { leftEye: false, rightEye: false };
 let eventFiredStepTwo = { homeState: false };
 let cookieValues = { leftEye: "", rightEye: "", homeStateId: "", homeState: "", docList: "", currentState: 0, finalSearchValue : ""};
 let {leftEye, rightEye} = cookieValues;
-
-
-// console.log(site_q)
-// var emailValues = { leftEye: "", rightEye: "", homeStateId: "", homeState: "", currentState: 0};
-// var querystring = getQueryParams(site_q);
-
-//=================code to check upper string
-// if (getCookie("cookieValuesDetailed") != "") {
-//     var getFilledDetail = JSON.parse(getCookie("cookieValuesDetailed"));
-//     for(tmp in getFilledDetail){
-//         if(querystring.hasOwnProperty(tmp))
-//             getFilledDetail[tmp] = querystring[tmp]
-//     }
-//     console.log(getFilledDetail)
-//     document.cookie = "cookieValuesDetailed=" + JSON.stringify(getFilledDetail) + ";  path=/";
-// }else{
-//     for(tmp in emailValues){
-//         if(querystring.hasOwnProperty(tmp))
-//             cookieValues[tmp] = querystring[tmp]
-//     }
-//     document.cookie = "cookieValuesDetailed=" + JSON.stringify(cookieValues) + ";  path=/";
-// }
-//============================
-
 const mIndexState = {};
-//=array for doctor
 let doctors = new Array();
-let selectedList = "";
+let selectedList = "";*/
+
 $(() => {
-    $("#step1").hide()
-        
-    $("#tabs").tabs({
-        create(event, ui) {}
-    });
-
-    $('select').selectric({
-        maxHeight: 300,
-    });
-
-    //=maintaining data index for this
-    const mIndex = {};
-    const xyz = $(".selectric-scroll ul")[0];
-    $($(xyz).find("li")).each(function() {
-        $(this).attr("data-index")
-        mIndex[$(this).text()] = $(this).attr("data-index");
-    })
-
-
-    setTimeout(() => {
-        const xyzState = $(".selectric-scroll ul")[2];
-            
-        $($(xyzState).find("li")).each(function() {
-            $(this).attr("data-index")
-            mIndexState[$(this).text()] = $(this).attr("data-index");
-        })
-
-
-    }, 0)
-
-
-    //=======disable all the tabs initially other than 0
-    $("#tabs").tabs("option", "disabled", [1, 2]);
-
-    //===========
-    $('#leftEye, #rightEye').selectric().on('change', function() {
-        ($(this).attr("id") == "leftEye" && eventFiredStepOne.leftEye == false) ? (track.customEventFire("LeftEyePrescription"), eventFiredStepOne.leftEye = true) : "";
-        ($(this).attr("id") == "rightEye" && eventFiredStepOne.rightEye == false) ? (track.customEventFire("RightEyePrescription"), eventFiredStepOne.rightEye = true) : "";
+    let domReady = new custom_subscribe_form();
+    
+    /*$('#leftEye, #rightEye').selectric().on('change', function() {
+        ($(this).attr("id") == "leftEye" && domReady.eventFiredStepOne.leftEye == false) ? (track.customEventFire("LeftEyePrescription"), domReady.eventFiredStepOne.leftEye = true) : "";
+        ($(this).attr("id") == "rightEye" && domReady.eventFiredStepOne.rightEye == false) ? (track.customEventFire("RightEyePrescription"), domReady.eventFiredStepOne.rightEye = true) : "";
         //=====handling cookie
         if ($(this).attr("id") == "leftEye") {
             var value = $(this).val();
             if($(this).val() > 0)
                 value = `+${$(this).val()}`;
             
-            cookieValues.leftEye = mIndex[value]
-            document.cookie = `cookieValuesDetailed=${JSON.stringify(cookieValues)};  path=/`;
+            domReady.cookieValues.leftEye = domReady.mIndex[value]
+            document.cookie = `cookieValuesDetailed=${JSON.stringify(domReady.cookieValues)};  path=/`;
         }
         if ($(this).attr("id") == "rightEye") {
             var value = $(this).val();
             if($(this).val() > 0)
                 value = `+${$(this).val()}`;
-            cookieValues.rightEye = mIndex[value]
-            document.cookie = `cookieValuesDetailed=${JSON.stringify(cookieValues)};  path=/`;
+            domReady.cookieValues.rightEye = domReady.mIndex[value]
+            document.cookie = `cookieValuesDetailed=${JSON.stringify(domReady.cookieValues)};  path=/`;
         }
 
         $("#leftSelected").text($("#leftEye").val())
         $("#rightSelected").text($("#rightEye").val())
-        objectForValidations.formOneValidation();
-    });
-
-    $("#tabs").tabs({
-        show: { effect: "fade", duration: 200 },
-        activate(event, ui) {
-            track.customEventFire("firePageView");
-            const checkIndex = getIndex();
-            cookieValues.currentState = checkIndex;
-            document.cookie = `cookieValuesDetailed=${JSON.stringify(cookieValues)};  path=/`;
-            if (checkIndex == 0){
-                eventFiredStepOne = { leftEye: false, rightEye: false };
-
-            }
-            if (checkIndex == 1)
-                eventFiredStepTwo = { homeState: false };
-            if (checkIndex == 2){
-                document.getElementById("leftSelected").innerHTML = ($("#leftEye").val() > 0) ? `+${$("#leftEye").val()}`: $("#leftEye").val();
-                document.getElementById("rightSelected").innerHTML = ($("#rightEye").val() > 0) ? `+${$("#rightEye").val()}`: $("#rightEye").val();
-                // $("#leftSelected").text($("#leftEye").val())
-                // $("#rightSelected").text($("#rightEye").val())
-            }
-        }
-    });
-
-
-    $("#step1").animate({ opacity: 1 }, 1500)
-
-    if (getCookie("cookieValuesDetailed") != "") {
-        const getFilledDetail = JSON.parse(getCookie("cookieValuesDetailed"));
-        fillTheDetailandCheck(getFilledDetail);
-    }
-
-
+        domReady.objectForValidations.formOneValidation();
+    });*/
 
 });
 
-function enablityTabOption(whichone){
-//function enablityTabOption(...whichone){
-    // for(let tmp of whichone){
-    //     console.log(whichone[tmp])
-    //     $(".steps").find("a[href='#step"+whichone[tmp]+"'] div").addClass("done");
-    //     $("#tabs").tabs("enable", whichone[tmp]);
-    // }
-    for(var tmp in whichone){
+/*function enablityTabOption(whichone){
+    for(let tmp in whichone){
         $(".steps").find(`a[href='#step${whichone[tmp]}'] div`).addClass("done");
         $("#tabs").tabs("enable", whichone[tmp]);
     }
-}
+}*/
 
-function selectingCookieSelectedList(){
+/*function selectingCookieSelectedList(){
   let selectedListCookie = getCookie("selectedList");
   var removeEx = new RegExp("'<div", 'g');
   selectedListCookie = selectedListCookie.replace(removeEx, '<div');
   var removeEx = new RegExp("/div>'", 'g');
   selectedListCookie = selectedListCookie.replace(removeEx, '/div>');
   return selectedListCookie;
-}
+}*/
 
-function fillTheDetailandCheck(getFilledDetail) {
+/*function fillTheDetailandCheck(getFilledDetail) {
     if (getFilledDetail.currentState == 2) {
         enablityTabOption([1,2]);
 
@@ -169,10 +460,6 @@ function fillTheDetailandCheck(getFilledDetail) {
         if(getFilledDetail.currentState > 0)
             enablityTabOption([1]);
         var selectedListCookie = selectingCookieSelectedList();
-        // var removeEx = new RegExp("'<div", 'g');
-        // selectedListCookie = selectedListCookie.replace(removeEx, '<div');
-        // var removeEx = new RegExp("/div>'", 'g');
-        // selectedListCookie = selectedListCookie.replace(removeEx, '/div>');
         $(".reviews .desc").last().html(selectedListCookie);
         selectedList = getCookie("selectedList");
     }
@@ -221,12 +508,12 @@ function fillTheDetailandCheck(getFilledDetail) {
     }
     document.cookie = `cookieValuesDetailed=${JSON.stringify(cookieValues)};  path=/`;
 }
-
+*/
 
 //===return the index of active tab
-function getIndex() {
+/*function getIndex() {
     return $("ul li.ui-state-active").index();
-}
+}*/
 
 //=bold the selected string as per regular expression
 function boldString(str, find) {
@@ -238,11 +525,12 @@ function boldString(str, find) {
 }
 
 function responsive_typeahead(data, term) {
-    //console.log(data)
+    
     let address = `${data.address[0]}, ${data.address[1]} ${data.address[2]}`;
+
     const name = data.name;
     const clinic_name = data.clinic_name;
-    addressHidden = address;
+    let addressHidden = address;
     address = address;
     const docId = data.id;
 
@@ -283,6 +571,7 @@ function bloodhound() {
 function typeaheadcheck() {
     var $doctor_searches = $("#docListth")
     $doctor_searches.val("")
+    console.log($doctor_searches.length)
     if (!$doctor_searches.length)
         return;
 
@@ -336,7 +625,7 @@ function extend(obj, src) {
 }
 
 
-function getDoctorList(state) {
+/*function getDoctorList(state) {
     $("#docList1").on("keyup", function() {
         if ($(this).val().length > 1) {
             $("#docList").val($(this).val());
@@ -412,10 +701,10 @@ function getDoctorList(state) {
         }
 
     });
-}
+}*/
 
 //=object strrt for validations
-objectForValidations.formOneValidation = () => {
+/*objectForValidations.formOneValidation = () => {
     $('.left_eye').removeClass('error');
     $('.right_eye').removeClass('error');
     if (($("#leftEye").val() != null && $("#leftEye").val() != "") && ($("#rightEye").val() != null && $("#rightEye").val() != "")) {
@@ -434,9 +723,9 @@ objectForValidations.formOneValidation = () => {
         }
     }, 10);
     return false;
-}
+}*/
 
-objectForValidations.formTwoValidation = () => {
+/*objectForValidations.formTwoValidation = () => {
     if ($("#docListHidden").val() != "") {
         $(".steps").find("a[href='#step2'] div").addClass("done");
         const selectedListCookie = selectingCookieSelectedList();
@@ -446,7 +735,7 @@ objectForValidations.formTwoValidation = () => {
         return true;
     }
     return false;
-}
+}*/
 
 
 function removeDocList() {
@@ -471,9 +760,8 @@ $(document).on('keyup', '#docListth', function(ev) {
 
 
 
-//========clicking of next button
+/*//========clicking of next button
 $(document).on("click", ".nextStepButton", function(e) {
-    console.log(e)
     const currentIndex = getIndex();
     if (currentIndex == 0) {
         var formValidation = objectForValidations.formOneValidation();
@@ -504,7 +792,7 @@ $(document).on("click", ".nextStepButton", function(e) {
             scrollTop: $("header").offset().top
         }, 1000);
     }
-})
+})*/
 
 let dragging = false;
 //=======on click of li on step 2
@@ -618,7 +906,7 @@ $(document).on("click", ".goToCheckout", () => {
     document.location.href = checkoutURL;
 })
 
-$(document).on("change", "#searchDoctor", () => {
+/*$(document).on("change", "#searchDoctor", () => {
     (eventFiredStepTwo.homeState == false) ? (track.customEventFire("DoctorStateSelected"), eventFiredStepTwo.homeState = true) : "";
     const SelectedState = $("#searchDoctor").val();
     //var cookieValues = {leftEye:"", rightEye: "", homeStateId: "", homeState : "", docList: "", currentState : 0};
@@ -627,7 +915,7 @@ $(document).on("change", "#searchDoctor", () => {
     document.cookie = `cookieValuesDetailed=${JSON.stringify(cookieValues)};  path=/`;
     $(".deleteSearch").click();
     getDoctorList(SelectedState);
-});
+});*/
 
 $(document).on("click", "#doctorIsnt", () => {
     track.customEventFire("DoctorNotListed");
@@ -650,7 +938,7 @@ $(document).on("click", "body", e => {
     }
 })
 
-objectForValidations.formThreeModalValidation = (docName, ClinicName, docCity, BdocName, BClinicName, BdocCity, checkall) => {
+/*objectForValidations.formThreeModalValidation = (docName, ClinicName, docCity, BdocName, BClinicName, BdocCity, checkall) => {
     //===========docname handling
     if (docName != "" && docName.length >= minLengthReq[0]) {
         BdocName = 1;
@@ -674,7 +962,7 @@ objectForValidations.formThreeModalValidation = (docName, ClinicName, docCity, B
 
     const myValues = `${BdocName}${BClinicName}${BdocCity}`;
     return myValues;
-}
+}*/
 
 var minLengthReq = new Array(5, 5, 3);
 const validCombination = new Array("110", "011", "101", "111");

@@ -4,7 +4,7 @@ const watch = require('gulp-watch');
 const server = require('gulp-server-livereload');
 const browserify = require('gulp-browserify');
 const sourcemaps = require('gulp-sourcemaps');
-
+const uglify = require('gulp-uglify');
 
 gulp.task('es6', () => 
 	gulp.src('src/main.js')
@@ -16,6 +16,7 @@ gulp.task('es6', () =>
         //.pipe(browserify())
         .pipe(browserify({ transform: ['babelify'] }))
         .pipe(sourcemaps.write())
+        //.pipe(uglify())
         .pipe(gulp.dest('dist1'))
 );
 
