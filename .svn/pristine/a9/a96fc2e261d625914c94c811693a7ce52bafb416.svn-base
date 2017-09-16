@@ -1,0 +1,249 @@
+<?php get_header(); ?>
+<?php
+global $wp_query;
+if(isset($wp_query->query_vars['dtv']))
+{
+    
+}
+?>
+<?php
+
+$postId = get_the_ID();
+$topicSet = get_the_terms( $postId, "topic" );
+$topicName = $topicSet[0]->name;
+$topicSlug = $topicSet[0]->slug;
+$objPost = get_post($postId);
+
+/* call setPostView() function for increasing view counter of the post */
+setPostViews($postId);
+
+?>
+<!-- start content -->
+		<div class='wrap_outer_base'>
+
+			<!-- <header class='rubric_top dharmatalks'>
+					<h1><span class='icon icon-dept_dharmatalks'></span>Dharma Talks</h1>
+					<p>Video teachings and discussions with contemporary Buddhist teachers</p>
+					<a class='button' href='#'>Dharma Talks Archive</a>
+			</header> -->
+
+			<main class='wrap_base'>
+
+				<!-- start article -->
+				<article class='article_dharmatalks dharmatalks'>
+					<header class='article-header_video'>
+						<h2 class='rubric dharmatalks'>
+							<a href='#' class='icon icon-dept_dharmatalks'></a>
+							<span class='dept'><a href='#'>Dharma Talks</a></span><span class='topic'><a href='<?php getTopicUrl($topicSlug); ?>'><?php echo $topicName; ?></a></span>
+						</h2>
+						<time><?php echo get_the_date('M Y'); ?></time>
+						<h1><?php the_title(); ?></h1>
+						<address><a href=''><?php echo get_post_meta($postId ,'authors_name_metabox',true); ?></a></address>
+					</header>
+<?php //pr(get_post_meta(get_the_ID())); ?>
+					<!-- start article body -->
+					<main class='article-main_dharmatalks'>
+						<div class='article-video_featured dharmatalks'>
+							<figure>
+								<div class='icon-video_play' rel="<?php echo get_post_meta($postId ,'dharma_talks_trailer_url',true); ?>" data-grunticon-embed></div>
+								<?php echo srcset_post_thumbnail(get_the_ID(), 'image', ''); ?>
+								
+								<div class='video-wrapper'>
+								</div>
+							</figure>
+						</div>
+						
+						
+						<?php
+								
+							$metavideo = array();
+							$metavideosSet = array();
+							
+							$postmetavideo =  get_post_meta(get_the_ID());
+							$i=$j=$k = 1;
+							foreach($postmetavideo as $metakey=>$value)
+							{ 		//echo $metakey."<hr>"."dharma_talks_video".$i."_title"."<hr>";
+								if($metakey == "dharma_talks_video".$i."_title"){
+									
+									$metavideo[$i]['video_title'] = $value[0];
+									$i++;
+								}
+								
+								if(strstr($metakey,"dharma_talks_video".$j."_url")){
+									$metavideo[$j]['video_url'] = $value[0];
+									$j++;
+								}
+								
+								if(strstr($metakey,"dharma_talks_video".$k."_time_length")){
+									$metavideo[$k]['video_duration'] = $value[0];
+									$k++;
+								}
+								
+							}
+								
+						?>
+						
+						<?php if(!empty($metavideo)){ ?>
+							<div class='article_playlist'>
+								<ol>
+									<li><a href=""><h1>Trailer<span class="duration h2">2:05</span></h1></a></li>
+									<?php foreach($metavideo as $postmetavideo){ ?>
+										<li><a href='javascript:void(0)' class="js_playvideo" rel="<?php echo $postmetavideo['video_url']; ?>"><h1><?php echo $postmetavideo['video_title']; ?><span class='duration h2'><?php echo $postmetavideo['video_duration']; ?></span></h1></a></li>
+									<?php } ?>
+									<!--
+										<li><h1 class='play'>Shores of the cosmic ocean finite<span class='duration h2'>19:32</span></h1></li>
+										<li><a href=''><h1>Hydrogen atoms quasar white dwarf<span class='duration h2'>19:19</span></h1></a></li>
+										<li><a href=''><h1>Not a sunrise but a galaxyrise corpus callosum<span class='duration h2'>17:27</span></h1></a></li>
+										<li><a href=''><h1>At the edge of forever made in the interiors of<span class='duration h2'>19:84</span></h1></a></li>
+									-->
+								</ol>
+							</div>
+						<?php } ?>
+						
+
+						<div class='tools_top'>
+							<ul>
+								<li><a class='icon icon-tools_facebook' href='#' data-grunticon-embed></a></li>
+								<li><a class='icon icon-tools_twitter' href='#' data-grunticon-embed></a></li>
+								<li><a class='icon icon-tools_email' href='#' data-grunticon-embed></a></li>
+								<li><a class='icon icon-tools_print' href='#' data-grunticon-embed></a></li>
+							</ul>
+						</div>
+
+						<div class='article-dharmatalk-title'>
+							<div class='queue'>
+								<p class='h2'>Playing 2 of 5</p>
+							</div>
+								<h1>Shores of the cosmic ocean finite</h1>
+							<p class='transcript'><a class='h2' href=''>Download Transcript</a>It has been edited for clarity.</p>
+						</div>
+
+						<section class='article-body'>
+							<?php echo $objPost->post_content; ?>
+						</section>
+
+						<div class='article-bottom-matter'>
+							
+							<?php
+								$dharma_tags_array = wp_get_post_tags(get_the_ID());
+								if(!empty($dharma_tags_array)){
+							?> 
+							<section class='article-tags'>
+								<ul>
+									<?php foreach($dharma_tags_array as $tags){ ?>
+										<li><p class='tag'><a href='<?php echo $tags->slug; ?>'><?php echo ucfirst($tags->name); ?></a></p></li>
+									<?php } ?>
+									
+								</ul>
+							</section>
+							
+							<?php } ?>
+							
+
+							<div class='comments-toggle'>
+								<a href='#'>Ask the Teacher a Question</a>
+							</div>
+						</div>
+					</main>
+				</article>
+
+			</main>
+			<!-- end article wrap -->
+
+			<aside>
+				<!-- start related -->
+				<!-- start most popular module -->
+				<?php
+				$mostpopularpost  = getMostViewPosts(DHARMATALKS_POST_TYPE,$postId,3);
+				
+				if(!empty($mostpopularpost))
+				{
+				
+				?>
+				<div class='related-posts'>
+					<header class='rubric_top'>
+							<h1>Most Popular</h1>
+					</header>
+
+					<main>
+						<?php
+						
+							foreach($mostpopularpost as $mostpopular)
+							{
+						?>
+					
+						<article class='dharmatalks'>
+							<figure>
+								<a href='<?php echo $mostpopular['permalink']; ?>'>
+										<div class='icon-video_play' data-grunticon-embed></div>
+										<?php echo srcset_post_thumbnail($mostpopular['postId'], 'image', ''); ?>
+								</a>
+							</figure>
+							<section>
+								<h2 class='rubric dharmatalks'><span class='topic'><a href='<?php echo $mostpopular['topicSlug']; ?>'><?php echo $mostpopular['topicName']; ?></a></span></h2>
+								<h1><a href='<?php echo $mostpopular['permalink']; ?>'><?php echo $mostpopular['title']; ?></a></h1>
+								<address><?php echo $mostpopular['author']; ?></address>
+								<time><?php echo $mostpopular['publish_date']; ?></time>
+							</section>
+						</article>
+						
+						<?php  }  ?>
+					</main>
+				</div>
+
+				<?php } ?>
+
+				<div class='rule'></div>
+
+				<!-- start actions -->
+				<div class='actions'>
+					<div class='action'>
+						<h2>Subscribe Today</h2>
+						<h1>Tricycle is more than a magazine</h1>
+						<p>Subscribe for access to video teachings, monthly films, e-books, and our 25-year archive. Plus: discounts on Tricycle online courses and events.</p>
+						<a class='button' href='#'>Subscribe</a>
+					</div>
+
+					<div class='action'>
+						<h2>Weekly Newsletter</h2>
+						<h1>The latest from Tricycle to your inbox</h1>
+						<form id='action-enews'>
+							<input class='email' id='action-email' placeholder='Your email here' type='email'>
+
+							<!-- enews modal -->
+							<div class='action-modal'>
+								<label for='action-modal-switch'>
+									<button id='action-modal-trigger'>Sign Up</button>
+								</label>
+								<input class='modal-state' id='action-modal-switch' type='checkbox' />
+							  <div class='modal-fade-screen'>
+							    <div class='modal-inner'>
+							      <div class='modal-close' for='action-modal-switch'></div>
+							      <h1>Weekly Newsletter</h1>
+							      <p>The latest from Tricycle to your inbox</p>
+										<form name='action-modal-enews'>
+											<input class='email' id='action-modal-email' placeholder='Your email here' type='email'>
+											<label><input type='checkbox' name='enews' value='enews-tricycle' checked>The Tricycle Newsletter</label>
+											<label><input type='checkbox' name='enews' value='enews-dailydharma' checked>Daily Dharma</label>
+											<label><input type='checkbox' name='enews' value='enews-promotions' checked>Learn More</label>
+											<button class='button'>Sign Up</button>
+										</form>
+							    </div>
+							  </div>
+							</div>
+							<!-- end enews modal -->
+
+						</form>
+					</div>
+
+					<div class='action'>
+						<h2>Donate Now</h2>
+						<p>Tricycle is a nonprofit organization that depends on reader support to make ends meet. Help us share Buddhist teachings and practices worldwide by donating now.</p>
+						<a class='button' href='#'>Donate</a>
+					</div>
+				</div>
+				<!-- end actions -->
+			</aside>
+		</div>
+		<!-- end wrap_outer -->
+<?php get_footer(); ?>

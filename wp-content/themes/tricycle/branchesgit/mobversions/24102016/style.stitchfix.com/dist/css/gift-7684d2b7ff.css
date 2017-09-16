@@ -1,0 +1,275 @@
+
+#frame-main-content {
+    margin-top: 53px;
+}
+@media screen and (min-width: 768px) {
+#frame-main-content {
+    margin-top: 53px;
+}
+}
+body.global-nav-fixed header.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+	border-bottom: 1px solid #cecbc9 !important;
+}
+
+
+body.global-nav-fixed header.header .navbar .mobile-global-nav {
+    height: 46px;
+}
+
+
+
+
+/*************/
+.gifts-show {
+    margin-top: -30px;
+}
+.gifts-show section {
+    padding: 0 20px;
+}
+.gifts-show h1 {
+    font-size: 20px;
+    line-height: 25px;
+    margin-bottom: 15px;
+    margin-top: 40px;
+    text-transform: uppercase;
+	 color: rgba(137, 198, 189, 0.7);
+	font-family: "BrandonText-Bold",sans-serif;
+	font-weight:400;
+}
+@media screen and (min-width: 768px) {
+.gifts-show h1 {
+    font-size: 26px;
+    line-height: 31px;
+}
+}
+@media screen and (min-width: 992px) {
+.gifts-show h1 {
+    font-size: 38px;
+    line-height: 46px;
+}
+}
+body.public-home .gifts-show h2 {
+    font-family: "BrandonText-Bold",sans-serif;
+    font-size: 20px;
+    line-height: 25px;
+    margin-top: 35px;
+	text-align:left;
+}
+@media screen and (min-width: 768px) {
+body.public-home .gifts-show h2 {
+    font-size: 26px;
+    line-height: 31px;
+}
+}
+@media screen and (min-width: 992px) {
+body.public-home .gifts-show h2 {
+    font-size: 32px;
+    line-height: 36px;
+}
+}
+.gifts-show h3 {
+    font-size: 16px;
+    line-height: 22px;
+    margin-bottom: 5px;
+    margin-top: 30px;
+    text-transform: uppercase;
+}
+.gifts-show p {
+    font-size: 16px;
+    line-height: 22px;
+    margin: 0 0 30px;
+}
+.gifts-show #gift-card-primary-cta {
+    overflow: hidden;
+    padding-bottom: 40px;
+}
+@media screen and (max-width: 479px) {
+.gifts-show #gift-card-primary-cta .btn {
+    z-index: 10;
+}
+}
+.gifts-show #gift-card-primary-cta .btn-primary {
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+@media screen and (min-width: 992px) {
+.gifts-show #gift-card-primary-cta .btn-primary {
+    margin-bottom: 0;
+}
+}
+.gifts-show #gift-card-primary-cta .col-xs-7 .row {
+    position: relative;
+    z-index: 1;
+}
+.gifts-show #gift-card-primary-cta .col-xs-5 .img {
+    background-image: url("../images/gifts/gift_card_large.jpg");
+    background-position: -19px 15px;
+    background-repeat: no-repeat;
+    background-size: 400px 400px;
+    height: 500px;
+    margin-bottom: -500px;
+    margin-right: -35px;
+}
+@media screen and (min-width: 430px) {
+.gifts-show #gift-card-primary-cta .col-xs-5 .img {
+    background-position: -18px -69px;
+    background-size: 500px 500px;
+    margin-right: -35px;
+}
+}
+@media screen and (min-width: 992px) {
+.gifts-show #gift-card-primary-cta .col-xs-5 .img {
+    background-position: -42px -196px;
+    background-size: 700px 700px;
+    margin-right: -35px;
+}
+}
+.gifts-show #three-reasons {
+    background-color: black;
+    background-image: url("../images/gifts/shannon.jpg");
+    background-position: left top;
+    background-repeat: no-repeat;
+    color: white;
+}
+@media screen and (min-width: 643px) {
+.gifts-show #three-reasons {
+    background-size: 105% auto;
+}
+}
+.gifts-show #three-reasons h2, .gifts-show #three-reasons h3 {
+    color: #fefcfb !important;
+}
+.gifts-show #how-it-works h2 {
+    margin-bottom: 20px;
+}
+.gifts-show #how-it-works h3 {
+    margin-top: 0;
+}
+@media screen and (max-width: 990px) {
+.gifts-show #how-it-works h3 {
+    float: left;
+    margin-top: 30px;
+    width: 280px;
+}
+}
+@media screen and (max-width: 530px) {
+.gifts-show #how-it-works h3 {
+    margin-top: 0;
+}
+}
+.gifts-show #how-it-works ul li img {
+    max-width: 160px;
+}
+@media screen and (min-width: 990px) {
+.gifts-show #how-it-works ul li img {
+    display: block;
+    margin: 0 auto;
+}
+}
+@media screen and (max-width: 990px) {
+.gifts-show #how-it-works ul li img {
+    clear: left;
+    float: left;
+    margin-right: 20px;
+}
+}
+.gifts-show #how-it-works ul li p {
+    width: 280px;
+}
+@media screen and (max-width: 990px) {
+.gifts-show #how-it-works ul li p {
+    float: left;
+}
+}
+.gifts-show #delivery-options {
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    border-top: 1px solid rgba(137, 198, 189, 0.7);
+    margin-bottom: 20px;
+}
+.gifts-show #delivery-options h2 {
+    margin-top: 33px;
+}
+.gifts-show #delivery-options img {
+    margin: 40px 0 20px;
+}
+.gifts-show #delivery-options a.terms-link {
+    margin-bottom: 20px;
+}
+.gifts-show #gift-card-secondary-cta {
+    border-top: 1px solid rgba(137, 198, 189, 0.7);
+    text-align: center;
+}
+
+.gifts-show #gift-card-secondary-cta h2{
+	text-align:center;
+}
+
+.gifts-show #gift-card-secondary-cta .btn-primary + .btn-default {
+    margin-left: 7px;
+}
+
+@media screen and (min-width: 500px) {
+.gifts-show #gift-card-secondary-cta a {
+    margin-bottom: 40px;
+}
+}
+
+#how-it-works {
+    margin-top: 40px;
+}
+
+.gifts-show  .btn {
+    font-family: "brandon_grotesquemedium",sans-serif;
+    font-size: 16px !important;
+    letter-spacing: 0.8px !important;
+    line-height: 1 !important;
+	border-radius: 1px;
+    box-shadow: 0 1px rgba(255, 255, 255, 0.1) inset, 0 1px 1px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    line-height: 1 !important;
+    padding-bottom: 8px !important;
+    padding-top: 11px !important;
+}
+
+.gifts-show .btn-primary {
+    background-color:#69bdb0;
+    border-color: #69bdb0;
+    color: white;
+}
+
+.gifts-show .btn-primary:hover, .gifts-show .btn-primary:focus, .gifts-show .btn-primary:active, .gifts-show .btn-primary.active {
+    background-color: #4db0a1;
+    border-color: #47a294;
+    color: white;
+}
+
+.gifts-show .btn.btn-default {
+    background-color: #fffefe;
+    border-color: #847c77 !important;
+    box-shadow: none;
+    color: #847c77 !important;
+    min-width: 130px;
+}
+
+.gifts-show .btn.btn-default:hover, .gifts-show .btn.btn-default:focus, .gifts-show .btn.btn-default:active, .gifts-show .btn.btn-default.active{
+	 background-color: white !important;
+    border-color: #222 !important;
+    box-shadow: none;
+    color: #413d3b !important;
+    outline: medium none;
+	}
+	
+@media screen and (max-width: 530px) {	
+.gifts-show  .btn-block-dynamic {
+    display: block;
+    margin-bottom: 15px;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+}
+}

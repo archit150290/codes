@@ -1,0 +1,285 @@
+<div class='actions'>
+  <div class='action'>
+    <?php 
+                $footersubscribeheadline = get_option("settings-footersubscribeheadline");
+                $footersubscribetext = get_option("settings-footersubscribetext");
+                $footerdonatetext = get_option("settings-footerdonatetext");
+                ?>
+    <h2>Subscribe Today</h2>
+    <h1><?php echo $footersubscribeheadline;?></h1>
+    <p><?php echo $footersubscribetext; ?></p>
+    <a onClick="ga('send', 'event', { eventCategory: 'subscribe', eventAction: 'click', eventLabel: 'footer'});" class='button' href='https://subscribe.tricycle.com/TRI/?f=join' target="blank">Subscribe</a> </div>
+  <div class='action'>
+    <?php $footernewsletter = get_option("settings-footernewslettertext");?>
+    <h2>Weekly Newsletter</h2>
+    <h1><?php echo $footernewsletter; ?></h1>
+    <form id='action-enews'>
+      <input class='email' id='action-email' placeholder='Your email here' type='email'>
+      <label for='action-modal-switch'>
+        <button onClick="ga('send', 'event', { eventCategory: 'enews', eventAction: 'click', eventLabel: 'footer'});" id='action-modal-trigger'>Sign Up</button>
+      </label>
+    </form>
+    <!-- enews modal -->
+    <div class='action-modal'>
+      <input class='modal-state' id='action-modal-switch' type='checkbox' />
+      <div class='modal-fade-screen'>
+        <div class='modal-inner'>
+          <div class='modal-close' for='action-modal-switch'></div>
+          <h1>Weekly Newsletter</h1>
+          <p>The Latest from Tricycle to your inbox</p>
+          <!--<div id="mc_embed_signup">
+                                <form action="//arcgate.us5.list-manage.com/subscribe/post?u=548cfafe7e9f932243898cc8f&amp;id=805f5846a8" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                                    <div id="mc_embed_signup_scroll">
+                                        <div class="mc-field-group">
+                                            <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL">
+                                        </div>
+                                        <div class="mc-field-group input-group">
+                                            <ul>
+                                                <li><input type="checkbox" value="1" name="group[17409][1]" id="mce-group[17409]-17409-0"><label for="mce-group[17409]-17409-0">Daily Dharma</label></li>
+                                                <li><input type="checkbox" value="2" name="group[17409][2]" id="mce-group[17409]-17409-1"><label for="mce-group[17409]-17409-1">Trike Daily</label></li>
+                                                <li><input type="checkbox" value="4" name="group[17409][4]" id="mce-group[17409]-17409-2"><label for="mce-group[17409]-17409-2">Film Club</label></li>
+                                            </ul>
+                                        </div>
+                                        <div id="mce-responses" class="clear">
+                                            <div class="response" id="mce-error-response" style="display:none"></div>
+                                            <div class="response" id="mce-success-response" style="display:none"></div>
+                                        </div>
+                                        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_548cfafe7e9f932243898cc8f_805f5846a8" tabindex="-1" value=""></div>
+                                        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+                                    </div>
+                                </form>
+                            </div>-->
+          
+          <div id="mc_embed_signup">
+            <form action="//tricycle.us8.list-manage.com/subscribe/post?u=7914aa1664771ddd4c8fa8040&amp;id=1641abe55e" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+              <div id="mc_embed_signup_scroll"> 
+                <!-- <h2>Subscribe to our mailing list</h2>
+                                    <div class="indicates-required"><span class="asterisk">*</span> indicates required</div>-->
+                <div class="mc-field-group"> 
+                  <!--<label for="mce-EMAIL">Email Address  <span class="asterisk">*</span>
+                                    </label>-->
+                  <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+                  <input type="submit" value="SIGN UP" name="subscribe" id="mc-embedded-subscribe" class="button subscribe">
+                </div>
+                <!--    <div class="mc-field-group">
+                                    <label for="mce-FNAME">First Name </label>
+                                    <input type="text" value="" name="FNAME" class="" id="mce-FNAME">
+                                    </div>
+                                    <div class="mc-field-group">
+                                    <label for="mce-LNAME">Last Name </label>
+                                    <input type="text" value="" name="LNAME" class="" id="mce-LNAME">
+                                    </div>-->
+                <div class="mc-field-group input-group"> 
+                  <!-- <strong>Email Lists </strong>-->
+                  <ul>
+                    <li>
+                      <input type="checkbox" checked="checked" value="1" name="group[17961][1]" id="mce-group[17961]-17961-0">
+                      <label for="mce-group[17961]-17961-0">The Tricycle Newsletter<span>What's going on tricycle.org</span></label>
+                    </li>
+                    <li>
+                      <input type="checkbox" checked="checked" value="2" name="group[17961][2]" id="mce-group[17961]-17961-1">
+                      <label for="mce-group[17961]-17961-1">Daily Dharma<span>Morning wisdom to wake you up</span></label>
+                    </li>
+                    <li>
+                      <input type="checkbox" checked="checked" value="4" name="group[17961][4]" id="mce-group[17961]-17961-2">
+                      <label for="mce-group[17961]-17961-2">Learn More<span>Offers from Tricycle and our partners: events, retreats, and more</span></label>
+                    </li>
+                    <!--<li><input type="checkbox" value="8" name="group[17961][8]" id="mce-group[17961]-17961-3"><label for="mce-group[17961]-17961-3">Tricycle Online Courses</label></li>-->
+                  </ul>
+                </div>
+                <div id="mce-responses" class="clear">
+                  <div class="response" id="mce-error-response" style="display:none"></div>
+                  <div class="response" id="mce-success-response" style="display:none"></div>
+                </div>
+                <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                <div style="position: absolute; left: -5000px;">
+                  <input type="text" name="b_7914aa1664771ddd4c8fa8040_1641abe55e" tabindex="-1" value="">
+                </div>
+                <div class="clear">
+                  
+                </div>
+              </div>
+            </form>
+          </div>
+          <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';}(jQuery));var $mcj = jQuery.noConflict(true);</script> 
+        </div>
+      </div>
+    </div>
+    <!-- end enews modal --> 
+  </div>
+  <?php
+    if(isset($_COOKIE['Cambey_Login'])){
+        $paywall_login = 1;
+        $paywall_login_name = $_COOKIE['Cambey_Login'];
+    }else{
+        $paywall_login = 0;
+    }
+    ?>
+  <div class='action'>
+    <h2>Donate Now</h2>
+    <p><?php echo $footerdonatetext; ?></p>
+    <?php
+      if($paywall_login)
+      {
+      ?>
+        <a onClick="ga('send', 'event', { eventCategory: 'donate', eventAction: 'click', eventLabel: 'footer'});" class='button' href='https://subscribe.tricycle.com/TRI/?f=donate&a=<?php echo base64_decode($_COOKIE['Cambey_Account']);?>' target="blank">Donate</a>
+      <?php
+      }else{ ?>
+        <a onClick="ga('send', 'event', { eventCategory: 'donate', eventAction: 'click', eventLabel: 'footer'});" class='button' href='https://subscribe.tricycle.com/TRI/?f=donate' target="blank">Donate</a>    
+    <?php }
+    ?>
+    
+  </div>
+</div>
+<!-- end action -->
+</div>
+
+<!-- start footer -->
+<footer>
+  <nav class='nav-footer'>
+    <ul>
+      <li class='logo'> <a class='icon-logo' href='<?php echo site_url("/"); ?>'></a> </li>
+      <li class='nav-right footer-social'> <a onClick="ga('send', 'event', { eventCategory: 'facebook', eventAction: 'click', eventLabel: 'footer'});" class='icon-facebook' href='https://www.facebook.com/tricyclemag' target="_blank" data-grunticon-embed></a> <a onClick="ga('send', 'event', { eventCategory: 'twitter', eventAction: 'click', eventLabel: 'footer'});" class='icon-twitter' href='https://twitter.com/tricyclemag' target="_blank" data-grunticon-embed></a> </li>
+      <li>
+        <ul class='footer-links'>
+          <li class='footer-link'><a href='<?php echo get_page_link(get_page_id_by_slug(ABOUT_SLUG)); ?>'>About</a></li>
+          <li class='footer-link'><a href='<?php echo get_page_link(get_page_id_by_slug(CONTACT_SLUG)); ?>'>Contact</a></li>
+          <li class='footer-link'><a href='<?php echo get_page_link(get_page_id_by_slug(ADVERTISE_SLUG)); ?>'>Advertise</a></li>
+          <li class='footer-link'><a href='<?php echo get_page_link(get_page_id_by_slug(TERMS_OF_SERVICE_SLUG)); ?>'>Terms Of Service</a></li>
+<!--          <li class='footer-link'><a href='<?php //echo get_sitemap_url(); ?>'>Sitemap</a></li>-->
+          <li class='footer-link'><a href='<?php echo get_page_link(get_page_id_by_slug(PRIVACY_POLICY_SLUG)); ?>'>Privacy Policy</a></li>
+        </ul>
+      </li>
+      <li class='nav-right footer-fine-print'>
+        <p>Copyright 2015. Tricycle. All rights reserved. Design by<a href='http://point5.com' target="_blank"> Point Five.&nbsp;</a> 
+      </li>
+    </ul>
+  </nav>
+</footer>
+<!-- end footer --> 
+
+<!-- start nav drawer -->
+<div class='nav-drawer'>    
+  <nav>
+    <header><span class='icon-close'>&times;</span> <a class='icon-logo' href='<?php echo site_url("/"); ?>'></a></header>
+    <ul>
+        <li class='depts'><a href='<?php echo get_permalink(get_page_id_by_slug(TRIKE_DAILY_SLUG)); ?>'>Trike Daily</a></li>
+        <li class='depts'><a href='<?php echo get_post_type_archive_link(MAGAZINE_POST_TYPE); ?>'>Magazine</a></li>
+        <li class='depts'><a href='<?php echo get_post_type_archive_link(DHARMATALKS_POST_TYPE); ?>'>Dharma Talks</a></li>
+        <?php 
+            $film_regulator = get_option("film_regulator");
+            if($film_regulator == "1")
+            {
+        ?>
+        <li class='depts'><a href='<?php echo get_post_type_archive_link(FILM_FESTIVAL_POST_TYPE); ?>'>Film Festival</a></li>
+        <?php 
+            } 
+        ?>
+        <li class='depts'><a href='<?php echo get_post_type_archive_link(FILM_CLUB_POST_TYPE); ?>'>Film Club</a></li>
+        <li class='depts'><a href='<?php echo get_post_type_archive_link(EBOOKS_POST_TYPE); ?>'>E-Books</a></li>
+        <li class='depts'><a href='https://learn.tricycle.com' target="_blank">Online Courses</a></li>
+        <li class='nav-topics'>
+        <h1 class='p'>Topics</h1>
+        <ul>
+            <?php
+            $topics = get_topic_terms();
+                if ($topics){
+                    foreach ($topics as $topic){
+                        ?>
+                    <li><a href='<?php echo $topic->term_url; ?>'><?php echo $topic->name; ?></a></li>
+                    <?php
+                    }
+                }
+            ?>
+            </ul>
+            </li>
+        <li class='nav-subs'>
+            <?php 
+            if(!$paywall_login)
+            {?>
+                <h1 onClick="ga('send', 'event', { eventCategory: 'login', eventAction: 'click', eventLabel: 'nav-drawer'});" class='p'>Login</h1>
+            <?php } 
+            ?>
+            <ul>
+                <li class='login'>
+                  <form class='login-form' name='login' id='login-side-form' ref="<?php echo get_template_directory_uri(); ?>">
+                    <input class='email l_email' placeholder='Email' type='email' name="l_email" id="l__paywall_email">
+                    <input class='pass l_pass' placeholder='Password' type='password' name="l_pass" id="l_paywall_pass">
+                    <button class='button' type='submit' id='side-login-submit'>Login</button>
+                    <a class='link' target="_blank" href='https://subscribe.tricycle.com/TRI/?f=custreg'>Need help with email or password?</a>
+                  </form>
+                </li>
+                <?php 
+                if(!$paywall_login){ ?>
+                    <li><a class='link' href='https://subscribe.tricycle.com/TRI/?f=custreg' target="_blank">Link your subscription</a></li>
+                <?php } else 
+                {
+                ?>
+                <li><a class='link logout-link'>Logout</a></li>
+                <li><a class='link' href="https://subscribe.tricycle.com/TRI/?f=custcare&a=<?php echo base64_decode($_COOKIE['Cambey_Account']);?>" target="blank"><?php echo $paywall_login_name; ?></a></li>
+                <?php 
+                }
+                ?>
+                <li>
+                <p><?php echo $footersubscribetext; ?></p>
+                <a onClick="ga('send', 'event', { eventCategory: 'subscribe', eventAction: 'click', eventLabel: 'nav-drawer'});" class='button' href='https://subscribe.tricycle.com/TRI/?f=join' target="blank">Subscribe</a> </li>
+            </ul>
+        </li>
+        <?php
+        if($paywall_login)
+        {
+        ?>
+            <li class='nav-donate'>
+                <p><?php echo $footerdonatetext;?></p>
+                <a onClick="ga('send', 'event', { eventCategory: 'donate', eventAction: 'click', eventLabel: 'nav-drawer'});" class='button' href='https://subscribe.tricycle.com/TRI/?f=donate&a=<?php echo base64_decode($_COOKIE['Cambey_Account']);?>' target="blank">Donate</a> 
+            </li>
+        <?php }else{?>
+            <li class='nav-donate'>
+              <p><?php echo $footerdonatetext;?></p>
+              <a onClick="ga('send', 'event', { eventCategory: 'donate', eventAction: 'click', eventLabel: 'nav-drawer'});" class='button' href='https://subscribe.tricycle.com/TRI/?f=donate' target="blank">Donate</a> 
+            </li>
+        <?php
+        }
+        ?>
+      <li class='nav-social'> <a onClick="ga('send', 'event', { eventCategory: 'facebook', eventAction: 'click', eventLabel: 'nav-drawer'});" class='icon-facebook' href='https://www.facebook.com/tricyclemag' target="_blank" data-grunticon-embed></a> <a onClick="ga('send', 'event', { eventCategory: 'twitter', eventAction: 'click', eventLabel: 'nav-drawer'});" class='icon-twitter' href='https://twitter.com/tricyclemag' target="_blank" data-grunticon-embed></a> </li>
+    </ul>
+  </nav>
+</div>
+<div class='nav-drawer-fade-screen'></div>
+<!-- end nav drawer --> 
+
+<!-- javascript --> 
+<script src='<?php echo get_template_directory_uri(); ?>/js/jquery-2.1.4.min.js'></script> 
+<script src='<?php echo get_template_directory_uri(); ?>/js/jquery.matchHeight.js'></script> 
+<script src='<?php echo get_template_directory_uri(); ?>/js/main.js'></script> 
+<script src='<?php echo get_template_directory_uri(); ?>/js/common.js'></script>
+<?php wp_footer(); ?>
+<?php
+/*if(is_singular())
+{
+    ?>
+    <script type="text/javascript">
+        jQuery(function(){
+            jQuery(".article-body img.alignright").each(function(index, element){
+                var parentTag = $(this).parent().get(0).tagName;
+                if(parentTag !== "figure")
+                {
+                    jQuery(this).unwrap();
+                    jQuery(this).wrap( "<figure class='alignright'></figure>" );
+                }
+            });
+            
+            jQuery(".article-body img.alignleft").each(function(index, element){
+                var parentTag = $(this).parent().get(0).tagName;
+                if(parentTag !== "figure")
+                {
+                    jQuery(this).unwrap();
+                    jQuery(this).wrap( "<figure class='alignleft'></figure>" );
+                }
+            });
+        });
+    </script>
+    <?php
+}*/
+?>
+</body></html>

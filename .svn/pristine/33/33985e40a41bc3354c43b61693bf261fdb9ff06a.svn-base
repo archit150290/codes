@@ -1,0 +1,423 @@
+<?php
+/*
+ * This is the detail template file for magazine.
+ */
+?>
+
+<?php get_header(); ?>
+<!-- end header -->
+
+<?php
+while (have_posts()) {
+    the_post();
+    $post_id = get_the_ID();
+    setpopularpostviews($post_id);
+    $layout = get_post_meta($post_id, LAYOUT_META_KEY, true);
+    //$figurecaption = get_post_meta($post_id, FIGCAPTION_META_KEY, true);
+    /* if(has_post_thumbnail())
+      {
+      $figurecaption = get_post(get_post_thumbnail_id())->post_excerpt;
+      }
+      else
+      {
+      $figurecaption = "";
+      } */
+
+    $post_type = get_post_type($post_id);
+    if ($post_type == "post") {
+        $post_Name = "Trike Daily";
+        $post_Slug = "trikedaily";
+    }
+    $posttags = get_the_tags();
+    $topics = get_topics_by_post_id($post_id);
+    $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+
+   /* $gettemplateImage = get_base_hero_template_featured_image($post_id);
+
+    if (!empty($gettemplateImage)) {
+        $getbase_hero_image = $gettemplateImage['featured_image_url'];
+        $figurecaption = $gettemplateImage['caption'];
+    } else {
+        $getbase_hero_image = "";
+        $figurecaption = "";
+    }*/
+    
+    $gettemplateImage = get_base_hero_template_featured_image($post_id);
+    //pr($gettemplateImage); exit;
+    $getbase_hero_image = "";
+    $figurecaption = "";
+    
+    if(isset($gettemplateImage['featured_image_url']) && $gettemplateImage['featured_image_url']!="")
+    {   
+        $getbase_hero_image = $gettemplateImage['featured_image_url'];
+        $figurecaption = $gettemplateImage['caption'];
+        
+    }
+    else if(isset($gettemplateImage['use_default_featured_image']) && $gettemplateImage['use_default_featured_image']==1)
+    {   
+        $image_id = get_post_thumbnail_id();
+        $image_url = wp_get_attachment_image_src($image_id,'full', true);
+        $getbase_hero_image = $image_url[0];
+        $figurecaption = $gettemplateImage['caption'];
+        
+    }
+
+    if ($layout == "hero") {
+        ?>
+        <div class='hero'>
+            <figure>
+                <?php echo srcset_post_base_hero_template($getbase_hero_image, '', '', '100vw'); ?>
+                <?php if ($figurecaption != "") { ?>
+                    <figcaption><?php echo $figurecaption; ?></figcaption>
+                <?php } ?>
+            </figure>
+        </div>
+
+        <!-- start content -->
+        <div class='wrap_outer_<?php echo $layout ?>'>
+            <main id="wrap" class='wrap_<?php echo $layout ?>'>
+                <!-- start article -->
+                <article class='article_<?php echo $layout ?> trikedaily'>
+                    <header class='article-header_<?php echo $layout ?>'>
+                        <h2 class='rubric <?php echo $post_Slug; ?>'>
+                            <a href='<?php echo get_permalink(get_page_id_by_slug(TRIKE_DAILY_SLUG)); ?>' class='icon icon-dept_trikedaily'></a>
+                            <span class='dept'><a href='<?php echo get_permalink(get_page_id_by_slug(TRIKE_DAILY_SLUG)); ?>'><?php echo $post_Name; ?></a></span>
+                            <span class='subdept'><?php get_trikedaily_department($post->ID); ?></span><span class='topic'><?php echo $topic_urls; ?></span>
+                        </h2>
+                        <h1><?php echo get_the_title(); ?></h1>
+                        <?php
+                        if (has_excerpt()) {
+                            the_excerpt();
+                        }
+                        ?>
+                        </p>
+                        <address><?php echo getAuthorDetail($post_id, 1, 1); ?></address><time><?php echo get_the_date('M d, Y'); ?></time>
+                    </header>
+
+                    <!-- start article body -->
+                    <main class='article-main_<?php echo $layout; ?>'>
+                        <?php get_tool_tip_sharethis(get_the_title(), get_permalink()) ?>
+
+                        <section class='article-body'>
+                            <?php the_content(); ?>
+                        </section>
+
+                        <div class='article-bottom-matter'>
+                            <?php if (!empty($posttags)) { ?>
+                                <section class='article-tags'>
+                                    <ul>
+                                        <?php foreach ($posttags as $tag) { ?>
+                                            <li><p class='tag'><a href='<?php echo get_tag_link($posttags[0]->term_id); ?>'><?php echo $tag->name ?></a></p></li>
+                                        <?php } ?>
+                                    </ul>
+                                </section>
+                            <?php } ?>
+                            <section class='article-author'>
+                                <address><?php echo getAuthorDetail($post_id, 0, 1, 1); ?></address>
+                            </section>
+
+                            <?php get_tool_tip_sharethis_wrap(get_the_title(), get_permalink()) ?>
+                            <?php
+                            if (comments_open() || get_comments_number()) :
+                                ?>
+                                <div class='comments-toggle showcomments'>
+                                    <a href='javascript:void(0);' id="commentlink_title">View Comments</a>
+                                </div>
+                                <?php
+                                comments_template();
+                            endif;
+                            ?>
+                        </div>
+                    </main>
+
+
+                    <aside>
+                        <div class='ad_square'>
+                            <img src='<?php echo get_template_directory_uri(); ?>/images/jpg/ad-shinyocenter'>
+                        </div>
+                        <?php
+                        //$mostpopularpost = getMostViewPosts(FILM_CLUB_POST_TYPE,$postId,5);
+                        $myrows = getMostPopular("post");
+
+                        if (!empty($myrows) && count($myrows) > 1) {
+                            ?>
+                            <div class='popular-posts'>
+                                <header>
+                                    <h1>Most Popular</h1>
+                                </header>
+
+                                <main>
+                                    <ol>
+
+                                        <?php
+                                        $countviews = 0;
+                                        foreach ($myrows as $mostpopular) {
+                                            if ($countviews == 5) {
+                                                break;
+                                            }
+                                            //pr($mostpopular);
+                                            $postID = $mostpopular->post_id;
+                                            $counter = $mostpopular->counter;
+                                            $title = get_the_title($postID);
+                                            $permalink = get_permalink($postID);
+                                            if ($postID == $post_id) {
+                                                continue;
+                                            }
+                                            $countviews++;
+                                            ?>
+
+                                            <li><h1><a href=<?php echo $permalink; ?>><?php echo $title; ?></a></h1></li>
+                                            <?php } //end of foreach
+                                        ?>
+
+                                    </ol>
+                                </main>
+                            </div>
+
+                        <?php }//end of if
+                        ?>
+                    </aside>
+                </article>
+            </main>
+            <!-- end article wrap -->
+
+            <aside>
+                <!-- start related -->
+                <?php
+                $relatedposts = getRelatedPosts($post_id);
+                if (!empty($relatedposts)) {
+                    ?>
+                    <div class='related-posts'>
+                        <header class='rubric_top'>
+                            <h1>Related</h1>
+                        </header>
+                        <main>
+                            <?php
+                            foreach ($relatedposts as $relposts) {
+                                $post_type = $relposts['postType'];
+                                $postValues = get_post_type_object($post_type);
+                                $labels = $postValues->labels; //to fetch the menu name
+                                $postMenuName = $labels->menu_name;
+                                $postTypeLink = get_post_type_archive_link($post_type);
+                                if ($post_type == "post") {
+                                    $post_type = "trikedaily";
+                                    $postMenuName = "Trike Daily";
+                                    $postTypeLink = get_permalink(get_page_id_by_slug(TRIKE_DAILY_SLUG));
+                                }
+
+                                $topics = get_topics_by_post_id($relposts['postId']);
+                                $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                                ?>
+                                <article class='<?php echo $post_type ?>'>
+                                    <figure>
+                                        <a href='<?php echo $relposts['permalink']; ?>'>
+                                            <?php if ($post_type == DHARMATALKS_POST_TYPE || $post_type == FILM_CLUB_POST_TYPE || $post_type == FILM_FESTIVAL_POST_TYPE) { ?>
+                                                <div class='icon-video_play' data-grunticon-embed></div>
+                                            <?php } ?>
+
+                                            <?php echo srcset_post_thumbnail($relposts['postId'], 'image', '', '(min-width: 50em) 33vw,100vw'); ?>
+                                        </a>
+                                    </figure>
+                                    <section>
+                                        <h2 class='rubric <?php echo $post_type ?>'><a href='<?php $postTypeLink; ?>' class='icon icon-dept_<?php echo $post_type ?>'></a>
+                                            <span class='dept'>
+                                                <a href='<?php echo $postTypeLink; ?>'><?php echo $postMenuName; ?></a>
+                                                <span class='topic'><?php echo $topic_urls; ?></span>
+                                            </span>
+                                        </h2>
+                                        <h1><a href='<?php echo $relposts['permalink']; ?>'><?php echo $relposts['title']; ?></a></h1>
+                                        <address><?php echo getAuthorDetail($relposts['postId'], 1, 0); ?></address>
+                                    </section>
+                                </article>
+                                <?php
+                            }
+                            ?>
+                        </main>
+                    </div>
+                <?php }
+                ?>
+                <!-- end related -->
+                <div class='rule'></div>
+                <?php
+            } else {
+                ?>
+                <!-- start content -->
+                <div class='wrap_outer_<?php echo $layout ?>'>
+                    <main class='wrap_<?php echo $layout ?>'>
+                        <!-- start article -->
+                        <article class='article_<?php echo $layout ?> trikedaily'>
+                            <header class='article-header_<?php echo $layout ?>'>
+                                <h2 class='rubric <?php echo $post_Slug; ?>'>
+                                    <a href='<?php echo get_permalink(get_page_id_by_slug(TRIKE_DAILY_SLUG)); ?>' class='icon icon-dept_trikedaily'></a>
+                                    <span class='dept'><a href='<?php echo get_permalink(get_page_id_by_slug(TRIKE_DAILY_SLUG)); ?>'><?php echo $post_Name; ?></a></span>
+                                    <span class='subdept'><?php get_trikedaily_department($post->ID); ?></span><span class='topic'><?php echo $topic_urls; ?></span>
+                                </h2>
+                                <h1><?php echo get_the_title(); ?></h1>
+                                <?php
+                                if (has_excerpt()) {
+                                    the_excerpt();
+                                }
+                                ?>
+                                </p>
+                                <address><?php echo getAuthorDetail($post_id, 1, 1); ?></address><time><?php echo get_the_date('M d, Y'); ?></time>
+                            </header>
+
+                            <!-- start article body -->
+                            <main class='article-main_<?php echo $layout; ?>'>
+                                <div class='article-image_featured'>
+                                    <figure>
+                                        <?php echo srcset_post_base_hero_template($getbase_hero_image, '', '', '(min-width: 60em) 66vw,100vw', 'base'); ?>
+                                        <figcaption><?php echo $figurecaption; ?></figcaption>
+                                    </figure>
+                                </div>                        
+                                <?php get_tool_tip_sharethis(get_the_title(), get_permalink()) ?>
+
+                                <section class='article-body'>
+                                    <?php the_content(); ?>
+                                </section>
+
+                                <div class='article-bottom-matter'>
+                                    <?php if (!empty($posttags)) { ?>
+                                        <section class='article-tags'>
+                                            <ul>
+                                                <?php foreach ($posttags as $tag) { ?>
+                                                    <li><p class='tag'><a href='<?php echo get_tag_link($posttags[0]->term_id); ?>'><?php echo $tag->name ?></a></p></li>
+                                                <?php } ?>
+                                            </ul>
+                                        </section>
+                                    <?php } ?>
+                                    <section class='article-author'>
+                                        <address><?php echo getAuthorDetail($post_id, 0, 1, 1); ?></address>
+                                    </section>
+
+                                    <?php get_tool_tip_sharethis_wrap(get_the_title(), get_permalink()) ?>
+                                    <?php
+                                    if (comments_open() || get_comments_number()) :
+                                        ?>
+                                        <div class='comments-toggle showcomments'>
+                                            <a href='javascript:void(0);' id="commentlink_title">View Comments</a>
+                                        </div>
+                                        <?php
+                                        comments_template();
+                                    endif;
+                                    ?>
+                                </div>
+                            </main>
+
+
+                            <aside>
+                                <div class='ad_square'>
+                                    <img src='<?php echo get_template_directory_uri(); ?>/images/jpg/ad-shinyocenter'>
+                                </div>
+                                <?php
+                                //$mostpopularpost = getMostViewPosts(FILM_CLUB_POST_TYPE,$postId,5);
+                                $myrows = getMostPopular("post");
+
+                                if (!empty($myrows) && count($myrows) > 1) {
+                                    ?>
+                                    <div class='popular-posts'>
+                                        <header>
+                                            <h1>Most Popular</h1>
+                                        </header>
+
+                                        <main>
+                                            <ol>
+
+                                                <?php
+                                                $countviews = 0;
+                                                foreach ($myrows as $mostpopular) {
+                                                    if ($countviews == 5) {
+                                                        break;
+                                                    }
+                                                    //pr($mostpopular);
+                                                    $postID = $mostpopular->post_id;
+                                                    $counter = $mostpopular->counter;
+                                                    $title = get_the_title($postID);
+                                                    $permalink = get_permalink($postID);
+                                                    if ($postID == $post_id) {
+                                                        continue;
+                                                    }
+                                                    ?>
+
+                                                    <li><h1><a href=<?php echo $permalink; ?>><?php echo $title; ?></a></h1></li>
+
+
+
+
+                                                <?php } //end of foreach
+                                                ?>
+
+                                            </ol>
+                                        </main>
+                                    </div>
+
+                                <?php }//end of if
+                                ?>
+                            </aside>
+                        </article>
+                    </main>
+                    <!-- end article wrap -->
+
+                    <aside>
+                        <!-- start related -->
+                        <?php
+                        $relatedposts = getRelatedPosts($post_id);
+                        if (!empty($relatedposts)) {
+                            ?>
+                            <div class='related-posts'>
+                                <header class='rubric_top'>
+                                    <h1>Related</h1>
+                                </header>
+                                <main>
+                                    <?php
+                                    foreach ($relatedposts as $relposts) {
+                                        $post_type = $relposts['postType'];
+                                        $postValues = get_post_type_object($post_type);
+                                        $labels = $postValues->labels; //to fetch the menu name
+                                        $postMenuName = $labels->menu_name;
+                                        $postTypeLink = get_post_type_archive_link($post_type);
+                                        if ($post_type == "post") {
+                                            $post_type = "trikedaily";
+                                            $postMenuName = "Trike Daily";
+                                            $postTypeLink = get_permalink(get_page_id_by_slug(TRIKE_DAILY_SLUG));
+                                        }
+
+                                        $topics = get_topics_by_post_id($relposts['postId']);
+                                        $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                                        ?>
+                                        <article class='<?php echo $post_type ?>'>
+                                            <figure>
+                                                <a href='<?php echo $relposts['permalink']; ?>'>
+                                                    <?php if ($post_type == DHARMATALKS_POST_TYPE || $post_type == FILM_CLUB_POST_TYPE || $post_type == FILM_FESTIVAL_POST_TYPE) { ?>
+                                                        <div class='icon-video_play' data-grunticon-embed></div>
+                                                    <?php } ?>
+
+                                                    <?php echo srcset_post_thumbnail($relposts['postId'], 'image', '', '(min-width: 50em) 33vw,100vw'); ?>
+                                                </a>
+                                            </figure>
+                                            <section>
+                                                <h2 class='rubric <?php echo $post_type ?>'><a href='<?php $postTypeLink; ?>' class='icon icon-dept_<?php echo $post_type ?>'></a>
+                                                    <span class='dept'>
+                                                        <a href='<?php echo $postTypeLink; ?>'><?php echo $postMenuName; ?></a>
+                                                        <span class='topic'><?php echo $topic_urls; ?></span>
+                                                    </span>
+                                                </h2>
+                                                <h1><a href='<?php echo $relposts['permalink']; ?>'><?php echo $relposts['title']; ?></a></h1>
+                                                <address><?php echo getAuthorDetail($relposts['postId'], 1, 0); ?></address>
+                                            </section>
+                                        </article>
+                                        <?php
+                                    }
+                                    ?>
+                                </main>
+                            </div>
+                        <?php }
+                        ?>
+                        <!-- end related -->
+                        <div class='rule'></div>
+                        <?php
+                    }
+                }
+                ?>
+                <!-- start footer -->
+                <?php get_footer(); ?>

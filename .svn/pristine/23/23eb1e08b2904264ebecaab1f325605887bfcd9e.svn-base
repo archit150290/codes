@@ -1,0 +1,399 @@
+<?php
+global $paywall_login;
+session_start();
+if(isset($_SESSION['Cambey_Login']))
+{
+    $paywall_login = 1;
+    $paywall_login_name = $_SESSION['Cambey_Login'];
+    $account_no = $_SESSION['account_no'];
+}
+    else
+{
+    $paywall_login = 0;
+}
+/*
+*condition to vary header
+*/      $trikedaily_post_type = "";
+        $static_page ="";
+        
+        if ( is_front_page() ) {
+            $post_type = "front_page";
+        }else{
+        $obj = get_queried_object();
+        //pr($obj);
+        if(isset($obj->rewrite)){
+            $custom_post_type = $obj->rewrite;
+        }else{
+            if(isset($obj->post_type)){
+                $trikedaily_post_type = $obj->post_type;
+            }
+        }
+        $post_type = isset($custom_post_type['slug'])?$custom_post_type['slug']:$trikedaily_post_type;
+        if(isset($obj->taxonomy) && $obj->taxonomy=='magazine-issue'){
+            //defined for category page of magazine issue
+            $post_type = 'landingmagazine';
+        }
+        if(isset($obj->taxonomy) && $obj->taxonomy=='topic'){
+            //defined for category page of magazine issue
+            $post_type = 'landingtopic';
+        }
+        if( is_author() || is_tag() ){
+            //defined for category page of magazine issue
+            $post_type = 'landingtopic';
+        }
+        if(($post_type == 'magazine') && isset($obj->label)){
+            //defined for archive page of magazine issue
+            $post_type = 'landingmagazine';
+        }
+        if(($post_type == 'ebooks') &&  isset($obj->label)){
+            //defined for archive page of magazine issue
+            $post_type = 'landingebooks';
+        }
+        if(($post_type == 'ebooks') &&  !isset($obj->label)){
+            //defined for archive page of magazine issue
+            $post_type = 'articleebooks';
+        }
+        if($post_type == 'magazine' && !isset($obj->label)){
+            //defined for article page of magazine issue
+            $post_type = 'articlemagazine';
+        }
+        if($post_type=="page" && $obj->post_name == 'trikedaily'){
+            $post_type = 'landingtrikedaily';
+        }
+        if($post_type=="post" && isset($obj->ID)){
+            $post_type = 'articletrikedaily';
+        }
+        if($post_type=="page" && $obj->post_name == 'magazine-archive'){
+            $post_type = 'archivemagazine';
+        }
+        if(($post_type == 'dharmatalks') && isset($obj->label)){
+            //defined for archive page of magazine issue
+            $post_type = 'landingdharmatalks';
+        }
+        if($post_type=="dharmatalks" && isset($obj->ID)){
+            $post_type = 'articledharmatalks';
+        }
+        if($post_type=="page" && $obj->post_name == 'dharmatalks-archive'){
+            $post_type = 'archivedharmatalks';
+        }
+        if($post_type=="page" && $obj->post_name == 'dharmatalks-archive'){
+            $post_type = 'archivedharmatalks';
+        } 
+        if($post_type == 'filmclub' && isset($obj->label)){
+            //defined for article page of magazine issue
+             $post_type = 'filmclublanding';
+        }
+         if($post_type == 'filmclub' && !isset($obj->label)){
+            //defined for article page of magazine issue
+             $post_type = 'filmclubarticle';
+        }
+        if($post_type=="page" && $obj->post_name == 'filmclub-archive'){
+            $post_type = 'archivefilmclub';
+        } 
+        if($post_type == 'filmfestival' && isset($obj->label)){
+            //defined for article page of magazine issue
+             $post_type = 'filmfestivallanding';
+        }
+        if($post_type == 'filmfestival' && !isset($obj->label)){
+            //defined for article page of magazine issue
+             $post_type = 'filmfestivalarticle';
+        }
+        if($post_type=="page"){
+            if($obj->post_name == 'searchpage' || $obj->post_name == 'about' || $obj->post_name == 'contact' || $obj->post_name == 'advertise' || $obj->post_name == 'terms-of-service' || $obj->post_name == 'privacy-policy'){
+            $post_type = 'staticpage';
+            $static_page = "staticpages";
+            } 
+        } 
+    }
+    
+    function get_header_ad($post_type){
+        if($post_type == "front_page"){
+            $pathads['path_ad_mob'] = "/52618277/trike_home_header_320x50";
+            $pathads['path_ad_desk'] = '/52618277/trike_home_header_728x90';
+        }else if($post_type == "landingmagazine"){
+            $pathads['path_ad_mob'] = "/52618277/trike_magazine_header_320x50";
+            $pathads['path_ad_desk'] = '/52618277/trike_magazine_header_728x90';
+        }else if($post_type == "articlemagazine"){
+            $pathads['path_ad_mob'] = "/52618277/trike_magazine_header_320x50";
+            $pathads['path_ad_desk'] = '/52618277/trike_magazine_header_728x90';
+        }else if($post_type == "landingtrikedaily"){
+            $pathads['path_ad_mob'] = '/52618277/trike_trikedaily_header_320x50';
+            $pathads['path_ad_desk'] = '/52618277/trike_trikedaily_header_728x90';
+        }else if($post_type == "articletrikedaily"){
+            $pathads['path_ad_mob'] = '/52618277/trike_trikedaily_header_320x50';
+            $pathads['path_ad_desk'] = '/52618277/trike_trikedaily_header_728x90';
+        }
+        else if($post_type == "archivemagazine"){
+            $pathads['path_ad_mob'] = "/52618277/trike_magazine_header_320x50";
+            $pathads['path_ad_desk'] = '/52618277/trike_magazine_header_728x90';
+        }else if($post_type == "landingebooks"){
+            $pathads['path_ad_mob'] = "/52618277/trike_ebooks_header_320x50";
+            $pathads['path_ad_desk'] = '/52618277/trike_ebooks_header_728x90';
+        }
+        else if($post_type == "landingdharmatalks"){
+            $pathads['path_ad_mob'] = "/52618277/trike_dharmatalks_header_320x50";
+            $pathads['path_ad_desk'] = '/52618277/trike_dharmatalks_header_728x90';
+        }
+        else if($post_type == "articledharmatalks"){
+            $pathads['path_ad_mob'] = "/52618277/trike_dharmatalks_header_320x50";
+            $pathads['path_ad_desk'] = '/52618277/trike_dharmatalks_header_728x90';
+        }
+        else if($post_type == "archivedharmatalks"){
+            $pathads['path_ad_mob'] = "/52618277/trike_dharmatalks_header_320x50";
+            $pathads['path_ad_desk'] = '/52618277/trike_dharmatalks_header_728x90';
+        }
+        else if($post_type == "filmclublanding"){
+            $pathads['path_ad_mob'] = "/52618277/trike_filmclub_header_320x50";
+            $pathads['path_ad_desk'] = '/52618277/trike_filmclub_header_728x90';
+        }
+        else if($post_type == "filmclubarticle"){
+            $pathads['path_ad_mob'] = "/52618277/trike_filmclub_header_320x50";
+            $pathads['path_ad_desk'] = '/52618277/trike_filmclub_header_728x90';
+        }
+        else if($post_type == "archivefilmclub"){
+            $pathads['path_ad_mob'] = "/52618277/trike_filmclub_header_320x50";
+            $pathads['path_ad_desk'] = '/52618277/trike_filmclub_header_728x90';
+        }
+        else if($post_type == "articleebooks"){
+            $pathads['path_ad_mob'] = "/52618277/trike_ebooks_header_320x50";
+            $pathads['path_ad_desk'] = '/52618277/trike_ebooks_header_728x90';
+        }
+        else if($post_type == "filmfestivallanding"){
+            $pathads['path_ad_mob'] = "/52618277/trike_filmfestival_header_320x50";
+            $pathads['path_ad_desk'] = '/52618277/trike_filmfestival_header_728x90';
+        }
+        else if($post_type == "filmfestivalarticle"){
+            $pathads['path_ad_mob'] = "/52618277/trike_filmfestival_header_320x50";
+            $pathads['path_ad_desk'] = '/52618277/trike_filmfestival_header_728x90';
+        }
+        else if($post_type == "staticpage"){
+            $pathads['path_ad_mob'] = "/52618277/trike_base_header_320x50";
+            $pathads['path_ad_desk'] = '/52618277/trike_base_header_728x90';
+        }
+        else if($post_type == "landingtopic"){
+            $pathads['path_ad_mob'] = "/52618277/trike_base_header_320x50";
+            $pathads['path_ad_desk'] = '/52618277/trike_base_header_728x90';
+        }else{
+            $pathads['path_ad_mob'] = "/52618277/emptyads";
+            $pathads['path_ad_desk'] = "/52618277/emptyads";
+        }
+        return $pathads;
+    }
+    $paths_ad = get_header_ad($post_type);
+    $path_ad_desk = $paths_ad['path_ad_desk'];
+    $path_ad_mob = $paths_ad['path_ad_mob'];
+   ?>
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <meta charset="<?php bloginfo( 'charset' ); ?>">
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
+        <!-- external CSS link -->
+        <link rel='stylesheet' href='<?php echo get_template_directory_uri(); ?>/css/screen.css'>
+        <link rel='stylesheet' href='<?php echo get_stylesheet_directory_uri(); ?>/css/tricycle.css'>
+        
+	<link rel="shortcut icon" type="image/x-icon" href="<?php echo get_template_directory_uri();  ?>/images/favicon.ico">
+        <noscript><link href="<?php echo get_template_directory_uri(); ?>/images/svg-output/icons.fallback.css" rel="stylesheet"></noscript>
+         <?php wp_head(); ?>
+        <script type='text/javascript'>
+            var googletag = googletag || {};
+            googletag.cmd = googletag.cmd || [];
+            (function() {
+              var gads = document.createElement('script');
+              gads.async = true;
+              gads.type = 'text/javascript';
+              var useSSL = 'https:' == document.location.protocol;
+              gads.src = (useSSL ? 'https:' : 'http:') +
+                '//www.googletagservices.com/tag/js/gpt.js';
+              var node = document.getElementsByTagName('script')[0];
+              node.parentNode.insertBefore(gads, node);
+            })();
+            
+        </script>
+        <script>
+            /*! grunt-grunticon Stylesheet Loader - v2.1.6 | https://github.com/filamentgroup/grunticon | (c) 2015 Scott Jehl, Filament Group, Inc. | MIT license. */
+            !function(){function e(e,n,t){"use strict";var o=window.document.createElement("link"),r=n||window.document.getElementsByTagName("script")[0],a=window.document.styleSheets;return o.rel="stylesheet",o.href=e,o.media="only x",r.parentNode.insertBefore(o,r),o.onloadcssdefined=function(e){for(var n,t=0;t<a.length;t++)a[t].href&&a[t].href===o.href&&(n=!0);n?e():setTimeout(function(){o.onloadcssdefined(e)})},o.onloadcssdefined(function(){o.media=t||"all"}),o}function n(e,n){e.onload=function(){e.onload=null,n&&n.call(e)},"isApplicationInstalled"in navigator&&"onloadcssdefined"in e&&e.onloadcssdefined(n)}!function(t){var o=function(r,a){"use strict";if(r&&3===r.length){var i=t.navigator,c=t.document,s=t.Image,d=!(!c.createElementNS||!c.createElementNS("http://www.w3.org/2000/svg","svg").createSVGRect||!c.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Image","1.1")||t.opera&&-1===i.userAgent.indexOf("Chrome")||-1!==i.userAgent.indexOf("Series40")),l=new s;l.onerror=function(){o.method="png",o.href=r[2],e(r[2])},l.onload=function(){var t=1===l.width&&1===l.height,i=r[t&&d?0:t?1:2];t&&d?o.method="svg":t?o.method="datapng":o.method="png",o.href=i,n(e(i),a)},l.src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==",c.documentElement.className+=" grunticon"}};o.loadCSS=e,o.onloadCSS=n,t.grunticon=o}(this),function(e,n){"use strict";var t=n.document,o="grunticon:",r=function(e){if(t.attachEvent?"complete"===t.readyState:"loading"!==t.readyState)e();else{var n=!1;t.addEventListener("readystatechange",function(){n||(n=!0,e())},!1)}},a=function(e){return n.document.querySelector('link[href$="'+e+'"]')},i=function(e){var n,t,r,a,i,c,s={};if(n=e.sheet,!n)return s;t=n.cssRules?n.cssRules:n.rules;for(var d=0;d<t.length;d++)r=t[d].cssText,a=o+t[d].selectorText,i=r.split(");")[0].match(/US\-ASCII\,([^"']+)/),i&&i[1]&&(c=decodeURIComponent(i[1]),s[a]=c);return s},c=function(e){var n,r,a,i;a="data-grunticon-embed";for(var c in e){i=c.slice(o.length);try{n=t.querySelectorAll(i)}catch(s){continue}r=[];for(var d=0;d<n.length;d++)null!==n[d].getAttribute(a)&&r.push(n[d]);if(r.length)for(d=0;d<r.length;d++)r[d].innerHTML=e[c],r[d].style.backgroundImage="none",r[d].removeAttribute(a)}return r},s=function(n){"svg"===e.method&&r(function(){c(i(a(e.href))),"function"==typeof n&&n()})};e.embedIcons=c,e.getCSS=a,e.getIcons=i,e.ready=r,e.svgLoadedCallback=s,e.embedSVG=s}(grunticon,this)}();
+            grunticon(["<?php echo get_template_directory_uri(); ?>/images/svg-output/icons.data.svg.css", "<?php echo get_template_directory_uri(); ?>/images/svg-output/icons.data.png.css", "<?php echo get_template_directory_uri(); ?>/images/svg-output/icons.fallback.css"], grunticon.svgLoadedCallback);
+        </script>
+    </head>
+
+    <body>
+        <script>
+            var pathMob = '<?php echo $path_ad_mob; ?>';
+            var pathDesk = '<?php echo $path_ad_desk; ?>';
+            var static = '<?php echo $static_page;?>';
+            googletag.cmd.push(function() {
+                googletag.defineSlot(pathMob, [320, 50], 'div-gpt-ad-1455072820172-0').addService(googletag.pubads());
+                googletag.defineSlot(pathDesk, [728, 90], 'div-gpt-ad-1455072820172-1').addService(googletag.pubads());
+                googletag.pubads().enableSingleRequest();
+                    googletag.pubads().addEventListener('slotRenderEnded', function(event) {
+                        if (event.slot.getSlotElementId() == "div-gpt-ad-1455072820172-1") {
+                            //to check desktop ad 
+                            console.log("div-gpt-ad-1455072820172-1");
+                            console.log(event);
+                            if((event.isEmpty)==false && jQuery('.header-desktop').is(":visible") == true){
+                                    jQuery('.header-desktop .header-ad').removeAttr('style');
+                                //jQuery('#adrendereddesktop').val(1);
+                                    //static page condition
+                                    detectHeadAd();
+                                    if(jQuery('.landing-marquee.ebooks').length=='1'){
+                                        jQuery('.landing-marquee ').css('margin-top',100);
+                                    }else{
+                                        if(static == "staticpages"){
+                                             jQuery('header.rubric_top').css('margin-top',105);
+                                        }else{
+                                            jQuery('main.wrap_base').css('margin-top',105);
+                                        }
+                                    }
+                            }
+//                            else{
+//                                jQuery('nav.header-desktop .header-ad').remove();
+//                            }
+                        }
+                    });
+                
+                googletag.pubads().addEventListener('slotRenderEnded', function(event) {
+                    if (event.slot.getSlotElementId() == "div-gpt-ad-1455072820172-0") {
+                        //to check Mobile ad 
+                        if((event.isEmpty)==false && jQuery('.header-mobile').is(":visible") ==true){
+                                jQuery('.header-mobile .header-ad').removeAttr('style');
+                                detectHeadAd();
+                                if(jQuery('.landing-marquee.ebooks').length=='1'){
+                                    jQuery('.landing-marquee ').css('margin-top',55);
+                                }else{
+                                    if(static == "staticpages"){
+                                        jQuery('header.rubric_top').css('margin-top',55);
+                                    }else{
+                                        jQuery('main.wrap_base').css('margin-top',55);
+                                    }
+                                }
+                        }
+//                        else{
+//                            jQuery('nav.header-mobile .header-ad').remove();
+//                        }
+                    }
+                });
+                googletag.pubads().collapseEmptyDivs();
+                googletag.enableServices();
+            });
+        </script>
+        <header role='banner'>
+            <!-- to check if ad is rendered or not -->
+            <input type="hidden" id="adrendereddesktop" value="0">
+            <input type="hidden" id="adrenderedmobile" value="0">
+            <nav class='header header-mobile' role='navigation'>
+               <!-- start header ad -->
+                <div class='header-ad' style="display:none">
+                    <?php //get_the_ad("header_ad_"); ?>
+                    <div id='div-gpt-ad-1455072820172-0'>
+                        
+                    </div>
+                </div>
+				<!-- end header ad -->
+                <ul>
+                    <li class='nav-left icon-nav' role='button' data-grunticon-embed></li>
+                    <li class='nav-left'>
+                        <a class='icon-logo' href='<?php echo site_url("/"); ?>'></a>
+                    </li>
+                    <li class='nav-right'>
+                        <a class='subscribe' href='https://subscribe.tricycle.com/TRI/?f=join' target="blank">Subscribe</a>
+                    </li>
+                    <li class='nav-right icon-search' role='button' data-grunticon-embed></li>
+                    <li class='mobile-search'>
+                        <form role="search" class='search-form' name='search' action="<?php echo site_url()."/searchpage/"; ?>" id="searchform" method="get">				
+				<input placeholder='Search' type='text' id="s" name="q" value="" autocomplete="off">
+				<input name="cx" type="hidden" value="005201521681940513761:vzjqa03hgl8"/>
+				<input name="ie" type="hidden" value="ISO-8859-1"/>
+				<input type="hidden" name="cof" value="FORID:10" />				
+			    <button class='icon-search' name="sa" type='submit' data-grunticon-embed></button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+
+            <nav class='header header-desktop' role='navigation'>
+                <div class='header-ad' style="display: none">
+		    <div id='div-gpt-ad-1455072820172-1'>
+			
+		    </div>
+		</div>
+                <ul class='nav'>
+                    <li class='nav-left icon-nav' role='button' data-grunticon-embed></li>
+                    <li class='nav-left'>
+                        <a class='icon-logo' href='<?php echo site_url("/"); ?>'></a>
+                    </li>
+                    <li class='nav-right'>
+                        <ul class='links'>
+                            <li><a class='link' href='https://subscribe.tricycle.com/TRI/?f=donate' target="_blank">Donate</a></li>
+                            <?php
+                            if($paywall_login)
+                            {
+                                ?>
+                                <li><p class='link'><a target="_blank" href="https://subscribe.tricycle.com/TRI/?f=custcare&a=<?php echo $account_no;?>"><?php echo $paywall_login_name; ?></a></p></li>
+                                <li><p class='link logout-link'>Logout</p></li>
+                                <?php
+                            }
+                            else
+                            {
+                                ?>
+                                <li><a class='link' href='https://subscribe.tricycle.com/TRI/?f=join' target="_blank">Link Your Subscription</a></li>
+                                <li><p class='link login-link'>Login</p></li>
+                                <?php
+                            }
+                            ?>
+                            <li><a class='subscribe' href='https://subscribe.tricycle.com/TRI/?f=join' target="_blank">Subscribe</a></li>
+                        </ul>
+                    </li>
+                    <li class='nav-right login'>
+                        <form class='login-form' name='login' id="login" ref="<?php echo get_template_directory_uri(); ?>">
+                            <input class='email l_email' placeholder='Email / Username' type='email' name="l_email" id="l_email">
+                            <input class='pass l_pass' placeholder='Password' type='password' name="l_pass" id="l_pass">
+                            <button class='button login-button' type='submit' id="login-button">Login</button>
+                            <a class='link' target="_blank" href='https://subscribe.tricycle.com/TRI/?f=custreg'>Need help with email or password?</a>
+                        </form>
+                    </li>
+                    <li class='nav-right search'>
+			<form role="search" class='search-form' name='search' action="<?php echo site_url()."/searchpage/"; ?>" id="searchform" method="get">				
+                            <input placeholder='Search' type='text' id="s" name="q" value="" autocomplete="off">
+                            <input name="cx" type="hidden" value="005201521681940513761:vzjqa03hgl8"/>
+                            <input name="ie" type="hidden" value="ISO-8859-1"/>
+                            <input type="hidden" name="cof" value="FORID:10" />				
+			    <button class='icon-search' name="sa" type='submit' data-grunticon-embed></button>
+                        </form>
+			<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+                    </li>
+                </ul>
+            </nav>	    
+	    
+	    <!-- start login modal -->
+	    <div class='login-modal'>
+                <input class='modal-state' id='login-modal-switch' type='checkbox'/>
+                <div class='modal-fade-screen'>
+                    <div class='modal-inner'>
+                        <div class='modal-close' for='login-modal-switch'></div>
+                        <h1>Log In</h1>
+                        <div class='flash-error js_error'></div>
+                        <form class='login-form' name='login' id='login-modal-form' ref="<?php echo get_template_directory_uri(); ?>">
+                            <input class='email l_email' placeholder='Email / Username' type='email' name="l_email" id="l__paywall_email">
+                            <input class='pass l_pass' placeholder='Password' type='password' name="l_pass" id="l_paywall_pass">
+                            <button class='button login-button' type='submit' id='login-modal-submit'>Login</button>
+			    <div id="loadingimage_login" style="display:none;"><img src="<?php echo get_template_directory_uri() . '/images/loader.gif'; ?>"/></div>
+                        </form>
+                        <a class='link' href='https://subscribe.tricycle.com/TRI/?f=custreg' target='_blank'>Need help with email or password?</a>
+                        <a class='link' href='https://subscribe.tricycle.com/TRI/?f=join' target='_blank'>Link your subscription</a>
+                    </div>
+                </div>
+	    </div>
+	    <!-- end login modal -->	    
+	    
+            <script type="text/javascript">
+                var ajax_url = "<?php echo admin_url('admin-ajax.php'); ?>";
+            </script>
+            <!-- including spin load for ajax load more call-->
+            <script src='<?php echo get_template_directory_uri(); ?>/js/spin.js'></script>
+        </header>
+        
+        <!-- end header -->

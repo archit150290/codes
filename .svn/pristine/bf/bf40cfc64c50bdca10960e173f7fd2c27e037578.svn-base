@@ -1,0 +1,468 @@
+<?php get_header(); ?>
+<!-- start content -->
+		<div class='wrap'>
+
+			<!-- start landing marquee -->
+			<div class='landing-marquee_video dharmatalks'>
+				<header class='rubric_top'>
+						<h1><span class='icon icon-dept_dharmatalks'></span>Dharma Talks</h1>
+						<p>Video teachings and discussions with contemporary Buddhist teachers</p>
+						<a class='button' href='#'>Dharma Talks Archive</a>
+				</header>
+
+				<main>
+					<article class='dharmatalks'>
+						<section class='titles'>
+							<time>Oct 2015</time>
+							<h2 class='dharmatalks'><span class='topic'><a href='#'>Mediation &amp; Practice</a></span></h2>
+							<h1><a href='#'>The ash of stellar alchemy</a></h1>
+							<address>Djehuti Adriana</address>
+						</section>
+						<figure>
+							<a href='#'>
+								<div class='icon-video_play' data-grunticon-embed></div>
+								<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg'
+									srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_4x.jpg 2000w,
+													<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_2x.jpg 1000w,
+													<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg 500w'
+									sizes= '(min-width: 60em) 75vw,
+													100vw'
+									alt='Llama' />
+							</a>
+						</figure>
+						<section class='synopsis'>
+							<p>Network of wormholes, quasar another world star stuff harvesting star light, cosmic fugue Rig Veda. Realm of the galaxies decipherment, descended from astronomers? Concept of the number one, intelligent beings hundreds of thousands Jean-François Champollion. Cosmic ocean culture are creatures of the cosmos paroxysm of global death network of wormholes take root and flourish encyclopaedia galactica! Something incredible is waiting to be known venture rings of Uranus paroxysm of global death globular star cluster.</p>
+							<p class='h2'><a class='view-contents' href='#'>Watch Talk</a></p>
+						</section>
+					</article>
+				</main>
+			</div>
+			<!-- end landing marquee -->
+
+			<!-- start landing stack -->
+			<div class='landing-stack_video'>
+				<article class='dharmatalks'>
+					<section class='titles'>
+						<time>Sep 2015</time>
+						<h2 class='dharmatalks'><span class='topic'><a href='#'>Arts &amp; Culture</a></span></h2>
+						<h1><a href='#'>Tunguska event permanence of the stars hundreds of thousands</a></h1>
+						<address>Karna Franzese</address>
+					</section>
+					<figure>
+						<a href='#'>
+							<div class='icon-video_play' data-grunticon-embed></div>
+							<img src='<?php echo get_template_directory_uri(); ?>/<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg'
+								srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_4x.jpg 2000w,
+												<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_2x.jpg 1000w,
+												<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg 500w'
+								sizes= '(min-width: 50em) 25vw,
+												100vw'
+								alt='Llama' />
+						</a>
+					</figure>
+					<section class='synopsis'>
+						<p>Network of wormholes, quasar another world star stuff harvesting star light, cosmic fugue Rig Veda. Realm of the galaxies decipherment, descended from astronomers? Concept of the number one, intelligent beings hundreds of thousands Jean-François Champollion. Cosmic ocean culture are creatures of the cosmos paroxysm of global death network of wormholes take root and flourish encyclopaedia galactica! Something incredible is waiting to be known venture rings of Uranus paroxysm of global death globular star cluster.</p>
+						<p class='h2'><a class='view-contents' href='#'>Watch Talk</a></p>
+					</section>
+				</article>
+
+				<article class='dharmatalks'>
+					<section class='titles'>
+						<time>Aug 2015</time>
+						<h2 class='dharmatalks'><span class='topic'><a href='#'>Arts &amp; Culture</a></span></h2>
+						<h1><a href='#'>Rig Veda how far away tingling of the spine</a></h1>
+						<address>Rudolf Machán</address>
+					</section>
+					<figure>
+						<a href='#'>
+							<div class='icon-video_play' data-grunticon-embed></div>
+							<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg'
+								srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_4x.jpg 2000w,
+												<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_2x.jpg 1000w,
+												<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg 500w'
+								sizes= '(min-width: 50em) 25vw,
+
+												100vw'
+								alt='Llama' />
+						</a>
+					</figure>
+					<section class='synopsis'>
+						<p>Network of wormholes, quasar another world star stuff harvesting star light, cosmic fugue Rig Veda. Realm of the galaxies decipherment, descended from astronomers? Concept of the number one, intelligent beings hundreds of thousands Jean-François Champollion. Cosmic ocean culture are creatures of the cosmos paroxysm of global death network of wormholes take root and flourish encyclopaedia galactica! Something incredible is waiting to be known venture rings of Uranus paroxysm of global death globular star cluster.</p>
+						<p class='h2'><a class='view-contents' href='#'>Watch Talk</a></p>
+					</section>
+				</article>
+			</div>
+
+			<!-- start Call to Action module -->
+			<div class='CTA-module'>
+				<div class='rule'></div>
+				<div class='CTA-ad' style='
+					background-color: #ddd;
+					line-height: 1; padding: 2em;
+					margin: 0 auto;
+					width: 75%;
+					height: 10em;
+					text-align: center;
+				'>
+				<p>Call-to-Action Module. Can be set in the CMS to any of the following: (1) Ad served via Google DFP Small Business (TBD), (2) Daily Dharma, (3) Subscribe CTA, (4) Newletter CTA</p>
+				</div>
+				<div class='rule'></div>
+			</div>
+			<!-- end Call to Action module -->
+
+			<!-- start landing stack -->
+			<div class='landing-stack_video'>
+				<article class='dharmatalks'>
+					<section class='titles'>
+						<time>Jul 2015</time>
+						<h2 class='dharmatalks'><span class='topic'><a href='#'>Arts &amp; Culture</a></span></h2>
+						<h1><a href='#'>Courage of our questions!</a></h1>
+						<address>Ulysses Heikki</address>
+					</section>
+					<figure>
+						<a href='#'>
+							<div class='icon-video_play' data-grunticon-embed></div>
+							<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg'
+								srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_4x.jpg 2000w,
+												<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_2x.jpg 1000w,
+												<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg 500w'
+								sizes= '(min-width: 50em) 25vw,
+
+												100vw'
+								alt='Llama' />
+						</a>
+					</figure>
+					<section class='synopsis'>
+						<p>Network of wormholes, quasar another world star stuff harvesting star light, cosmic fugue Rig Veda. Realm of the galaxies decipherment, descended from astronomers? Concept of the number one, intelligent beings hundreds of thousands Jean-François Champollion. Cosmic ocean culture are creatures of the cosmos paroxysm of global death network of wormholes take root and flourish encyclopaedia galactica! Something incredible is waiting to be known venture rings of Uranus paroxysm of global death globular star cluster.</p>
+						<p class='h2'><a class='view-contents' href='#'>Watch Talk</a></p>
+					</section>
+				</article>
+
+				<article class='dharmatalks'>
+					<section class='titles'>
+						<time>Jun 2015</time>
+						<h2 class='dharmatalks'><span class='topic'><a href='#'>Arts &amp; Culture</a></span></h2>
+						<h1><a href='#'>Hearts of the stars tendrils of gossamer clouds</a></h1>
+						<address>Atuf Koziol</address>
+					</section>
+					<figure>
+						<a href='#'>
+							<div class='icon-video_play' data-grunticon-embed></div>
+							<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg'
+								srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_4x.jpg 2000w,
+												<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_2x.jpg 1000w,
+												<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg 500w'
+								sizes= '(min-width: 50em) 25vw,
+
+												100vw'
+								alt='Llama' />
+						</a>
+					</figure>
+					<section class='synopsis'>
+						<p>Network of wormholes, quasar another world star stuff harvesting star light, cosmic fugue Rig Veda. Realm of the galaxies decipherment, descended from astronomers? Concept of the number one, intelligent beings hundreds of thousands Jean-François Champollion. Cosmic ocean culture are creatures of the cosmos paroxysm of global death network of wormholes take root and flourish encyclopaedia galactica! Something incredible is waiting to be known venture rings of Uranus paroxysm of global death globular star cluster.</p>
+						<p class='h2'><a class='view-contents' href='#'>Watch Talk</a></p>
+					</section>
+				</article>
+
+				<article class='dharmatalks'>
+					<section class='titles'>
+						<time>May 2015</time>
+						<h2 class='dharmatalks'><span class='topic'><a href='#'>Arts &amp; Culture</a></span></h2>
+						<h1><a href='#'>Tunguska event permanence of the stars hundreds of thousands</a></h1>
+						<address>Karna Franzese</address>
+					</section>
+					<figure>
+						<a href='#'>
+							<div class='icon-video_play' data-grunticon-embed></div>
+							<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg'
+								srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_4x.jpg 2000w,
+												<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_2x.jpg 1000w,
+												<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg 500w'
+								sizes= '(min-width: 50em) 25vw,
+
+												100vw'
+								alt='Llama' />
+						</a>
+					</figure>
+					<section class='synopsis'>
+						<p>Network of wormholes, quasar another world star stuff harvesting star light, cosmic fugue Rig Veda. Realm of the galaxies decipherment, descended from astronomers? Concept of the number one, intelligent beings hundreds of thousands Jean-François Champollion. Cosmic ocean culture are creatures of the cosmos paroxysm of global death network of wormholes take root and flourish encyclopaedia galactica! Something incredible is waiting to be known venture rings of Uranus paroxysm of global death globular star cluster.</p>
+						<p class='h2'><a class='view-contents' href='#'>Watch Talk</a></p>
+					</section>
+				</article>
+
+				<article class='dharmatalks'>
+					<section class='titles'>
+						<time>Apr 2015</time>
+						<h2 class='dharmatalks'><span class='topic'><a href='#'>Arts &amp; Culture</a></span></h2>
+						<h1><a href='#'>Rig Veda how far away tingling of the spine</a></h1>
+						<address>Rudolf Machán</address>
+					</section>
+					<figure>
+						<a href='#'>
+							<div class='icon-video_play' data-grunticon-embed></div>
+							<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg'
+								srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_4x.jpg 2000w,
+												<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_2x.jpg 1000w,
+												<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg 500w'
+								sizes= '(min-width: 50em) 25vw,
+
+												100vw'
+								alt='Llama' />
+						</a>
+					</figure>
+					<section class='synopsis'>
+						<p>Network of wormholes, quasar another world star stuff harvesting star light, cosmic fugue Rig Veda. Realm of the galaxies decipherment, descended from astronomers? Concept of the number one, intelligent beings hundreds of thousands Jean-François Champollion. Cosmic ocean culture are creatures of the cosmos paroxysm of global death network of wormholes take root and flourish encyclopaedia galactica! Something incredible is waiting to be known venture rings of Uranus paroxysm of global death globular star cluster.</p>
+						<p class='h2'><a class='view-contents' href='#'>Watch Talk</a></p>
+					</section>
+				</article>
+
+				<div class='more dharmatalks'>
+					<a class='button' href='#'>Dharma Talks Archive</a>
+				</div>
+			</div>
+
+			<div class='rule'></div>
+			<!-- end landing stack -->
+
+			<!-- start most popular module -->
+			<div class='related-posts'>
+				<header class='rubric_top'>
+						<h1>Most Popular</h1>
+				</header>
+
+				<main>
+					<article class='dharmatalks'>
+						<figure>
+							<a href='#'>
+								<div class='icon-video_play' data-grunticon-embed></div>
+								<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg'
+									srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_4x.jpg 2000w,
+													<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_2x.jpg 1000w,
+													<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg 500w'
+									sizes= '(min-width: 50em) 33vw,
+													100vw'
+									alt='Llama' />
+							</a>
+						</figure>
+						<section>
+							<h2 class='rubric dharmatalks'><span class='topic'><a href='#'>Society</a></span></h2>
+							<h1><a href='#'>Hearts of the stars tendrils of gossamer clouds</a></h1>
+							<address>Atuf Koziol</address>
+							<time>Sep 2015</time>
+						</section>
+					</article>
+
+					<article class='dharmatalks'>
+						<figure>
+							<a href='#'>
+								<div class='icon-video_play' data-grunticon-embed></div>
+								<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg'
+									srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_4x.jpg 2000w,
+													<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_2x.jpg 1000w,
+													<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg 500w'
+									sizes= '(min-width: 50em) 33vw,
+													100vw'
+									alt='Llama' />
+							</a>
+						</figure>
+						<section>
+							<h2 class='rubric dharmatalks'><span class='topic'><a href='#'>Mind &amp; Body</a></span></h2>
+							<h1><a href='#'>Tunguska event permanence of the stars hundreds of thousands</a></h1>
+							<address>Karna Franzese</address>
+							<time>Jul 2015</time>
+					</section>
+					</article>
+
+					<article class='dharmatalks'>
+						<figure>
+							<a href='#'>
+								<div class='icon-video_play' data-grunticon-embed></div>
+								<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg'
+									srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_4x.jpg 2000w,
+													<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_2x.jpg 1000w,
+													<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg 500w'
+									sizes= '(min-width: 50em) 33vw,
+													100vw'
+									alt='Llama' />
+							</a>
+						</figure>
+						<section>
+							<h2 class='rubric dharmatalks'><span class='topic'><a href='#'>Arts &amp; Culture</a></span></h2>
+							<h1><a href='#'>Rig Veda how far away tingling of the spine</a></h1>
+							<address>Rudolf Machán</address>
+							<time>Feb 2015</time>
+					</section>
+					</article>
+				</main>
+			</div>
+
+			<!-- start Call to Action module -->
+			<div class='CTA-module'>
+				<div class='rule'></div>
+				<div class='CTA-ad' style='
+					background-color: #ddd;
+					line-height: 1; padding: 2em;
+					margin: 0 auto;
+					width: 75%;
+					height: 10em;
+					text-align: center;
+				'>
+				<p>Call-to-Action Module. Can be set in the CMS to any of the following: (1) Ad served via Google DFP Small Business (TBD), (2) Daily Dharma, (3) Subscribe CTA, (4) Newletter CTA</p>
+				</div>
+				<div class='rule'></div>
+			</div>
+			<!-- end Call to Action module -->
+
+			<aside>
+
+				<div class='aside-depts'>
+					<!-- start aside Film Club -->
+					<section class='aside-filmclub'>
+						<header class='rubric_small'>
+								<h1><a href='#'><span class='icon icon-dept_filmclub'></span>Film Club</a></h1>
+								<p>Buddhist films and discussion for the Tricycle Community</p>
+						</header>
+
+						<main>
+							<article>
+								<figure>
+									<a href='#'>
+										<div class='icon-video_play' data-grunticon-embed></div>
+										<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg'
+											srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_2x.jpg 1000w,
+															<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg 500w'
+											sizes= '(min-width: 50em) 33vw,
+															100vw'
+											alt='The Film Title' />
+									</a>
+								</figure>
+								<section>
+									<h2 class='rubric filmclub'><span class='topic'><a href='#'>Society</a></span></h2>
+									<h1><a href='#'>The Wisdom To Survive</a></h1>
+									<p>The consensus of scientists that climate change has already arrived, and asks, what is keeping us from action? The film explores how unlimited growth and greed are destroying the life support system of the planet, the social fabric of the society, and the lives of billions of people.</p>
+									<address>Directed by John Ankele &amp; Anne Macksoud</address>
+								</section>
+							</article>
+						</main>
+					</section>
+					<!-- end aside Film Club -->
+
+					<!-- start aside magazine -->
+					<section class='aside-magazine'>
+						<header class='rubric_small'>
+								<h1><a href='#'><span class='icon icon-dept_magazine'></span>Magazine</a></h1>
+								<p>The Buddhist Review</p>
+						</header>
+
+						<main>
+							<article>
+								<figure>
+									<a href='#'>
+										<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-magazine_1x.jpg'
+											srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-magazine_2x.jpg 1000w,
+															<?php echo get_template_directory_uri(); ?>/images/jpg/home-magazine_1x.jpg 500w'
+							 sizes= '(min-width: 50em) 33vw,
+															100vw'
+											alt='A man' />
+									</a>
+								</figure>
+								<section>
+									<h2 class='rubric magazine'><span class='topic'><a href='#'>Meditation &amp; Practice</a></span></h2>
+									<h1><a href='#'>The ash of stellar alchemy</a></h1>
+									<p>Jean-François Champollion ship of the imagination, muse about something incredible is waiting to be known.</p>
+									<address>By Romulus Jocelyne</address>
+									<time>Winter 2015</time>
+								</section>
+							</article>
+						</main>
+						<div class='rule-responsive'></div>
+					</section>
+					<!-- end aside magazine -->
+
+					<!-- start aside trikedaily -->
+					<section class='aside-trikedaily'>
+						<header class='rubric_small'>
+								<h1><a href='#'><span class='icon icon-dept_trikedaily'></span>Trike Daily</a></h1>
+								<p>Daily wisdom, teachings &amp; critique</p>
+						</header>
+
+						<main>
+							<article>
+								<figure>
+									<a href='#'>
+										<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-trikedaily_1x.jpg'
+											srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-trikedaily_2x.jpg 1000w,
+															<?php echo get_template_directory_uri(); ?>/images/jpg/home-trikedaily_1x.jpg 500w'
+							 sizes= '(min-width: 50em) 33vw,
+															100vw'
+											alt='A man' />
+									</a>
+								</figure>
+								<section>
+									<h2 class='rubric trikedaily'><span class='topic'><a href='#'>Meditation &amp; Practice</a></span></h2>
+									<h1><a href='#'>The ash of stellar alchemy</a></h1>
+									<p>Jean-François Champollion ship of the imagination, muse about something incredible is waiting to be known.</p>
+									<address>By Romulus Jocelyne</address>
+									<time>Nov 12, 2015</time>
+								</section>
+							</article>
+						</main>
+						<div class='rule-responsive'></div>
+					</section>
+					<!-- end aside trikedaily -->
+				</div>
+
+				<div class='rule'></div>
+
+				<!-- start actions -->
+				<div class='actions'>
+					<div class='action'>
+						<h2>Subscribe Today</h2>
+						<h1>Tricycle is more than a magazine</h1>
+						<p>Subscribe for access to video teachings, monthly films, e-books, and our 25-year archive. Plus: discounts on Tricycle online courses and events.</p>
+						<a class='button' href='#'>Subscribe</a>
+					</div>
+
+					<div class='action'>
+						<h2>Weekly Newsletter</h2>
+						<h1>The latest from Tricycle to your inbox</h1>
+						<form id='action-enews'>
+							<input class='email' id='action-email' placeholder='Your email here' type='email'>
+
+							<!-- enews modal -->
+							<div class='action-modal'>
+								<label for='action-modal-switch'>
+									<button id='action-modal-trigger'>Sign Up</button>
+								</label>
+								<input class='modal-state' id='action-modal-switch' type='checkbox' />
+							  <div class='modal-fade-screen'>
+							    <div class='modal-inner'>
+							      <div class='modal-close' for='action-modal-switch'></div>
+							      <h1>Weekly Newsletter</h1>
+							      <p>The latest from Tricycle to your inbox</p>
+										<form name='action-modal-enews'>
+											<input class='email' id='action-modal-email' placeholder='Your email here' type='email'>
+											<label><input type='checkbox' name='enews' value='enews-tricycle' checked>The Tricycle Newsletter</label>
+											<label><input type='checkbox' name='enews' value='enews-dailydharma' checked>Daily Dharma</label>
+											<label><input type='checkbox' name='enews' value='enews-promotions' checked>Learn More</label>
+											<button class='button'>Sign Up</button>
+										</form>
+							    </div>
+							  </div>
+							</div>
+							<!-- end enews modal -->
+
+						</form>
+					</div>
+
+					<div class='action'>
+						<h2>Donate Now</h2>
+						<p>Tricycle is a nonprofit organization that depends on reader support to make ends meet. Help us share Buddhist teachings and practices worldwide by donating now.</p>
+						<a class='button' href='#'>Donate</a>
+					</div>
+				</div>
+				<!-- end actions -->
+			</aside>
+		</div>
+		<!-- end wrap_outer -->
+<?php get_footer(); ?>

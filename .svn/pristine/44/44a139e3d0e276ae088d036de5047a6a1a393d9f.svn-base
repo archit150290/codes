@@ -1,0 +1,357 @@
+<?php
+
+/**
+ * @package Marquee
+ * @version 1.6
+ */
+/*
+  Plugin Name: Marquee
+  Plugin URI:
+  Description: This Marquee is used to set the element with drag and drop method.
+  Author:
+  Version:
+  Author URI:
+ */
+
+function my_menu_pages_marquee() {
+    add_menu_page('Marquee', 'Marquee', 'manage_options', 'marqueepage', 'tstpage', 'dashicons-controls-repeat', 7);
+    add_submenu_page('marqueepage', 'Issues', 'Issues', 'manage_options', 'homepageissues', 'Home_issues_marquee');
+    add_submenu_page('marqueepage', 'SectionIssues', 'Section Issues', 'manage_options', 'SectionIssues', 'Section_issues_marquee');
+}
+
+add_action('admin_menu', 'my_menu_pages_marquee');
+
+add_action('init', 'my_admin_scripts');
+
+function my_admin_scripts() {
+    wp_enqueue_script('jquery-ui-sortable');
+}
+
+function tstpage($post) {
+    $args = array(
+        'post_type' => array('film-club', 'magazine', 'film-festival', 'ebooks', 'magazine', 'dharma-talks', 'post'),
+        'post_status' => 'publish',
+        'meta_query' => array(
+            array(
+                'key' => 'home_featured',
+                'value' => '1',
+                'compare' => 'IN',
+            ),
+        ),
+        'order' => 'ASC',
+        'orderby' => 'menu_order',
+    );
+    $eq_query = new WP_Query($args);
+    global $post;
+    ?>
+    <div class="wrap">
+        <h2>Welcome To Marquee</h2>
+        <h3>Set Home Page Marquee</h3>
+
+        <table id="marquee" class="widefat">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>ID</th>       
+                    <th>Menu Order</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Title</th>
+                    <th>ID</th>
+                    <th>Menu order</th>
+                </tr>
+            </tfoot>
+
+            <tbody id="sortable_ui">
+                <?php while ($eq_query->have_posts()): $eq_query->the_post(); ?>
+                    <tr id="recordsArray_<?php echo $post->ID; ?>">
+                        <td><a href="post.php?post=<?php echo $post->ID; ?>&action=edit"><?php the_title(); ?></a></td>
+                        <td><?php echo $post->ID; ?></td>
+                        <td><?php echo $post->menu_order; ?></td>
+
+                    </tr>
+                    <?php
+                endwhile;
+                wp_reset_query();
+                ?>  
+            </tbody>
+
+        </table>
+        <script type="text/javascript">
+            jQuery(document).ready(function () {
+                jQuery("table#marquee tbody").sortable({update: function () {
+                        var order = jQuery(this).sortable("serialize") + '&action=updateRecordsListings';
+                        jQuery.post("<?php echo WP_PLUGIN_URL . '/marquee/' ?>update-sequence.php", order, function (theResponse) {
+                            if (theResponse == 0 || theResponse == "Error.")
+                            {
+                                alert('Order can not be updated. Please try after sometimes.');
+                            }
+                            else
+                            {
+                                jQuery("#sortable_ui").html(theResponse);
+                                alert('Order updated successfully.');
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
+    </div>
+    <?php
+}
+
+function Home_issues_marquee($post) {
+    global $post;
+    $recentissue = get_magazine_issue_terms();
+//pr($topicsfinal);
+    $recentissueName = $recentissue[0]->name;
+    $argscissue = array(
+        'post_type' => array(ARTICLE_POST_TYPE),
+        'post_status' => 'publish',
+        array(
+            'taxonomy' => 'magazine-issue',
+            'field' => 'slug',
+            'terms' => array($recentissueName),
+            'operator' => 'IN',
+        ),
+        'meta_query' => array(
+            array(
+                'key' => 'current_issue_meta_key',
+                'value' => '1',
+                'compare' => 'IN',
+            ),
+        ),
+        'order' => 'ASC',
+    );
+
+    $eq_query = new WP_Query($argscissue);
+
+    //to check if the above id's has menu order set or not.
+    while ($eq_query->have_posts()) {
+        $eq_query->the_post();
+        $abc[] = get_post_meta($post->ID, 'menu_order', true);
+    }
+
+    //just to fetch the values from the array abc
+    foreach ($abc as $key => $value) {
+        $value = trim($value);
+    }
+
+    if (!empty($value)) {
+        // echo "Menu Order Not Empty";
+        add_filter('pre_get_posts', 'change_order');
+
+        function change_order($wp_query) {
+
+            $wp_query->set('meta_key', 'menu_order');
+            $wp_query->set('orderby', 'meta_value');
+            $wp_query->set('order', 'ASC');
+        }
+
+        $argscissue = array(
+            'post_type' => array(ARTICLE_POST_TYPE),
+            'post_status' => 'publish',
+            array(
+                'taxonomy' => 'magazine-issue',
+                'field' => 'slug',
+                'terms' => array($recentissueName),
+                'operator' => 'IN',
+            ),
+            'meta_query' => array(
+                array(
+                    'key' => 'current_issue_meta_key',
+                    'value' => '1',
+                    'compare' => 'IN',
+                ),
+            ),
+            'order' => 'ASC',
+        );
+
+        $eq_query = new WP_Query($argscissue);
+    } else {
+        // echo "Menu Order Empty";
+        $argscissue = array(
+            'post_type' => array(ARTICLE_POST_TYPE),
+            'post_status' => 'publish',
+            array(
+                'taxonomy' => 'magazine-issue',
+                'field' => 'slug',
+                'terms' => array($recentissueName),
+                'operator' => 'IN',
+            ),
+            'meta_query' => array(
+                array(
+                    'key' => 'current_issue_meta_key',
+                    'value' => '1',
+                    'compare' => 'IN',
+                ),
+            ),
+            'order' => 'ASC',
+        );
+
+
+        $eq_query = new WP_Query($argscissue);
+    }
+    ?>
+    <div class="wrap">
+        <h2>Welcome To Marquee</h2>
+        <h3>Set Current Issues </h3>
+    </div>
+
+    <table id="marquee" class="widefat">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>ID</th>       
+                <th>Menu Order</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Title</th>
+                <th>ID</th>
+                <th>Menu order</th>
+            </tr>
+        </tfoot>
+
+        <tbody id="sortable_ui">
+            <?php
+            while ($eq_query->have_posts()): $eq_query->the_post();
+                $abc = get_post_meta($post->ID, 'menu_order', true);
+                ?>
+                <tr id="recordsArray_<?php echo $post->ID; ?>">
+                    <td><a href="post.php?post=<?php echo $post->ID; ?>&action=edit"><?php the_title(); ?></a></td>
+                    <td><?php echo get_the_ID() ?></td>
+                    <td><?php echo $abc; ?></td>
+
+                </tr>
+                <?php
+            endwhile;
+            wp_reset_query();
+            ?>  
+        </tbody>
+
+    </table>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery("table#marquee tbody").sortable({update: function () {
+                    var order = jQuery(this).sortable("serialize") + '&action=updateCurrentIssues';
+                    jQuery.post("<?php echo WP_PLUGIN_URL . '/marquee/' ?>update-sequence.php", order, function (theResponse) {
+                        if (theResponse == 0 || theResponse == "Error.")
+                        {
+                            alert('Order can not be updated. Please try after sometimes.');
+                        }
+                        else
+                        {
+                            jQuery("#sortable_ui").html(theResponse);
+                            alert('Order updated successfully.');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    <?php
+}
+
+function section_issues_marquee() {
+    //list terms in a given taxonomy (useful as a widget for twentyten)+++
+    global $post;
+    $args = array(
+        'type' => 'article',
+        'child_of' => 0,
+        'parent' => '',
+        'orderby' => 'name',
+        'order' => 'DESC',
+        'hide_empty' => 0,
+        'hierarchical' => 1,
+        'exclude' => '',
+        'include' => '',
+        'number' => '',
+        'taxonomy' => 'magazine-issue',
+        'pad_counts' => false
+    );
+    $categories = get_categories($args);
+    ?>
+
+    <?php ?>
+
+
+    <div class="wrap">
+        <h3>Section Issues </h3>
+        <h4>Select the Section from the Drop Down Below and Submit:-</h4>
+    </div>
+    <form name="selectionissues" method="post">
+        <select name="SectionIssues"><?php
+            foreach ($categories as $category) {
+                echo $valuename = $category->name;
+                echo '<option value=' . $valuename . '>' . $category->name . '</option>';
+            }
+            ?>
+            </option>
+        </select>
+        <input type="submit" name="submit">
+    </form>
+    <?php
+    if (isset($_REQUEST['submit'])) {
+        $selectedissues = $_REQUEST['SectionIssues'];
+        $args = array(
+            'post_type' => array(ARTICLE_POST_TYPE),
+            'tax_query' => array(
+                'relation' => 'AND',
+                array(
+                    'taxonomy' => 'article-category',
+                    'field' => 'slug',
+                    'terms' => $selectedissues,
+                    'operator' => 'IN',
+                ),
+            ),
+            'post_status' => 'publish',
+            'order' => 'DESC',
+            'orderby' => 'date',
+        );
+        $eq_query = new WP_Query($args);
+        ?>
+        <table id="marquee" class="widefat">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>ID</th>       
+                    <th>Menu Order</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Title</th>
+                    <th>ID</th>
+                    <th>Menu order</th>
+                </tr>
+            </tfoot>
+
+            <tbody id="sortable_ui">
+                <?php while ($eq_query->have_posts()): $eq_query->the_post(); ?>
+                    <tr id="recordsArray_<?php echo $post->ID; ?>">
+                        <td><?php the_title(); ?></td>
+                        <td><?php echo $post->ID; ?></td>
+                        <td><?php echo $post->menu_order; ?></td>
+
+                    </tr>
+                    <?php
+                endwhile;
+                wp_reset_query();
+                ?>  
+            </tbody>
+
+        </table>  
+
+
+    <?php }
+    ?>
+
+
+
+<?php }
+?>
+

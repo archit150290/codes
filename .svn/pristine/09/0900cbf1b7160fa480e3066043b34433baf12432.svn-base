@@ -1,0 +1,53 @@
+// homepage marquee
+////////////////////////
+
+.home-marquee {
+  @extend %marquee;
+  @extend %marquee-image;
+  @include margin(inherit null);
+  @include dept-hover-helper;
+
+  // marquee hero lockup
+  main {
+    @extend %marquee-main;
+
+    //floating icon added to base style
+    .icon {
+      @extend %marquee-main-icon;
+    }
+
+    //extra top padding to accommodate icon
+    section {
+      @include padding(($base-spacing * 1.5) $base-spacing $base-spacing);
+    }
+
+    h1 {
+      @include media($wide-up) {
+        font-size: 4em;
+      }
+    }
+
+    .topic {
+      @extend %topic-1line;
+    }
+
+  }
+
+  aside {
+    @extend %marquee-aside;
+
+    h2 {
+      @include clearfix;
+      display: table;
+    }
+
+    .dept {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    .topic {
+      display: block;
+    }
+  }
+}

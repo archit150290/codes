@@ -1,0 +1,112 @@
+describe("Unit Testing Cases", function () {
+    //====making this for set interval functionalit
+    beforeEach(function () {
+        this.clock = sinon.useFakeTimers();
+    });
+    afterEach(function () {
+        this.clock = sinon.restore();
+    });
+    this.timeout(15000000);
+    describe("Test 1 Validate Functionality for form New User Form", function () {
+        it('Test 1 Case When Only First Name is there and removed', function () {
+            $("#new_user #user_first_name").val("archit")
+            $("#new_user #user_first_name").blur();
+            expect(objValidate.items["user_first_name"].status).to.be.true
+            $("#new_user #user_first_name").val("")
+            $("#new_user #user_first_name").blur();
+            expect(objValidate.items["user_first_name"].status).to.be.false;
+            //======just clicking size chart form to check the code
+            $(".size-chart td").click();
+        });
+
+        it('Test 2 Case When Only Last Name is there and removed', function () {
+            $("#new_user #user_last_name").val("dugar")
+            $("#new_user #user_last_name").blur();
+            expect(objValidate.items["user_last_name"].status).to.be.true
+            $("#new_user #user_first_name").val("")
+            $("#new_user #user_first_name").blur();
+            expect(objValidate.items["user_first_name"].status).to.be.false;
+        });
+
+        it('Test 3 Case When Only Email is there and ajax call true', function (done) {
+            var post = sinon.stub($, 'ajax');
+            post.yieldsTo('success', [true]);
+            $("#new_user #user_email").val("dugararchit@gmail.com")
+            $("#new_user #user_email").blur();
+            expect(uniqueness_checked).to.be.equal(1);
+            expect(emailPerfect).to.be.true;
+            post.restore();
+            done();
+
+        });
+
+        it('Test 4 Case When Only Email is there and ajax call fails', function (done) {
+            var post = sinon.stub($, 'ajax');
+            post.yieldsTo('success', [false]);
+            $("#new_user #user_email").val("dugararchit@gmail.com")
+            $("#new_user #user_email").blur();
+            expect(uniqueness_checked).to.be.equal(0);
+            expect(emailPerfect).to.be.false;
+            post.restore();
+            done();
+        });
+
+        it('Test 5 Case When wrong email domain is entered', function () {
+            $("#new_user #user_email").val("dugararchit@archit.actorsssss")
+            $("#new_user #user_email").blur();
+            expect(objValidate.items["user_email"].status).to.be.false
+        });
+
+
+        it('Test 6 Case When right email domain is entered but different one ', function () {
+            $("#new_user #user_email").val("dugararchit@archit.actor")
+            $("#new_user #user_email").blur();
+            expect(objValidate.items["user_email"].status).to.be.true
+        });
+
+        it('Test 7 Case When email entered is not right', function () {
+            $("#new_user #user_email").val("dugararchitgmail.com")
+            $("#new_user #user_email").blur();
+            expect(objValidate.items["user_email"].status).to.be.false
+        });
+
+        it('Test 8 Case when us zip is not entered correctly', function () {
+            $("#new_user #user_client_attributes_shipping_postcode").val("941075")
+            $("#new_user #user_client_attributes_shipping_postcode").blur();
+            expect(objValidate.items["user_client_attributes_shipping_postcode"].status).to.be.false
+        });
+
+        it('Test 10 Case when all values are filled but form not submitted because email is wrong', function (done) {
+            var post = sinon.stub(jQuery, 'ajax');
+            $('.size-chart td').click();
+            post.yieldsTo('success', {"success": true, "postal_code": null, "is_mobile": false});
+            $("#new_user #user_first_name").val("archit")
+            $("#new_user #user_last_name").val("dugar")
+            //===wrong is entered
+            $("#new_user #user_email").val("archiacom")
+            $("#new_user #user_client_attributes_shipping_postcode").val("94107")
+            $("#new_user .rbtn-scale[value=119]").prop("checked", true);
+            $("#new_user .submit").click();
+            this.clock.tick(10);
+            expect(objValidate.status).to.be.false
+            post.restore();
+            done();
+        });
+
+        it('Test 9 Case when all values are filled and form submitted', function (done) {
+            $('#new_user').attr("action", "https://www.stitchfix.com/?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&amp;&amp;utm_medium=other");
+            var post = sinon.stub(jQuery, 'ajax');
+            post.yieldsTo('success', {"success": true, "postal_code": null, "is_mobile": false});
+            $("#new_user #user_first_name").val("archit")
+            $("#new_user #user_last_name").val("dugar")
+            $("#new_user #user_email").val("archiasd@gmail.com")
+            $("#new_user #user_client_attributes_shipping_postcode").val("94510")
+            $("#new_user .rbtn-scale[value=40]").prop("checked", true);
+            $("#new_user .submit").click();
+            post.restore();
+            this.clock.tick(10);
+            expect(objValidate.status).to.be.true
+            done();
+        });
+    });
+});

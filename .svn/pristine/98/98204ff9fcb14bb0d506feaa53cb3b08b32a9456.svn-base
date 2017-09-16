@@ -1,0 +1,57 @@
+<?php get_header(); ?>
+   <div class='wrap'>
+   <!--404 page start-->
+    <div>
+     <header class='rubric_top'>
+            <h1>Page Not Found</h1>
+        </header>
+			<main class="wrap_base">
+
+				<!-- start article -->
+				<article class="article_ebooks ebooks">
+					<!-- start article body -->
+					<main class="article-main_ebooks">
+
+					<section class="article-body">
+                    <div class="rubric_mid rubric_small">
+                            <h1 style="margin:0;">Sorry, we can't find the page you were looking for.</h1>
+                        </div>
+                    
+<p></p>
+<p>If you clicked a link that led you to this page, Please <a href="#">let us know</a> so we can fix our mistake as soon as possible.</p>
+
+<p>Please try the Search in the upper-right corner of the page, or visit our <a href="#">home page</a>.</p>
+                    
+						
+						</section>
+																
+							
+													
+					</main>
+				</article>
+
+			</main>
+			<!-- end article wrap -->
+            <div class="CTA-module">
+                <?php get_the_ad("pages_");?>
+            </div>
+</div>
+   <!--404 page End-->
+   
+    <aside>
+        <div class='aside-depts'>
+            <!-- start aside trikedaily -->
+            <?php show_latest_trike_daily(); ?>
+            <!-- end aside trikedaily -->
+
+            <!-- start aside ebooks -->
+            <?php show_latest_magazine_article(); ?>
+            <!-- end aside ebooks -->
+
+            <!-- start aside dharma talks -->
+            <?php show_latest_dharma_talks(); ?>
+            <!-- end aside dharma talks -->
+        </div>
+        <div class='rule'></div>
+   
+<?php get_footer(); ?>

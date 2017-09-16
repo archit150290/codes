@@ -1,0 +1,27 @@
+<?php
+//print_r($_POST);
+if(isset($_POST['action']) && $_POST['action'] == "logout")
+{
+    session_start();
+    unset($_SESSION['Cambey_Login']);
+    echo json_encode(array("status"=>"success"));
+}
+else
+{
+    try {
+        $soap_params['subscriber_email'] = "pointfive";//$_POST['l_email'];
+        $soap_params['subscriber_pass'] = "Buddha1!"; //$_POST['l_pass'];
+        //$soapclient = new SoapClient('https://www.cambeywest.com/api_test/service.asmx');
+        //$response = $soapclient->GetSubscriberData($soap_params);
+
+        //$res = (array)$response;
+        //print_r($response);
+        //setcookie("tricycle_cl", "LoggedIn", 0, "/");
+        session_start();
+        $_SESSION['Cambey_Login'] = "purushottam@arcgate.com"; 
+        echo json_encode(array("status"=>"success"));
+    } catch (Exception $ex) {
+        echo json_encode(array("status"=>"fail"));
+    }
+}
+die;

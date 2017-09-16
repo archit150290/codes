@@ -1,0 +1,446 @@
+<?php
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+class options_page {
+    
+    function __construct() {
+        add_action('admin_menu', array($this, 'admin_menu'));
+    }
+    function admin_menu() {
+        add_options_page('Tricycle Settings Id', 'Tricycle Settings', 'manage_options', 'options_page_slug', array(
+            $this,
+            'settings_page'
+                )
+    );
+    add_submenu_page('marqueepage', 'Ebooks Home Page Articles', 'Ebooks Home Page Articles', 'level_7', 'ebooksmanager', array($this,'ebooks_homepage_manager'));
+    add_options_page('Tricycle Settings Paywall module', 'Paywall module', 'manage_options', 'Paywall_module_slug', array(
+                    $this,
+                    'paywall_module_func'
+                        )
+                    );
+    }
+
+    /*
+     * Function to add paywall modules in settings page
+     */
+    function paywall_module_func(){?>
+       
+        <?php 
+            $final_result = array();
+             
+            if(isset($_REQUEST["submitmodules"])){
+                $upload_dir = wp_upload_dir();
+                $base_url = $upload_dir["baseurl"];
+                $module_icon = $_REQUEST["moduleimage"];
+                for($i= 0; $i < count($module_icon); $i++){
+                    if(!empty($module_icon[$i])){
+                            $explode = explode($base_url, $module_icon[$i]);
+                            $module_icon_exploded[] = $explode[1];
+                    }else{
+                            $module_icon_exploded[] = $module_icon[$i];
+                    }
+                }
+                $module_title = $_REQUEST["moduletitle"];
+                $module_text = $_REQUEST["moduletext"];
+                $final_result["magazine"] = array(
+                    'moduleicon'=>$module_icon_exploded[0],
+                    'moduletitle'=>$module_title[0],
+                    'moduletext'=>$module_text[0]
+                );
+                $final_result["dharmatalks"] = array(
+                    'moduleicon'=>$module_icon_exploded[1],
+                    'moduletitle'=>$module_title[1],
+                    'moduletext'=>$module_text[1]
+                );
+                $final_result["ebooks"] = array(
+                    'moduleicon'=>$module_icon_exploded[2],
+                    'moduletitle'=>$module_title[2],
+                    'moduletext'=>$module_text[2]
+                );
+                $final_result["filmclub"] = array(
+                    'moduleicon'=>$module_icon_exploded[3],
+                    'moduletitle'=>$module_title[3],
+                    'moduletext'=>$module_text[3]
+                );
+                $final_result["filmfestival"] = array(
+                    'moduleicon'=>$module_icon_exploded[4],
+                    'moduletitle'=>$module_title[4],
+                    'moduletext'=>$module_text[4]
+                );
+                update_option("paywall_module_copy",json_encode($final_result));
+            }
+        ?>
+
+        <?php   wp_enqueue_script('jquery-ui-tabs');
+                wp_enqueue_media();
+        ?>
+        <script>
+            jQuery(function() {
+            jQuery( "#tabs" ).tabs();
+            });
+            
+            function module_imagebox(title, inputboxhidden, inputimage)
+            {
+                var meta_image_frame_settings;
+                meta_image_frame_settings = wp.media.frames.meta_image_frame_settings = wp.media({
+                title: title,
+                button: { text:  title },
+                multiple: false
+                }) 
+                .on('select',function(){
+                var attachment = meta_image_frame_settings.state().get('selection').first().toJSON();
+                jQuery("#"+inputimage).attr('src', attachment.url);
+                //jQuery("#"+removeimage).text("Remove Image");
+                jQuery("#"+inputboxhidden).val(attachment.url); 
+                })
+                meta_image_frame_settings.open();
+            }
+            jQuery(document).on('click',".removeicon",function(){
+                var idModule = jQuery(this).attr('id');
+                jQuery("#moduleimage_"+idModule).val("");
+                jQuery("#moduleimageshow_"+idModule).attr('src',"");
+                jQuery(this).remove();
+            });
+        </script>
+        <h2>Paywall Module Copy</h2>
+        <?php 
+        $fetch_paywall_module = get_option("paywall_module_copy");
+        $results = array();
+        if(!empty($fetch_paywall_module)){
+            $upload_dir = wp_upload_dir();
+            $base_url = $upload_dir["baseurl"];
+            $fetched_result = json_decode($fetch_paywall_module,true);
+            foreach($fetched_result as $key=>$value){
+                $results[] = $value;
+            }
+            //pr($results);
+        }
+        ?>
+    <form action="" method="post">
+        <div id="tabs">
+            <ul>
+              <li><a href="#tabs-0">Magazine Article</a></li>
+              <li><a href="#tabs-1">Dharma Talks</a></li>
+              <li><a href="#tabs-2">Ebooks</a></li>
+              <li><a href="#tabs-3">Film Club</a></li>
+              <li><a href="#tabs-4">Film Festival</a></li>
+            </ul>
+            <?php for($i = 0; $i <=4; $i++){?>
+            <div id="tabs-<?php echo $i;?>">
+                <table class="form-table">
+                    <tbody>
+                        <tr>
+                            <th scope="row"><label for="blogname">Icon </label></th>
+                            <input readonly type="hidden" class="regular-text" id="moduleimage_<?php echo $i;?>" name="moduleimage[]" value="<?php echo ($fetch_paywall_module)?$base_url.$results[$i]['moduleicon']:"";?>">
+                            <td class="removeimage"><img id="moduleimageshow_<?php echo $i;?>" alt="" src="<?php echo ($fetch_paywall_module)?$base_url.$results[$i]['moduleicon']:"";?>" width="120px"><input type="button" onclick="module_imagebox('Paywall-Module', 'moduleimage_<?php echo $i;?>', 'moduleimageshow_<?php echo $i; ?>')" class="button button-primary" value="Upload Image">
+                                <?php if(!empty($results[$i]['moduleicon'])){?>
+                                    <p class="removeicon" id="<?php echo $i;?>">
+                                        Remove Icon
+                                    </p>
+                                <?php } ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><label for="blogname">Title</label></th>
+                            <td><input type="text" class="regular-text" id="subscribeheadline" name="moduletitle[]" value="<?php echo ($fetch_paywall_module)?$results[$i]['moduletitle']:""; ?>"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><label for="blogname">Text</label></th>
+                            <td><textarea cols="39" id="subscribetext" name="moduletext[]"><?php echo ($fetch_paywall_module)?$results[$i]['moduletext']:""; ?></textarea></td>
+                        </tr>
+                       
+                    </tbody>
+                </table>
+            </div>
+            <?php } ?>
+        </div>
+        <p class="submit"> 
+            <label><input class="button button-primary" type="submit" name="submitmodules" value="Save Changes"></label>
+        </p>
+    </form>
+   <?php  }
+   
+    
+   
+    function settings_page() {
+        
+        $upload_dir = wp_upload_dir();
+        $upload_url = $upload_dir['baseurl'];
+        wp_enqueue_media();
+        
+        
+        if (isset($_REQUEST['submit'])) {
+            $subscribeheadline = $_REQUEST['subscribeheadline'];
+            update_option("settings-subscribeheadline", $subscribeheadline);
+            $subscribetext = $_REQUEST['subscribetext'];
+            update_option("settings-subscribetext", $subscribetext);
+            if(!empty($_REQUEST['subscribeboxhidden'])){
+                $background_file_url = $_REQUEST['subscribeboxhidden'];
+                $file_array = explode($upload_url, $background_file_url);
+                $subscribeimage = substr($file_array[1], 1);
+                update_option("settings-subscribeimage", $subscribeimage); 
+            }else{
+             update_option("settings-subscribeimage", ""); 
+            }
+            $enewssignupheadline = $_REQUEST['enewssignupheadline'];
+            update_option("settings-enewsheadline", $enewssignupheadline);
+            $enewssignuptext = $_REQUEST['enewssignuptext'];
+            update_option("settings-enewstext", $enewssignuptext);
+            if(!empty($_REQUEST['enewssignupboxhidden'])){
+                $background_file_url1 = $_REQUEST['enewssignupboxhidden'];
+                $file_array1 = explode($upload_url, $background_file_url1);
+                $enewssignupimage = substr($file_array1[1], 1);
+                update_option("settings-enewsimage", $enewssignupimage);
+            }else{
+                 update_option("settings-enewsimage", ""); 
+            }
+            $footersubscribeheadline = $_REQUEST['footersubscribeheadline'];
+            update_option("settings-footersubscribeheadline", $footersubscribeheadline);
+            $footersubscribetext = $_REQUEST['footersubscribetext'];
+            update_option("settings-footersubscribetext", $footersubscribetext);
+            $footernewslettertext = $_REQUEST['footernewslettertext'];
+            update_option("settings-footernewslettertext", $footernewslettertext);
+            $footerdonatetext = $_REQUEST['footerdonatetext'];
+            update_option("settings-footerdonatetext", $footerdonatetext);
+            $insertinterstitialadheadline = $_REQUEST['interstitialadheadline'];
+            update_option("settings-interstitialadheadline", $insertinterstitialadheadline);
+            $interstitialadtext = $_REQUEST['interstitialadtext'];
+            update_option("settings-interstitialadtext", $interstitialadtext);
+            if(!empty($_REQUEST['interstitialadhidden'])){
+                $background_file_url1 = $_REQUEST['interstitialadhidden'];
+                $file_array1 = explode($upload_url, $background_file_url1);
+                $interstitialadimage = substr($file_array1[1], 1);
+                update_option("settings-interstitialadimage", $interstitialadimage);
+            }else{
+                 update_option("settings-interstitialadimage", ""); 
+            }
+        }
+        $subscribeheadline_key = cleartext(get_option( 'settings-subscribeheadline'));
+        $subscribetext_key = cleartext(get_option( 'settings-subscribetext'));
+        $subscribeimage_key = get_option( 'settings-subscribeimage' );
+        if($subscribeimage_key){
+            $subscriber_image = $upload_url.'/'.$subscribeimage_key;
+        }
+        $enewssignupheadline_key = cleartext(get_option( 'settings-enewsheadline' ));
+        $enewssignuptext_key = cleartext(get_option( 'settings-enewstext'));
+        $enewssignupimage_key = get_option( 'settings-enewsimage' );
+        if($enewssignupimage_key){
+            $enewssignupimage = $upload_url.'/'.$enewssignupimage_key;
+        }
+        $footersubscribeheadline_key = cleartext(get_option( 'settings-footersubscribeheadline' ));
+        $footersubscribetext_key = cleartext(get_option( 'settings-footersubscribetext' ));
+        $footernewslettertext_key = cleartext(get_option( 'settings-footernewslettertext' ));
+        $footerdonatetext_key = cleartext(get_option( 'settings-footerdonatetext' ));
+        $interstitialadheadline = cleartext(get_option( 'settings-interstitialadheadline'));
+        $interstitialadimage_key = get_option( 'settings-interstitialadimage' );
+        $interstitialadtext_key = cleartext(get_option( 'settings-interstitialadtext'));
+        if($interstitialadimage_key){
+            $interstitialadimage = $upload_url.'/'.$interstitialadimage_key;
+        }else{
+            $interstitialadimage = "";
+        }
+        ?>
+        <script type="text/javascript">
+        
+            function meta_imagebox(title, inputboxhidden, inputimage)
+            {   
+                var meta_image_frame_settings;
+                meta_image_frame_settings = wp.media.frames.meta_image_frame_settings = wp.media({
+                title: title,
+                button: { text:  title },
+                multiple: false
+                }) 
+                .on('select',function(){
+                var attachment = meta_image_frame_settings.state().get('selection').first().toJSON();
+                jQuery("#"+inputimage).attr('src', attachment.url);
+                //jQuery("#"+removeimage).text("Remove Image");
+                jQuery("#"+inputboxhidden).val(attachment.url); 
+                })
+                meta_image_frame_settings.open();
+            }
+            
+            function removeimage(removetag, getinputbox, getimage)
+            {
+                jQuery("#"+getinputbox).val("");
+                jQuery("#"+getimage).attr('src', "");
+                jQuery("#"+removetag).remove();
+            }
+        
+        </script>
+        <div class="wrap"> 
+            <h1>Tricycle Settings</h1>
+            <form action="" method="post">
+                <h3>Subscribe Module</h3>
+                <table class="form-table">
+                    <tbody>
+                        <tr>
+                            <th scope="row"><label for="blogname">Headline</label></th>
+                            <td><input type="text" class="regular-text" id="subscribeheadline" name="subscribeheadline" value="<?php echo $subscribeheadline_key;?>"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><label for="blogname">Text</label></th>
+                            <td><textarea cols="39" id="subscribetext" name="subscribetext"><?php echo $subscribetext_key;?></textarea></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><label for="blogname">Image</label></th>
+                            <input readonly type="hidden" class="regular-text" id="subscribeboxhidden" name="subscribeboxhidden" value="<?php if($subscribeimage_key) { echo $subscriber_image; }?>">
+                            <td><img id="subscribeimage" alt="" src="<?php echo $subscriber_image; ?>" width="150px"><input type="button" onclick="meta_imagebox('Subscribe-Module', 'subscribeboxhidden', 'subscribeimage')" class="button button-primary" value="Upload Image"><?php if($subscribeimage_key){?><div><a id="removeimagesubscribe" onclick="removeimage('removeimagesubscribe','subscribeboxhidden', 'subscribeimage')">Remove Image</a></div><?php } ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h3>Enews Signup</h3>
+                <table class="form-table">
+                    <tbody>
+                        <tr>
+                            <th scope="row"><label for="blogname">Headline</label></th>
+                            <td><input type="text" class="regular-text" id="enewssignupheadline" name="enewssignupheadline" value="<?php echo $enewssignupheadline_key;?>"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><label for="blogname">Text</label></th>
+                            <td><textarea cols="39" id="enewssignuptext" name="enewssignuptext"><?php echo $enewssignuptext_key;?></textarea></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><label for="blogname">Image</label></th>
+                            <input type="hidden" class="regular-text" id="enewssignupboxhidden" name="enewssignupboxhidden" value="<?php if($enewssignupimage_key) { echo $enewssignupimage; }?>"> 
+                            <td><img id="enewsimage" src="<?php echo $enewssignupimage ;?>" alt="" width="150px"><input type="button" onclick="meta_imagebox('Enews-Signup', 'enewssignupboxhidden','enewsimage')" class="button button-primary" value="Upload Image"><?php if($enewssignupimage_key) { ?><div><a id="removeimageenews" onclick="removeimage('removeimageenews','enewssignupboxhidden', 'enewsimage')">Remove Image</a></div><?php } ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h3>Footer Subscribe Today</h3>
+                    <table class="form-table">
+                        <tbody>
+                            <tr>
+                                <th scope="row"><label for="blogname">Headline</label></th>
+                                <td><input type="text" class="regular-text" id="subscribeheadline" name="footersubscribeheadline" value="<?php echo $footersubscribeheadline_key;?>"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="blogname">Text (for Nav Drawer and Footer)</label></th>
+                                <td><textarea cols="39" id="footersubscribetext" name="footersubscribetext"><?php echo $footersubscribetext_key;?></textarea></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                
+                <h3>Footer Weekly Newsletter</h3>
+                    <table class="form-table">
+                        <tbody>
+                            <tr>
+                                <th scope="row"><label for="blogname">Headline</label></th>
+                                <td><textarea cols="39" id="footernewslettertext" name="footernewslettertext"><?php echo $footernewslettertext_key;?></textarea></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                
+                <h3>Footer Donate</h3>
+                    <table class="form-table">
+                    <tbody>
+                        <tr>
+                            <th scope="row"><label for="blogname">Text (for Nav Drawer and Footer)</label></th>
+                            <td><textarea cols="39" id="footerdonatetext" name="footerdonatetext"><?php echo $footerdonatetext_key;?></textarea></td>
+                        </tr>
+                    </tbody>
+                    </table>
+                <h3>Interstitial Ad</h3>
+                <table class="form-table">
+                    <tbody>
+                        <tr>
+                            <th scope="row"><label for="blogname">Headline</label></th>
+                            <td><input type="text" class="regular-text" id="interstitialadheadline" name="interstitialadheadline" value="<?php echo $interstitialadheadline;?>"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><label for="blogname">Text</label></th>
+                            <td><textarea cols="39" id="interstitialadtext" name="interstitialadtext"><?php echo $interstitialadtext_key;?></textarea></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><label for="blogname">Image</label></th>
+                            <input type="hidden" class="regular-text" id="interstitialadhidden" name="interstitialadhidden" value="<?php if($interstitialadimage_key) { echo $interstitialadimage; }?>"> 
+                            <td><img id="interstitialadimage" src="<?php echo $interstitialadimage;?>" alt="" width="150px"><input type="button" onclick="meta_imagebox('Interstitial-ad', 'interstitialadhidden','interstitialadimage')" class="button button-primary" value="Upload Image">
+                                <?php if($interstitialadimage_key) { ?>
+                                    <div><a id="removeimageinterstitialad" onclick="removeimage('removeimageinterstitialad','interstitialadhidden', 'interstitialadimage')">Remove Image</a></div>
+                                <?php } ?>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="submit"> 
+                    <label><input class="button button-primary" type="submit" name="submit" value="Save Changes"></label>
+                </p>
+            </form>
+        </div>
+   
+        <?php
+    }
+    
+    /* ebooks Home page manager*/
+    function ebooks_homepage_manager()
+    {
+            if(isset($_REQUEST['submit']))
+            { 
+               
+                $check_status = array();
+                $resultant = array();
+                $postId = json_decode($_REQUEST['post_id']);
+                for($i=0; $i<count($postId);$i++)
+                {   
+                    if(empty($_REQUEST['check_status_'.$postId[$i]]))
+                    {
+                        delete_post_meta($postId[$i], "ebooks_meta_homepage");
+                    }
+                }
+            }
+        global $wpdb;
+        $results = $wpdb->get_results("SELECT * FROM ".$wpdb->prefix."postmeta as meta inner join ".$wpdb->prefix."posts as ptable on ptable.ID=meta.post_id where ptable.post_status='publish' and meta.meta_key = 'ebooks_meta_homepage'  order by meta.meta_id DESC");        $check_status = array();
+        ?>
+        <div class="wrap">
+            <h3>Manage Ebooks Home Page Articles Setting.</h3>
+                <form method="post" action="">
+                    <table id="marquee" class="widefat">
+
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Checker</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <?php 
+                            $postId = array();
+                            foreach($results as $result)
+                            {   
+                                $post_id = $result->post_id;
+                                $postId[] =  (int)$result->post_id;
+
+                                $post_title = $result->post_title ;?>
+                                <tr>
+                                    <td><?php echo $post_title;?></td>
+                                    <td><input type="checkbox" value="1" name="check_status_<?php echo $post_id;?>" id="ebooks_meta_homepage" checked="checked"></td>
+                                </tr>
+                            <?php }
+                            ?>
+                            <input type="hidden" id="post_id" name="post_id" value='<?php echo json_encode($postId); ?>'>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Title</th>
+                                <th>Checker</th>
+                            </tr>
+                        </tfoot>
+                    </table><br>  
+                        <?php if($results){?>
+                        <label><input class="button button-primary" type="submit" value="Update" name="submit" /></label>
+                        <?php } ?>
+                </form>
+        </div>    
+    <?php 
+    }
+
+}
+
+new options_page;
+?>

@@ -1,0 +1,1664 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for js/validate.home2.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">js/</a> validate.home2.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">74.92% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>230/307</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">40.95% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>43/105</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">76.92% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>30/39</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">74.84% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>229/306</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">121×</span>
+<span class="cline-any cline-yes">121×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">79×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">258×</span>
+<span class="cline-any cline-yes">258×</span>
+<span class="cline-any cline-yes">315×</span>
+<span class="cline-any cline-yes">315×</span>
+<span class="cline-any cline-yes">315×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">192×</span>
+<span class="cline-any cline-yes">192×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">315×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">58×</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">58×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">192×</span>
+<span class="cline-any cline-yes">192×</span>
+<span class="cline-any cline-yes">192×</span>
+<span class="cline-any cline-yes">192×</span>
+<span class="cline-any cline-yes">192×</span>
+<span class="cline-any cline-yes">192×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">190×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">190×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">192×</span>
+<span class="cline-any cline-yes">192×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">181×</span>
+<span class="cline-any cline-yes">181×</span>
+<span class="cline-any cline-yes">697×</span>
+<span class="cline-any cline-yes">136×</span>
+<span class="cline-any cline-yes">136×</span>
+<span class="cline-any cline-yes">136×</span>
+<span class="cline-any cline-yes">136×</span>
+<span class="cline-any cline-yes">136×</span>
+<span class="cline-any cline-yes">136×</span>
+<span class="cline-any cline-yes">136×</span>
+<span class="cline-any cline-yes">136×</span>
+<span class="cline-any cline-yes">136×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">181×</span>
+<span class="cline-any cline-yes">181×</span>
+<span class="cline-any cline-yes">181×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">181×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var ifblur = 0; var pretld='com';
+var uniqueness_checked = 0;
+var emailPerfect = true;
+function check_uniqueness_bottom(item) {
+    check_uniqueness(item, "#new_user");
+}
+&nbsp;
+function check_uniqueness_pop(item) {
+    check_uniqueness(item, "#new_user_pop");
+}
+&nbsp;
+function check_uniqueness_autopop(item) {
+    check_uniqueness(item, "#new_user_auto_pop");
+}
+&nbsp;
+function check_uniqueness(item, frmSelector) {
+    var selector = item.selector;
+    var tmpu = $(".login").first().attr("href").split("?");
+    var offsetQ = "";
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (tmpu.length &gt; 1) {
+        offsetQ = tmpu[1];
+    }
+    var msg = 'Email is already taken. &lt;a href="https://www.stitchfix.com/login?' + offsetQ + '" title="Log In"&gt;Sign in?&lt;/a&gt;';
+    var targetUrl = "http://localhost/amp/html/stitchfix_new/validate_uniqueness.php";
+    targetUrl = 'https://www.stitchfix.com/users/validate_uniqueness';
+    var sData = $(frmSelector).serializeArray();
+    var data = {};
+    for (var x in sData) {
+        var item = sData[x];
+        data[item.name] = item.value;
+    }
+    data = JSON.stringify(data);
+    data = $(frmSelector).serialize();
+    var cu = $.ajax({
+        type: "POST",
+        url: targetUrl,
+        data: data,
+        "method": "post",
+        success: function (r) {
+            if (r == 'false' || r == false) {
+                uniqueness_checked = 0;
+                emailPerfect = false;
+                setErrMsg(selector, msg);
+            } else{
+                emailPerfect = true;
+                uniqueness_checked = 1;
+                setErrMsg(selector, '');
+            }
+        }
+    });
+}
+&nbsp;
+function getErrTag(msg) {
+    return "&lt;div class='error-msg' style='color:#ff5c61;font-size:11pt'&gt;&lt;em&gt;&lt;span&gt;" + msg + "&lt;/span&gt;&lt;/em&gt;&lt;/div&gt;";
+}
+function emptyErrTag(item) {
+    return $(item).parent().find(".error-msg").find("span").html("");
+}
+function setErrMsg(item, msg) {
+    if ($(item).parent().find(".error-msg").length) {
+        $(item).parent().find(".error-msg").find("span").html(msg);
+    } else {
+        $(item).parent().append(getErrTag(msg));
+    }
+    return true;
+}
+&nbsp;
+var itemsConfig = {
+    "user_first_name": {
+        "selector": "#new_user #user_first_name"
+        , "rules": {"empty": {"message": "This is a required field"}}
+        , "validate_on_blur": true
+    },
+    "user_last_name": {
+        "selector": "#new_user #user_last_name"
+        , "rules": {"empty": {"message": "This is a required field"}}
+    },
+    "user_email": {
+        "selector": "#new_user #user_email"
+        , "rules": {
+            "empty": {"message": "This is a required field"},
+            "email": {"message": "Email is not a valid email address."},
+            "branded_email": {"message": "You must enter a valid email address. Please check your entry."},
+            "success_callback": {"name": "check_uniqueness_bottom"},
+        },
+    },
+    "client_scale": {
+        "selector": "input[type='radio'].rbtn-scale"
+        , "rules": {
+            "radio_empty": {"message": "This is a required field"},
+        },
+    },
+    "user_client_attributes_shipping_postcode": {
+        "selector": "#new_user #user_client_attributes_shipping_postcode"
+        , "rules": {
+            "empty": {"message": "This is a required field"},
+            "us_zip": {"message": "Zip Code is not a valid U.S. postal code. Currently, we only ship to U.S. addresses."},
+        }
+    },
+};
+var tmpItemName = "";
+function validate(items) {
+    this.items = items;
+    this.status = false;
+    this.tmpItemName = "";
+    this.init = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        if (Object.keys(this.items).length) {</span>
+<span class="cstat-no" title="statement not covered" >            for (var itemName in this.items) {</span>
+<span class="cstat-no" title="statement not covered" >                this.items[itemName]["status"] = false;</span>
+            }
+        }
+    };
+}
+validate.prototype.fire = function () {
+    this.status = true;
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (Object.keys(this.items).length) {
+        for (var itemName in this.items) {
+            this.applyValidation(itemName);
+        }
+    }
+    return this.status;
+};
+validate.prototype.applyValidation = function (itemName) {
+    var item = this.items[itemName];
+    for (var ruleName in item.rules) {
+        var rule = item.rules[ruleName];
+        var status = true;
+        switch (ruleName) {
+            case "empty":
+                status = this.checkEmpty(itemName, rule.message);
+                break;
+            case "radio_empty":
+                status = this.checkRadioEmpty(itemName, rule.message);
+                break;
+            case "email":
+                status = this.checkEmail(itemName, rule.message);
+                break;
+            case "branded_email":
+                status = this.checkBrandedEmail(itemName, rule.message);
+                break;
+            case "us_zip":
+                status = this.checkUSZip(itemName, rule.message);
+                break;
+            case "success_callback":
+                var callback_function = new Function(rule.name);
+                window[rule.name](item);
+                break;
+        }
+        if (!status) {
+            console.log("status false for: " + itemName);
+            this.status = false;
+            break;
+        }
+    }
+};
+&nbsp;
+validate.prototype.checkEmpty = function (itemName) {
+    var item = this.items[itemName];
+    var status = false;
+    var selector = item.selector;
+    var msg = item.rules.empty.message;
+&nbsp;
+    if ($.trim($(selector).val()) == "") {
+        setErrMsg(selector, msg);
+    } else {
+        if ($(selector).parent().find(".error-msg").length) {
+            emptyErrTag(selector);
+        }
+        status = true;
+    }
+    item.status = status;
+    return item.status;
+};
+validate.prototype.checkRadioEmpty = function (itemName) {
+    var item = this.items[itemName];
+    var status = false;
+    var selector = item.selector;
+    var msg = item.rules.radio_empty.message;
+    var errElem = $(selector).first().parent().parent();
+    if (typeof $(selector + ":checked").val() == "undefined" || $(selector + ":checked").val() == "") {
+        setErrMsg(errElem, msg);
+    } else {
+        if ($(errElem).parent().find(".error-msg").length) {
+            emptyErrTag(errElem);
+        }
+        status = true;
+    }
+    item.status = status;
+    return item.status;
+};
+validate.prototype.checkEmail = function (itemName) {
+    var item = this.items[itemName];
+    var selector = item.selector;
+    var msg = item.rules.email.message;
+    var str = $.trim($(selector).val());
+    var patt = new RegExp(/^[A-Za-z0-9._%+\-']+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}$/);
+    var status = patt.test(str);
+    if (status) {
+        emptyErrTag(selector);
+    } else {
+        setErrMsg(selector, msg);
+    }
+    item.status = status;
+    return item.status;
+};
+validate.prototype.checkBrandedEmail = function (itemName) {
+    var item = this.items[itemName];
+    var selector = item.selector;
+    var msg = item.rules.branded_email.message;
+    var str = $.trim($(selector).val());
+    e = ["ac", "academy", "accountants", "actor", "ad", "ae", "aero", "af", "ag", "agency", "ai", "airforce", "al", "am", "an", "ao", "aq", "ar", "archi", "arpa", "as", "asia", "associates", "at", "au", "audio", "autos", "aw", "ax", "axa", "az", "ba", "bar", "bargains", "bayern", "bb", "bd", "be", "beer", "berlin", "best", "bf", "bg", "bh", "bi", "bid", "bike", "biz", "bj", "black", "blackfriday", "blue", "bm", "bn", "bo", "boutique", "br", "bs", "bt", "build", "builders", "buzz", "bv", "bw", "by", "bz", "ca", "cab", "camera", "camp", "capital", "cards", "care", "career", "careers", "cash", "cat", "catering", "cc", "cd", "center", "ceo", "cf", "cg", "ch", "cheap", "christmas", "church", "ci", "citic", "ck", "cl", "claims", "cleaning", "clinic", "clothing", "club", "cm", "cn", "co", "codes", "coffee", "college", "cologne", "com", "community", "company", "computer", "condos", "construction", "consulting", "contractors", "cooking", "cool", "coop", "country", "cr", "credit", "creditcard", "cruises", "cu", "cv", "cw", "cx", "cy", "cz", "dance", "dating", "de", "democrat", "dental", "desi", "diamonds", "digital", "directory", "discount", "dj", "dk", "dm", "dnp", "do", "domains", "dz", "ec", "edu", "education", "ee", "eg", "email", "engineering", "enterprises", "equipment", "er", "es", "estate", "et", "eu", "eus", "events", "exchange", "expert", "exposed", "fail", "farm", "feedback", "fi", "finance", "financial", "fish", "fishing", "fitness", "fj", "fk", "flights", "florist", "fm", "fo", "foo", "foundation", "fr", "frogans", "fund", "furniture", "futbol", "ga", "gal", "gallery", "gb", "gd", "ge", "gf", "gg", "gh", "gi", "gift", "gl", "glass", "globo", "gm", "gmo", "gn", "gop", "gov", "gp", "gq", "gr", "graphics", "gratis", "gripe", "gs", "gt", "gu", "guide", "guitars", "guru", "gw", "gy", "haus", "hiphop", "hk", "hm", "hn", "holdings", "holiday", "homes", "horse", "house", "hr", "ht", "hu", "id", "ie", "il", "im", "immobilien", "in", "industries", "info", "ink", "institute", "insure", "int", "international", "investments", "io", "iq", "ir", "is", "it", "je", "jetzt", "jm", "jo", "jobs", "jp", "juegos", "kaufen", "ke", "kg", "kh", "ki", "kim", "kitchen", "kiwi", "km", "kn", "koeln", "kp", "kr", "kred", "kw", "ky", "kz", "la", "land", "lb", "lc", "lease", "li", "life", "lighting", "limited", "limo", "link", "lk", "loans", "london", "lr", "ls", "lt", "lu", "luxe", "luxury", "lv", "ly", "ma", "maison", "management", "mango", "marketing", "mc", "md", "me", "media", "meet", "menu", "mg", "mh", "miami", "mil", "mk", "ml", "mm", "mn", "mo", "mobi", "moda", "moe", "monash", "moscow", "motorcycles", "mp", "mq", "mr", "ms", "mt", "mu", "museum", "mv", "mw", "mx", "my", "mz", "na", "nagoya", "name", "nc", "ne", "net", "neustar", "nf", "ng", "ni", "ninja", "nl", "no", "np", "nr", "nu", "nyc", "nz", "okinawa", "om", "onl", "org", "pa", "paris", "partners", "parts", "pe", "pf", "pg", "ph", "photo", "photography", "photos", "pics", "pictures", "pink", "pk", "pl", "plumbing", "pm", "pn", "post", "pr", "pro", "productions", "properties", "ps", "pt", "pub", "pw", "py", "qa", "qpon", "quebec", "re", "recipes", "red", "reise", "reisen", "ren", "rentals", "repair", "report", "rest", "reviews", "rich", "rio", "ro", "rocks", "rodeo", "rs", "ru", "ruhr", "rw", "ryukyu", "sa", "saarland", "sb", "sc", "schule", "sd", "se", "services", "sexy", "sg", "sh", "shiksha", "shoes", "si", "singles", "sj", "sk", "sl", "sm", "sn", "so", "social", "sohu", "solar", "solutions", "soy", "sr", "st", "su", "supplies", "supply", "support", "surgery", "sv", "sx", "sy", "systems", "sz", "tattoo", "tax", "tc", "td", "technology", "tel", "tf", "tg", "th", "tienda", "tips", "tj", "tk", "tl", "tm", "tn", "to", "today", "tokyo", "tools", "town", "toys", "tp", "tr", "trade", "training", "travel", "tt", "tv", "tw", "tz", "ua", "ug", "uk", "university", "uno", "us", "uy", "uz", "va", "vacations", "vc", "ve", "vegas", "ventures", "versicherung", "vg", "vi", "viajes", "villas", "vision", "vn", "vodka", "vote", "voting", "voto", "voyage", "vu", "wang", "watch", "webcam", "wed", "wf", "wien", "wiki", "works", "ws", "wtc", "wtf", "xn", "xxx", "xyz", "yachts", "ye", "yokohama", "yt", "za", "zm", "zone", "zw"];
+    
+    var domain = str.split("@")[1]
+    var tldArray = domain.split(".")
+    var tld = tldArray[tldArray.length - 1]
+    if ( $.inArray(tld, e) == -1) {
+        var status = false;
+        setErrMsg(selector, msg);
+    } else {
+        if(pretld !== tld ){
+            pretld = tld;            
+            msg = "Please confirm that the email address you have entered above is correct.";
+        }else{
+            ifblur = 0;
+        }
+        var status = true;
+        var patt = new RegExp(/\.(com|edu|net|biz|org|us|ca|gov|uk)$/);
+        var warning = patt.test(str);
+        if (warning) {
+            emptyErrTag(selector);
+        } else {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if(ifblur == 1){
+                setErrMsg(selector, msg);
+            }else{
+<span class="cstat-no" title="statement not covered" >                setErrMsg(selector, '');</span>
+            }
+        }
+        ifblur = 0;
+    }
+&nbsp;
+    item.status = status;
+    return item.status;
+};
+validate.prototype.checkUSZip = function (itemName) {
+    var item = this.items[itemName];
+    var selector = item.selector;
+    var msg = item.rules.us_zip.message;
+    var str = $.trim($(selector).val());
+    var patt = new RegExp(/^\d{5}(-?\d{4})?$/);
+    var status = patt.test(str);
+    if (status) {
+        emptyErrTag(selector);
+    } else {
+        setErrMsg(selector, msg);
+    }
+&nbsp;
+    item.status = status;
+    return item.status;
+};
+validate.prototype.checkCustomExp = <span class="fstat-no" title="function not covered" >function (itemName) {</span>
+<span class="cstat-no" title="statement not covered" >    var item = this.items[itemName];</span>
+<span class="cstat-no" title="statement not covered" >    var selector = item.selector;</span>
+<span class="cstat-no" title="statement not covered" >    var msg = item.rules.custom_exp.message;</span>
+<span class="cstat-no" title="statement not covered" >    var str = $.trim($(selector).val());</span>
+<span class="cstat-no" title="statement not covered" >    var patt = new RegExp(regexVal);</span>
+<span class="cstat-no" title="statement not covered" >    var status = patt.test(str);</span>
+<span class="cstat-no" title="statement not covered" >    if (status) {</span>
+<span class="cstat-no" title="statement not covered" >        emptyErrTag(selector);</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >        setErrMsg(selector, msg);</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    item.status = status;</span>
+<span class="cstat-no" title="statement not covered" >    return item.status;</span>
+};
+var objValidate = new validate(itemsConfig);
+&nbsp;
+$(document).on('blur', itemsConfig.user_first_name.selector, function (event) {
+    objValidate.applyValidation("user_first_name");
+});
+&nbsp;
+$(document).on('blur', itemsConfig.user_last_name.selector, function (event) {
+    objValidate.applyValidation("user_last_name");
+});
+&nbsp;
+$(document).on('blur', itemsConfig.user_email.selector, function (event) {
+    ifblur = 1;
+    emailPerfect = true;
+    objValidate.applyValidation("user_email");
+});
+$(document).on('blur', itemsConfig.user_client_attributes_shipping_postcode.selector, function (event) {
+    objValidate.applyValidation("user_client_attributes_shipping_postcode");
+});
+&nbsp;
+$(document).on('click', "#new_user .btn-group", <span class="fstat-no" title="function not covered" >function (event) {</span>
+<span class="cstat-no" title="statement not covered" >    objValidate.applyValidation("client_scale");</span>
+});
+$(document).on('click', "#new_user .submit", function (event) {
+    event.preventDefault();
+    uniqueness_checked = 0;
+    emailPerfect = true;
+    objValidate.status = true;
+    objValidate.fire();
+    console.log(objValidate.status);
+    var check = setInterval(<span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        if (uniqueness_checked == 1 &amp;&amp; objValidate.status == true &amp;&amp; emailPerfect == true) {</span>
+<span class="cstat-no" title="statement not covered" >            clearInterval(check);</span>
+<span class="cstat-no" title="statement not covered" >            var url = $('#new_user').attr("action");</span>
+<span class="cstat-no" title="statement not covered" >            var urlParams = getQueryParams(url);</span>
+<span class="cstat-no" title="statement not covered" >            if (!("utm_source" in urlParams) || urlParams["utm_source"] != "ampush") {</span>
+<span class="cstat-no" title="statement not covered" >                if ($.trim(url).indexOf("?") &gt;= 0) {</span>
+<span class="cstat-no" title="statement not covered" >                    urlParams["utm_source"] = "ampush";</span>
+<span class="cstat-no" title="statement not covered" >                    var urlParamsStr = getQueryStr(urlParams);</span>
+<span class="cstat-no" title="statement not covered" >                    url = urlParamsStr != "" ? stitchfixUrl + "?" + urlParamsStr : stitchfixUrl;</span>
+                } else {
+<span class="cstat-no" title="statement not covered" >                    url = url + "?utm_source=ampush";</span>
+                }
+            }
+<span class="cstat-no" title="statement not covered" >            $('#new_user').attr("action", url);</span>
+<span class="cstat-no" title="statement not covered" >            if (objValidate.status) {</span>
+<span class="cstat-no" title="statement not covered" >                $(this).find("input[type=submit]").val("SIGNING UP...");</span>
+<span class="cstat-no" title="statement not covered" >                eventONSubmit($("#new_user").serialize());</span>
+<span class="cstat-no" title="statement not covered" >                chReferer();</span>
+            }
+<span class="cstat-no" title="statement not covered" >            $("#new_user").submit();</span>
+<span class="cstat-no" title="statement not covered" >            return objValidate.status;</span>
+        } else <span class="cstat-no" title="statement not covered" >if (emailPerfect == false || objValidate.status == false) {</span>
+<span class="cstat-no" title="statement not covered" >            clearInterval(check);</span>
+        }
+    }, 300)
+});
+&nbsp;
+var itemsConfigPop = {
+    "user_first_name": {
+        "selector": "#new_user_pop #user_first_name"
+        , "rules": {"empty": {"message": "This is a required field"}}
+        , "validate_on_blur": true
+    },
+    "user_last_name": {
+        "selector": "#new_user_pop #user_last_name"
+        , "rules": {"empty": {"message": "This is a required field"}}
+    },
+    "user_email": {
+        "selector": "#new_user_pop #user_email"
+        , "rules": {
+            "empty": {"message": "This is a required field"},
+            "email": {"message": "Email is not a valid email address."},
+            "branded_email": {"message": "You must enter a valid email address. Please check your entry."},
+            "success_callback": {"name": "check_uniqueness_pop"},
+        },
+    },
+    "client_scale": {
+        "selector": "input[type='radio'].rbtn-scale-pop"
+        , "rules": {
+            "radio_empty": {"message": "This is a required field"},
+        },
+    },
+    "user_client_attributes_shipping_postcode": {
+        "selector": "#new_user_pop #user_client_attributes_shipping_postcode"
+        , "rules": {
+            "empty": {"message": "This is a required field"},
+            "us_zip": {"message": "Zip Code is not a valid U.S. postal code. Currently, we only ship to U.S. addresses."},
+        }
+    },
+};
+var selectedForm = "";
+$("#sizeChart-pop").on('show.bs.modal', <span class="fstat-no" title="function not covered" >function () {</span>
+&nbsp;
+});
+&nbsp;
+$(document).on('click', '.size-chart td', function (event) {
+    var validClass = {"xs": 37, "s": 38, "m": 39, "l": 40, "xl": 41, "xxl": 119};
+    for (var cc in validClass) {
+        if ($(this).hasClass(cc)) {
+            $(".rbtn-scale").prop("checked", false);
+            $(".rbtn-scale-pop").prop("checked", false);
+            $(".rbtn-scale-pop").parent().removeClass("active");
+            $(".rbtn-scale-pop[value=" + validClass[cc] + "]").prop("checked", true);
+            $(".rbtn-scale-pop[value=" + validClass[cc] + "]").parent().addClass("active");
+            $(".rbtn-scale").parent().removeClass("active");
+            $(".rbtn-scale[value=" + validClass[cc] + "]").prop("checked", true);
+            $(".rbtn-scale[value=" + validClass[cc] + "]").parent().addClass("active");
+            break;
+        }
+    }
+    objValidate.applyValidation("client_scale");
+    var sc = $(this).parents("tbody").attr("data-whichsc")
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(ABalytics.variantId==7 &amp;&amp; sc == "topsizechart"){
+<span class="cstat-no" title="statement not covered" >        $("#new_user .btn-group").parent(".form-group").css("display", "none")</span>
+    }
+    $("#sizeChart-pop").modal('hide');
+});
+&nbsp;
+var objValidatePop = new validate(itemsConfigPop);
+$(document).on('blur', itemsConfigPop.user_first_name.selector, function (event) {
+    objValidatePop.applyValidation("user_first_name");
+});
+&nbsp;
+$(document).on('blur', itemsConfigPop.user_last_name.selector, function (event) {
+    objValidatePop.applyValidation("user_last_name");
+});
+&nbsp;
+$(document).on('blur', itemsConfigPop.user_email.selector, function (event) {
+    ifblur = 1;
+    emailPerfect = true;
+    objValidatePop.applyValidation("user_email");
+});
+$(document).on('blur', itemsConfigPop.user_client_attributes_shipping_postcode.selector, <span class="fstat-no" title="function not covered" >function (event) {</span>
+<span class="cstat-no" title="statement not covered" >    objValidatePop.applyValidation("user_client_attributes_shipping_postcode");</span>
+});
+$(document).on('click', "#new_user_pop .submit", function (event) {
+    uniqueness_checked = 0;
+    emailPerfect = true;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if ($(".rbtn-scale-pop[type=radio]:checked").length &lt; 1) {
+<span class="cstat-no" title="statement not covered" >        $(".rbtn-scale-pop").parent().removeClass("active");</span>
+<span class="cstat-no" title="statement not covered" >        $(".rbtn-scale-pop[value=39]").prop("checked", true);</span>
+<span class="cstat-no" title="statement not covered" >        $(".rbtn-scale-pop[value=39]").parent().addClass("active");</span>
+    }
+    
+    $("#popupsize").val($(".rbtn-scale-pop[type=radio]:checked").val());
+    event.preventDefault();
+    objValidatePop.fire();
+    var checkForm = setInterval(<span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        if (uniqueness_checked == 1 &amp;&amp; objValidatePop.status == true &amp;&amp; emailPerfect == true) {</span>
+<span class="cstat-no" title="statement not covered" >            clearInterval(checkForm);</span>
+<span class="cstat-no" title="statement not covered" >            var url = $('#new_user_pop').attr("action");</span>
+<span class="cstat-no" title="statement not covered" >            var urlParams = getQueryParams(url);</span>
+<span class="cstat-no" title="statement not covered" >            if (!("utm_source" in urlParams) || urlParams["utm_source"] != "ampush") {</span>
+<span class="cstat-no" title="statement not covered" >                if ($.trim(url).indexOf("?") &gt;= 0) {</span>
+<span class="cstat-no" title="statement not covered" >                    urlParams["utm_source"] = "ampush";</span>
+<span class="cstat-no" title="statement not covered" >                    var urlParamsStr = getQueryStr(urlParams);</span>
+<span class="cstat-no" title="statement not covered" >                    url = urlParamsStr != "" ? stitchfixUrl + "?" + urlParamsStr : stitchfixUrl;</span>
+                } else {
+<span class="cstat-no" title="statement not covered" >                    url = url + "?utm_source=ampush";</span>
+                }
+            }
+<span class="cstat-no" title="statement not covered" >            $('#new_user_pop').attr("action", url);</span>
+<span class="cstat-no" title="statement not covered" >            $(this).find("input[type=submit]").val("SIGNING UP...");</span>
+<span class="cstat-no" title="statement not covered" >            eventONSubmit($("#new_user_pop").serialize());</span>
+<span class="cstat-no" title="statement not covered" >            chReferer();</span>
+<span class="cstat-no" title="statement not covered" >            $("#new_user_pop").submit();</span>
+<span class="cstat-no" title="statement not covered" >            return objValidatePop.status;</span>
+            
+        } else <span class="cstat-no" title="statement not covered" >if (emailPerfect == false || objValidatePop.status == false) {</span>
+<span class="cstat-no" title="statement not covered" >            clearInterval(checkForm);</span>
+        }
+    }, 300)
+});
+//======= Auto PopUp
+var itemsConfigAutoPop = {
+    "user_first_name": {
+        "selector": "#new_user_auto_pop #user_first_name"
+        , "rules": {"empty": {"message": "This is a required field"}}
+        , "validate_on_blur": true
+    },
+    "user_last_name": {
+        "selector": "#new_user_auto_pop #user_last_name"
+        , "rules": {"empty": {"message": "This is a required field"}}
+    },
+    "user_email": {
+        "selector": "#new_user_auto_pop #user_email"
+        , "rules": {
+            "empty": {"message": "This is a required field"},
+            "email": {"message": "Email is not a valid email address."},
+            "branded_email": {"message": "You must enter a valid email address. Please check your entry."},
+            "success_callback": {"name": "check_uniqueness_autopop"},
+        },
+    },
+    "client_scale": {
+        "selector": "input[type='radio'].rbtn-scale-auto-pop"
+        , "rules": {
+            "radio_empty": {"message": "This is a required field"},
+        },
+    },
+    "user_client_attributes_shipping_postcode": {
+        "selector": "#new_user_auto_pop #user_client_attributes_shipping_postcode"
+        , "rules": {
+            "empty": {"message": "This is a required field"},
+            "us_zip": {"message": "Zip Code is not a valid U.S. postal code. Currently, we only ship to U.S. addresses."},
+        }
+    },
+};
+&nbsp;
+var objValidateAutoPop = new validate(itemsConfigAutoPop);
+$(document).on('blur', itemsConfigAutoPop.user_first_name.selector, function (event) {
+    objValidateAutoPop.applyValidation("user_first_name");
+});
+&nbsp;
+$(document).on('blur', itemsConfigAutoPop.user_last_name.selector, function (event) {
+    objValidateAutoPop.applyValidation("user_last_name");
+});
+&nbsp;
+$(document).on('blur', itemsConfigAutoPop.user_email.selector, function (event) {
+    ifblur = 1;
+    emailPerfect = true;
+    objValidateAutoPop.applyValidation("user_email");
+});
+&nbsp;
+$(document).on('click', "#new_user_auto_pop .btn-group", <span class="fstat-no" title="function not covered" >function (event) {</span>
+<span class="cstat-no" title="statement not covered" >    objValidateAutoPop.applyValidation("client_scale");</span>
+});
+&nbsp;
+$(document).on('click', "#new_user_auto_pop .submit", function (event) {
+    uniqueness_checked = 0;
+    emailPerfect = true;
+    event.preventDefault();
+    objValidateAutoPop.fire();
+    var checkForm = setInterval(<span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        if (uniqueness_checked == 1 &amp;&amp; objValidateAutoPop.status == true &amp;&amp; emailPerfect == true) {</span>
+<span class="cstat-no" title="statement not covered" >            clearInterval(checkForm);</span>
+<span class="cstat-no" title="statement not covered" >            var url = $('#new_user_auto_pop').attr("action");</span>
+<span class="cstat-no" title="statement not covered" >            var urlParams = getQueryParams(url);</span>
+<span class="cstat-no" title="statement not covered" >            if (!("utm_source" in urlParams) || urlParams["utm_source"] != "ampush") {</span>
+<span class="cstat-no" title="statement not covered" >                if ($.trim(url).indexOf("?") &gt;= 0) {</span>
+<span class="cstat-no" title="statement not covered" >                    urlParams["utm_source"] = "ampush";</span>
+<span class="cstat-no" title="statement not covered" >                    var urlParamsStr = getQueryStr(urlParams);</span>
+<span class="cstat-no" title="statement not covered" >                    url = urlParamsStr != "" ? stitchfixUrl + "?" + urlParamsStr : stitchfixUrl;</span>
+                } else {
+<span class="cstat-no" title="statement not covered" >                    url = url + "?utm_source=ampush";</span>
+                }
+            }
+<span class="cstat-no" title="statement not covered" >            $('#new_user_auto_pop').attr("action", url);</span>
+<span class="cstat-no" title="statement not covered" >            $(this).find("input[type=submit]").val("SIGNING UP...");</span>
+<span class="cstat-no" title="statement not covered" >            eventONSubmit($("#new_user_auto_pop").serialize());</span>
+<span class="cstat-no" title="statement not covered" >            chReferer();</span>
+<span class="cstat-no" title="statement not covered" >            $("#new_user_auto_pop").submit();</span>
+<span class="cstat-no" title="statement not covered" >            return objValidateAutoPop.status;</span>
+            
+        } else <span class="cstat-no" title="statement not covered" >if (emailPerfect == false || objValidateAutoPop.status == false) {</span>
+<span class="cstat-no" title="statement not covered" >            clearInterval(checkForm);</span>
+        }
+    }, 300)
+});
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Nov 15 2016 16:45:20 GMT+0530 (IST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

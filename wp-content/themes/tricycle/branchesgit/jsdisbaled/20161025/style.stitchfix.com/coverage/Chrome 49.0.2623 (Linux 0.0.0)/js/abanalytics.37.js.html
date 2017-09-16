@@ -1,0 +1,1670 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for js/abanalytics.37.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">js/</a> abanalytics.37.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">90.85% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>278/306</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">80% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>96/120</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">89.36% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>42/47</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">90.85% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>278/306</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">77×</span>
+<span class="cline-any cline-yes">77×</span>
+<span class="cline-any cline-yes">77×</span>
+<span class="cline-any cline-yes">77×</span>
+<span class="cline-any cline-yes">77×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">77×</span>
+<span class="cline-any cline-yes">62×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">198×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">77×</span>
+<span class="cline-any cline-yes">77×</span>
+<span class="cline-any cline-yes">77×</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">77×</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-yes">38×</span>
+<span class="cline-any cline-yes">38×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">104×</span>
+<span class="cline-any cline-yes">104×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">103×</span>
+<span class="cline-any cline-yes">103×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">60×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">198×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">38×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">81×</span>
+<span class="cline-any cline-yes">290×</span>
+<span class="cline-any cline-yes">62×</span>
+<span class="cline-any cline-yes">62×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">88×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var site_url = window.location.toString();
+var site_q = window.location.search;
+var stitchfixUrl = 'https://www.stitchfix.com/';
+var allowedParams = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_id"];
+var utmToken = '';
+var utmID = '';
+var defaultUtmToken = '68ba126472fa2d9a8bb75a848dbd29cd';
+var timer = 0;
+var delay = (function () {
+    return function (callback, ms) {
+        clearTimeout(timer);
+        timer = setTimeout(callback, ms);
+    };
+})();
+&nbsp;
+var mobSliderObj = {
+    stagePadding: 0,
+    center: true,
+    items: 1,
+    nav: false,
+    loop: true,
+    autoplay: true,
+    autoplayTimeout: 2000,
+    autoplayHoverPause: true,
+    responsive: {
+        300: {
+            items: 1
+        }
+    }
+}
+&nbsp;
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i &lt; ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+<span class="cstat-no" title="statement not covered" >            c = c.substring(1);</span>
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+function getQueryStr(objParams) {
+    var paramArr = [];
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (Object.keys(objParams).length) {
+        for (var x in objParams) {
+            paramArr.push(x + "=" + objParams[x]);
+        }
+    }
+    return paramArr.join("&amp;");
+}
+function getQueryParams(x) {
+    var u = x.split("?");
+    var a = "";
+    if (u.length == 2) {
+        a = u[1];
+        a = a.split('&amp;');
+    }
+&nbsp;
+    if (a == "")
+        return {};
+    var b = {};
+    for (var i = 0; i &lt; a.length; ++i)
+    {
+        var p = a[i].split('=');
+        if (p.length != 2)
+            continue;
+        p[1] = decodeURIComponent(p[1]).trim();
+        b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+    }
+    return b;
+}
+function addQueryToAnchors() {
+    $('a[href*=".stitchfix.com"]').each(function () {
+        var tUrl = $(this).attr("href");
+        var isStyleDomain = tUrl.search("style.stitchfix") &gt;= 0 ? true : false;
+        var offset = "";
+        if (tUrl.search("#") &gt;= 0) {
+            var tUrls = tUrl.split("#");
+            tUrl = tUrls[0];
+            offset = tUrls.length &gt; 1 ? "#" + tUrls[1] : <span class="branch-1 cbranch-no" title="branch not covered" >'#';</span>
+        }
+        var q = site_q;
+        var q_params = getQueryParams(site_q);
+        var q_params_org = $.extend(true, {}, q_params);
+        var ck_params = getCookie("utm_params");
+        ck_params = ck_params != "" ? JSON.parse(ck_params) : {};
+        if (site_q == "" || site_q == "?" || !("utm_campaign" in q_params)) {
+&nbsp;
+            if (Object.keys(ck_params).length) {
+                q_params = $.extend(true, {}, ck_params);
+                delete q_params["utm_id"];
+            }
+        }
+        q_params["utm_source"] = "ampush";
+        if (!isStyleDomain) {
+            q_params["utm_campaign"] = utmToken;
+        } else {
+            q_params["utm_campaign"] = utmID;
+            if ("utm_id" in ck_params &amp;&amp; !("utm_campaign" in q_params_org)) {
+                q_params["utm_campaign"] = ck_params["utm_id"];
+            }
+        }
+&nbsp;
+        if (!("utm_medium" in q_params) || q_params["utm_medium"] == "") {
+            q_params["utm_medium"] = 'other';
+        }
+&nbsp;
+        var allowedParams = ["utm_source", "utm_medium", "utm_campaign", "utm_content"];
+        for (var x in q_params) {
+            <span class="missing-if-branch" title="if path not taken" >I</span>if ($.inArray(x, allowedParams) &lt; 0) {
+<span class="cstat-no" title="statement not covered" >                delete q_params[x];</span>
+            }
+        }
+        q = "?" + getQueryStr(q_params);
+        tUrl = tUrl + q + offset;
+        $(this).attr("href", tUrl);
+    });
+}
+&nbsp;
+(function ($) {
+    $.QueryString = (function (a) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (a == "")
+            return {};
+<span class="cstat-no" title="statement not covered" >        var b = {};</span>
+<span class="cstat-no" title="statement not covered" >        for (var i = 0; i &lt; a.length; ++i)</span>
+        {
+<span class="cstat-no" title="statement not covered" >            var p = a[i].split('=');</span>
+<span class="cstat-no" title="statement not covered" >            if (p.length != 2)</span>
+<span class="cstat-no" title="statement not covered" >                continue;</span>
+<span class="cstat-no" title="statement not covered" >            p[1] = decodeURIComponent(p[1]).trim();</span>
+<span class="cstat-no" title="statement not covered" >            b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return b;</span>
+    })(window.location.search.substr(1).split('&amp;'))
+})(jQuery);
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+var apiURL = window.location.host == "localhost" ? <span class="branch-0 cbranch-no" title="branch not covered" >"http://localhost:3000/" </span>: "https://ab.ampush.design/";
+var testCases = ["popupform"];
+var testConfig = {};
+var tc = "";
+var ABalytics = (function (window, document, undefined) {
+    /* exported ABalytics */
+    // Returns a classic or universal analytics wrapper object
+    this.variantId = 0;
+    this.variantName = "a";
+    this.client = "";
+    var getVariantId = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        return this.variantId;</span>
+    };
+    return {
+        changes: [],
+        init: function (config, slot) {
+            var experiment,
+                    variants,
+                    variant,
+                    variantId,
+                    change;
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof (slot) === 'undefined') {
+                slot = 1;
+            }
+&nbsp;
+            var r = Math.floor((Math.random() * 100) + 1)
+            this.range = r;
+            this.utm_medium = (typeof $.QueryString['utm_medium'] != 'undefined' &amp;&amp; $.QueryString['utm_medium'] != '') ?
+                    $.QueryString['utm_medium'].toLowerCase() : "other";
+            if (md.mobile() != null) {
+                if (this.utm_medium == "brand") {
+                    //=====mobile brand 
+                    testConfig = {"a": {"min": 0, "max": 0, "variant_id": 0},
+                        "b": {"min": 0, "max": 0, "variant_id": 1},
+                        "c": {"min": 0, "max": 0, "variant_id": 2},
+                        "d": {"min": 0, "max": 0, "variant_id": 3},
+                        "e": {"min": 0, "max": 0, "variant_id": 4},
+                        "f": {"min": 0, "max": 0, "variant_id": 5},
+                        "g": {"min": 0, "max": 0, "variant_id": 6},
+                        "h": {"min": 0, "max": 0, "variant_id": 7},
+                        "i": {"min": 0, "max": 0, "variant_id": 8},
+                        "j": {"min": 1, "max": 15, "variant_id": 9},
+                        "k": {"min": 16, "max": 30, "variant_id": 10},
+                        "l": {"min": 31, "max": 45, "variant_id": 11},
+                        "m": {"min": 46, "max": 60, "variant_id": 12},
+                        "n": {"min": 61, "max": 80, "variant_id": 13},
+                        "o": {"min": 81, "max": 100, "variant_id": 14},
+                    };
+                } else {
+                    //=====mobile other 
+                    testConfig = {"a": {"min": 0, "max": 0, "variant_id": 0},
+                        "b": {"min": 0, "max": 0, "variant_id": 1},
+                        "c": {"min": 0, "max": 0, "variant_id": 2},
+                        "d": {"min": 0, "max": 0, "variant_id": 3},
+                        "e": {"min": 0, "max": 0, "variant_id": 4},
+                        "f": {"min": 0, "max": 0, "variant_id": 5},
+                        "g": {"min": 0, "max": 0, "variant_id": 6},
+                        "h": {"min": 0, "max": 0, "variant_id": 7},
+                        "i": {"min": 0, "max": 0, "variant_id": 8},
+                        "j": {"min": 1, "max": 15, "variant_id": 9},
+                        "k": {"min": 16, "max": 30, "variant_id": 10},
+                        "l": {"min": 31, "max": 45, "variant_id": 11},
+                        "m": {"min": 46, "max": 60, "variant_id": 12},
+                        "n": {"min": 61, "max": 80, "variant_id": 13},
+                        "o": {"min": 81, "max": 100, "variant_id": 14},
+                    };
+                }
+            } else {
+                if (this.utm_medium == "brand") {
+                    //=====desktop brand 
+                    testConfig = {"a": {"min": 0, "max": 0, "variant_id": 0},
+                        "b": {"min": 0, "max": 0, "variant_id": 1},
+                        "c": {"min": 0, "max": 0, "variant_id": 2},
+                        "d": {"min": 0, "max": 0, "variant_id": 3},
+                        "e": {"min": 0, "max": 0, "variant_id": 4},
+                        "f": {"min": 1, "max": 75, "variant_id": 5},
+                        "g": {"min": 76, "max": 85, "variant_id": 6},
+                        "h": {"min": 86, "max": 95, "variant_id": 7},
+                        "i": {"min": 96, "max": 100, "variant_id": 8},
+                        "j": {"min": 0, "max": 0, "variant_id": 9},
+                        "k": {"min": 0, "max": 0, "variant_id": 10},
+                        "l": {"min": 0, "max": 0, "variant_id": 11},
+                        "m": {"min": 0, "max": 0, "variant_id": 12},
+                        "n": {"min": 0, "max": 0, "variant_id": 13},
+                        "o": {"min": 0, "max": 0, "variant_id": 14},
+                    };
+                } else {
+                    //=====desktop other 
+                    testConfig = {"a": {"min": 0, "max": 0, "variant_id": 0},
+                        "b": {"min": 0, "max": 0, "variant_id": 1},
+                        "c": {"min": 0, "max": 0, "variant_id": 2},
+                        "d": {"min": 0, "max": 0, "variant_id": 3},
+                        "e": {"min": 0, "max": 0, "variant_id": 4},
+                        "f": {"min": 1, "max": 80, "variant_id": 5},
+                        "g": {"min": 81, "max": 90, "variant_id": 6},
+                        "h": {"min": 91, "max": 100, "variant_id": 7},
+                        "i": {"min": 0, "max": 0, "variant_id": 8},
+                        "j": {"min": 0, "max": 0, "variant_id": 9},
+                        "k": {"min": 0, "max": 0, "variant_id": 10},
+                        "l": {"min": 0, "max": 0, "variant_id": 11},
+                        "m": {"min": 0, "max": 0, "variant_id": 12},
+                        "n": {"min": 0, "max": 0, "variant_id": 13},
+                        "o": {"min": 0, "max": 0, "variant_id": 14},
+                    };
+                }
+            }
+            variantId = getVariant(r, testConfig);
+            console.log(r + "-" + variantId);
+            this.variantId = variantId;
+        },
+        // apply the selected variants for each experiment
+        applyHtml: function () {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (md.mobile() == null || md.tablet() != null) {
+                ABalytics.paintOnLoad(".deck-show", <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >                    $(".deck-show").css("display", "block");</span>
+                }, 10);
+            }
+            window.onresize = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >                if (window.innerWidth &gt; 767) {</span>
+<span class="cstat-no" title="statement not covered" >                    $(".deck-show").css("display", "block");</span>
+                }
+            };
+            ABalytics.paintOnLoad(".show-sm", function () {
+                var movbanner = $('.show-sm').attr('class');
+                var ranvbanner = movbanner.substring(0, movbanner.length - 1) + getRandomInt(1, 4);
+                $('.show-sm').attr('class', ranvbanner);
+                $('.show-sm').css('display', 'block');
+            }, 10);
+            ABalytics.paintOnLoad(".horizontal", function () {
+                var mobbanner = $('.horizontal').attr('class');
+                var ranbanner = mobbanner.substring(0, mobbanner.length - 1) + getRandomInt(1, 6);
+                $('.horizontal').attr('class', ranbanner);
+                $('.horizontal').css("display", "block")
+            }, 10);
+            switch (this.variantId) {
+                case  0:
+                    break;
+                case  1:
+                    ABalytics.paintOnLoad(".copy", function () {
+                        $(".copy").addClass("addQuestion");
+                    }, 20);
+                    break;
+                case  2:
+                    ABalytics.paintOnLoad(".fb-login-c", function () {
+                        $(".fb-login-c").show();
+                        ABalytics.VariantRequirement.HideZip();
+                    }, 20);
+                    break;
+                case  3:
+                    ABalytics.paintOnLoad(".fb-login-d", function () {
+                        $(".fb-login-d").show();
+                        ABalytics.VariantRequirement.HideZip();
+                    }, 20);
+                    break;
+                case  4:
+                    ABalytics.paintOnLoad(".fb-login-c", function () {
+                        $(".copy").addClass("addQuestion");
+                        $(".fb-login-c").show();
+                        ABalytics.VariantRequirement.HideZip();
+                    }, 20);
+                    break;
+                case  5:
+                    ABalytics.VariantRequirement.VariantF();
+                    break;
+                case  6:
+                    ABalytics.paintOnLoad(".copy", function () {
+                        $(".copy").addClass("addQuestion");
+                        ABalytics.VariantRequirement.HideZip();
+                    }, 20);
+                    break;
+                case  7:
+                    ABalytics.paintOnLoad("#new_user", function () {
+                        $(".copy").addClass("addQuestion");
+                        $(".copy").find(".ptc2").css("display", "block");
+                        $(".copy").find(".ptc1").css("display", "none");
+                        $(".fb-login-d").show();
+                        $(document).on("click", ".copy .btn-group", function () {
+                            delay(function () {
+                                $(".rbtn-scale").parent().removeClass("active");
+                                $(".rbtn-scale").prop("checked", false);
+                                $("#new_user .btn-group").parent(".form-group").css("display", "none")
+                                var valueselected = $('.copy .btn-group input:radio:checked').val();
+                                $(".rbtn-scale[value=" + valueselected + "]").parent().addClass("active");
+                                console.log("Value Selected is " + valueselected);
+                                $(".rbtn-scale[value=" + valueselected + "]").prop("checked", true);
+                            }, 500);
+                        })
+                        ABalytics.VariantRequirement.HideZip();
+                    }, 5);
+                    break;
+                case  8:
+                    ABalytics.paintOnLoad("#getStart-dialog", function () {
+                        $(".fb-login-c").show();
+                        ABalytics.VariantRequirement.HideZip();
+                    }, 20);
+                    $(window).load(<span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >                        $('#getStart-dialog').modal('show');</span>
+                    });
+                    break;
+                case  9:
+                    ABalytics.paintOnLoad(".mob-slider", function () {
+                        $("body").addClass("mob-ver ver1-2");
+                        mobSliderObj.stagePadding = 95
+                        mobSliderObj.autoplayTimeout = 5000;
+                        $('.mob-slider').owlCarousel(mobSliderObj);
+                    }, 20);
+                    ABalytics.VariantRequirement.VariantF();
+                    break;
+                case 10:
+                    ABalytics.paintOnLoad(".mob-slider", function () {
+                        $("body").addClass("mob-ver ver1-3");
+                        mobSliderObj.stagePadding = 95
+                        mobSliderObj.autoplayTimeout = 5000;
+                        $('.mob-slider').owlCarousel(mobSliderObj);
+                    }, 20);
+                    ABalytics.VariantRequirement.VariantF();
+                    break;
+                case 11:
+                    ABalytics.paintOnLoad(".mob-slider", function () {
+                        $("body").addClass("mob-ver ver2-2");
+                        $('.mob-slider').owlCarousel(mobSliderObj);
+                    }, 20);
+                    ABalytics.VariantRequirement.VariantF();
+                    break;
+                case 12:
+                    ABalytics.paintOnLoad(".mob-slider", function () {
+                        $("body").addClass("mob-ver ver2-3");
+                        $('.mob-slider').owlCarousel(mobSliderObj);
+                    }, 20);
+                    ABalytics.VariantRequirement.VariantF();
+                    break;
+                case 13:
+                    ABalytics.paintOnLoad(".mob-slider", function () {
+                        $("body").addClass("mob-ver ver3-2");
+                        $('.mob-slider').owlCarousel(mobSliderObj);
+                    }, 20);
+                    ABalytics.VariantRequirement.VariantF();
+                    break;
+                case 14:
+                    ABalytics.paintOnLoad(".mob-slider", function () {
+                        $("body").addClass("mob-ver ver3-3");
+                        $('.mob-slider').owlCarousel(mobSliderObj);
+                    }, 20);
+                    ABalytics.VariantRequirement.VariantF();
+                    break;
+            }
+        }
+    };
+})(window, document);
+ABalytics.paintOnLoad = function (selector, myFunction, intervalTime) {
+    var interval = setInterval(function () {
+        if ($(selector).length &gt; 0) {
+            myFunction();
+            clearInterval(interval);
+        }
+    }, intervalTime);
+}
+ABalytics.getQueryString = function (objParams) {
+    var queryParams = [], r = '';
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (Object.keys(objParams).length) {
+        for (var x in objParams) {
+            queryParams[queryParams.length] = x + '=' + objParams[x];
+        }
+        r = queryParams.join("&amp;");
+        r = "?" + r;
+    }
+    return r;
+}
+ABalytics.generateToken = function () {
+    var params = ["utm_campaign"];
+    var queryParams = [];
+    for (var x in params) {
+        if (params[x] in $.QueryString) {
+            queryParams[queryParams.length] = params[x] + '=' + $.QueryString[params[x]];
+        }
+    }
+    if (queryParams.length == 0) {
+        var c_params = getCookie("utm_params");
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (c_params != "") {
+<span class="cstat-no" title="statement not covered" >            params = JSON.parse(c_params);</span>
+<span class="cstat-no" title="statement not covered" >            delete params["utm_id"];</span>
+<span class="cstat-no" title="statement not covered" >            for (var x in params) {</span>
+<span class="cstat-no" title="statement not covered" >                queryParams[queryParams.length] = x + '=' + params[x];</span>
+            }
+        }
+    }
+    if (queryParams.length === 0) {
+&nbsp;
+        queryParams[0] = 'utm_campaign=' + dfutm_camid;
+    }
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (queryParams.length) {
+        var queryStr = queryParams.length ? "?" + queryParams.join("&amp;") : <span class="branch-1 cbranch-no" title="branch not covered" >"";</span>
+        var targetURL = apiURL + "utmparams/generate" + queryStr + "&amp;client=" + this.client + "&amp;access_token=b182f027115663f7a5a790b609f61447";
+        var c_params = getCookie("utm_params");
+        c_params = c_params != "" ? JSON.parse(c_params) : {};
+        $.ajax({url: targetURL, "method": "post", success: function (result) {
+                <span class="missing-if-branch" title="if path not taken" >I</span>if ("status" in result &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >result.status == true)</span> {
+<span class="cstat-no" title="statement not covered" >                    setUtmParams(result.amp_id);</span>
+                } else {
+                    setUtmParams(defaultUtmToken);
+                }
+            }
+            , error: function (xhr, ajaxOptions, thrownError) {
+&nbsp;
+                setUtmParams(defaultUtmToken);
+            }
+        });
+    } else {
+<span class="cstat-no" title="statement not covered" >        addQueryToAnchors();</span>
+    }
+}
+&nbsp;
+ABalytics.VariantRequirement = {
+    HideZip: function () {
+        $("input[name='user[client_attributes][shipping_postcode]']").attr('type', 'hidden');
+        $("input[name='user[client_attributes][shipping_postcode]']").parent().css('display', 'none');
+    },
+    VariantF: function () {
+        ABalytics.paintOnLoad(".fb-login-d", function () {
+            $(".copy").addClass("addQuestion");
+            $(".fb-login-d").show();
+            this.ABalytics.VariantRequirement.HideZip();
+        }, 20);
+    }
+}
+&nbsp;
+function setUtmParams(ampUtmToken) {
+    var queryParams = $.QueryString;
+    var c_params = getCookie("utm_params");
+    c_params = c_params != "" ? JSON.parse(c_params) : {};
+    if ("utm_campaign" in queryParams) {
+        utmID = queryParams['utm_campaign'];
+    } else {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if ("utm_id" in c_params) {
+<span class="cstat-no" title="statement not covered" >            utmID = c_params["utm_id"];</span>
+        } else {
+            utmID = dfutm_camid;
+        }
+    }
+    queryParams['utm_campaign'] = ampUtmToken;
+    utmToken = ampUtmToken;
+    addQueryToAnchors();
+    queryParams['utm_source'] = "ampush";
+    delete c_params["utm_id"];
+    for (var x in c_params) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (!(x in queryParams)) {
+<span class="cstat-no" title="statement not covered" >            queryParams[x] = c_params[x];</span>
+        }
+    }
+&nbsp;
+    if (!("utm_medium" in queryParams) || queryParams["utm_medium"] == "") {
+        queryParams["utm_medium"] = 'other';
+    }
+&nbsp;
+    var allowedParams = ["utm_source", "utm_medium", "utm_campaign", "utm_content"];
+    for (var x in queryParams) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if ($.inArray(x, allowedParams) &lt; 0) {
+<span class="cstat-no" title="statement not covered" >            delete queryParams[x];</span>
+        }
+    }
+&nbsp;
+    var c_params = $.extend(true, {}, queryParams);
+    c_params["utm_id"] = utmID;
+    document.cookie = "utm_params=" + JSON.stringify(c_params) + ";";
+    var url = $("#new_user").attr("action") + ABalytics.getQueryString(queryParams);
+    $("#new_user").attr("action", url);
+    $("#new_user_pop").attr("action", url);
+    $("#new_user_auto_pop").attr("action", url);
+}
+$(document).ready(function () {
+    ABalytics.generateToken();
+    $('a').click(<span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var hr = $(this).attr("href");</span>
+<span class="cstat-no" title="statement not covered" >        if (hr.search(".stitchfix.com") &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >            if (hr.search("style.stitchfix.com") &lt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >                chReferer();</span>
+            }
+        }
+&nbsp;
+    });
+});
+/* --------------------------------------------- */
+function getVariant(val, items) {
+    var variant_id = 0;
+    for (var x in items) {
+        if (val &lt;= items[x]["max"] &amp;&amp; val &gt;= items[x]["min"]) {
+            variant_id = items[x]["variant_id"];
+            ABalytics.variantName = x;
+            break;
+        }
+    }
+    return variant_id;
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Oct 25 2016 19:54:25 GMT+0530 (IST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

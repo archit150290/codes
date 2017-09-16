@@ -1,0 +1,129 @@
+// base marquee wrapper
+%marquee {
+  @extend %base-module;
+
+  a {
+    color: inherit;
+  }
+
+  .topic {
+    color: $clr-gray-midhi;
+
+    @include media($desktop-to-wide) {
+      display: block;
+    }
+  }
+
+  p {
+    color: $clr-gray-mid;
+  }
+
+  article p {
+    @include media($desktop-up) {
+      font-size: 1.25rem;
+    }
+  }
+}
+
+%marquee-image {
+
+  img {
+    display: block;
+    max-height: 24em;
+    min-height: 16em;
+    object-fit: cover;
+    width: 100%;
+
+    @include media($tablet-up) {
+      min-height: 20em;
+    }
+  }
+}
+
+// base marquee hero, doesn't include floating icon
+%marquee-main {
+  @include media($wide-up) {
+    @include span-columns(9 of 12);
+  }
+
+  section {
+    @extend %card;
+    @include position;
+    @include transition($base-transition);
+    padding: $base-spacing;
+    text-align: center;
+
+    @include media($wide-up) {
+      @include margin($base-spacing * -3 $base-spacing null);
+      @include padding(null $base-spacing * 2);
+      // top: -4em;
+    }
+  }
+
+  h1 {
+    font-size: $heading-font-size;
+
+    @include media($desktop-up) {
+      font-size: 2.5em;
+      margin-bottom: $small-spacing / 2;
+    }
+  }
+}
+
+// centered, offset icon
+%marquee-main-icon {
+  @include position(absolute, -1em null null 50%);
+  margin-left: -1.25em;
+}
+
+%marquee-aside-icon {
+  float: left;
+  margin-right: $small-spacing;
+}
+
+// base marquee, three articles
+%marquee-aside {
+  @include omega(auto);
+
+  @include media($desktop-up) {
+    @include card;
+    @include clearfix;
+    @include omega;
+    margin-bottom: 0;
+    padding: $small-spacing $base-spacing $base-spacing;
+  }
+
+  @include media($wide-up) {
+    @include span-columns(3 of 12);
+    @include omega;
+    padding-bottom: 0;
+  }
+
+  .icon {
+    @extend %marquee-aside-icon;
+  }
+
+  article {
+    @include media($desktop-down) {
+      @include card;
+      padding: $small-spacing $base-spacing $base-spacing;
+    }
+
+    @include media($desktop-to-wide) {
+      @include span-columns(4 of 12);
+      border-right: 2px solid $clr-rule;
+      padding-right: $small-spacing;
+    }
+
+    @include media($wide-up) {
+      border-bottom: 2px solid $clr-rule;
+      margin-bottom: $base-spacing;
+      margin-top: $base-spacing;
+      padding-bottom: $base-spacing;
+    }
+
+    &:last-of-type {
+      border: 0;
+    }
+  }
+}

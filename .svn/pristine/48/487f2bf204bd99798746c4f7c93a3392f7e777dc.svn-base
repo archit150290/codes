@@ -1,0 +1,354 @@
+<?php
+/*
+ * Template Name: Trike Daily
+ */
+?>
+<?php
+$post_Name = "Trike Daily";
+$post_Slug = "trikedaily";
+?>
+<?php get_header() ?>		
+<!-- end header -->
+
+<!-- start content -->
+<div class='wrap'>
+
+    <!-- start landing marquee -->
+    <div class='landing-category landing-marquee trikedaily'>
+        <header class='rubric_top'>
+            <h1><span class='icon icon-dept_<?php echo $post_Slug; ?>'></span><?php echo $post_Name; ?></h1>
+            <p>Daily wisdom, teachings &amp; critique</p>
+        </header>
+        <?php
+        $args = array(
+            'post_type' => array('post'),
+            'post_status' => 'publish',
+            'order' => 'DESC',
+            'orderby' => 'date',
+            'posts_per_page' => 1,
+        );
+        $eq_query = new WP_Query($args);
+        while ($eq_query->have_posts()): $eq_query->the_post();
+            $topics = get_topics_by_post_id($post->ID);
+            $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+            $postId[] = get_the_ID();
+            ?>
+            <main class='landing-marquee-hero'>
+                <article class='trikedaily'>
+                    <figure>
+                        <a href='<?php the_permalink(); ?>'>
+                            <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 50em) 75vw,100vw'); ?>
+                        </a>
+                    </figure>
+                    <section class='rubric trikedaily'>
+                        <h2 class='trikedaily'>
+                            <?php
+                            $postId[] = get_the_ID();
+                            get_trikedaily_department(get_the_ID());
+                            ?> 
+                            <span class='topic'><?php echo $topic_urls; ?></span></h2>
+                        <h1><a href='<?php the_permalink(); ?>'><?php echo get_the_title(); ?></a></h1>
+                        <p><?php the_excerpt(); ?></p>
+                        <address><?php echo getAuthorDetail($post->ID, 1, 0); ?></address>
+                        <time><?php echo get_the_date('M d, Y'); ?></time>
+                    </section>
+                </article>
+            </main>
+            <?php
+        endwhile;
+        wp_reset_query();
+        ?> 
+
+
+        <aside class = 'landing-marquee-articles'>
+
+            <?php
+            $args = array(
+                'post_type' => array('post'),
+                'post__not_in' => $postId,
+                'post_status' => 'publish',
+                'order' => 'DESC',
+                'orderby' => 'date',
+                'posts_per_page' => 3,
+            );
+            $eq_query = new WP_Query($args);
+            while ($eq_query->have_posts()): $eq_query->the_post();
+                $topics = get_topics_by_post_id($post->ID);
+                $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                $postId[] = get_the_ID();
+                ?>
+                <article class = 'trikedaily'>
+                    <figure>
+                        <a href = '<?php the_permalink(); ?>'>
+                            <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 50em) 33vw, 100vw'); ?>
+                        </a>
+                    </figure>
+                    <section class = 'rubric trikedaily'>
+                        <h2 class = 'trikedaily'>
+                            <?php
+                            get_trikedaily_department(get_the_ID());
+                            ?>
+                            <span class = 'topic'><?php echo $topic_urls; ?></span></h2>
+                    </section>
+                    <section class = 'titles'>
+                        <h1><a href = '<?php echo get_permalink(); ?>'><?php echo get_the_title(); ?></a></h1>
+                        <p><?php the_excerpt(); ?></p>
+                        <address><?php echo getAuthorDetail(get_the_ID(), 1, 0); ?></address>
+                        <time><?php echo get_the_date('M d, Y'); ?></time>
+                    </section>
+                </article>
+                <?php
+            endwhile;
+            wp_reset_query();
+            ?>    
+        </aside>
+
+    </div>
+    <!--end landing marquee -->
+
+    <!--start landing stack -->
+    <div class = 'landing-stack'>
+
+        <?php
+        $args = array(
+            'post_type' => array('post'),
+            'post__not_in' => $postId,
+            'post_status' => 'publish',
+            'order' => 'DESC',
+            'orderby' => 'date',
+            'posts_per_page' => 6,
+        );
+        $eq_query = new WP_Query($args);
+        $count = 0;
+        while ($eq_query->have_posts()): $eq_query->the_post();
+            $topics = get_topics_by_post_id($post->ID);
+            $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+            $postId_two[] = get_the_ID();
+            if ($count == "3") {
+                ?>
+                <div class = 'CTA-module'>
+                    <div class = 'rule'></div>
+                    <div class = 'CTA-ad' style = '
+                         background-color: #ddd;
+                         line-height: 1; padding: 2em;
+                         margin: 0 auto;
+                         width: 75%;
+                         height: 10em;
+                         text-align: center;
+                         '>
+                        <p>Call-to-Action Module. Can be set in the CMS to any of the following: (1) Ad served via Google DFP Small Business (TBD), (2) Daily Dharma, (3) Subscribe CTA, (4) Newletter CTA</p>
+                    </div>
+                    <div class = 'rule'></div>
+                </div>
+            <?php }
+            ?>
+            <article class = 'trikedaily'>
+                <figure>
+                    <a href = '<?php the_permalink(); ?>'>
+                        <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 37.5em) 25vw,100vw'); ?>
+                    </a>
+                </figure>
+                <section class = 'rubric trikedaily'>
+                    <h2 class = 'trikedaily'>
+                        <?php
+                        get_trikedaily_department(get_the_ID());
+                        ?>
+                        <span class = 'topic'><?php echo $topic_urls; ?></span></h2>
+                </section>
+                <section class = 'titles'>
+                    <h1><a href = '<?php the_permalink(); ?>'><?php echo get_the_title(); ?></a></h1>
+                    <p><?php the_excerpt(); ?></p>
+                    <address><?php echo getAuthorDetail(get_the_ID(), 1, 0); ?></address>
+                    <time><?php echo get_the_date('M d, Y'); ?></time>
+                </section>
+            </article>
+
+            <?php
+            $count++;
+        endwhile;
+        wp_reset_query();
+        ?>   
+        <?php if ($count == "6") { ?>
+            <div class = 'more trikedaily'>
+                <a href = '#'>Load More</a>
+            </div> 
+
+        <?php } ?>
+
+    </div>
+
+    <!--start Call to Action module -->
+
+    <!--end Call to Action module -->
+
+    <!--end landing stack -->
+
+    <!--start Call to Action module -->
+    <div class = 'CTA-module'>
+        <div class = 'rule'></div>
+        <div class = 'CTA-ad' style = '
+             background-color: #ddd;
+             line-height: 1; padding: 2em;
+             margin: 0 auto;
+             width: 75%;
+             height: 10em;
+             text-align: center;
+             '>
+            <p>Call-to-Action Module. Can be set in the CMS to any of the following: (1) Ad served via Google DFP Small Business (TBD), (2) Daily Dharma, (3) Subscribe CTA, (4) Newletter CTA</p>
+        </div>
+        <div class = 'rule'></div>
+    </div>
+    <!--end Call to Action module -->
+
+    <aside>
+
+        <div class = 'aside-depts'>
+            <!--start aside magazine -->
+            <section class='aside-magazine'>
+                <header class='rubric_small'>
+                    <h1><a href='<?php echo get_post_type_archive_link(MAGAZINE_POST_TYPE); ?>'><span class='icon icon-dept_magazine'></span>Magazine</a></h1>
+                    <p>The Buddhist Review</p>
+                </header>
+                <main>
+                    <?php
+                    $args = array(
+                        'posts_per_page' => 1,
+                        'orderby' => 'post_date',
+                        'order' => 'DESC',
+                        'post_type' => MAGAZINE_POST_TYPE,
+                        'post_status' => 'publish',
+                        'suppress_filters' => true
+                    );
+                    $querymagazine = new WP_Query($args);
+
+                    while ($querymagazine->have_posts()) : $querymagazine->the_post();
+                        $topics = get_topics_by_post_id($post->ID);
+                        $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                        $issues = get_issues_by_post_id($post->ID);
+                        $issues_names_without_urls = $issues && isset($issues['names_without_urls']) ? implode(", ", $issues['names_without_urls']) : "";
+                        ?>
+                        <article>
+                            <figure>
+                                <a href='<?php the_permalink(); ?> '>
+                                    <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 50em) 33vw,100vw'); ?>
+                                </a>
+                            </figure>
+                            <section>
+                                <h2 class='rubric magazine'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                                <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                <p><?php the_excerpt(); ?></p>
+                                <address><?php echo getAuthorDetail(get_the_ID(), 1, 0); ?></address>
+                                <time><?php echo $issues_names_without_urls; ?></time>
+                            </section>
+                        </article>
+                        <?php
+                    endwhile;
+                    wp_reset_query();
+                    ?>
+                </main>
+                <div class='rule-responsive'></div>
+            </section>
+            <!--end aside magazine -->
+
+            <!--start aside ebooks -->
+            <section class = 'aside-ebooks'>
+                <header class = 'rubric_small'>
+                    <h1><a href='<?php echo get_post_type_archive_link(EBOOKS_POST_TYPE); ?>'><span class = 'icon icon-dept_ebooks'></span>E-Books</a></h1>
+                    <p>Tricycle wisdom in e-book format</p>
+                </header>
+
+                <main>
+                    <?php
+                    $args = array(
+                        'posts_per_page' => 1,
+                        'orderby' => 'post_date',
+                        'order' => 'DESC',
+                        'post_type' => EBOOKS_POST_TYPE,
+                        'post_status' => 'publish',
+                        'suppress_filters' => true
+                    );
+
+                    $queryfirst = new WP_Query($args);
+                    query_posts($queryfirst);
+                    while ($queryfirst->have_posts()) : $queryfirst->the_post();
+                        $postId[] = $queryfirst->post->ID;
+                        $topics = get_topics_by_post_id($post->ID);
+                        $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                        ?>
+                        <article>
+                            <figure>
+                                <a href = '<?php the_permalink(); ?>'>
+                                    <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,75vw'); ?>	
+                                </a>
+                            </figure>
+                            <section>
+                                <h2 class = 'rubric ebooks'><span class = 'topic'><?php echo $topic_urls; ?></span></h2>
+                                <h1><a href = '<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                <p><?php the_excerpt(); ?></p>
+                            </section>
+                        </article>
+                        <?php
+                    endwhile;
+                    wp_reset_query();
+                    ?>
+
+                </main>
+                <div class='rule-responsive'></div>
+            </section>
+            <!-- end aside ebooks -->
+
+            <!-- start aside dharma talks -->
+            <section class='aside-dharmatalks'>
+                <header class='rubric_small'>
+                    <h1><a href='<?php echo get_post_type_archive_link(DHARMATALKS_POST_TYPE); ?>'><span class='icon icon-dept_dharmatalks'></span>Dharma Talks</a></h1>
+                    <p>Video teachings and discussions with contemporary Buddhist teachers</p>
+                </header>
+                <main>
+                    <?php
+                    $args = array(
+                        'posts_per_page' => 1,
+                        'orderby' => 'post_date',
+                        'order' => 'DESC',
+                        'post_type' => DHARMATALKS_POST_TYPE,
+                        'post_status' => 'publish',
+                        'suppress_filters' => true
+                    );
+
+                    $querydharma = new WP_Query($args);
+                    query_posts($querydharma);
+                    while ($querydharma->have_posts()) : $querydharma->the_post();
+                        $topics = get_topics_by_post_id($post->ID);
+                        $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                        ?>
+                        <article>
+                            <figure>
+                                <a href='<?php the_permalink(); ?>'>
+                                    <div class='icon-video_play' data-grunticon-embed></div>
+                                    <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 50em) 33vw,100vw'); ?>
+                                </a>
+                            </figure>
+                            <section>
+                                <h2 class='rubric dharmatalks'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                                <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                <address><?php echo getAuthorDetail(get_the_ID(), 0, 0); ?></address>
+                                <time><?php echo get_the_time('M Y'); ?></time>
+                            </section>
+                        </article>
+                        <?php
+                    endwhile;
+                    wp_reset_query();
+                    ?>
+                </main>
+                <div class='rule-responsive'></div>
+            </section>
+            <!--end aside dharma talks -->
+        </div>
+
+        <div class = 'rule'></div>
+
+
+        <!--end wrap_outer -->
+
+        <!--start footer -->
+        <?php get_footer();
+        ?>

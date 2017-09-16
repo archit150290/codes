@@ -1,0 +1,228 @@
+// landing
+////////////////////////
+.landing-marquee {
+  @extend %marquee;
+  @extend %marquee-image;
+  @include margin($base-spacing null);
+  @include dept-hover-helper;
+
+  @include media($desktop-down) {
+    margin-bottom: 0;
+  }
+
+  article {
+    @include media($desktop-up) {
+      margin-bottom: 0;
+    }
+  }
+
+  address {
+    display: inline-block;
+
+    + time {
+      @include media($mobile-to-desktop) {
+        @include topic-1line;
+      }
+    }
+  }
+
+  .topic {
+    display: block;
+  }
+}
+
+.landing-marquee-hero {
+
+  article {
+    @include clearfix;
+  }
+
+  figure {
+    @include media($desktop-to-wide) {
+      @include span-columns(7 of 12, block-collapse);
+      @include omega;
+    }
+
+    @include media($wide-up) {
+      @include span-columns(9 of 12);
+      @include omega;
+      margin-bottom: $base-spacing;
+    }
+
+    a {
+      @include media($wide-up) {
+        display: block;
+      }
+    }
+  }
+
+  img {
+    @include media($desktop-up) {
+      height: 27em;
+      max-height: none;
+    }
+
+    @include media($wide-up) {
+      height: 30em;
+    }
+  }
+
+  .icon {
+    @extend %marquee-aside-icon;
+  }
+
+  section {
+    @extend %card;
+    @include padding($small-spacing $base-spacing $base-spacing);
+    // @include transition($base-transition);
+
+    @include media($desktop-to-wide) {
+      @include span-columns(5 of 12, block-collapse);
+      min-height: 27em;
+    }
+
+    @include media($wide-up) {
+      @include margin($base-spacing * 2 null null -6.38298%);
+      @include span-columns(4 of 12);
+      min-height: 30em - ($base-spacing * 4);
+    }
+  }
+
+  h1 {
+    font-size: $heading-font-size;
+
+    @include media($desktop-up) {
+      font-size: 2em;
+      margin-bottom: $small-spacing / 2;
+    }
+  }
+}
+
+.landing-marquee-articles {
+  @extend %posts_3x1;
+
+  article {
+    @extend %card;
+    padding-bottom: $base-spacing;
+  }
+
+  .icon {
+    @extend %marquee-aside-icon;
+  }
+
+  section {
+    @include padding(null $base-spacing);
+  }
+
+  img {
+    min-height: inherit;
+  }
+
+  .rubric {
+    margin-top: $base-spacing;
+  }
+}
+
+.landing-stack {
+  @extend %stack;
+  @extend %stack-rows;
+  @include dept-hover-helper;
+
+  .icon {
+    @extend %marquee-aside-icon;
+
+    @include media($tablet-up) {
+      display: none;
+    }
+  }
+
+  p {
+    color: $clr-gray-mid;
+  }
+
+  address {
+    display: inline-block;
+
+    + time {
+      @include media($mobile-to-tablet) {
+        @include topic-1line;
+      }
+
+      @include media($wide-up) {
+        @include topic-1line;
+      }
+    }
+  }
+
+  .more {
+    @include dept-button($clr-red);
+
+    &.trikedaily {
+      @include dept-button($clr-trikedaily);
+    }
+
+    &.ebooks {
+      @include dept-button($clr-ebooks);
+    }
+
+    &.filmclub {
+      @include dept-button($clr-filmclub);
+    }
+
+    &.magazine {
+      @include dept-button($clr-magazine);
+    }
+
+    &.dharmatalks {
+      @include dept-button($clr-dharmatalks);
+    }
+  }
+}
+
+.landing-marquee,
+.landing-stack {
+
+  article.dharmatalks,
+  article.filmclub,
+  article.filmfestival {
+
+    figure {
+      @extend %video-figure_small;
+    }
+  }
+
+  article.dharmatalks {
+
+    figure {
+      @include video-hover($clr-dharmatalks);
+    }
+
+    address {
+      @extend %dharmatalks-speaker;
+    }
+  }
+
+  article.filmclub {
+
+    figure {
+      @include video-hover($clr-filmclub);
+    }
+  }
+
+  // article.filmfestival {
+  //
+  //   figure {
+  //     @include video-hover($clr-filmfestival);
+  //   }
+  // }
+}
+
+.landing-category {
+
+  .topic {
+    @include media($tablet-to-desktop) {
+      @include topic-1line;
+      display: inline-block;
+    }
+  }
+}

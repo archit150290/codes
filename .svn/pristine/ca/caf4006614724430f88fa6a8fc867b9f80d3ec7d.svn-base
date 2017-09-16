@@ -1,0 +1,202 @@
+<?php get_header(); ?>
+<?php
+$tax = $wp_query->get_queried_object();
+$tax_name = $tax->name;
+$tax_slug = $tax->slug;
+?>
+<!-- start content -->
+<div class='wrap'> 
+    <!-- start landing marquee -->
+    <div class='landing-marquee'>
+
+        <header class='rubric_top'>
+            <h1><?php echo $tax_name; ?></h1>
+        </header>
+
+        <main class='landing-marquee-articles'>
+            <?php
+            $postId = array();
+            $counter = 1;
+            if (have_posts()) {
+                $countPost = $GLOBALS['wp_query']->found_posts;
+                while (have_posts()) {
+                    $countPost--;
+                    the_post();
+                    $post_type = get_post_type();
+                    $postValues = get_post_type_object($post_type);
+                    $labels = $postValues->labels; //to fetch the menu name
+                    $postMenuName = $labels->menu_name;
+                    $postTypeLink = get_post_type_archive_link($post_type);
+                    if ($post_type == "post") {
+                        $post_type = "trikedaily";
+                        $postMenuName = "Trike Daily";
+                        $postTypeLink = get_permalink(get_page_id_by_slug(TRIKE_DAILY_SLUG));
+                    }
+                    $postId[] = get_the_ID();
+                    $topics = get_topics_by_post_id(get_the_ID());
+                    $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                    $issues = get_issues_by_post_id($post->ID);
+                    $issues_names_without_urls = $issues && isset($issues['names_without_urls']) ? implode(", ", $issues['names_without_urls']) : "";
+                    ?>
+                    <article class = '<?php echo $post_type; ?>' >
+                        <figure>
+                            <a href = '<?php the_permalink(); ?>'>
+                                <?php
+                                if ($post_type == FILM_CLUB_POST_TYPE || $post_type == DHARMATALKS_POST_TYPE || $post_type == FILM_FESTIVAL_POST_TYPE) {
+                                    echo "<div class='icon-video_play' data-grunticon-embed></div>";
+                                }
+                                ?>
+                                <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 50em) 33vw,100vw'); ?>
+                            </a>
+                        </figure>
+                        <section class = 'rubric <?php echo $post_type; ?>'>
+                            <a class = 'icon icon-dept_<?php echo $post_type; ?>' href = 'javascript:void(0);'></a>
+                            <h2 class = '<?php echo $post_type; ?>'><a href = '<?php echo $postTypeLink; ?>'><?php echo $postMenuName; ?></a>
+                                <span class = 'topic'><?php echo $topic_urls; ?></span>
+                            </h2>
+                        </section>
+                        <section class = 'titles'>
+                            <h1><a href = <?php the_permalink(); ?>><?php the_title(); ?></a></h1>
+                            <p><?php
+                                if ($post_type != DHARMATALKS_POST_TYPE) {
+                                    if ($post_type == FILM_CLUB_POST_TYPE) {
+                                        echo "";
+                                    } else {
+                                        the_excerpt();
+                                    }
+                                }
+                                ?></p>
+                                <?php if($post_type!= EBOOKS_POST_TYPE) // as we dont need author and time for ebooks
+                                {?>
+                                <address><?php echo getAuthorDetail(get_the_ID(), 1, 0); ?></address>
+                                <time><?php echo ($post_type == MAGAZINE_POST_TYPE) ? $issues_names_without_urls : (($post_type == "trikedaily") ? get_the_date('M d, Y') :get_the_date('M Y')); ?></time>
+                                <?php } ?>
+                        </section>
+                    </article>   
+
+                    <?php
+                    if ($counter == 3) {
+                        break;
+                    }
+                    $counter++;
+                }
+            } // end of if
+            ?>
+        </main>
+    </div>
+
+    <!-- end landing marquee -->
+
+    <!-- start landing stack -->
+
+    <div class='landing-stack'>
+        <div class='landing-stack-1'>
+            <?php
+            if (have_posts() && $countPost > 0) {
+                $counter = 1;
+                while (have_posts()) {
+                    $countPost--;
+                    the_post();
+                    $post_type = get_post_type();
+                    $postValues = get_post_type_object($post_type);
+                    $labels = $postValues->labels; //to fetch the menu name
+                    $postMenuName = $labels->menu_name;
+                    $postTypeLink = get_post_type_archive_link($post_type);
+                    if ($post_type == "post") {
+                        $post_type = "trikedaily";
+                        $postMenuName = "Trike Daily";
+                        $postTypeLink = get_permalink(get_page_id_by_slug(TRIKE_DAILY_SLUG));
+                    }
+                    $postId[] = get_the_ID();
+                    $topics = get_topics_by_post_id(get_the_ID());
+                    $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                    $issues = get_issues_by_post_id($post->ID);
+                    $issues_names_without_urls = $issues && isset($issues['names_without_urls']) ? implode(", ", $issues['names_without_urls']) : "";
+                    ?>
+                    <article class='<?php echo $post_type; ?>'>
+                        <figure>
+                            <a href='<?php the_permalink(); ?>'>
+                                <?php if ($post_type == FILM_CLUB_POST_TYPE || $post_type == DHARMATALKS_POST_TYPE || $post_type == FILM_FESTIVAL_POST_TYPE) {
+                                    ?> <div class = 'icon-video_play' data-grunticon-embed></div> <?php } ?>
+                                <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 37.5em) 25vw, 100vw'); ?>
+                            </a>
+                        </figure>
+
+                        <section class = 'rubric <?php echo $post_type; ?>'>
+                            <a class = 'icon icon-dept_<?php echo $post_type; ?>' href = '<?php echo $postTypeLink; ?>'></a>
+                            <h2 class = '<?php echo $post_type; ?>'><a href = '<?php echo $postTypeLink; ?>'><?php echo $postMenuName; ?></a><span class = 'topic'><?php echo $topic_urls; ?></span></h2>
+                        </section>
+
+                        <section class = 'titles'>
+                            <h1><a href = <?php the_permalink(); ?>><?php the_title(); ?></a></h1>
+                            <p><?php echo excerpt(35); ?></p>
+                            <?php if($post_type!= EBOOKS_POST_TYPE)
+                            {?>
+                            <address><?php echo getAuthorDetail(get_the_ID(), 1, 0); ?></address>
+                            <time><?php echo ($post_type == MAGAZINE_POST_TYPE) ? $issues_names_without_urls : (($post_type == "trikedaily") ? get_the_date('M d, Y') :get_the_date('M Y')); ?></time>
+                            <?php } ?>
+                        </section>
+                    </article>
+                    <?php
+                    if ($counter == 3) {
+                        ?>
+                        <div class="CTA-module">
+                            <?php
+                            //function to get ad from the database 
+                            get_the_ad("topics_ad1_");
+                            ?>
+                        </div>
+                        <?php
+                    }
+
+
+                    $counter++;
+                    ?>
+
+                    <?php
+                    if ($counter == 7 && $countPost > 0) {
+                        ?>
+
+                        <div class='more'>
+                            <div id="loadingimage" style="position:relative;"></div>
+                            <input type="hidden" name="postId" id="postId" value="<?php echo json_encode($postId); ?>" />
+                            <input type="hidden" name="taxonomy" id="taxonomy" value="<?php echo 'topic' ?>" />
+                            <input type="hidden" name="taxname" id="taxname" value="<?php echo $tax_name; ?>" />
+                            <a href='javascript:void(0)' id="PleaseLoadMore" onclick="loadmoretopic()">Load More</a>
+                        </div>
+                        <?php
+                        break;
+                    }
+                } // enf of while
+            } // end of if
+            ?>              </div> <!-- end of landing-stack-1 -->  
+
+        <div class="CTA-module">
+            <?php
+            //function to get ad from the database 
+            get_the_ad("topics_ad2_");
+            ?>
+        </div>
+
+    </div>  <!-- landing stack div -->
+
+    <aside>
+        <div class='aside-depts'>
+            <!--start aside trikedaily -->
+            <?php show_latest_trike_daily(); ?>
+            <!--end aside trikedaily -->
+
+            <!--start aside magazine -->            
+            <?php show_latest_magazine_article(); ?>                
+            <!--end aside magazine -->
+
+            <!--start aside dharma talks -->            
+            <?php show_latest_dharma_talks(); ?>
+
+            <!--end aside dharma talks -->
+        </div>
+        <div class = 'rule'></div>
+
+
+        <?php get_footer(); ?>
+           

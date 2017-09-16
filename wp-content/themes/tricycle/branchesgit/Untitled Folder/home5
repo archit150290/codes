@@ -1,0 +1,1269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" role="application" class="">
+    <head>
+        <title>Stitch Fix | Online Personal Stylists for Women</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="Want your own personal stylist? This is the best online service I’ve used &amp; I know you’ll love it, too! Get hand-picked style delivered—shipping’s free both ways."/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+        <meta name="p:domain_verify" content="84ed168f187185cf33f4bfd2cc56018d"/>
+        <meta property="og:title" content= "Stitch Fix | Try It On For Size" />
+        <meta property="og:url" content="https://style.stitchfix.com/"/>
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:image" content="images/referral_link_sharing_image_resized-ed3adc2e921886c0f755afa697c46a8f.jpg"/>
+        <meta property="og:image:secure_url" content="images/referral_link_sharing_image_resized-ed3adc2e921886c0f755afa697c46a8f.jpg"/>
+        <meta property="og:image:width" content="526"/>
+        <meta property="og:image:height" content="274"/>
+        <meta name="twitter:card" content="summary"/>
+        <meta name="twitter:site" content="@stitchfix"/>
+        <meta name="msapplication-config" content="none"/>
+        <link rel="shortcut icon" href="assets/favicon.ico"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+        <link rel="apple-touch-icon" href="assets/touch-icon-iphone-precomposed.png"/>
+        <link rel="apple-touch-icon" sizes="72x72"   href="assets/touch-icon-ipad-precomposed.png"/>
+        <link rel="apple-touch-icon" sizes="114x114" href="assets/touch-icon-iphone-retina-precomposed.png"/>
+        <link rel="apple-touch-icon" sizes="144x144" href="assets/touch-icon-ipad-retina-precomposed.png"/>
+
+        <link rel="stylesheet" type="text/css" href="css/minified_design_variant2.css" media="screen"/>
+        <link href="css/reskin.home4.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="js/jquery2.1.0.js"></script>
+        <script type="text/javascript" src="js/mobile-detect.min.js"></script>
+        <script type="text/javascript" src="js/abanalytics.home4.js"></script>
+        <script type="text/javascript" src="js/track.home4.js"></script>
+        <script>
+            var md = new MobileDetect(window.navigator.userAgent);
+            var dfutm_camid = 111111222222;
+            ABalytics.init();
+            ABalytics.variantName = "home5-a";
+            ABalytics.client = "stitchfix";
+            ABalytics.applyHtml();
+        </script>
+        <img height="1" width="1" style="display:none;" alt="" src="https://ct.pinterest.com/?tid=7gMYcbryiN5&value=0.00&quantity=1"/>
+    </head>
+    <body class="public-home reskin neutral womens new-hero-2">
+        <header class="newHeader">
+            <div class="container">
+                <div class="col-xs-6">
+                    <div class="row"> 
+                        <a class="link--branding" href="https://www.stitchfix.com/?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&amp;utm_medium=other&amp;utm_source=ampush">
+                            <img alt="Stitch Fix" class="logotype link--branding--logo" width="130px;" src="images/logo-b.svg" />
+                        </a>
+                        <div class="tagline">Your Partner In Personal Style</div>
+                    </div>
+                </div>
+                <a class="btn btn--secondary btn--sign-in hidden-xs" href="https://www.stitchfix.com/login?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&amp;utm_medium=other&amp;utm_source=ampush">Sign In</a>
+            </div>
+        </header>
+        <div class="wrapper">
+            <div id='carousel' class='carousel slide carousel-fade'>
+                <div class='carousel-inner' role='listbox'>
+                    <div class='item hero-1 active'></div>
+                    <div class='item hero-2'></div>
+                    <div class='item hero-3 blur'></div>
+                </div>
+                <div class="hero-box">
+                    <div class="container">
+                        <div class="hero-GN-whitebox">
+                            <div class="pad4side">
+                                <div class="hero-size-chart">
+
+                                    <div class='explain'>
+                                        <span class="hidden-xs">Clothing and accessories hand-selected by a personal stylist, delivered to your door.</span>
+                                        <span class="visible-xs">Your Partner in Personal Style</span>
+                                    </div>
+                                    <div class="form-group" data-validate="presence">
+                                        <label class="control-label" for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id"> What is your dress size? </label>
+                                        <div class="btn-group" data-toggle="buttons">
+                                            <label class="btn btn-default">
+                                                <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_37" value="37" class="form-control rbtn-scale-pop" />
+                                                <span for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_37">XS</span>
+                                            </label>
+                                            <label class="btn btn-default">
+                                                <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_38" value="38" class="form-control rbtn-scale-pop" />
+                                                <span for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_38">S</span>
+                                            </label>
+                                            <label class="btn btn-default">
+                                                <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_39" value="39" class="form-control rbtn-scale-pop" />
+                                                <span for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_39">M</span>
+                                            </label>
+                                            <label class="btn btn-default">
+                                                <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_40" value="40" class="form-control rbtn-scale-pop" />
+                                                <span for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_40">L</span>
+                                            </label>
+                                            <label class="btn btn-default">
+                                                <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_41" value="41" class="form-control rbtn-scale-pop" />
+                                                <span for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_41">XL</span>
+                                            </label>
+                                            <label class="btn btn-default">
+                                                <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_119" value="119" class="form-control rbtn-scale-pop"/>
+                                                <span for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_119">XXL</span>
+                                            </label>
+                                        </div>
+                                        <p class="instructional-note">Need sizing help? Consult our 
+                                            <a href="#" data-toggle="modal" data-target="#sizeChart-pop" class="size-chart topsizechart">Size Chart  &raquo;</a></p>
+                                    </div>
+                                    <div class='actions shortwidth'>
+                                        <a href='#sign-up' class='get-started btn-block btn btn-red' data-toggle="modal" data-target="#getStart-pop">GET STARTED&nbsp;&nbsp;&#xe604;</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <ol class='carousel-indicators'>
+                                <li data-target='#carousel' data-slide-to='0' class='active'></li>
+                                <li data-target='#carousel' data-slide-to='1'></li>
+                                <li data-target='#carousel' data-slide-to='2'></li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class='actions fullwidth'>
+                        <a href='#sign-up' class='get-started btn-block btn btn-red' data-toggle="modal" data-target="#getStart-pop">GET STARTED&nbsp;&nbsp;&#xe604;</a>
+                    </div>
+                </div>
+
+
+                <div class="div-pointer-container">
+                    <div class="div-pointer-down--transparent"></div>
+                </div>
+            </div>
+            <!--BANNER AND HEADER END-->
+
+            <!--Who we are-->
+            <section class='mission casts-shadow-xs casts-shadow-sm' id='mission'>
+                <div class='push-forward'>
+                    <div class="hero-quote mint slashed push-forward">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h2>Who we are</h2>
+                                </div>
+                                <div class="col-sm-10 col-sm-push-1">
+                                    <p>For busy women on the go, Stitch Fix<span style="font-size: 10px; vertical-align: super;">&#9415;</span> is the personal styling service tailored to your taste, budget and lifestyle that helps you look and feel your best every&nbsp;day.</p>
+                                </div>
+                                <div class="col-sm-12">
+                                    <img class="icon" alt="Stitch Fix logo" src="images/logo_outline_warm_gray_with_tm.svg" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--Who we are-->
+
+            <!--HOW IT WORKS-->
+            <section id="how-it-works-section" class="how-it-works-section how-it-works optimizely-reskin-old clearfix" name="how-it-works">
+                <h2 class="section-header transparent">How It Works</h2>
+                <ol class="steps">
+
+                    <li class="step one col-sm-6 ">
+                        <div class="step-description">
+                            <label>Step N<sup>o</sup> 1</label>
+                            <h3>Get started with a <br>personal style&nbsp;quiz</h3>
+                            <p>Create a style profile so your personal stylist can get to know&nbsp;you.</p>
+                        </div>
+                    </li>
+                    <li class='photo col-sm-6 one blur' >
+                        <p class="sr-only"> Picture of a customer filling out a style profile on the Stitch Fix website. ></p>
+                    </li>
+
+                    <li class="step two col-sm-6 col-sm-push-6">
+                        <div class="step-description">
+                            <label>Step N<sup>o</sup> 2</label>
+                            <h3>Receive five personalized pieces, <br>delivered to your&nbsp;door</h3>
+                            <p>Try on and discover styles hand-picked to fit you, your budget and your&nbsp;style.</p>
+                        </div>
+                    </li>
+                    <li class='photo col-sm-6 two col-sm-pull-6 blur '>
+                        <p class="sr-only"> Picture of a customer unpacking her Fix and examining its contents, which include clothes, some jewelry, and style tips. ></p>
+                    </li>
+
+                    <li class="step three col-sm-6 ">
+                        <div class="step-description">
+                            <label>Step N<sup>o</sup> 3</label>
+                            <h3>Keep what you love,<br>send back the rest</h3>
+                            <p>Only pay for what you keep; your feedback makes your next experience even&nbsp;better!</p>
+                        </div>
+                    </li>
+                    <li class='photo col-sm-6 three blur' >
+                        <p class="sr-only"> Picture of a customer placing her prepaid, pre-addressed return envelope into an outgoing mail box. ></p>
+                    </li>
+                </ol>
+            </section>
+            <!--HOW IT WORKS-->
+
+            <section class="shadowy"> 
+
+                <!--BENEFITS-->
+                <section class="reasons-to-believe optimizely-reskin-old benefits">
+                    <div class="container">
+                        <div class="row reasons-to-believe-group">
+                            <div class="pricing-logo1 logomobile" title="Smiley"><svg class="icon" viewBox="-5 -5 100 100"><use xlink:href="images/sprite.svg#smiley-thin-gray" /></svg></div>
+                            <h2 class="reasons-to-believe-group-title"> Benefits<span class="sr-only"> of a Stitch Fix Personal Shopper</span> </h2>
+                            <div class="col-md-4">
+                                <div class="benefit-logo1 hidden-xs hidden-sm" title="Symbolic drawing of money"><svg class="icon" viewBox="-5 -5 100 100"><use xlink:href="images/sprite.svg#dress-form-gray" /></svg></div>
+                                <h4 class="reasons-to-believe-name">Personalized Selections</h4>
+                                <p class="reasons-to-believe-description">Discover what you look and feel great in with the help of your personal&nbsp;stylist.</p>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="benefit-logo2 hidden-xs hidden-sm" title="Speech bubble"><svg class="icon" viewBox="-5 -5 100 100"><use xlink:href="images/sprite.svg#feedback-gray" /></svg></div>
+                                <h4 class="reasons-to-believe-name">Better Every Time</h4>
+                                <p class="reasons-to-believe-description">Your feedback helps your stylist select items you will&nbsp;love.</p>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="benefit-logo3 hidden-xs hidden-sm" title="Symbolic drawing box being delivered"><svg class="icon" viewBox="-5 -5 100 100"><use xlink:href="images/sprite.svg#box-delivery-gray" /></svg></div>
+                                <h4 class="reasons-to-believe-name">On Your&nbsp;Schedule</h4>
+                                <p class="reasons-to-believe-description">Opt to receive packages regularly or at your&nbsp;convenience.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!--#BENEFITS--> 
+
+                <!--PRICING-->
+                <section class="reasons-to-believe optimizely-reskin-old pricing">
+                    <div class="container">
+                        <div class="row reasons-to-believe-group">
+                            <div class="pricing-logo3 logomobile" title="Symbolic drawing of money"><svg class="icon" viewBox="-5 -5 100 100"><use xlink:href="images/sprite.svg#cost-thin-gray" /></svg></div>
+                            <h2 class="reasons-to-believe-group-title"> Pricing<span class="sr-only"></span> </h2>
+                            <div class="col-md-4">
+                                <div class="pricing-logo1 hidden-xs hidden-sm" title="Smiley"><svg class="icon" viewBox="-5 -5 100 100"><use xlink:href="images/sprite.svg#smiley-thin-gray" /></svg></div>
+                                <h4 class="reasons-to-believe-name">No Pressure</h4>
+                                <p class="reasons-to-believe-description">The styling fee is $20, which you can use toward your final&nbsp;order.</p>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pricing-logo2 hidden-xs hidden-sm" title="Stylized heart drawing"><svg class="icon" viewBox="-5 -5 100 100"><use xlink:href="images/sprite.svg#love-gray" /></svg></div>
+                                <h4 class="reasons-to-believe-name">Love Everything? Enjoy a 25%&nbsp;Discount</h4>
+                                <p class="reasons-to-believe-description">Celebrate with a discount when you love all&nbsp;5&nbsp;items!</p>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pricing-logo3 hidden-xs hidden-sm" title="Symbolic drawing of money"><svg class="icon" viewBox="-5 -5 100 100"><use xlink:href="images/sprite.svg#cost-thin-gray" /></svg></div>
+                                <h4 class="reasons-to-believe-name">Priced for your&nbsp;budget</h4>
+                                <p class="reasons-to-believe-description">Our personal shoppers select pieces customized to your spending&nbsp;preferences.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!--#PRICING--> 
+
+                <!--CLOTH and Asssory-->
+                <section class="reasons-to-believe optimizely-reskin-old product">
+                    <div class="container">
+                        <div class="row reasons-to-believe-group">
+                            <div class="cloth-logo1 logomobile" title="Drawing of a clothes hanger with a dangling heart."><svg class="icon" viewBox="-5 -5 100 100"><use xlink:href="images/sprite.svg#hanger-item" /></svg></div>
+                            <h2 class="reasons-to-believe-group-title"> Clothing & Accessories<span class="sr-only"></span> </h2>
+                            <div class="col-md-4">
+                                <div class="cloth-logo1 hidden-xs hidden-sm" title="Drawing of a clothes hanger with a dangling heart."><svg class="icon" viewBox="-5 -5 100 100"><use xlink:href="images/sprite.svg#hanger-item" /></svg></div>
+                                <h4 class="reasons-to-believe-name">Exclusive & Popular Brands</h4>
+                                <p class="reasons-to-believe-description">We partner with brands you know and love, as well as develop items exclusive to&nbsp;Stitch Fix.</p>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="cloth-logo2 hidden-xs hidden-sm" title="Drawing of a dollar bill,"><svg class="icon" viewBox="-5 -5 100 100"><use xlink:href="images/sprite.svg#dollor-item" /></svg></div>
+                                <h4 class="reasons-to-believe-name">Fair & Comparable Pricing</h4>
+                                <p class="reasons-to-believe-description">We offer high-quality items with no mark up above standard retail prices.</p>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="cloth-logo3 hidden-xs hidden-sm" title="Drawing of a dress with a checkmark inside."><svg class="icon" viewBox="-5 -5 100 100"><use xlink:href="images/sprite.svg#style-item" /></svg></div>
+                                <h4 class="reasons-to-believe-name">Range of Styles & Sizes</h4>
+                                <p class="reasons-to-believe-description">We carry an array of apparel, shoes and accessories—as well as petite & maternity.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!--#CLOTH and Asssory--> 
+            </section>
+
+            <!--YOUR FIX-->
+            <section id="review-section" class="this-could-be-your-fix optimizely-reskin-old" name="review-section">
+                <h2 class="section-header transparent">This Could Be Your Fix</h2>
+                <ul class="expected-items">
+                    <li class="expected-item one">
+                        <div class="container">
+                            <div class="row">
+                                <div class="expected-item-description  col-sm-6 col-sm-push-6">
+                                    <h4 class="item-num1 svg hidden-xs"><svg class="icon" viewBox="0 0 100 100"><use xlink:href="images/sprite.svg#graph1-item" /></svg></h4>
+                                    <p>“With three kids under 5, I hardly have time for myself, let alone shopping. Stitch Fix easily fits into my life. Plus they’ve given me confidence to love my post-baby body—I’ve never felt more stylish.” </p><p class="client-name">— Savannah, 34</p><p></p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="expected-item two">
+                        <div class="container">
+                            <div class="row">
+                                <div class="expected-item-description  col-sm-6 ">
+                                    <h4 class="item-num2 svg hidden-xs"><svg class="icon" viewBox="0 0 100 100"><use xlink:href="images/sprite.svg#graph2-item" /></svg></h4>
+                                    <p>“I’m always looking for unique pieces that my friends don’t have. Since Stitch Fix carries exclusive brands &amp; styles, I can find cool items that show off my creativity.” </p><p class="client-name">— Lily, 26</p><p></p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="expected-item three">
+                        <div class="container">
+                            <div class="row">
+                                <div class="expected-item-description  col-sm-6 col-sm-push-6">
+                                    <h4 class="item-num3 svg hidden-xs"><svg class="icon" viewBox="0 0 100 100"><use xlink:href="images/sprite.svg#graph3-item" /></svg></h4>
+                                    <p>“With such a busy schedule, I value the attention my Stylist pays to my closet. And I love the tips she sends with each Fix. It’s like having a fashion advisor at my fingertips.” </p><p class="client-name">— Elizabeth, 42</p><p></p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="expected-item four">
+                        <div class="container">
+                            <div class="row">
+                                <div class="expected-item-description  col-sm-6 ">
+                                    <h4 class="item-num4 svg hidden-xs"><svg class="icon" viewBox="0 0 100 100"><use xlink:href="images/sprite.svg#graph4-item" /></svg></h4>
+                                    <p>“Living in Alaska, it’s difficult to find functional &amp; stylish clothing. But my favorite part? It’s like opening a birthday present! I just love when a Fix shows up on my doorstep.” </p><p class="client-name">— Debbie, 57</p><p></p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+            <!--#YOUR FIX--> 
+
+            <!--#SignUP Fix--> 
+            <div class="get-started" id="sign-up-pos">
+                <a name="get-started" id="get-started"></a>
+                <div class="get-started__container container" id="sign-up">
+                    <div class="get-started__feature-image get-started__feature-image--neutral"></div>
+                    <div class="get-started__form">
+                        <form class="registration-form" novalidate="novalidate" data-init-batch-form-validation="true" data-init-blur-form-validation="true" id="new_user" action="https://www.stitchfix.com/?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush" accept-charset="UTF-8" method="post">
+                            <input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="IOhtRvPWI28RQsC7GTRKOmHMKrq97gG8IRrtGNPtA2UIaKQjGRYBwFJI+00n9HfIZ5D9dupKv4VCCSoXKMTu2Q==" />
+                            <input value="Womens" type="hidden" name="user[business_line]" id="user_business_line" />
+                            <div class="PLR10">
+                                <div class="registration-form__title">Let’s Get Started!</div>
+
+                                <div class="facebook-button facebook-button--inverted">
+                                    <a href="#/" class="facebook-button__link" id="fb-button" data-controller-path="/linked_accounts/facebook/info" data-controller-action="GET">
+                                        <div class="facebook-button__content" id="facebook_signup">
+                                            <div class="facebook-button__text">SIGN UP WITH FACEBOOK</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="line-separator"> OR </div>
+                            </div>
+
+                            <div class="registration-form-main">
+                                <div class="registration-form-main__row registration-form-main__row--top">
+                                    <div class="registration-form-main__input-group registration-form-main__input-group--doubled" data-validate="presence">
+                                        <label class="registration-form-main__input-group-label" for="user_first_name">First Name</label>
+                                        <input maxlength="30" class="registration-form-main__input" size="30" type="text" name="user[first_name]" id="user_first_name" />
+                                        <div class="registration-form-main__input-group-focus"></div>
+                                    </div>
+                                    <div class="registration-form-main__input-group registration-form-main__input-group--doubled" data-validate="presence">
+                                        <label class="registration-form-main__input-group-label" for="user_last_name">Last Name</label>
+                                        <input maxlength="30" class="registration-form-main__input" size="30" type="text" name="user[last_name]" id="user_last_name" />
+                                        <div class="registration-form-main__input-group-focus"></div>
+                                    </div>
+                                </div>
+                                <div class="registration-form-main__row">
+                                    <div class="registration-form-main__input-group" data-validate="presence,email,emailUniqueness,emailRareTopLevelDomain">
+                                        <label class="registration-form-main__input-group-label" for="user_email">Email</label>
+                                        <input maxlength="75" class="registration-form-main__input" size="75" type="email" name="user[email]" id="user_email" />
+                                        <div class="registration-form-main__input-group-focus"></div>
+                                    </div>
+                                </div>
+                                <div class="registration-form-main__row">
+                                    <div class="registration-form-main__input-group registration-form-main__input-group--hint" data-validate="presence,zip">
+                                        <label class="registration-form-main__input-group-label" for="user_client_attributes_shipping_postcode">Zip Code</label>
+                                        <input class="registration-form-main__input" maxlength="10" size="10" type="text" name="user[client_attributes][shipping_postcode]" id="user_client_attributes_shipping_postcode" />
+                                        <div class="registration-form-main__input-hint">At this time we ship only to U.S. mailing addresses.</div>
+                                        <div class="error-msg" style="color:#ff5c61;font-size:11pt"><em><span></span></em></div>
+                                        <div class="registration-form-main__input-group-focus"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group" data-validate="presence">
+                                    <label class="control-label" for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id"> Women's Dress Size </label>
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default">
+                                            <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_37" value="37" class="form-control rbtn-scale" />
+                                            <span for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_37">XS</span>
+                                        </label>
+                                        <label class="btn btn-default">
+                                            <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_38" value="38" class="form-control rbtn-scale" />
+                                            <span for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_38">S</span>    
+                                        </label>
+                                        <label class="btn btn-default">
+                                            <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_39" value="39" class="form-control rbtn-scale" />
+                                            <span for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_39">M</span>    
+                                        </label>
+                                        <label class="btn btn-default">
+                                            <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_40" value="40" class="form-control rbtn-scale" />
+                                            <span for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_40">L</span>        
+                                        </label>
+                                        <label class="btn btn-default">
+                                            <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_41" value="41" class="form-control rbtn-scale" />
+                                            <span for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_41">XL</span>        
+                                        </label>
+                                        <label class="btn btn-default">
+                                            <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_119" value="119" class="form-control rbtn-scale"/>
+                                            <span for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_119">XXL</span>        
+                                        </label>
+                                    </div>
+                                    <p class="instructional-note hidden-xs">Need sizing help? Consult our 
+                                        <a href="#" data-toggle="modal" data-target="#sizeChart-pop" class="size-chart topsizechart">Size Chart &raquo;</a>
+                                        <p class="instructional-note">
+                                            We carry sizes 0–16 (XS–XXL),
+                                            as well as maternity and petite&nbsp;clothing. <a href="https://www.stitchfix.com/plus?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&amp;utm_medium=other&amp;utm_source=ampush">Interested in Plus? » </a></p>
+                                </div>
+                                <div class="form-group submission">
+                                    <p  class="instructional-note">By signing up you accept the
+                                        <a href="https://www.stitchfix.com/terms?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&amp;utm_medium=other&amp;utm_source=ampush">terms and conditions</a> of Stitch&nbsp;Fix.</p>
+                                    <input type="submit" name="commit" value="Take Your Style Quiz" class="btn-green submit" data-disable-with="Signing up..." />
+                                    <div class="help-block">Already a member? <a href="https://www.stitchfix.com/login?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&amp;utm_medium=other&amp;utm_source=ampush">Sign In &raquo;</a></div>
+                                    <div class="registration-opt-in">
+                                        <div class="email-opt-in">
+                                            <div class="checkbox small">
+                                                <input name="user[email_opt_in]" type="hidden" value="0" />
+                                                <input type="checkbox" value="1" checked="checked" name="user[email_opt_in]" id="user_email_opt_in" />
+                                                <label class="control-label" for="user_email_opt_in">I&#39;d like to receive exclusive news, styling tips and more</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--#SignUP Fix--> 
+
+            <!--FOOTER -->
+            <footer class="footer">
+                <section class="press-promo hidden-xs ">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-3 press-oprah">
+                                <img class="lazyload" data-src="images/oprah_new.png" alt="Oprah" />
+                                <noscript>
+                                    <img src="images/oprah_new.png" alt="Oprah" />
+                                </noscript>
+                            </div>
+                            <div class="col-sm-3 press-npr">
+                                <a href="http://www.npr.org/blogs/alltechconsidered/2014/09/08/344266076/try-this-on-for-size-personal-styling-that-comes-in-the-mail">
+                                    <img class="lazyload" data-src="images/npr_new.png" alt="Npr" />
+                                    <noscript>
+                                        <img src="images/npr_new.png" alt="Npr" />
+                                    </noscript>
+                                </a>
+                            </div>
+                            <div class="col-sm-3 press-nytimes">
+                                <a href="http://www.nytimes.com/2014/08/14/technology/personaltech/data-driven-shopping-with-the-personal-touch.html">
+                                    <img class="lazyload" data-src="images/nytimes_new.png" alt="Nytimes" />
+                                    <noscript>
+                                        <img src="images/nytimes_new.png" alt="Nytimes" />
+                                    </noscript>
+                                </a>
+                            </div>
+                            <div class="col-sm-3 press-today">
+                                <a href="http://www.today.com/video/today/57114935#57114935">
+                                    <img class="lazyload" data-src="images/today_new.png" alt="Today" />
+                                    <noscript>
+                                        <img src="images/today_new.png" alt="Today" />
+                                    </noscript>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="social-networks-promo hidden-xs container">
+                    <h3>Join our Community!</h3>
+                    <ul class="row">
+                        <li class="col-sm-offset-2 col-sm-2">
+                            <a href="http://www.facebook.com/stitchfix" title="The Stitch Fix Facebook page">
+                                <div class="rounded">
+                                    <img class="lazyload" data-src="images/girl-wood-shingle-270.jpg" />
+                                    <noscript>
+                                        <img src="images/girl-wood-shingle-270.jpg" alt="Stitch Fix on Facebook: Woman in front of wood-shingled building" />
+                                    </noscript>
+                                </div>
+                                <span class="ss-social ss-facebook"></span></a>
+                        </li>
+                        <li class="col-sm-2">
+                            <a href="http://instagram.com/stitchfix" title="Stitch Fix on Instagram">
+                                <div class="rounded">
+                                    <img alt="Stitch Fix on Instagram: Woman riding a bike" class="lazyload" data-src="images/stretchy-denim-on-bike-270.jpg" />
+                                    <noscript>
+                                        <img src="images/stretchy-denim-on-bike-270.jpg" alt="Stitch Fix on Instagram: Woman riding a bike" />
+                                    </noscript>
+                                </div>
+                                <span class="ss-social ss-instagram"></span></a>
+                        </li>
+                        <li class="col-sm-2">
+                            <a href="http://pinterest.com/StitchFix/" title="The Stitch Fix Pinterest page">
+                                <div class="rounded">
+                                    <img alt="Stitch Fix on Pinterest: Woman in blue jacket with red scarf" class="lazyload" data-src="images/blue-jacket-red-scarf-270.jpg " />
+                                    <noscript>
+                                        <img src="images/blue-jacket-red-scarf-270.jpg" alt="Stitch Fix on Pinterest: Woman in blue jacket with red scarf" />
+                                    </noscript>
+                                </div>
+                                <span class="ss-social ss-pinterest"></span></a>
+                        </li>
+                        <li class="col-sm-2">
+                            <a href="http://twitter.com/stitchfix" title="Stitch Fix on Twitter - @stitchfix">
+                                <div class="rounded">
+                                    <img alt="Stitch Fix on Twitter: Girl standing in trenchcoat" class="lazyload" data-src="images/trench-coat-street-270.jpg" />
+                                    <noscript>
+                                        <img src="images/trench-coat-street-270.jpg" alt="Stitch Fix on Twitter: Girl standing in trenchcoat" />
+                                    </noscript>
+                                </div>
+                                <span class="ss-social ss-twitter"></span></a>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="social-networks visible-xs">
+                    <h6>Have a question?</h6>
+                    <p>
+                        Visit our <a href="https://www.stitchfix.com/faq?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush" class="faq">FAQ</a> or
+                        <a class="faq" href="https://www.stitchfix.com/help_center?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Help Center</a>.
+                    </p>
+                    <p>&mdash;</p>
+                    <h6>Follow Us!</h6>
+                    <ul class="social-networks">
+                        <li>
+                            <a href="http://www.facebook.com/stitchfix" title="The Stitch Fix Facebook page"><span class="ss-social ss-facebook"></span></a>
+                        </li>
+                        <li>
+                            <a href="http://instagram.com/stitchfix" title="Stitch Fix on Instagram"><span class="ss-social ss-instagram"></span></a>
+                        </li>
+                        <li>
+                            <a href="http://pinterest.com/StitchFix/" title="The Stitch Fix Pinterest page"><span class="ss-social ss-pinterest"></span></a>
+                        </li>
+                        <li>
+                            <a href="http://twitter.com/stitchfix" title="Stitch Fix on Twitter - @stitchfix"><span class="ss-social ss-twitter"></span></a>
+                        </li>
+                    </ul>
+                </section>
+                <div class="togglable-footer" role="navigation">
+                    <div class="footer__header">
+                        <span>Have a question?</span> <a title="FAQ" class="faq-link" href="https://www.stitchfix.com/faq?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Visit our FAQ &raquo;</a>
+                    </div>
+                    <a href="#" class="footer__toggle" id="more_info">More info</a>
+                    <div class="footer__content">
+                        <div class="footer__group">
+                            <div class="footer__logo">
+                                <img alt="Stitch Fix Logo" src="images/logo_w_tagline_left_aligned.svg">
+                            </div>
+                            <ul class="footer__nav">
+                                <li>
+                                    <h5>The service</h5>
+                                    <ul class="unstyled">
+                                        <li><a title="Help Center" class="help-center-link" href="https://www.stitchfix.com/help_center?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Help Center</a></li>
+                                        <li><a title="Contact Us" class="contact-us-link" href="https://www.stitchfix.com/contact_us?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Contact Us</a></li>
+                                        <li><a title="Gift Cards" class="gift-card-link" href="https://style.stitchfix.com/gifts?utm_campaign=111111222222&utm_medium=other&utm_source=ampush">Gift Cards</a></li>
+                                        <li><a class="iphone-link" href="https://www.stitchfix.com/iphone-app?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">iPhone App</a></li>
+                                        <li><a class="plus-sizes-link" href="https://www.stitchfix.com/plus?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Plus Sizes</a></li>
+                                        <li><a title="Stitch Fix Style Tips" class="style-tips-link" href="http://blog.stitchfix.com/?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Style Tips</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <h5>The company</h5>
+                                    <ul class="unstyled">
+                                        <li><a title="About Us »" class="about-us-link" href="https://www.stitchfix.com/about?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">About Us</a></li>
+                                        <li><a title="Press" class="press-link" href="https://www.stitchfix.com/press?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Press</a></li>
+                                        <li><a title="Influencer Program" class="affiliate-program-link" href="https://www.stitchfix.com/affiliate_program?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Influencer Program</a></li>
+                                        <li><a title="Careers" class="careers-link" href="https://www.stitchfix.com/careers?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Careers</a></li>
+                                        <li><a title="Technology Blog" class="tech-blog-link" href="http://technology.stitchfix.com/blog/?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Tech Blog</a></li>
+                                    </ul>
+                                </li>
+                                <li class="have-a-question">
+                                    <h5>Have a question?</h5>
+                                    <ul class="unstyled">
+                                        <li><a title="FAQ" class="have-a-question__faq-link" href="https://www.stitchfix.com/faq?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">FAQ</a></li>
+                                        <li><a title="Help Center" class="have-a-question__help-center-link" href="https://www.stitchfix.com/help_center?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Help Center</a></li>
+                                        <li><a title="Contact Us" class="have-a-question__contact-us-link" href="https://www.stitchfix.com/contact_us?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Contact Us</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div class="footer__social">
+                                <h5>Follow us</h5>
+                                <ul class="footer__social__icons">
+                                    <li class="facebook-link"><a class="ss-social ss-facebook" href="http://www.facebook.com/stitchfix" title="The Stitch Fix Facebook page"><span>Facebook</span></a></li>
+                                    <li class="instagram-link"><a class="ss-social ss-instagram " href="http://instagram.com/stitchfix" title="Stitch Fix on Instagram"><span>Instagram</span></a></li>
+                                    <li class="pinterest-link"><a class="ss-social ss-pinterest" href="http://pinterest.com/StitchFix/" title="The Stitch Fix Pinterest page"><span>Pinterest</span></a></li>
+                                    <li class="twitter-link"><a class="ss-social ss-twitter" href="http://twitter.com/stitchfix" title="Stitch Fix on Twitter - @stitchfix"><span>Twitter</span></a></li>
+                                </ul>
+                            </div>
+                            <div class="download">
+                                <a href='http://appstore.com/stitchfix' class='iphone-app-store' data-onclick-event="iPhone Promo,Click Badge - footer,Download iPhone App" title="Download on the App Store">
+                                    <img alt="Apple App store badge" class="lazyload" data-src="images/download-app-store.jpg" />
+                                    <noscript>
+                                        <img alt="Apple App store badge" src="images/download-app-store.jpg" />
+                                    </noscript>
+                                </a>
+                            </div>
+
+                        </div>
+
+                        <div class="footer__footer">
+                            <p class="terms-and-conditions">
+                                <a title="Stitch Fix Terms of Use" href="https://www.stitchfix.com/terms?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Terms of Use</a> |
+                                <a title="Stitch Fix Privacy Policy" href="https://www.stitchfix.com/privacy?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Privacy Policy</a> |
+                                <a title="Stitch Fix Supply Chain Information" href="https://www.stitchfix.com/supply_chain_information?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Supply Chain Information</a>
+                            </p>
+                            <p>Stitch Fix and Fix are trademarks of Stitch Fix, Inc.</p>
+                        </div>
+
+                    </div>
+
+                    <div class="safari_only">&nbsp;</div>
+                </div>
+            </footer>
+            <!--FOOTER End -->
+        </div>
+        <section class="bg"></section>
+        <!--HEADER START-->
+        <header class="logged-out-nav women with-banner">
+
+            <a class="link--branding" href="https://www.stitchfix.com/">
+                <img alt="Stitch Fix" class="logotype link--branding--logo" width="130px;" src="images/logo-b.svg" />
+                <img class="link--branding--avatar" alt="Stitch Fix logo" width="30px;" src="images/logo_outline_warm_gray.svg" />
+            </a>
+            <div class="link--cookie menu-container">
+                <a class="cookie-toggle active" href="javascript:void(0);">Women <span class="arrow">▾</span></a>
+                <ul class="cookie-nav">
+                    <li class="active">
+                        <a class="menu-container__menu-item" href="https://www.stitchfix.com/men">Men</a>
+                    </li>
+                </ul>
+            </div>
+
+            <a href="javascript:void(0);" id="toggle" class="hamburger">
+                <span class="sr-only">Toggle navigation</span></a>
+            <a class="btn btn--secondary btn--sign-in hidden-xs link-login" href="https://www.stitchfix.com/login">Sign In</a>
+            <a class="btn btn--cta btn--revealed gstarted" data-slow-scroll="" href="#get-started">Get Started</a>
+            <nav class="main">
+                <ul class="primary-nav">
+                    <li class="link--sign-in "><a class="" href="https://www.stitchfix.com/login">Sign In</a></li>
+                    <li class="link--how-it-works hiw"><a href="#how-it-works-section" data-slow-scroll>How it works</a></li>
+                    <li><a href="https://www.stitchfix.com/faq">FAQ</a></li>
+                    <li><a class="rew" href="#review-section">Reviews</a> </li>
+                    <li><a class="" href="https://style.stitchfix.com/gifts">Gift Cards</a></li>
+                    <li class="link--style-guide menu-container">
+                        <a class="menu-container__menu-item" href="https://www.stitchfix.com/men">Men</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <!--HEADER END-->
+        <!-- Modal -->
+        <div class="modal fade" id="getStart-pop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <button type="button" class="close getStart-pop-close" data-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-body">
+                        <!--#SignUP Fix--> 
+                        <form class="registration-form" novalidate="novalidate" data-init-batch-form-validation="true" data-init-blur-form-validation="true" id="new_user_pop" action="https://www.stitchfix.com/" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+                            <input type="hidden" name="authenticity_token" value="IOhtRvPWI28RQsC7GTRKOmHMKrq97gG8IRrtGNPtA2UIaKQjGRYBwFJI+00n9HfIZ5D9dupKv4VCCSoXKMTu2Q==" />
+                            <input id="popupsize" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" type="hidden" value="37" />
+                            <div class="PLR10">
+                                <div class="registration-form__title">Let’s Get Started!</div>
+
+                                <div class="facebook-button facebook-button--inverted">
+                                    <a href="#/" class="facebook-button__link" id="fb-button" data-controller-path="/linked_accounts/facebook/info" data-controller-action="GET">
+                                        <div class="facebook-button__content" id="facebook_signup">
+                                            <div class="facebook-button__text">SIGN UP WITH FACEBOOK</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="line-separator"> OR </div>
+                            </div>
+
+                            <div class="registration-form-main">
+                                <div class="registration-form-main__row registration-form-main__row--top">
+                                    <div class="registration-form-main__input-group registration-form-main__input-group--doubled" data-validate="presence">
+                                        <label class="registration-form-main__input-group-label">First Name</label>
+                                        <input maxlength="30" class="registration-form-main__input" size="30" type="text" name="user[first_name]" id="user_first_name" />
+                                        <div class="registration-form-main__input-group-focus"></div>
+                                    </div>
+                                    <div class="registration-form-main__input-group registration-form-main__input-group--doubled" data-validate="presence">
+                                        <label class="registration-form-main__input-group-label">Last Name</label>
+                                        <input maxlength="30" class="registration-form-main__input" size="30" type="text" name="user[last_name]" id="user_last_name" />
+                                        <div class="registration-form-main__input-group-focus"></div>
+                                    </div>
+                                </div>
+                                <div class="registration-form-main__row">
+                                    <div class="registration-form-main__input-group" data-validate="presence,email,emailUniqueness,emailRareTopLevelDomain">
+                                        <label class="registration-form-main__input-group-label">Email</label>
+                                        <input maxlength="75" class="registration-form-main__input" size="75" type="email" name="user[email]" id="user_email" />
+                                        <div class="registration-form-main__input-group-focus"></div>
+                                    </div>
+                                </div>
+                                <div class="registration-form-main__row" style="display:none;">
+                                    <div class="registration-form-main__input-group registration-form-main__input-group--hint" data-validate="presence,zip">
+                                        <label class="registration-form-main__input-group-label" for="user_client_attributes_shipping_postcode">Zip Code</label>
+                                        <input class="registration-form-main__input" maxlength="10" size="10" type="hidden" name="user[client_attributes][shipping_postcode]" id="user_client_attributes_shipping_postcode" />
+                                        <div class="registration-form-main__input-hint">At this time we ship only to U.S. mailing addresses.</div>
+                                        <div class="error-msg" style="color:#ff5c61;font-size:11pt"><em><span></span></em></div>
+                                        <div class="registration-form-main__input-group-focus"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group submission">
+                                    <p  class="instructional-note">By signing up you accept the
+                                        <a href="https://www.stitchfix.com/terms">terms and conditions</a> of Stitch&nbsp;Fix.</p>
+                                    <input type="submit" name="commit" value="Take Your Style Quiz" class="btn-green submit" data-disable-with="Signing up..." />
+                                    <div class="help-block">Already a member? <a href="https://www.stitchfix.com/login">Sign In &raquo;</a></div>
+                                    <div class="registration-opt-in">
+                                        <div class="email-opt-in">
+                                            <div class="checkbox small">
+                                                <input name="user[email_opt_in]" type="hidden" value="0" />
+                                                <input type="checkbox" value="1" checked="checked" name="user[email_opt_in]" id="user_email_opt_in" />
+                                                <label class="control-label" for="user_email_opt_in">I&#39;d like to receive exclusive news, styling tips and more</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                        <!--#SignUP Fix--> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="sizeChart-pop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-body">
+                        <div class="registration-form">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <section class="size-chart">
+                                            <h6>Weight (lbs.)</h6>
+                                            <table class="size-chart">
+                                                <thead>
+                                                    <tr>
+                                                        <th>&nbsp;</th>
+                                                        <th class="">&lt; 100</th>
+                                                        <th class="">110</th>
+                                                        <th class="">120</th>
+                                                        <th class="">130</th>
+                                                        <th class="">140</th>
+                                                        <th class="">150</th>
+                                                        <th class="">160</th>
+                                                        <th class="">170</th>
+                                                        <th class="">180</th>
+                                                        <th class="">190</th>
+                                                        <th class="">200</th>
+                                                        <th class="">200+</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th>&lt; 5'</th>
+                                                        <td class="xs">XS</td>
+                                                        <td class="s">S</td>
+                                                        <td class="s">S</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="xl">XL</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>5’0”</th>
+                                                        <td class="xs">XS</td>
+                                                        <td class="s">S</td>
+                                                        <td class="s">S</td>
+                                                        <td class="s">S</td>
+                                                        <td class="m">M</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="xl">XL</td>
+                                                        <td class="xxl">XXL</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>5’1”</th>
+                                                        <td class="xs">XS</td>
+                                                        <td class="s">S</td>
+                                                        <td class="s">S</td>
+                                                        <td class="s">S</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="xl">XL</td>
+                                                        <td class="xxl">XXL</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>5’2”</th>
+                                                        <td class="xs">XS</td>
+                                                        <td class="xs">XS</td>
+                                                        <td class="s">S</td>
+                                                        <td class="s">S</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="xl">XL</td>
+                                                        <td class="xxl">XXL</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>5’3”</th>
+                                                        <td class="xs">XS</td>
+                                                        <td class="xs">XS</td>
+                                                        <td class="s">S</td>
+                                                        <td class="s">S</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="xl">XL</td>
+                                                        <td class="xxl">XXL</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>5’4”</th>
+                                                        <td class="xs">XS</td>
+                                                        <td class="xs">XS</td>
+                                                        <td class="s">S</td>
+                                                        <td class="s">S</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="xl">XL</td>
+                                                        <td class="xxl">XXL</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>5’5”</th>
+                                                        <td class="xs">XS</td>
+                                                        <td class="xs">XS</td>
+                                                        <td class="s">S</td>
+                                                        <td class="s">S</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="xl">XL</td>
+                                                        <td class="xxl">XXL</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>5’6”</th>
+                                                        <td class="xs">XS</td>
+                                                        <td class="s">S</td>
+                                                        <td class="s">S</td>
+                                                        <td class="s">S</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="xl">XL</td>
+                                                        <td class="xxl">XXL</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>5’7”</th>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                        <td class="s">S</td>
+                                                        <td class="s">S</td>
+                                                        <td class="s">S</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="xl">XL</td>
+                                                        <td class="xxl">XXL</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>5’8”</th>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                        <td class="s">S</td>
+                                                        <td class="s">S</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="xl">XL</td>
+                                                        <td class="xxl">XXL</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>5’9”</th>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                        <td class="s">S</td>
+                                                        <td class="s">S</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="xl">XL</td>
+                                                        <td class="xxl">XXL</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>5’10”</th>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                        <td class="s">S</td>
+                                                        <td class="s">S</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="xl">XL</td>
+                                                        <td class="xxl">XXL</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>5’11”</th>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="xl">XL</td>
+                                                        <td class="xxl">XXL</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>6’0”</th>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="xl">XL</td>
+                                                        <td class="xxl">XXL</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>&gt; 6'</th>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                        <td class="na">&nbsp;&nbsp;&nbsp;</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="m">M</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="l">L</td>
+                                                        <td class="xl">XL</td>
+                                                        <td class="xxl">XXL</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <legend>We currently carry sizes 0&thinsp;&ndash;&thinsp;16 (XS&thinsp;&ndash;XXL)</legend>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--All JavaScript Here--> 
+        <script  type="text/javascript" src="js/bootstrap.min.js"></script> 
+        <script defer type="text/javascript" src="js/lazysizes.min.js"></script>
+        <script async type="text/javascript" src="//www.googleadservices.com/pagead/conversion_async.js"></script>
+        <script async type="text/javascript" src="js/commonFB.home4.js"></script>
+        <script async type="text/javascript" src="js/validate.home4.js"></script> 
+
+        <script>
+            var $ = jQuery.noConflict();
+
+            $(document).ready(function ($) {
+                "use strict";
+                $(".bannersize").click(function (event) {
+                    $("#popupsize").val($(this).find("input").val());
+                });
+
+                $('.carousel').carousel({
+                    interval: 3000,
+                    pause: false
+                })
+
+
+                $(".hiw").click(function (event) {
+                    event.preventDefault();
+                    navigate('how-it-works-section');
+                });
+                $(".rew").click(function (event) {
+                    event.preventDefault();
+                    navigate('review-section');
+                });
+                $(".gstarted").click(function (event) {
+                    event.preventDefault();
+                    navigate('sign-up-pos');
+                });
+
+                $('#getStart-dialog').modal('')
+
+            });
+
+            $(window).load(function () {
+
+                $(".item").each(function (index, el) {
+                    setTimeout(function () {
+                        $(el).removeClass('blur');
+                    }, 2000);
+                });
+                setTimeout(function () {
+                    $('.blur').removeClass('blur');
+                }, 2000);
+            });
+
+            function navigate(divId) {
+                if (md.mobile() != null) {
+                    $('html, body').animate({scrollTop: $("#" + divId).offset().top - 30}, 700);
+                } else {
+                    $('html, body').animate({scrollTop: $("#" + divId).offset().top}, 700);
+                }
+            }
+            ;
+            function getRandomInt(min, max) {
+                return Math.floor(Math.random() * (max - min)) + min;
+            }
+            function isFormVisible() {
+                var viewData = getViewportOffset($("#new_user"));
+                return  ("insideViewport" in viewData && viewData.insideViewport == true) ? true : false;
+            }
+
+            function isFooterToggleVisible() {
+                var viewData = getViewportOffset($(".togglable-footer"));
+                return  ("insideViewport" in viewData && viewData.insideViewport == true) ? true : false;
+            }
+
+            function isGetStartedVisible() {
+                if ($(".shortwidth").css("display") == "none") {
+                    var viewData = getViewportOffset($(".hero-box .fullwidth a"));
+                } else {
+                    var viewData = getViewportOffset($(".hero-box .shortwidth a"));
+                }
+                return  ("insideViewport" in viewData && viewData.insideViewport == true) ? true : false;
+            }
+
+            function carousolbckVisible() {
+                var viewData = getViewportOffset($("#carousel"));
+                return  ("insideViewport" in viewData && viewData.insideViewport == true) ? true : false;
+            }
+
+
+            $(document).scroll(function () {
+                if (isFormVisible() == true || isFooterToggleVisible()) {
+                    $("body").addClass("HideCTA")
+                }else{
+                    if($("body").hasClass("HideCTA") == true){
+                        $("body").removeClass("HideCTA")
+                    }
+                }
+                if (isGetStartedVisible() == true || $('body').offset().top + $(window).scrollTop() < 30) {
+                    if ($(".fullwidth").css("position") == "static") {
+                        $("body").toggleClass("global-nav-fixed", false)
+                    } else {
+                        if (carousolbckVisible() == true) {
+                            $("body").toggleClass("global-nav-fixed", false)
+                        } else {
+                            $("body").toggleClass("global-nav-fixed", true)
+                        }
+                    }
+                } else {
+                    $("body").toggleClass("global-nav-fixed", true)
+                }
+            })
+
+            function getViewportOffset($e) {
+                var $window = $(window), scrollLeft = $window.scrollLeft(), scrollTop = $window.scrollTop(), offset = $e.offset(),
+                        rect1 = {x1: scrollLeft, y1: scrollTop, x2: scrollLeft + $window.width(), y2: scrollTop + $window.height()},
+                rect2 = {x1: offset.left, y1: offset.top, x2: offset.left + $e.width(), y2: offset.top + $e.height()};
+                return {
+                    left: offset.left - scrollLeft,
+                    top: offset.top - scrollTop,
+                    insideViewport: rect1.x1 < rect2.x2 && rect1.x2 > rect2.x1 && rect1.y1 < rect2.y2 && rect1.y2 > rect2.y1
+                };
+            }
+            /**/
+            $(function () {
+                function t() {
+                    return /(iPhone).*OS [1-5](.*) like Mac OS X/i.test(navigator.userAgent) || /(iPod).*OS [1-6](.*) like Mac OS X/i.test(navigator.userAgent) || /(iPad).*OS [1-4](.*) like Mac OS X/i.test(navigator.userAgent)
+                }
+                if ($("body.public-home").length) {
+                    var e = function () {
+                        var t = $("body").offset().top + 500,
+                                n = $(document).scrollTop();
+                        var showMe = n > t;
+                    };
+                    setTimeout(e, 10), setTimeout(function () {
+                        t() ? $("body").addClass("no-fixed-background") : ($("body.public-home .wrapper").append('<section class="bg"></section>'), $("body").addClass("fixed-background"))
+                    }, 1000)
+                }
+            });
+
+            $(function () {
+                return $("[ data-slow-scroll-via-class ]").click(function (t) {
+                    var e, n, i;
+                    return n = $(this).attr("href").replace(/.*#/, "."), n += ":visible", 0 !== $(n).length ? (t.preventDefault(), i = $(n).offset().top, e = $(this).data("slow-scroll"), e && (i += e), $("html,body").animate({
+                        scrollTop: i
+                    }, 700), !1) : void 0
+                })
+            })
+            $(".hamburger, .mobile-global-nav-tray li a").click(function () {
+                $("body").toggleClass("mobile-navbar-shown");
+            })
+
+            setInterval(function () {
+                if ($("#sizeChart-pop").hasClass("in") == true) {
+                    $("body").toggleClass("global-nav-fixed", false)
+                }
+            }, 10)
+
+
+        </script> 
+        <script type="text/javascript">
+            /* <![CDATA[ */
+            var google_conversion_id = 879950942;
+            var google_conversion_language = "en";
+            var google_conversion_format = "3";
+            var google_conversion_color = "ffffff";
+            var google_conversion_label = "DvXLCM21lGgQ3vjLowM";
+            var google_remarketing_only = false;
+            /* ]]> */
+        </script>
+        <script type="text/javascript">
+            var mouseflowPath = "/variant-a";
+            if (ABalytics.variantName == "b")
+                mouseflowPath = "/variant-b";
+            if (ABalytics.variantName == "c")
+                mouseflowPath = "/variant-c";
+            if (ABalytics.variantName == "d")
+                mouseflowPath = "/variant-d";
+            if (ABalytics.variantName == "e")
+                mouseflowPath = "/variant-e";
+            if (ABalytics.variantName == "f")
+                mouseflowPath = "/variant-f";
+            var _mfq = _mfq || [];
+            (function () {
+                var mf = document.createElement("script");
+                mf.type = "text/javascript";
+                mf.async = true;
+                mf.src = "//cdn.mouseflow.com/projects/b4f5a3bc-8adf-4753-9c5c-c98fdc8979b6.js";
+                document.getElementsByTagName("head")[0].appendChild(mf);
+            })();
+            console.log(ABalytics.variantName)
+        </script>
+        <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+        </script> 
+        <noscript>
+            <img height="1" width="1" style="display:none"
+                 src="https://www.facebook.com/tr?id=1788766331342814&ev=LandingPageVisit&noscript=1"
+                 />
+        </noscript> 
+        <noscript><img src="//bat.bing.com/action/0?ti=5284076&Ver=2" height="0" width="0" style="display:none; visibility: hidden;" /></noscript>
+        <noscript>
+            <div style="display:inline;">
+                <img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/879950942/?label=DvXLCM21lGgQ3vjLowM&amp;guid=ON&amp;script=0"/>
+            </div>
+        </noscript>
+        <!--CUSTOM JS-->
+        <script>
+            $(".footer__toggle").click(function () {
+                var t;
+                return t = void 0, $(".footer__content").slideToggle("fast"), t = $(window).height() - 225, $("html, body").animate({
+                    scrollTop: $(".footer__content").offset().top - t
+                }, 500), $(".togglable-footer").toggleClass("is-open"), $(".footer__header").toggleClass("is-open"), $(".footer__social").toggleClass("is-open"), !1
+            }), $(".style-tips-toggle").click(function () {
+                return $(".footer__styletips__select--big").slideToggle("fast"), $(".footer__styletips__select--small").slideToggle("fast"), $(".nav__style-tips").toggleClass("is-open"), $(".footer__styletips__select").toggleClass("is-open"), !1
+            }), $(".twitter-link-js").click(function () {
+                return $(".footer__social").toggleClass("twitter-is-open"), $(".footer__social").removeClass("facebook-is-open"), $(".footer__social").removeClass("pinterest-is-open"), $(".footer__social").removeClass("instagram-is-open"), $(".footer__social__select--twitter").slideToggle("fast"), $(".footer__social__select--facebook").slideUp(200), $(".footer__social__select--pinterest").slideUp(200), $(".footer__social__select--instagram").slideUp(200), !1
+            }), $(".facebook-link-js").click(function () {
+                return $(".footer__social").toggleClass("facebook-is-open"), $(".footer__social").removeClass("twitter-is-open"), $(".footer__social").removeClass("pinterest-is-open"), $(".footer__social").removeClass("instagram-is-open"), $(".footer__social__select--facebook").slideToggle("fast"), $(".footer__social__select--twitter").slideUp(200), $(".footer__social__select--instagram").slideUp(200), $(".footer__social__select--pinterest").slideUp(200), !1
+            }), $(".pinterest-link-js").click(function () {
+                return $(".footer__social").toggleClass("pinterest-is-open"), $(".footer__social").removeClass("twitter-is-open"), $(".footer__social").removeClass("facebook-is-open"), $(".footer__social").removeClass("instagram-is-open"), $(".footer__social__select--pinterest").slideToggle("fast"), $(".footer__social__select--twitter").slideUp(200), $(".footer__social__select--facebook").slideUp(200), $(".footer__social__select--instagram").slideUp(200), !1
+            }), $(".instagram-link-js").click(function () {
+                return $(".footer__social").toggleClass("instagram-is-open"), $(".footer__social").removeClass("twitter-is-open"), $(".footer__social").removeClass("facebook-is-open"), $(".footer__social").removeClass("pinterest-is-open"), $(".footer__social__select--instagram").slideToggle("fast"), $(".footer__social__select--twitter").slideUp(200), $(".footer__social__select--facebook").slideUp(200), $(".footer__social__select--pinterest").slideUp(200), !1
+            })
+
+            $(".link--cookie").hover(function () {
+                $(".cookie-nav").slideToggle("fast")
+            })
+
+            $("#toggle").click(function () {
+                $(".hamburger").toggleClass("active"),
+                        $("nav.main").toggleClass("visible")
+            })
+        </script>
+        <!--CUSTOM JS-->
+        <noscript>
+            <style>
+                img.lazyload[data-src*="images/"] {
+                    display:none;
+                }
+
+                .how-it-works .photo.one.blur {
+                    background-position: 60% 35%;
+                    background-image: url(images/hiw_photo1_m.jpg);
+                }
+
+                @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+                    .how-it-works .photo.one.blur {
+                        background-image: url(images/hiw_photo1_m2.jpg);
+                    }
+                }
+                @media screen and (min-width: 768px) {
+                    .how-it-works .photo.one.blur {
+                        background-position: center 40%;
+                        background-image: url(images/hiw_photo1_m3.jpg);
+                    }
+                }
+                @media screen and (min-width: 768px) and (-webkit-min-device-pixel-ratio: 2), screen and (min-width: 768px) and (min-resolution: 192dpi) {
+                    .how-it-works .photo.one.blur {
+                        background-image: url(images/hiw_photo1_m4.jpg);
+                    }
+                }
+                @media screen and (min-width: 1200px) {
+                    .how-it-works .photo.one.blur {
+                        background-image: url(images/hiw_photo1.jpg);
+                    }
+
+                }
+                body.public-home .how-it-works .photo.two.blur {
+                    background-image: url(images/hiw_photo2.jpg);
+                    background-position: top center;
+                }
+                body.public-home .how-it-works .photo.three.blur {
+                    background-image: url(images/hiw_photo3.jpg)
+                }
+            </style>
+        </noscript>
+    </body>
+</html>

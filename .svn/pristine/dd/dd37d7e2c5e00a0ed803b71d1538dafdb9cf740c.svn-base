@@ -1,0 +1,65 @@
+// aside depts
+////////////////////////
+.aside-depts {
+  @extend %stack;
+
+  > section {
+    @include padding(null 0);
+
+    @include media($desktop-up) {
+      @include span-columns(4 of 12);
+      @include omega(3n);
+    }
+  }
+
+  article {
+    margin-bottom: 0;
+
+    img {
+      height: 12em;
+
+      @include media($tablet-up) {
+        height: 15em;
+      }
+    }
+  }
+}
+
+
+.aside-trikedaily {
+  @include dept-hover($clr-trikedaily);
+}
+
+.aside-ebooks {
+  @include dept-hover($clr-ebooks);
+}
+
+.aside-filmclub {
+  @include dept-hover($clr-filmclub);
+
+  figure {
+    @extend %video-figure_small;
+    @include video-hover($clr-filmclub);
+  }
+}
+
+.aside-magazine {
+  @include dept-hover($clr-magazine);
+}
+
+.aside-dharmatalks {
+  @include dept-hover($clr-dharmatalks);
+
+  figure {
+    @extend %video-figure_small;
+    @include video-hover($clr-dharmatalks);
+  }
+
+  address {
+    @extend %dharmatalks-speaker;
+  }
+}
+
+// .aside-filmfestival {
+  // @include dept-hover($clr-filmfestival);
+// }

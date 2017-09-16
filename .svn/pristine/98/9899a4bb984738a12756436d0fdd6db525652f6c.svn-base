@@ -1,0 +1,101 @@
+// Fonts
+// @import url('//hello.myfonts.net/count/2f3547');
+// @import url("//hello.myfonts.net/count/2f591a");
+@include font-face(gill-sans, '../fonts/2F3547_1_0');
+@include font-face(gill-sans, '../fonts/2F3547_0_0', normal, italic);
+@include font-face(gill-sans, '../fonts/2F3547_2_0', bold);
+@include font-face(gill-sans-cond, '../fonts/2F3547_3_0');
+
+@include font-face(brandon-grot, '../fonts/2F591A_0_0');
+
+@include font-face(lyon-text, '../fonts/LyonText-Regular-Web');
+@include font-face(lyon-text, '../fonts/LyonText-RegularItalic-Web', normal, italic);
+@include font-face(lyon-text, '../fonts/LyonText-Bold-Web', bold);
+@include font-face(lyon-text, '../fonts/LyonText-BoldItalic-Web', bold, italic);
+
+@include font-face(lyon-display, '../fonts/LyonDisplay-Light-Web');
+@include font-face(lyon-display, '../fonts/LyonDisplay-LightItalic-Web', normal, italic);
+@include font-face(lyon-display, '../fonts/LyonDisplay-Medium-Web', bold);
+@include font-face(lyon-display, '../fonts/LyonDisplay-MediumItalic-Web', bold, italic);
+
+// Typography
+$gill-sans: 'gill-sans', #{$lucida-grande};
+$gill-sans-cond: 'gill-sans-cond', #{$lucida-grande};
+$brandon-grot: 'brandon-grot', #{$helvetica};
+$lyon-text: 'lyon-text', #{$georgia};
+
+$base-font-family: $gill-sans;
+$article-font-family: $lyon-text;
+$heading-font-family: 'lyon-display', #{$georgia};
+
+// Font Sizes
+$base-font-size: 1em;
+$heading-font-size: 2em;
+$article-font-size: 1.125em;
+
+// Line height
+$base-line-height: 1.2;
+$heading-line-height: 1.125;
+$article-line-height: 1.6;
+
+// Other Sizes
+$base-border-radius: 0;
+$base-spacing: $base-line-height * 1em;
+$small-spacing: $base-spacing / 2;
+$base-z-index: 0;
+
+// Colors
+$clr-bg: rgb(245, 243, 243);
+$clr-black: rgb(17, 17, 17);
+$clr-gray-lite: rgb(204, 204, 204);
+$clr-gray-mid: rgb(102, 102, 102);
+$clr-gray-midhi: rgb(153, 153, 153);
+$clr-gray-off: rgb(153, 153, 136);
+$clr-red: rgb(204, 18, 33);
+$clr-text: rgb(45, 45, 45);
+$clr-white: rgb(255, 255, 255);
+$clr-rule: rgb(233, 226, 210);
+
+// Trike Colors
+$clr-trikedaily: rgb(71, 8, 105);
+$clr-ebooks: rgb(0, 97, 118);
+$clr-filmclub: rgb(33, 64, 154);
+$clr-magazine: rgb(128, 28, 74);
+$clr-dharmatalks: rgb(205, 66, 45);
+
+// Our Colors
+// $clr-trikedaily: rgb(242, 159, 5);
+// $clr-ebooks: rgb(2, 40, 115);
+// $clr-filmclub: rgb(4, 191, 173);
+// $clr-magazine: rgb(4, 157, 217);
+// $clr-dharmatalks: rgb(242, 120, 48);
+
+// Font Colors
+$base-font-color: $clr-gray-mid;
+$action-color: $clr-red;
+
+// Border
+$base-border-color: $clr-gray-lite;
+$base-border: 1px solid $base-border-color;
+
+// Background Colors
+$base-background-color: $clr-bg;
+$secondary-background-color: $clr-white;
+
+// Box Shadows
+$header-fixed-shadow: 0 em(1px) em(3px) rgba(0, 0, 0, .2);
+$nav-shadow: .125em 0 .25em rgba(0, 0, 0, .1);
+
+// Forms
+$base-box-shadow: 0 0 3px rgba(#000, .15);
+$form-box-shadow: inset 0 1px 3px rgba(#000, .06);
+$form-box-shadow-focus: $form-box-shadow, 0 0 5px adjust-color($clr-gray-lite, $lightness: -5%, $alpha: -.3);
+
+// Animations
+$base-duration: .15s;
+$base-timing: ease;
+$base-transition: all $base-duration $base-timing;
+
+// Nav padding
+$padding-sides: .75rem;
+$padding-vert: .625rem;

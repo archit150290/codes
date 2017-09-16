@@ -1,0 +1,253 @@
+<?php
+define("FILM_FESTIVAL_POST_TYPE", "film-festival");
+define("FILMFEST_TAXONOMY", "film-festival-cat");
+
+add_action('init', 'custom_post_type_filmfestival');
+
+
+function custom_post_type_filmfestival() {
+
+    $film_festival_labels = array(
+        'name' => _x('Film Festivals', 'post type general name', 'your-plugin-textdomain'),
+        'singular_name' => _x('Film Festival', 'post type singular name', 'your-plugin-textdomain'),
+        'menu_name' => _x('Film Festival', 'admin menu', 'your-plugin-textdomain'),
+        'name_admin_bar' => _x('Film Festival', 'add new on admin bar', 'your-plugin-textdomain'),
+        'add_new' => _x('Add New', 'film festivals', 'your-plugin-textdomain'),
+        'add_new_item' => __('Add New Film', 'your-plugin-textdomain'),
+        'new_item' => __('New Film', 'your-plugin-textdomain'),
+        'edit_item' => __('Edit Film', 'your-plugin-textdomain'),
+        'view_item' => __('View Film', 'your-plugin-textdomain'),
+        'all_items' => __('All Film', 'your-plugin-textdomain'),
+        'search_items' => __('Search Film', 'your-plugin-textdomain'),
+        'parent_item_colon' => __('Parent Film:', 'your-plugin-textdomain'),
+        'not_found' => __('No Film', 'your-plugin-textdomain'),
+        'not_found_in_trash' => __('No Film found in Trash.', 'your-plugin-textdomain')
+    );
+
+    $film_festival_args = array(
+        'labels' => $film_festival_labels,
+        'public' => true,
+        'publicly_queryable' => true,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'rewrite' => array('slug' => FILM_FESTIVAL_POST_TYPE, 'with_front' => false),
+        'capability_type' => 'post',
+        'has_archive' => true,
+        'hierarchical' => false,
+        'menu_position' => null,
+        'supports' => array('title', 'editor', 'author', 'thumbnail', 'comments'),
+    );
+
+    register_post_type(FILM_FESTIVAL_POST_TYPE, $film_festival_args);
+    //Film Festival post type ends here
+
+
+    $filmfest_taxonomy_labels = array(
+        'name' => _x('Festival Dates', 'taxonomy general name'),
+        'singular_name' => _x('Festival Date', 'taxonomy singular name'),
+        'search_items' => __('Search Festival Dates'),
+        'all_items' => __('All Festival Dates'),
+        'parent_item' => __('Parent Festival Dates'),
+        'parent_item_colon' => __('Parent Festival Dates:'),
+        'edit_item' => __('Edit Festival Dates'),
+        'update_item' => __('Update Festival Dates'),
+        'add_new_item' => __('Add Festival Dates'),
+        'new_item_name' => __('New Festival Dates'),
+        'menu_name' => __('Festival Dates'),
+        'choose_from_most_used' => 'Choose from the most used issues',
+        'separate_items_with_commas' => 'Separate Festival Dates with commas',
+        'not_found' => 'No Festivals Found.'
+    );
+
+    $filmfest_taxonomy_args = array(
+        'hierarchical' => true,
+        'labels' => $filmfest_taxonomy_labels,
+        'show_ui' => true,
+        'show_admin_column' => true,
+        'query_var' => true,
+        'rewrite' => array('slug' => "festival-dates"),
+        
+    );
+
+    register_taxonomy(FILMFEST_TAXONOMY, array(FILM_FESTIVAL_POST_TYPE), $filmfest_taxonomy_args);
+}
+
+add_action('add_meta_boxes', 'add_custom_filmfestival_metabox');
+
+function add_custom_filmfestival_metabox() {
+    add_meta_box('filmfest_dek_metabox_id', 'Dek', 'add_dek_meta_filmfest_box', FILM_FESTIVAL_POST_TYPE, 'normal', 'default');
+    add_meta_box('filmfest_shorttrailer_metabox_id', 'Short Trailer', 'add_filmfest_shorttrailer_metabox', FILM_FESTIVAL_POST_TYPE, 'side', 'default');
+    add_meta_box('filmfest_dates_id', 'Dates', 'add_filmfest_dates_metabox', FILM_FESTIVAL_POST_TYPE, 'side', 'default');
+    add_meta_box('filmfest_videos_metabox_id', 'Videos', 'add_filmfest_videos_metabox', FILM_FESTIVAL_POST_TYPE, 'normal', 'default');
+    add_meta_box('home_featured_filmfest_metabox_id', __('Home Featured'), 'filmfest_home_featured_meta_box', FILM_FESTIVAL_POST_TYPE, 'normal', 'default');
+}
+
+function add_dek_meta_filmfest_box($post) {
+    $film_fest_dek = get_post_meta($post->ID, 'meta_type_filmfest_dek', true);
+    $htmldek = '<input type="text"  style="width: 100%;" name="filmfestdek" id="filmfestdek" value=' . $film_fest_dek . '><br><br>';
+    echo $htmldek;
+}
+
+function filmfest_home_featured_meta_box($post) {
+    $home_featured = get_post_meta($post->ID, 'meta_type_filmfest_homefeatured', true);
+    ?>
+    <label><input type="checkbox" value="1" name="home_featured_filmfest_metakey" id="home_featured_filmfest" <?php echo ($home_featured) ? "checked='checked'" : ''; ?> /> Set Home Featured</label>
+    <?php
+}
+
+function add_filmfest_shorttrailer_metabox($post) {
+    wp_nonce_field('filmfest_save_meta_box_data', 'filmfest_meta_box_nonce');
+    $film_fest_shorttrailer = get_post_meta($post->ID, 'meta_type_filmfest_shorttrailer', true);
+    $html = '<p>Enter Embeded Code</p>';
+    $html.='<textarea name="film_festival_meta_short_trailer" style="width: 100%" id="film_festival_meta_short_trailer">' . $film_fest_shorttrailer . '</textarea>';
+    echo $html;
+}
+
+function add_filmfest_dates_metabox($post) {
+    $film_fest_datefrom = get_post_meta($post->ID, 'meta_type_filmfest_datefrom', true);
+    $film_fest_dateto = get_post_meta($post->ID, 'meta_type_filmfest_dateto', true);
+    $html = '<b>From</b>';
+    $html.='<input type="text" name="filmfestdate1" id="filmfestdate1" value=' . $film_fest_datefrom . '><br><br>';
+    $html.='<b>To</b>';
+    $html.='<input type="text" name="filmfestdate2" id="filmfestdate2" value=' . $film_fest_dateto . '>';
+    echo $html;
+}
+
+function add_filmfest_videos_metabox($post) {
+    $film_fest_video1 = get_post_meta($post->ID, 'meta_type_filmfest_video1', true);
+    $film_fest_video2 = get_post_meta($post->ID, 'meta_type_filmfest_video2', true);
+    $html = '<p>*ADD VIDEOS EMBEDED CODE:-</P>';
+    $html.= '<b>Enter Video 1 Embeded Code</b>';
+    $html.='<textarea name="film_festival_meta_video1" style="width: 100%" id="film_festival_meta_video1">' . $film_fest_video1 . '</textarea><br><br>';
+    $html.= '<b>Enter Video 2 Embeded Code</b>';
+    $html.='<textarea name="film_festival_meta_video2" style="width: 100%" id="film_festival_meta_video2">' . $film_fest_video2 . '</textarea>';
+    echo $html;
+}
+
+function save_filmfest_meta_box_data($post_id) {
+
+    if (!isset($_POST['filmfest_meta_box_nonce'])) {
+        return;
+    }
+    if (!wp_verify_nonce($_POST['filmfest_meta_box_nonce'], 'filmfest_save_meta_box_data')) {
+        return;
+    }
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+    if (isset($_POST['post_type']) && 'page' == $_POST['post_type']) {
+        if (!current_user_can('edit_page', $post_id)) {
+            return;
+        }
+    } else {
+        if (!current_user_can('edit_post', $post_id)) {
+            return;
+        }
+    }
+
+    $filmfest_dek = sanitize_text_field($_POST['filmfestdek']);
+    update_post_meta($post_id, 'meta_type_filmfest_dek', $filmfest_dek);
+
+
+    $filmfest_homefeatured = sanitize_text_field($_POST['home_featured_filmfest_metakey']);
+    update_post_meta($post_id, 'meta_type_filmfest_homefeatured', $filmfest_homefeatured);
+
+    $filmfest_shorttrailer = sanitize_text_field($_POST['film_festival_meta_short_trailer']);
+    update_post_meta($post_id, 'meta_type_filmfest_shorttrailer', $filmfest_shorttrailer);
+
+    $filmfestdate1 = sanitize_text_field($_POST['filmfestdate1']);
+    update_post_meta($post_id, 'meta_type_filmfest_datefrom', $filmfestdate1);
+
+    $filmfestdate2 = sanitize_text_field($_POST['filmfestdate2']);
+    update_post_meta($post_id, 'meta_type_filmfest_dateto', $filmfestdate2);
+
+    $filmfest_video1 = sanitize_text_field($_POST['film_festival_meta_video1']);
+    update_post_meta($post_id, 'meta_type_filmfest_video1', $filmfest_video1);
+
+    $filmfest_video2 = sanitize_text_field($_POST['film_festival_meta_video2']);
+    update_post_meta($post_id, 'meta_type_filmfest_video2', $filmfest_video2);
+}
+
+add_action('save_post', 'save_filmfest_meta_box_data');
+
+//add_action('film-festival-cat_add_form_fields','filmfestivaledit');
+//add_action( 'film-festival-cat_edit_form_fields', 'callback_function', 10, 2);
+//add_action('edited_film-festival-cat', 'custom_category_save_form_fields', 10, 2);
+//add extra fields to custom taxonomy edit form callback function
+
+add_action('film-festival-cat_edit_form_fields', 'callback_function', 10, 2);
+add_action('edited_film-festival-cat', 'save_extra_fields_callback', 10, 2);
+
+function callback_function($tag) {
+    //check for existing taxonomy meta for term ID
+    $t_id = $tag->term_id;
+    $term_meta = get_option("taxonomy_$t_id");
+    //  print_r($term_meta);
+    ?>
+    <tr class="form-field">
+    <tr class="form-field">
+        <th scope="row" valign="top"><label for="from"><?php _e('From'); ?></label></th>
+        <td>
+            <input type="text" name="term_meta[ff_from]" id="term_meta[ff_from]" size="25" style="width:60%;" value="<?php echo $term_meta['ff_from'] ? $term_meta['ff_from'] : ''; ?>"><br />
+            <span class="description"><?php _e('Festival Dates-From'); ?></span>
+        </td>
+    </tr>
+    <tr class="form-field">
+        <th scope="row" valign="top"><label for="to"><?php _e('To'); ?></label></th>
+        <td>
+            <input type="text" name="term_meta[ff_to]" id="term_meta[ff_to]" size="25" style="width:60%;" value="<?php echo $term_meta['ff_to'] ? $term_meta['ff_to'] : ''; ?>"><br />
+            <span class="description"><?php _e('Festival Dates-To'); ?></span>
+        </td>
+    </tr>
+    <?php
+}
+
+// save extra taxonomy fields callback function
+function save_extra_fields_callback($term_id) {
+    if (isset($_POST['term_meta'])) {
+        $t_id = $term_id;
+        $term_meta = get_option("taxonomy_$t_id");
+        $cat_keys = array_keys($_POST['term_meta']); // this $cat_keys is taking the name i.e ff_from and ff_to from the form
+        print_r($cat_keys);
+
+        foreach ($cat_keys as $key) {
+            if (isset($_POST['term_meta'][$key])) {
+                $term_meta[$key] = $_POST['term_meta'][$key]; //this is used to insert the values into option table.
+            }
+        }
+        //save the option array
+        update_option("taxonomy_$t_id", $term_meta);
+    }
+}
+
+add_action('admin_head', 'calenderscriptheader');
+
+function calenderscriptheader() {
+    wp_enqueue_script('jquery-ui-datepicker');
+    wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
+}
+
+add_action('admin_footer', 'calenderscriptfooter');
+
+function calenderscriptfooter() {
+    ?><script>
+            jQuery(document).ready(function () {
+                jQuery('#filmfestdate1').datepicker({
+                    dateFormat: 'dd-mm-yy'
+                });
+
+                jQuery('#filmfestdate2').datepicker({
+                    dateFormat: 'dd-mm-yy'
+                });
+            });
+    </script>
+    <?php
+}
+
+function newfunction() {
+    echo "archit";
+}
+
+add_action('coauthors_meta_box', 'newfunction');
+?>
+

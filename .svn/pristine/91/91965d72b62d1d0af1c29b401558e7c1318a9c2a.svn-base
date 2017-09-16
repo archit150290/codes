@@ -1,0 +1,355 @@
+<?php
+/*
+  Template Name: filmclub archive
+ */
+//pr($_REQUEST);
+?>
+<?php get_header(); ?>
+
+<?php
+$post = get_post();
+$pageslug = $post->post_name;
+$pageUrl = get_site_url() . "/" . $pageslug . "/";
+?>
+<script>
+    var pageurl = '<?php echo $pageUrl; ?>';
+
+</script>
+<!-- start content -->
+<div class='wrap'>
+
+    <!-- start magazine rubric -->
+    <div class='rubric_top'>
+        <h1><span class='icon icon-dept_filmclub'></span>Film Club</h1>
+        <p>Buddhist films and discussion for the Tricycle Community</p>
+    </div>
+    <!-- end magazine rubric -->
+
+    <!-- start archive_ebooks grid -->
+    <div class='archive_filmclub'>
+        <div class='rule'></div>
+        <header class='rubric_mid filmclub'>
+            <h1>Archive</h1>
+            <?php
+            $currentYear = date('Y');
+            $getSearchArr = explode($pageslug, str_replace("/", "", $_SERVER['REQUEST_URI']));
+            $searchYear = isset($getSearchArr[1]) ? $getSearchArr[1] : $currentYear;
+            ?>
+            <div class='dropdown'>
+                <div class='dropdown-container'>
+                    <p class='button dropdown-button'>Browse By Year</p>
+                    <ul class='dropdown-menu dropdown-select'>
+                        <?php
+                        for ($i = $currentYear; $i >= 1991; $i--) {
+                            ?>
+                            <li class="yeardropdown" rel="<?php echo $i; ?>"><a href='javascript:void(0);'><?php echo $i; ?></a></li>
+                            <?php
+                        }
+                        ?>
+
+                        <!--<li><a href=''>2015</a></li>
+                        <li><a href=''>2014</a></li>
+                        <li><a href=''>2013</a></li>
+                        <li><a href=''>2012</a></li>
+                        <li><a href=''>2011</a></li>
+                        <li><a href=''>2010</a></li>
+                        <li><a href=''>2009</a></li>
+                        <li><a href=''>2008</a></li>
+                        <li><a href=''>2007</a></li>
+                        <li><a href=''>2006</a></li>
+                        <li><a href=''>2005</a></li>
+                        <li><a href=''>2004</a></li>
+                        <li><a href=''>2003</a></li>
+                        <li><a href=''>2002</a></li>
+                        <li><a href=''>2001</a></li>
+                        <li><a href=''>2000</a></li>
+                        <li><a href=''>1999</a></li>
+                        <li><a href=''>1998</a></li>
+                        <li><a href=''>1997</a></li>
+                        <li><a href=''>1996</a></li>
+                        <li><a href=''>1995</a></li>
+                        <li><a href=''>1994</a></li>
+                        <li><a href=''>1993</a></li>
+                        <li><a href=''>1992</a></li>
+                        <li><a href=''>1991</a></li>-->
+
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <main id="moredata">
+            <?php
+            /* Get Post counts */
+            $posts = get_posts(array(
+                'numberposts' => -1, 'post_status' => 'publish', 'post_type' => FILM_CLUB_POST_TYPE, 'year' => $searchYear,
+            ));
+            $publishPosts = count($posts);
+            /* Get Post counts Ends */
+
+            $args = array(
+                'posts_per_page' => 3,
+                'orderby' => 'post_date',
+                'order' => 'DESC',
+                'year' => $searchYear,
+                'post_type' => FILM_CLUB_POST_TYPE,
+                'post_status' => 'publish',
+                'suppress_filters' => true
+            );
+
+            $queryfirst = new WP_Query($args);
+            query_posts($queryfirst);
+            $i = 1;
+            while ($queryfirst->have_posts()) : $queryfirst->the_post();
+                $postId[] = $queryfirst->post->ID;
+                /*
+                $topicSet = get_the_terms(get_the_ID(), "topic");
+                $topicName = isset($topicSet[0]) ? $topicSet[0]->name : "";
+                $topicSlug = isset($topicSet[0]) ? $topicSet[0]->slug : "";
+                */
+                $topics = get_topics_by_post_id(get_the_ID());
+                $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                
+                $publish_date = get_the_date('M Y');
+                ?>
+                <div class='archive-item'>
+                    <figure class='archive-cover_filmclub'>
+                        <a href='<?php the_permalink(); ?>'>
+                            <div class='icon-video_play' data-grunticon-embed></div>
+                            <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,100vw'); ?>
+                        </a>
+                    </figure>
+
+                    <header class='archive-titles'>
+                        <time><?php echo $publish_date; ?></time>
+                        <h2 class='topic filmclub'><?php echo $topic_urls; ?></h2>
+                        <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                        <address><?php echo getAuthorDetail(get_the_ID(),0,0); ?></address>
+                    </header>
+                </div>
+
+                <?php
+                if ($i == 12) {
+                    break;
+                }
+            endwhile;
+
+
+            wp_reset_query();
+            ?>
+          
+        </main>
+
+         <?php if ($publishPosts > "3") { ?>
+                <div class='more filmclub'>
+                    <input type="hidden" name="postId" id="postId" value="<?php echo json_encode($postId); ?>" />
+                    <input type="hidden" name="posttype" id="posttype" value="<?php echo FILM_CLUB_POST_TYPE; ?>" />
+                    <input type="hidden" name="searchyear" id="searchyear" value="<?php echo $searchYear; ?>" />
+                    <!-- tax name, post type, url, post id's -->
+                    <div id='loadingimage' style="display: none" >
+                        <img src='<?php echo get_template_directory_uri().'/loading_spinner.gif'?>'/>
+                    </div>
+                    <a href='javascript:void(0)' id="archiveloadmore" onclick="loadmorearchive()">Load More</a>
+                </div>
+            <?php } ?>
+
+    </div>
+
+
+
+
+
+    <!-- end archive_magazine grid -->
+
+
+    <!-- start Call to Action module -->
+    <div class='CTA-module'>
+        <div class='rule'></div>
+        <div class='CTA-ad' style='
+             background-color: #ddd;
+             line-height: 1; padding: 2em;
+             margin: 0 auto;
+             width: 75%;
+             height: 10em;
+             text-align: center;
+             '>
+            <p>Call-to-Action Module. Can be set in the CMS to any of the following: (1) Ad served via Google DFP Small Business (TBD), (2) Daily Dharma, (3) Subscribe CTA, (4) Newletter CTA</p>
+        </div>
+        <div class='rule'></div>
+    </div>
+    <!-- end Call to Action module -->
+
+
+    <aside>
+        <div class='aside-depts'>
+            <!-- start aside dharma talks -->
+            <section class='aside-dharmatalks'>
+                <header class='rubric_small'>
+                    <h1><a href='<?php echo get_site_url() . '/' . DHARMATALKS_POST_TYPE; ?>'><span class='icon icon-dept_dharmatalks'></span>Dharma Talks</a></h1>
+                    <p>Video teachings and discussions with contemporary Buddhist teachers</p>
+                </header>
+
+                <main>
+                    <?php
+                    $args = array(
+                        'posts_per_page' => 1,
+                        'orderby' => 'post_date',
+                        'order' => 'DESC',
+                        'post_type' => DHARMATALKS_POST_TYPE,
+                        'post_status' => 'publish',
+                        'suppress_filters' => true
+                    );
+
+                    $querydharma = new WP_Query($args);
+                    query_posts($querydharma);
+                    while ($querydharma->have_posts()) : $querydharma->the_post();
+
+                        $topics = get_topics_by_post_id(get_the_ID());
+                        $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                    ?>
+                        <article>
+                            <figure>
+                                <a href='<?php the_permalink(); ?>'>
+                                    <div class='icon-video_play' data-grunticon-embed></div>
+                                    <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 50em) 33vw,100vw'); ?>
+                                </a>
+                            </figure>
+                            <section>
+                                <h2 class='rubric dharmatalks'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                                <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                <address><?php echo getAuthorDetail(get_the_ID(),0,0); ?></address>
+                                <time><?php the_date('M Y'); ?></time>
+                            </section>
+                        </article>
+                        <?php
+                    endwhile;
+                    wp_reset_query();
+                    ?>
+                </main>
+            </section>
+            <!-- end aside dharma talks -->
+
+            <!-- start aside trikedaily -->
+            <section class='aside-trikedaily'>
+                <header class='rubric_small'>
+                    <h1><a href='<?php echo get_site_url() . '/blog'; ?>'><span class='icon icon-dept_trikedaily'></span>Trike Daily</a></h1>
+                    <p>Daily wisdom, teachings &amp; critique</p>
+                </header>
+
+                <main>
+                    <?php
+                    $args = array(
+                        'posts_per_page' => 1,
+                        'orderby' => 'post_date',
+                        'order' => 'DESC',
+                        'post_type' => 'post',
+                        'post_status' => 'publish',
+                        'suppress_filters' => true
+                    );
+
+                    $querymagazine = new WP_Query($args);
+                    query_posts($querymagazine);
+                    while ($querymagazine->have_posts()) : $querymagazine->the_post();
+
+                        $topics = get_topics_by_post_id(get_the_ID());
+                        $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+
+                        $issueSet = get_the_terms(get_the_ID(), "magazine-issue");
+                        $issueName = isset($issueSet[0]) ? $issueSet[0]->name : "";
+                        $issueSlug = isset($issueSet[0]) ? $issueSet[0]->slug : "";
+                        ?>
+                        <article>
+                            <figure>
+                                <a href='<?php the_permalink(); ?>'>
+                                    <?php /* ?><img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-trikedaily_1x.jpg'
+                                      srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-trikedaily_2x.jpg 1000w,
+                                      <?php echo get_template_directory_uri(); ?>/images/jpg/home-trikedaily_1x.jpg 500w'
+                                      sizes= '(min-width: 50em) 33vw,
+                                      100vw'
+                                      alt='A man' />
+                                      <?php */ ?>
+                                    <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 50em) 33vw,100vw'); ?>
+                                </a>
+                            </figure>
+                            <section>
+                                <h2 class='rubric trikedaily'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                                <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                <p><?php the_excerpt(); ?></p>
+                                <address><?php echo getAuthorDetail(get_the_ID(),1,0); ?></address>
+                                <time><?php the_date('M d, Y'); ?></time>
+                            </section>
+                        </article>
+                        <?php
+                    endwhile;
+                    wp_reset_query();
+                    ?>
+                </main>
+                <div class='rule-responsive'></div>
+            </section>
+            <!-- end aside trikedaily -->
+
+            <!-- start aside magazine -->
+            <section class='aside-magazine'>
+                <header class='rubric_small'>
+                    <h1><a href='<?php echo get_site_url() . '/' . MAGAZINE_POST_TYPE; ?>'><span class='icon icon-dept_magazine'></span>Magazine</a></h1>
+                    <p>The Buddhist Review</p>
+                </header>
+
+                <main>
+                    <?php
+                    $args = array(
+                        'posts_per_page' => 1,
+                        'orderby' => 'post_date',
+                        'order' => 'DESC',
+                        'post_type' => MAGAZINE_POST_TYPE,
+                        'post_status' => 'publish',
+                        'suppress_filters' => true
+                    );
+
+                    $querymagazine = new WP_Query($args);
+                    query_posts($querymagazine);
+                    while ($querymagazine->have_posts()) : $querymagazine->the_post();
+
+                        $topics = get_topics_by_post_id(get_the_ID());
+                        $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+
+                        $issueSet = get_the_terms(get_the_ID(), "magazine-issue");
+                        $issueName = isset($issueSet[0]) ? $issueSet[0]->name : "";
+                        $issueSlug = isset($issueSet[0]) ? $issueSet[0]->slug : "";
+                        ?>
+                        <article>
+                            <figure>
+                                <a href='<?php the_permalink(); ?>'>
+                                    <?php /* ?><img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-magazine_1x.jpg'
+                                      srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-magazine_2x.jpg 1000w,
+                                      <?php echo get_template_directory_uri(); ?>/images/jpg/home-magazine_1x.jpg 500w'
+                                      sizes= '(min-width: 50em) 33vw,
+                                      100vw'
+                                      alt='A man' />
+                                      <?php */ ?>
+                                   <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 50em) 33vw,100vw'); ?>
+                                </a>
+                            </figure>
+                            <section>
+                                <h2 class='rubric magazine'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                                <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                <p><?php the_excerpt(); ?></p>
+                                <address><?php echo getAuthorDetail(get_the_ID(),1,0); ?></address>
+                                <time><?php echo $issueName; ?></time>
+                            </section>
+                        </article>
+                        <?php
+                    endwhile;
+                    wp_reset_query();
+                    ?>
+                </main>
+                <div class='rule-responsive'></div>
+            </section>
+            <!-- end aside magazine -->
+        </div>
+
+        <div class='rule'></div>
+
+        
+
+<?php get_footer(); ?>

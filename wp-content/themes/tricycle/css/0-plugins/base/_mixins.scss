@@ -1,0 +1,135 @@
+//font smoothing
+@mixin font-smoothing($value: antialiased) {
+  @if $value == antialiased {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  } @else {
+    -moz-osx-font-smoothing: auto;
+    -webkit-font-smoothing: subpixel-antialiased;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+@mixin svg-embed($width, $height: $width) {
+  @include size($width $height);
+  margin-left: $width / 2 * -1;
+  margin-top: $height / 2 * -1;
+}
+
+@mixin svg-bg {
+  background-position: center;
+  background-size: contain;
+}
+
+%card {
+  background-color: $clr-white;
+  box-shadow: $base-box-shadow;
+  margin-bottom: $base-spacing;
+}
+
+@mixin card {
+  background-color: $clr-white;
+  box-shadow: $base-box-shadow;
+  margin-bottom: $base-spacing;
+}
+
+@mixin topic-1line {
+  border-left: 2px solid $clr-rule;
+  display: inline-block;
+  margin-left: $small-spacing;
+  margin-top: 0;
+  padding-left: $small-spacing;
+}
+
+@mixin dept-button($clr-dept) {
+  @extend %dept-button;
+
+  a {
+    background-color: $clr-dept;
+    border: 1px solid $clr-dept;
+
+    &:hover {
+      background-color: $clr-white;
+      color: $clr-dept;
+    }
+  }
+}
+
+@mixin dept-hover-helper($dept-element: 'article') {
+  #{$dept-element}.trikedaily {
+    a:hover { color: $clr-trikedaily;
+      svg { fill: $clr-trikedaily; } }
+  }
+
+  #{$dept-element}.ebooks {
+    a:hover { color: $clr-ebooks;
+      svg { fill: $clr-ebooks; } }
+  }
+
+  #{$dept-element}.filmclub {
+    a:hover { color: $clr-filmclub;
+      svg { fill: $clr-filmclub; } }
+  }
+
+  #{$dept-element}.magazine {
+    a:hover { color: $clr-magazine;
+      svg { fill: $clr-magazine; } }
+  }
+
+  #{$dept-element}.dharmatalks {
+    a:hover { color: $clr-dharmatalks;
+      svg { fill: $clr-dharmatalks; } }
+  }
+
+  #{$dept-element}.filmfestival {
+    a:hover { color: $clr-filmfestival;
+      svg { fill: $clr-filmfestival; } }
+  }
+}
+
+@mixin dept-hover($dept-color) {
+  a:hover {
+    color: $dept-color;
+  }
+}
+
+@mixin video-hover($dept-color) {
+  &:hover {
+
+    #video-outline,
+    #video-play {
+      fill: $dept-color;
+    }
+
+    #video-fill {
+      fill: $clr-black;
+    }
+  }
+}
+
+@mixin header-offset($type: padding, $offset: 0) {
+
+  @if $type == padding {
+    padding-top: $header-height-mobile + $offset;
+
+    @include media($tablet-up) {
+      padding-top: $header-height-tablet + $offset;
+    }
+
+    @include media($wide-up) {
+      padding-top: $header-height-wide + $offset;
+    }
+
+  } @else {
+    margin-top: $header-height-mobile + $offset;
+
+    @include media($tablet-up) {
+      margin-top: $header-height-tablet + $offset;
+    }
+
+    @include media($wide-up) {
+      margin-top: $header-height-wide + $offset;
+    }
+  }
+}

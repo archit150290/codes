@@ -1,0 +1,2188 @@
+body#ver1 .homepage-hero-image-container,
+body#ver2 .homepage-hero-image-container,
+body#ver3 .homepage-hero-image-container,
+body#ver4 .homepage-hero-image-container,
+body#ver5 .homepage-hero-image-container {
+    max-height: inherit;
+}
+
+.mobileLanding{
+    display:block;
+    width:100%;
+    height:100%;
+    position:absolute;
+    top:0;
+    left:0;
+}
+
+
+.banner1{
+    background:url(../images/desktop_sec/classic-desktop.jpg) no-repeat;
+    background-position:-100px center;
+    background-size:cover;
+}
+
+.banner1 .copy {
+    bottom: 0;
+    height: auto;
+    left: 0;
+    min-height: inherit;
+    position: absolute;
+    right: 0;
+    top: auto;
+    width: 100%;
+    margin:0;
+}
+
+.banner1 .quesForm{
+    background:rgba(105,95,95,0.8);
+    display:block;
+    padding:15px 0 0 0;
+}
+
+.banner1 .copy .quesForm .explain {
+    color: #fff;
+    font-family: "Conv_BrandonText-Regular";
+    font-size: 20px;
+    letter-spacing: 0.3px;
+    line-height: 1.3;
+    margin-top: 12px;
+    text-align: center;
+    width: 100%;
+    margin:0;
+}
+
+.banner1 .quesForm .form-group {
+    margin: 20px auto 0;
+    max-width: 370px;
+    padding: 0;
+}
+
+.banner1 .quesForm .form-group .btn-group{
+    display:block;
+}
+
+.banner1 .quesForm .form-group .btn-group > .btn {
+    font-size: 18px;
+    height: 45px;
+    line-height: 25px;
+    min-width: 20%;
+}
+
+.banner1 .quesForm .actions .btn.btn-red{
+    height: 70px;
+    line-height: 70px !important;
+    min-width: 100% !important;
+    padding: 0 !important;
+}
+
+.banner1 .copy .pad15{
+    padding:15px 10px;
+    margin-bottom:7%;
+}
+
+.banner1 .copy .explain {
+    color: #6a605f;
+    font-size: 20px;
+    margin: 0 auto;
+    padding: 15px 0 5px;
+    width: 400px;
+}
+
+.banner1 .copy img.text-logo {
+    display: inline-block;
+    margin-bottom:0;
+    margin-left: 0;
+    margin-top: 0;
+    width: 450px;
+}
+
+
+.banner1 .copy .tagline {
+    color: #847c77;
+    font-family:BrandonGrotesque-Bold,sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    line-height: 40px;
+    margin: 0 auto;
+    text-align: center;
+    text-transform: uppercase;
+    width: auto;
+}
+
+
+/*********************************************
+*********************************************
+BANNER - 2
+*********************************************
+**********************************************/
+
+.banner2{
+    background:url(../images/desktop_sec/ver2_bg.jpg);
+    background-position:center center;
+    background-size:cover;
+}
+
+.banner2 .copy {
+    top: auto;
+    height: auto;
+    left: 0;
+    min-height: inherit;
+    position: absolute;
+    right: 0;
+    bottom:1%;
+    width: 100%;
+    height:auto;
+    margin:0;
+}
+
+.banner2 .copy .pad15{
+    padding:15px;
+    max-width:400px;
+    margin:0 auto 15%;
+    position:relative;
+}
+
+.banner2 .copy img.text-logo {
+    display: inline-block;
+    margin:0;
+    width: 100%;
+}
+
+.banner2 .copy .tagline{
+    width:100%;
+    text-align:center;
+    letter-spacing:1.5px;
+    font-size: 100%;
+    margin-top:5px;
+}
+
+
+.banner2 .copy .actions{
+    width:100%;
+    position:relative;
+    bottom:0;
+    text-align:center;
+}
+
+.banner2 .copy .actions .btn.btn-red{
+    height: 70px;
+    line-height: 70px !important;
+    min-width: 100% !important;
+    padding: 0 !important;
+}
+
+.banner2 .copy .explain {
+    font-family: "Conv_BrandonText-Regular";
+    font-size: 20px;
+    letter-spacing: 0;
+    line-height: 1.5;
+    margin-top: 40px;
+    color:#6a605f;
+}
+
+/******************/
+
+.banner3{
+    background:url(../images/desktop_sec/ver3_bg.jpg) no-repeat;
+    background-position:center center;
+    background-size:cover;
+}
+
+.banner3 .copy {
+    top:28%;
+    left: 0;
+    min-height: inherit;
+    position: absolute;
+    right: 0;
+    bottom: auto;
+    width: 100%;
+    height:auto;
+    margin:0;
+}
+
+.banner3 .copy .pad15{
+    padding:15px;
+    max-width:400px;
+    margin:0 auto 30px;
+    position:relative;
+}
+
+.banner3 .copy img.text-logo {
+    display: inline-block;
+    margin:0;
+    width: 340px;
+}
+
+.banner3 .copy .explain {
+    font-family: "Conv_BrandonText-Regular";
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: 32px;
+    margin-top: 30px;
+    width:100%;
+    color:#6a605f;
+    text-align:center;
+    /*color:#847c77;*/
+    color:#ffffff;
+}
+
+.banner3 .copy img.text-logo.logo_mobile{
+    display:none;
+}
+
+
+.banner3 .copy .actions{
+    width:100%;
+    position:relative;
+    bottom:0;
+}
+
+.banner3 .copy .actions .btn.btn-red{
+    height: 70px;
+    line-height: 70px !important;
+    min-width: 100% !important;
+    padding: 0 !important;
+}
+
+
+/******************/
+
+.banner4{
+    background:url(../images/desktop_sec/ver4_bg.jpg);
+    background-position:center center;
+    background-size:cover;
+}
+
+.banner4 .copy {
+    bottom:auto;
+    height: auto;
+    left: 0;
+    min-height: inherit;
+    position: relative;
+    right: 0;
+    top: 15%;
+    width: 60%;
+    margin:0;
+}
+
+.banner4 .copy .pad15{
+    padding:15px;
+    max-width:450px;
+    margin:0 auto;
+    position:relative;
+}
+
+.banner4 .copy img.text-logo {
+    display: inline-block;
+    margin:0;
+    width: 340px;
+}
+
+.banner4 .copy img.text-logo.desktop{display:inline-block !important;}
+.banner4 .copy img.text-logo.mobile{display:none !important;}
+
+.banner4 .copy .explain {
+    font-family: "Conv_BrandonText-Regular";
+    font-size:20px;
+    letter-spacing: 0;
+    line-height: normal;
+    margin-top: 10px;
+    width:100%;
+    color:#6a605f;
+    text-align:center;
+    /*color:#ffffff;*/
+}
+
+.banner4 .quesForm{
+    display:block;
+    padding:50px 0 0 0;
+}
+
+.banner4 .copy .quesForm .explain {
+    /*color: #fff;*/
+    font-family: "Conv_BrandonText-Regular";
+    font-size: 20px;
+    letter-spacing: 0.3px;
+    line-height: 1.3;
+    text-align: center;
+    width: 100%;
+    margin:0 0 20px 0;
+}
+
+.banner4 .quesForm .form-group {
+    margin: 20px auto;
+    max-width: 370px;
+    padding: 0;
+}
+
+.banner4 .quesForm .form-group .btn-group{
+    display:block;
+}
+
+
+.banner4 .quesForm .form-group .btn-group > .btn {
+    font-size: 18px;
+    height: 45px;
+    line-height: 25px;
+    min-width: 20%;
+}
+
+
+.banner4 .copy .actions{
+    width:100%;
+    position:relative;
+    bottom:0;
+    margin:15px 0 0 0;
+}
+
+.banner4 .copy .actions .btn.btn-red{
+    height: 70px;
+    line-height: 70px !important;
+    min-width: 100% !important;
+    padding: 0 !important;
+}
+
+
+
+/********************/
+
+body#ver5 .homepage-hero-image-container {
+    max-height: inherit;
+}
+
+.mobileLanding.banner5{
+    background:url(../images/desktop_sec/ver5_bg.jpg);
+    background-position:center 30px;
+    background-size:cover;
+}
+
+.banner5 .copy {
+    bottom:auto;
+    height: 100%;
+    left: 0;
+    min-height: inherit;
+    position: relative;
+    right: 0;
+    top: 0;
+    width: 100%;
+    margin:0;
+}
+
+
+.banner5 .head{
+    background:#f3f3f3;
+    border-bottom:1px solid #c0bec3;
+    padding:10px;
+    height:60px;
+}
+
+.banner5 .copy .head img.text-logo{
+    margin:5px;
+    width:300px;
+}
+
+
+.banner5 .botSec{
+    bottom:0;
+    width:100%;
+    background:#f3f3f3;
+    position:absolute;
+    border-top:1px solid #c0bec3;
+}
+
+
+.banner5 .copy .pad15{
+    padding:5px;
+}
+
+
+.banner5 .copy .tagline{
+    font-size:20px;
+    width:100%;
+    text-align:center;
+    color:#847c77;
+}
+
+.banner5 .copy .explain {
+    font-family: "Conv_BrandonText-Regular";
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: normal;
+    margin-top: 0;
+    width:100%;
+    color:#6a605f;
+    text-align:center;
+    color:#6a605f;
+}
+
+.banner5 .quesForm{
+    display:block;
+    padding:0;
+}
+
+
+
+.banner5 .copy .quesForm .explain {
+    color:#6a605f;
+    font-family: "Conv_BrandonText-Regular";
+    font-size: 20px;
+    letter-spacing: 0.3px;
+    line-height: 1.3;
+    margin-top: 0;
+    text-align: center;
+    width: 100%;
+    margin:0;
+}
+
+.banner5 .quesForm .form-group {
+    margin: 10px auto;
+    max-width: 370px;
+    padding: 0;
+}
+
+.banner5 .quesForm .form-group .btn-group{
+    display:block;
+}
+
+
+.banner5 .quesForm .form-group .btn-group > .btn {
+    font-size: 18px;
+    height: 45px;
+    line-height: 25px;
+    min-width: 20%;
+}
+
+
+.banner5 .copy .actions{
+    width:100%;
+    position:relative;
+    bottom:0;
+    margin:15px 0 0 0;
+}
+
+.banner5 .copy .actions .btn.btn-red{
+    height: 70px;
+    line-height: 70px !important;
+    min-width: 100% !important;
+    padding: 0 !important;
+}
+
+
+#ver1 .sign-in-form ul, #ver1 .sign-with ul{
+    padding:5px 0;
+}
+
+#ver1 .sign-in-form ul li{
+    margin:0;
+}
+
+/*****************/
+
+
+.banner7{
+    background:url(../images/desktop_sec/classic-desktop.jpg) no-repeat;
+    background-position:center center;
+    background-size:cover;
+}
+
+.banner7 .copy {
+    bottom:70px;
+    height: auto;
+    left: 0;
+    min-height: inherit;
+    position: absolute;
+    right: 0;
+    top: auto;
+    width: 100%;
+    margin:0;
+}
+
+.banner7 .quesForm{
+    display:block;
+    padding:15px 0 0 0;
+}
+
+.banner7 .pad15.logo{
+    margin:0 auto;
+    width: 300px;
+}
+
+.banner7 .pad15.logo .tagline {
+    font-size: 16px;
+}
+
+/*************/
+
+
+/*MOdal Box Css*/
+
+#getStart-ver1 .modal-backdrop{
+    background:#f7f7f7
+}
+
+#getStart-ver1 .modal-backdrop.in {
+    opacity:0.9;
+}
+
+#getStart-ver1 .modal-dialog{
+    margin:0;
+    width:100%;
+}
+
+
+#getStart-ver1 button.close{
+    background:url(../images/mobile_sec/close_icon.png) no-repeat;
+    width:30px;
+    height:30px;
+    position:absolute;
+    top:20px;
+    right:18px;
+    opacity:1;
+    border-radius:100%;
+    overflow:hidden;
+    z-index:9999;
+}
+
+#getStart-ver1 .modal-content{
+    background:none;
+    border-radius:0;
+    border-top:none;
+    box-shadow:none;
+    position:fixed;
+    width:100%;
+    height:100%;
+}
+
+#getStart-ver1 .modal-content .modal-body{
+    background:none;
+    border-radius:0;
+    box-shadow:none;
+    margin:0;
+}
+
+#getStart-ver1 .modal-content .modal-body .registration-form{
+    background:none;
+    width:500px;
+    margin:0 auto;
+}
+
+#getStart-ver1 h2 {
+    font-family: brandon_grotesquemedium, sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    margin:0 0 40px 0;
+    padding:0;
+    text-transform: uppercase;
+}
+#getStart-ver1 ul.steps{
+    list-style:none;
+    margin:0 auto 20px;
+    padding:0;
+    width:90%;
+    position:relative;
+    height:30px;
+}
+
+#getStart-ver1 ul.steps:after{
+    background:#6a615f;
+    height:3px;
+    position:absolute;
+    left:0;
+    top:13px;
+    width:98%;
+    content:"";
+}
+
+
+#getStart-ver1 ul.steps li{
+    float:left;
+    width:33%;
+    position:relative;
+    z-index:1;
+}
+
+#getStart-ver1 ul.steps li span{
+    width:30px;
+    height:30px;
+    display:table;
+    margin:0 auto;
+    background:#6a615f;
+    border:2px solid #6a615f;
+    border-radius:100%;
+    color:#ffffff;
+    font-family: 'BrandonTextBold';
+    font-size:16px;
+    text-align:center;
+    line-height:25px;
+}
+
+#getStart-ver1 ul.steps li:first-child span{
+    margin:0;
+}
+
+#getStart-ver1 ul.steps li:last-child span{
+    margin:0;
+    float:right;
+}
+
+#getStart-ver1 ul.steps li.active span{
+    background:#f7f7f7;
+    color:#6a615f;
+}
+
+
+#getStart-ver1 .quesForm{
+    display:block;
+}
+
+#getStart-ver1 .quesForm .form-group .btn-group > .btn{
+    width:20%;
+}
+
+#getStart-ver1 .quesForm .explain{
+    font-size:18px;
+    text-align:center;
+}
+
+#getStart-ver1 .quesForm a.btn_gotoNext {
+    font-family:BrandonGrotesque-Bold,sans-serif;
+    background:#ff5c61;
+    font-size:20px;
+    line-height:50px;
+    height:50px;
+    color:#ffffff;
+    width:120px;
+    display:block;
+    margin:30px auto;
+    text-align:center;
+    text-decoration:none;
+    text-transform:uppercase;
+}
+
+.goto-signup{
+    padding:20px 0;
+}
+
+.goto-signup a.linkFB{
+    font-family:BrandonGrotesque-Bold,sans-serif;
+    border-radius:5px;
+    height:50px;
+    line-height:50px;
+    background:#3b5998;
+    font-size:20px;
+    color:#ffffff;
+    text-align:center;
+}
+
+.goto-signup a.linkFB .fa, .goto-signup a.submit .fa{
+    font-size:28px;
+    display:inline-block;
+    vertical-align:middle;
+    margin:0 10px 0 0;
+}
+
+.goto-signup a.linkFB span{
+    display:inline-block;
+    vertical-align:middle;
+}
+
+.goto-signup a.submit .fa{
+    position:relative;
+    top:-5px;
+}
+
+
+.goto-signup a.submit{
+    font-family:BrandonGrotesque-Bold,sans-serif;
+    border-radius:5px;
+    height:50px;
+    line-height:50px;
+    background:#f7f7f7;
+    display:block;
+    color:#737373;
+    font-size:20px;
+    text-align:center;
+    position:relative;
+    border:1px solid #ccc;
+    opacity:0.7;
+    text-decoration:none;
+}
+
+
+.goto-signup a.submit:hover{
+    opacity:1;
+    -webkit-transition: opacity .25s ease-in-out;
+    transition: opacity .25s ease-in-out;
+}
+
+
+.goto-signup .midStrip {
+    margin: 40px 0 10px;
+}
+
+.goto-signup .midStrip span{
+    background:#f7f7f7;
+    color:#b9b6b5;
+    font-size:18px;
+}
+
+.registration-form .signup-form{
+    border:none;
+    background:none;
+    margin-top:30px;
+}
+
+.registration-form .signup-form .form-group{
+    margin:0 0 10px 0;
+}
+
+.registration-form .signup-form .form-group:before{
+    display:none;
+}
+
+.registration-form .signup-form .form-group input.form-control {
+    border: 1px solid #9d9693 !important;
+    border-radius: 0;
+    height: 42px;
+    line-height: 42px;
+    padding: 0 10px !important;
+    box-shadow: none !important;
+}
+
+.registration-form .signup-form .submission{
+    text-align:left;
+}
+
+
+/*****/
+
+#getStart-ver4 .modal-backdrop{
+    background:rgba(200,190,190,0.7);
+}
+
+#getStart-ver4 .modal-backdrop.in {
+    opacity:1;
+}
+
+#getStart-ver4 .modal-dialog{
+    margin:0 auto;
+}
+
+body.public-home #getStart-ver4 .modal-content .registration-form {
+    background-color:transparent;
+    padding: 10px 0;
+}
+
+
+#getStart-ver4 button.close{
+    background:#c7bebc url(../images/mobile_sec/close_cross1.png) no-repeat center center;
+    width:50px;
+    height:50px;
+    position:absolute;
+    top:11px;
+    right:0;
+    opacity:1;
+    z-index:9999;
+}
+
+#getStart-ver4 .modal-content{
+    background:rgba(255,255,255,0.9);
+    border-radius:0;
+    border-top:none;
+    box-shadow:0 5px 15px rgba(0, 0, 0, 0.3);
+    position:fixed;
+    width:100%;
+    height:100%;
+}
+
+#getStart-ver4 .modal-content .modal-body{
+    border-radius:0;
+    border-top:11px solid #c7bebc;
+    border-bottom:1px solid #c7bebc;
+    box-shadow:none;
+    margin:0;
+}
+
+#getStart-ver4 .quesForm{
+    display:block;
+}
+
+#getStart-ver4 h2 {
+    font-family: brandon_grotesquemedium, sans-serif;
+    font-size: 26px;
+    letter-spacing: 2px;
+    margin:0px 0 30px 0;
+    padding:0;
+    text-transform: uppercase;
+    text-align:left;
+}
+
+#getStart-ver4 .registration-form .signup-form{
+    margin-top:15px;
+}
+
+
+#humberger-signup{
+    position:fixed;
+    right:0;
+    top:0;
+    height:100%;
+    width:100%;
+    z-index:100;
+    background:rgba(200,190,190,0.5);
+    display:none;
+}
+
+
+#humberger-signup .signup_form{
+    position:absolute;
+    top:0;
+    right:0;
+    background:#f7f7f7;
+    height:100%;
+    width:100%;
+    box-shadow:0 0 8px rgba(0, 0, 0, 0.6);
+    overflow:auto;
+    transition: all 0.25s ease-in-out 0s;
+    transform:translate(400px);
+    z-index:11;
+    max-width:400px;
+}
+
+#humberger-signup .signup_form.open{
+    transform:translate(54px);
+}
+
+#humberger-signup h2 {
+    font-family: brandon_grotesquemedium, sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    margin:0;
+    padding:15px 15px 15px 0;
+    text-transform: uppercase;
+    text-align:center;
+    border-bottom:1px solid #c7bebc;
+}
+
+#humberger-signup .signup_form .quesForm{
+    display:block;
+    padding:10px 30px 10px 10px;
+}
+
+#humberger-signup .signup_form .quesForm .form-group .btn-group > .btn{
+    width:20%;
+    height: 54px;
+    line-height: 34px;
+    min-width: 64px;
+}
+
+#humberger-signup .signup_form.open .step1, #humberger-signup .signup_form.open .step2, #humberger-signup .signup_form.open .step3{
+    margin-left:5px;
+    margin-right:35px;
+    padding-top:20px;
+    background:none;
+}
+
+#humberger-signup .signup_form .quesForm .explain{
+    font-size:18px;
+    text-align:center;
+}
+
+.goto-signup p{
+    font-family: "Conv_BrandonText-Regular";
+    font-size: 18px;
+    text-align:center;
+}
+
+#humberger-signup .signup_form .goto-signup a.linkFB, #humberger-signup .signup_form .goto-signup a.submit{
+    height:46px;
+    line-height:46px;
+}
+
+#humberger-signup .registration-form .signup-form{
+    border:none;
+    background:none;
+    padding:15px 10px;
+    margin:0;
+    width:94%;
+}
+
+#humberger-signup .registration-form .form .form-group .btn.btn-red.btn-lg{
+    min-width:100% !important;
+}
+
+.humbercgerClose{
+    position:absolute;
+    top:0;
+    left:auto;
+    right:345px;
+    background:#b3a1a1 url(../images/mobile_sec/close_cross.png) no-repeat center;
+    width:52px;
+    height:52px;
+    z-index:10;
+    cursor:pointer;
+}
+
+.humbercgerClose:hover{
+    transform:rotate(360deg);
+}
+
+/****************/
+
+.mobileLanding .howitwork{
+    padding:10px 20px 0;
+}
+
+.mobileLanding .howitwork h3 {
+    font-family: brandon_grotesquemedium, sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    margin:5px 0 10px 0;
+    padding:0;
+    text-transform: uppercase;
+    text-align:center;
+}
+
+.mobileLanding .howitwork ul{
+    margin:0 -20px;
+    position:relative;
+}
+
+.stp1{
+    background:#85c5bc;
+    padding:15px 15px 10px 70px;
+    margin:0 0 10px 30px;
+    border-radius:10px 0 0 10px;
+    font-size:18px;
+    color:#6a605f;
+    text-align:left;
+    text-transform:uppercase;
+    font-family: brandon_grotesquemedium, sans-serif;
+    position:relative;
+    min-height:50px;
+}
+
+.stp2{
+    background:#85c5bc;
+    padding:15px 70px 10px 15px;
+    margin:0 30px 10px 0;
+    border-radius:0 10px 10px 0;
+    font-size:18px;
+    color:#6a605f;
+    text-align:right;
+    text-transform:uppercase;
+    font-family: brandon_grotesquemedium, sans-serif;
+    position:relative;
+    min-height:50px;
+}
+
+
+.stp3{
+    background:#85c5bc;
+    padding:15px 15px 10px 70px;
+    margin:0 0 0 30px;
+    border-radius:10px 0 0 10px;
+    font-size:18px;
+    color:#6a605f;
+    text-align:left;
+    text-transform:uppercase;
+    font-family: brandon_grotesquemedium, sans-serif;
+    position:relative;
+    min-height:50px;
+}
+
+.mobileLanding .howitwork ul .num {
+    color: #ffffff;
+    font-family: brandon_grotesquemedium, sans-serif;
+    font-size:24px;
+    left: 0;
+    line-height: 20px;
+    min-width: 70px;
+    padding: 6px;
+    position: absolute;
+    text-align: center;
+    top: 0;
+}
+
+.mobileLanding .howitwork ul .num span{
+    font-size:14px;
+    font-family: "Conv_BrandonText-Regular";
+    display:block;
+}
+
+
+.mobileLanding .howitwork ul .stp2 .num{
+    left:auto;
+    right:0;
+}
+
+.hiw-step{
+    margin:60px auto;
+    max-width:35%;
+}
+
+.hiw-step h3 {
+    font-family: brandon_grotesquemedium, sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    margin:5px 0 0 0;
+    padding:0;
+    text-transform: uppercase;
+    text-align:center;
+    color:#847c77;
+}
+
+.hiw-step .stp1{
+    margin:20px 10px;
+    background:none;
+    padding:0;
+    font-size:18px;
+    display: block;
+    font-family: "Conv_BrandonText-Regular";
+    position:relative;
+    min-height: inherit;
+}
+
+.hiw-step .stp2{
+    margin:20px 10px;
+    background:none;
+    text-align:left;
+    padding:0;
+    font-size:18px;
+    display: block;
+    font-family: "Conv_BrandonText-Regular";
+    position:relative;
+    min-height: inherit;
+}
+
+.hiw-step .stp3{
+    margin:20px 10px;
+    background:none;
+    padding:0;
+    font-size:18px;
+    display: block;
+    font-family: "Conv_BrandonText-Regular";
+    position:relative;
+    min-height: inherit;
+}
+
+.hiw-step .stp1:after, .hiw-step .stp2:after, .hiw-step .stp3:after  {
+    background:#85c5bc;
+    height:2px;
+    position:absolute;
+    top:-5px;
+    width:100%;
+    content:'';
+    left:0;
+}
+
+.hiw-step .stp1 .num, .hiw-step .stp2 .num, .hiw-step .stp3 .num  {
+    background: #85c5bc none repeat scroll 0 0;
+    border-radius: 100%;
+    color: #fff;
+    display:inline-block;
+    font-family: brandon_grotesquemedium, sans-serif;
+    font-size: 32px;
+    height: 50px;
+    margin-bottom: 2px;
+    margin-right: 10px;
+    text-align: center;
+    width: 50px;
+    vertical-align:middle;
+    line-height:50px;
+}
+
+.hiw-step .stp1 span, .hiw-step .stp2 span, .hiw-step .stp3 span  {
+    display:inline-block;
+    width:80%;
+    vertical-align:middle;
+}
+
+.pad15.logo {
+    padding: 15px;
+    text-transform: uppercase;
+    width: 270px;
+}
+
+
+.banner3 .copy .actions .btn.btn-red, .banner5 .copy .actions .btn.btn-red, body#ver10 .copy .actions .btn.btn-red{
+    background:#00ada5 !important;
+    border-color:#00ada5 !important;
+}
+
+.banner3 .copy .actions .btn.btn-red:hover, .banner3 .copy .actions .btn.btn-red:focus,
+.banner5 .copy .actions .btn.btn-red:hover, .banner5 .copy .actions .btn.btn-red:focus{
+    background:#c9eae7 !important;
+    border-color:#00ada5 !important;
+    color:#00ada5 !important;
+}
+
+
+
+
+body#ver8 .copy .actions .btn.btn-red{
+    min-width: 200px !important;
+    padding-bottom: 20px !important;
+    padding-top: 20px !important;
+    border-radius:5px;
+    font-size:20px !important;
+}
+
+body#ver9 .actions.bottomBtn, body#ver10 .actions.bottomBtn {
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    z-index: 9999;
+    display:none;
+}
+
+body#ver9 .actions.bottomBtn .btn.btn-red{
+    background-color: #ff5c61 !important;
+    border-color: #ff5c61;
+    border-radius: 0;
+    box-shadow: 0 1px rgba(255, 255, 255, 0.1) inset, 0 1px 1px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    color: #fefcfb !important;
+    font-family:BrandonGrotesque-Bold,sans-serif;
+    font-size: 20px !important;
+    line-height: 1 !important;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 100% !important;
+    padding-bottom: 20px !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 20px !important;
+    text-transform: uppercase;
+}
+
+body#ver10 .actions.bottomBtn .btn.btn-red{
+    background:#00ada5 !important;
+    border-color:#00ada5 !important;
+    border-radius: 0;
+    box-shadow: 0 1px rgba(255, 255, 255, 0.1) inset, 0 1px 1px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    color: #fefcfb !important;
+    font-family:BrandonGrotesque-Bold,sans-serif;
+    font-size: 20px !important;
+    line-height: 1 !important;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 100% !important;
+    padding-bottom: 20px !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 20px !important;
+    text-transform: uppercase;
+}
+
+body#ver10 .actions.bottomBtn .btn.btn-red:hover{
+    background:#c9eae7 !important;
+    border-color:#00ada5 !important;
+    color:#00ada5 !important;
+}
+
+body#ver11  .actions  .btn.btn-red{
+    background:#00ada5 !important;
+    border-color:#00ada5 !important;
+    border-radius: 0;
+    box-shadow: 0 1px rgba(255, 255, 255, 0.1) inset, 0 1px 1px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    color: #fefcfb !important;
+    font-family:BrandonGrotesque-Bold,sans-serif;
+    font-size: 20px !important;
+    line-height: 1 !important;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 200px !important;
+    padding-bottom: 20px !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 20px !important;
+    text-transform: uppercase;
+    border-radius:5px;
+}
+
+body#ver11 .actions .btn.btn-red:hover{
+    background:#c9eae7 !important;
+    border-color:#00ada5 !important;
+    color:#00ada5 !important;
+}
+
+body#ver10 .global-nav .btn.btn-red, body#ver11 .global-nav .btn.btn-red, body#ver3 .global-nav .btn.btn-red, body#ver3 .global-nav .btn.btn-red, body#ver5 .global-nav .btn.btn-red,
+body#stitch-ver1 .global-nav .btn.btn-red, body#stitch-ver3 .global-nav .btn.btn-red, body#main_v2 .global-nav .btn.btn-red{
+    background:#00ada5 !important;
+    border-color:#00ada5 !important;
+}
+
+
+/**********/
+
+
+
+body#ver1 .copy .actions .btn.btn-red,body#ver2 .copy .actions .btn.btn-red,body#ver4 .copy .actions .btn.btn-red, body#ver3 .copy .actions .btn.btn-red, body#ver6 .copy .actions .btn.btn-red{
+    max-width: 370px !important;
+    min-width: 370px !important;
+    padding-bottom: 24px !important;
+    padding-top: 0 !important;
+    border-radius:5px;
+    font-size:24px !important;
+    margin-bottom:20px;
+}
+
+body#ver8 .copy .actions .btn.btn-red, body#ver9 .copy .actions .btn.btn-red{
+    max-width: 370px !important;
+    min-width: 100% !important;
+    padding-bottom: 24px !important;
+    padding-top: 24px !important;
+    border-radius:5px;
+    font-size:24px !important;
+    margin-bottom:20px;
+}
+
+body#ver7 .copy .actions .btn.btn-red, body#main_v1 .actions  .btn.btn-red{
+    max-width: 370px !important;
+    min-width: 100% !important;
+    padding-bottom: 24px !important;
+    padding-top: 24px !important;
+    border-radius:5px;
+    font-size:24px !important;
+    margin-bottom:20px;
+}
+
+body#main_v1 .actions  .btn.btn-red{
+    max-width: 370px !important;
+    min-width: 370px !important;
+}
+
+body#ver3 .copy .actions .btn.btn-red{
+    background:#00ada5 !important;
+    border-color:#00ada5 !important;
+    max-width: 370px !important;
+    min-width: 370px !important;
+    padding-bottom: 24px !important;
+    padding-top: 0 !important;
+    border-radius:5px;
+    font-size:24px !important;
+}
+
+body#ver10 .copy .actions .btn.btn-red{
+    background:#00ada5 !important;
+    border-color:#00ada5 !important;
+    max-width: 370px !important;
+    min-width: 100% !important;
+    padding-bottom: 24px !important;
+    padding-top: 24px !important;
+    border-radius:5px;
+    font-size:24px !important;
+}
+
+body#ver3 .copy .actions .btn.btn-red:hover, body#ver3 .copy .actions .btn.btn-red:focus, body#ver10 .copy .actions .btn.btn-red:hover{
+    background:#c9eae7 !important;
+    border-color:#00ada5 !important;
+    color:#00ada5 !important;
+}
+
+
+body#ver5 .copy .actions .btn.btn-red{
+    background:#c9eae7 !important;
+    border-color:#00ada5 !important;
+    max-width: 370px !important;
+    min-width: 370px !important;
+    padding-bottom: 24px !important;
+    padding-top: 0 !important;
+    border-radius:5px;
+    font-size:24px !important;
+    color:#00ada5 !important;
+    margin-bottom:20px;
+}
+
+body#ver11  .actions  .btn.btn-red{
+    background:#c9eae7 !important;
+    border-color:#00ada5 !important;
+    max-width: 370px !important;
+    min-width: 100% !important;
+    padding-bottom: 24px !important;
+    padding-top: 24px !important;
+    border-radius:5px;
+    font-size:24px !important;
+    color:#00ada5 !important;
+    margin-bottom:20px;
+}
+
+body#ver5 .copy .actions .btn.btn-red:hover, body#ver5 .copy .actions .btn.btn-red:focus, body#ver11  .actions  .btn.btn-red:hover, body#main_v1 .actions  .btn.btn-red:hover{
+    background:#00ada5 !important;
+    border-color:#00ada5 !important;
+    color:#ffffff !important;
+}
+
+body#ver9 .copy .actions .btn.btn-red{
+    background-color: #faeaeb !important;
+    border-color: #ff5c61;
+    color: #ff5c61 !important;
+}
+
+body#ver9 .copy .actions .btn.btn-red:hover{
+    color: #ffffff !important;
+}
+
+body#ver10 .global-nav .navbar .navbar-nav > li.get-started > a, body#ver11 .global-nav .navbar .navbar-nav > li.get-started > a{
+    background:#00ada5 !important;
+    border-color:#00ada5 !important;
+}
+
+/************************/
+
+.stitch-banner1{
+    background:url(../images/desktop_sec/new_ver1.jpg) no-repeat;
+    background-position:center top;
+    background-size:cover;
+}
+
+.stitch-banner1 .header{
+    border-bottom:1px solid rgba(255,255,255,0.5);
+    padding:10px;
+}
+
+.stitch-banner1 .header .tagline{
+    font-family: brandon_grotesquemedium, sans-serif;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
+}
+
+.stitch-banner1 .copy{
+    top:30%;
+    min-height:inherit;
+}
+
+.stitch-banner1 .copy .explain{
+    color:#df3f43;
+    margin-top: 25px;
+}
+
+.stitch-banner1 .copy .quesForm {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.stitch-banner1 .copy .quesForm .form-group .btn-group > .btn {
+    min-width: 20%;
+}
+
+.stitch-banner1 .copy .actions .btn.btn-red{
+    background:none !important;
+    border:3px solid #00ada5 !important;
+    min-width: 100% !important;
+    padding-bottom: 0 !important;
+    padding-top:0 !important;
+    border-radius:5px;
+    font-size:30px !important;
+    color:#00ada5 !important;
+    margin-bottom:20px;
+    height:70px;
+    line-height:65px !important;
+}
+
+.stitch-banner1 .copy .actions .btn.btn-red:hover{
+    background:#00ada5 !important;
+    border-color:#00ada5 !important;
+    color:#ffffff !important;
+}
+
+.stitch-banner1 .copy .goto-signup {
+    display:none;
+}
+
+.stitch-banner1 .copy .goto-signup .midStrip span{
+    background:#e8e4e3;
+}
+
+.stitch-banner1 .copy .goto-signup a.linkFB, .stitch-banner1 .copy .goto-signup a.submit{
+    line-height:56px;
+    height:56px;
+}
+
+
+.stitch-banner2 {
+    background:url(../images/desktop_sec/new_ver2.jpg) no-repeat;
+    background-position:center bottom;
+    background-size:cover;
+}
+
+.stitch-banner2 .copy {
+    height: 1px;
+    min-height:1px !important;
+    left:0;
+    margin:0 auto;
+    overflow: visible;
+    position: relative;
+    top:28%;
+    bottom:auto;
+    width: 100%;
+    vertical-align:middle;
+}
+
+.stitch-banner2 .copy img.text-logo{
+    width:350px;
+    margin:0 auto 5px 0;
+}
+
+.stitch-banner2 .copy .tagline{
+    width:350px;
+    margin:0 auto;
+}
+
+.stitch-banner2 .copy .quesForm {
+    margin: 0 auto;
+    width:320px;
+}
+
+.stitch-banner2 .copy .actions .btn.btn-red{
+    border-radius:5px;
+    font-size:30px !important;
+    margin-bottom:20px;
+    height:70px;
+    line-height:65px !important;
+    padding-bottom: 0 !important;
+    padding-top:0 !important;
+}
+
+.stitch-banner2 .copy .quesForm .explain{
+    margin:0;
+}
+
+.stitch-banner2 .goto-signup .midStrip span{
+    background:none;
+}
+
+
+.stitch-banner2 .quesForm .form-group .btn-group > .btn{
+    min-width:64px;
+}
+
+.stitch-banner2 .midStrip {
+    border-top: medium none;
+    margin: 30px 0 5px;
+}
+
+
+.stitch-banner2 .hide-signup{
+    width:450px;
+    margin:5% auto;
+}
+
+.stitch-banner2 .registration-form{
+    background:none !important;
+    padding:0;
+    width:450px;
+    margin:0 auto;
+}
+
+.stitch-banner2 .registration-form h2 {
+    font-family: brandon_grotesquemedium, sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    margin: 10px 0;
+    padding: 22px 0 12px;
+    text-transform: uppercase;
+}
+
+.stitch-banner2 .registration-form  .signup-form{
+    margin:0;
+}
+
+.stitch-banner2 .registration-form .form .form-group{
+    display:block;
+}
+
+
+.stitch-banner2 .registration-form .form .form-group .btn{
+    min-width: 100% !important;
+    font-size: 26px !important;
+}
+
+.error-msg{
+    text-align:left;
+}
+
+/***************/
+
+.stitch-banner3{
+    background:url(../images/desktop_sec/new_ver3.jpg) no-repeat;
+    background-position:center bottom;
+    background-size:cover;
+}
+
+
+.stitch-banner3 .copy{
+    margin:0;
+    left:auto;
+    right:0;
+    top:30%;
+    background:#ffffff;
+    border-radius:5px 0 0 5px;
+    min-height:inherit !important;
+    height:auto;
+    width:35%;
+}
+
+
+.stitch-banner3 .copy .pad15{
+    width:390px;
+    margin:0 auto;
+    padding:40px 0;
+}
+
+.stitch-banner3 .copy .pad15 img.text-logo{
+    width:340px;
+    margin:0 auto;
+}
+
+.stitch-banner3 .copy .pad15 .tagline{
+    color:#67a89f;
+    font-size:20px;
+}
+
+.stitch-banner3 .copy .pad15 .explain {
+    font-size: 20px;
+    margin-top: 38px;
+}
+
+
+.stitch-banner3 .copy .actions .btn.btn-red{
+    background:#00ada5 !important;
+    border:3px solid #00ada5 !important;
+    min-width: 100% !important;
+    padding-bottom: 0 !important;
+    padding-top:0 !important;
+    border-radius:5px;
+    font-size:24px !important;
+    color:#ffffff !important;
+    margin-bottom:20px;
+    height:65px;
+    width:290px;
+    line-height:60px !important;
+}
+
+.stitch-banner3 .copy .actions .btn.btn-red:hover{
+    background:none !important;
+    border-color:#00ada5 !important;
+    color:#00ada5 !important;
+}
+
+.stitch-banner3 .registration-form{
+    margin:0;
+    left:auto;
+    right:0;
+    top:0;
+    background:#ffffff;
+    border-radius:5px 0 0 5px;
+    min-height:inherit !important;
+    height:100%;
+    width:35%;
+    padding:0;
+    position:absolute;
+}
+
+.stitch-banner3 .registration-form .form {
+    margin:0 20px;
+    overflow: hidden;
+    border:none;
+}
+
+.stitch-banner3 .registration-form .form .form-group .btn-group .btn{
+    min-width:inherit;
+}
+
+.stitch-banner3 .registration-form .goto-signup .midStrip span {
+    background: #fff none repeat scroll 0 0;
+}
+
+.stitch-banner3 .registration-form .form .form-group .form-control{
+    line-height:30px;
+    height:30px;
+}
+
+.stitch-banner3 .registration-form .error-msg{
+    font-size:11px !important;
+}
+
+.stitch-banner3 .registration-form .closeSignup{
+    position:absolute;
+    top:5px;
+    right:20px;
+    border:none;
+    cursor:pointer;
+}
+
+.stitch-banner3 .registration-form .form h2, .stitch-banner3 .registration-form .sign-in-form ul{
+    margin:0;
+}
+
+.stitch-banner3 .registration-form  .midStrip {
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+@media screen and (min-width:1500px) {
+    .stitch-banner3 .registration-form{
+        top:0;
+    }
+}
+
+
+
+/***********************/
+
+body#main_v1 .copy {
+    background:rgba(255, 255, 255, 0.8) none repeat scroll 0 0;
+    border-bottom: 1px solid #847c77;
+    border-top: 1px solid #847c77;
+    height: 300px;
+    left: 0;
+    margin:-150px 0 0;
+    min-height: initial;
+    padding: 30px 0;
+    top: 50%;
+    width: 100%;
+    text-align:center;
+}
+
+body#main_v1 .copy img.text-logo{
+    width:300px;
+    margin:0 auto;
+}
+
+body#main_v1 .copy  .explain {
+    font-size: 18px;
+    margin: 30px auto;
+    width: 400px;
+}
+
+body#main_v1 .copy .tagline {
+    font-size: 16px;
+    letter-spacing: 0.8px;
+    margin: 5px 0;
+}
+
+
+body#main_v2 .copy, body#main_v3 .copy {
+    left: 0;
+    margin:0;
+    min-height: initial;
+    padding:0;
+    top:0;
+    width: 100%;
+    height:100%;
+}
+
+body#main_v2 .copy img.text-logo{
+    width:300px;
+    margin:20px auto 0 15px;
+}
+
+body#main_v3 .copy img.text-logo{
+    display:table;
+    width:250px;
+    margin:20px auto 0;
+}
+
+body#main_v2 .copy .tagline{
+    font-size: 16px;
+    letter-spacing: 0.8px;
+    margin: 0 0 0 15px;
+    font-family: "Conv_BrandonText-Regular";
+}
+
+body#main_v3 .copy .tagline {
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    margin:0 auto;
+    font-family: "Conv_BrandonText-Regular";
+    display:table;
+}
+
+body#main_v2 .copy .bottom_step, body#main_v3 .copy .bottom_step{
+    background: rgba(255, 255, 255, 0.8) none repeat scroll 0 0;
+    border-top: 1px solid #847c77;
+    position:absolute;
+    bottom:0;
+    padding:10px 0 70px;
+    left:0;
+    width:100%;
+}
+
+body#main_v2 .copy .bottom_step  .explain, body#main_v3 .copy .bottom_step  .explain {
+    font-size: 23px;
+    margin: 0 auto 20px;
+    width: 450px;
+}
+
+body#main_v2 .down-arrow, body#main_v3 .down-arrow {
+    bottom:25px;
+}
+
+body#main_v2 #carousel-background .carousel-indicators, body#main_v3 #carousel-background .carousel-indicators{
+    display:none;
+}
+
+body#main_v3 #carousel-background .carousel-indicators{
+    top:auto;
+    bottom:240px;
+    margin-top:0;
+
+}
+
+
+body#main_v2 .copy .actions .btn.btn-red{
+    background:#00ada5 !important;
+    border:3px solid #00ada5 !important;
+    min-width: 300px !important;
+    padding-bottom: 0 !important;
+    padding-top:0 !important;
+    border-radius:5px;
+    font-size:24px !important;
+    color:#ffffff !important;
+    margin-bottom:0;
+    height:56px;
+    max-width:290px;
+    line-height:50px !important;
+}
+
+body#main_v2 .copy .actions .btn.btn-red:hover{
+    background:none !important;
+    border-color:#00ada5 !important;
+    color:#00ada5 !important;
+}
+
+body#main_v3 .copy .actions .btn.btn-red{
+    background-color: #faeaeb !important;
+    color: #ff5c61 !important;
+    border:2px solid #ff5c61 !important;
+    min-width: 400px !important;
+    padding-bottom: 0 !important;
+    padding-top:0 !important;
+    border-radius:5px;
+    font-size:24px !important;
+    margin-bottom:0;
+    height:60px;
+    max-width:350px;
+    line-height:55px !important;
+}
+
+body#main_v3 .copy .actions .btn.btn-red:hover{
+    color:#ffffff !important;
+}
+
+#getStart-pop .midStrip{
+    margin-bottom: 10px;
+    margin-top: 30px;
+}
+
+#getStart-pop .midStrip span{
+    font-size:14px;
+}
+
+
+body#main_v2 #getStart-pop .registration-form .form h2, body#main_v3 #getStart-pop .registration-form .form h2 {
+    font-family: brandon_grotesquemedium, sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    margin: 0;
+    padding: 0 0 12px;
+    text-transform: uppercase;
+}
+
+body#main_v2 #getStart-pop .registration-form .sign-in-form ul, body#main_v3 #getStart-pop .registration-form .sign-in-form ul{
+    padding:0;
+    margin:0;
+}
+
+body#main_v2 #getStart-pop .registration-form .midStrip, body#main_v3 #getStart-pop .registration-form .midStrip {
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+    margin-top: 20px;
+    position: relative;
+    text-align: center;
+}
+
+/*************************/
+/**/
+
+.sign-in-form{}
+
+.sign-in-form ul, .sign-with ul{
+    margin:0;
+    padding:0;
+    list-style:none;
+}
+
+.sign-in-form ul:after, .sign-with ul:after{
+    clear:both;
+    display:block;
+    visibility:hidden;
+    content:"";
+}
+
+.sign-in-form ul li, .mailSignin{
+    width:100%;
+    margin:0;
+    display:inline-block;
+    font-size:20px;
+    font-family: Conv_BrandonText-Regular, sans-serif;
+}
+
+.sign-with ul li{
+    width:100%;
+    margin:5px 0;
+    display:inline-block;
+    font-size:20px;
+    font-family: brandon_grotesquemedium, sans-serif;
+}
+
+.sign-in-form ul li a, .mailSignin a{
+    line-height:60px;
+    height:60px;
+}
+
+
+
+.sign-with ul li a{
+    line-height:50px;
+    height:50px;
+}
+
+a.linkFB{
+    background:#3b5998;
+    display:block;
+    color:#ffffff;
+    text-align:center;
+    position:relative;
+}
+
+a.linkTweet{
+    background:#29aae2;
+    display:block;
+    color:#ffffff;
+    text-align:center;
+    position:relative;
+}
+a.linkGoogle{
+    background:#dd4b38;
+    display:block;
+    color:#ffffff;
+    text-align:center;
+    position:relative;
+}
+
+a.mailsignin{
+    background:#ff5c61;
+    display:block;
+    color:#ffffff;
+    text-align:center;
+    position:relative;
+}
+
+.mailSignin a{
+    background:#f7f7f7;
+    display:block;
+    color:#737373;
+    text-align:center;
+    line-height:60px;
+    height:60px;
+    position:relative;
+    border:1px solid #ccc;
+    opacity:0.7;
+}
+
+
+.mailSignin a:hover{
+    opacity:1;
+    -webkit-transition: opacity .25s ease-in-out;
+    transition: opacity .25s ease-in-out;
+}
+
+
+.sign-in-form ul li a .fa, .mailSignin a .fa{
+    font-size:26px;
+    display:inline-block;
+    vertical-align:middle;
+    margin:0 10px 0 8px;
+    text-shadow:5px 5px 10px rgba(0,0,0,0.5);
+}
+
+
+.sign-with ul li .fa{
+    font-size:26px;
+    text-shadow:5px 5px 10px rgba(0,0,0,0.5);
+}
+
+.sign-in-form ul li .fa, .mailSignin a .fa, .sign-with ul li a .fa{
+    position:absolute;
+    left:14px;
+    top:0;
+    line-height:60px;
+    z-index:1;
+}
+
+.sign-with ul li a .fa{
+    line-height:50px;
+}
+
+
+
+.sign-in-form ul li a.linkFB:after, .sign-with ul li a.linkFB:after{
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.3) inset, 60px 0 0 #2d4373 inset;
+    position:absolute;
+    left:0;
+    top:0;
+    width:60px;
+    height:60px;
+    content:"";
+    -webkit-transition: all 0.3s ease-out 0s;
+    transition: all 0.3s ease-out 0s;
+}
+
+.sign-in-form ul li a.linkTweet:after, .sign-with ul li a.linkTweet:after{
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.3) inset, 60px 0 0 #2795e9 inset;
+    position:absolute;
+    left:0;
+    top:0;
+    width:60px;
+    height:60px;
+    content:"";
+    -webkit-transition: all 0.3s ease-out 0s;
+    transition: all 0.3s ease-out 0s;
+}
+
+.sign-in-form ul li a.linkGoogle:after, .sign-with ul li a.linkGoogle:after{
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.3) inset, 60px 0 0 #a50c1d inset;
+    position:absolute;
+    left:0;
+    top:0;
+    width:60px;
+    height:60px;
+    content:"";
+    -webkit-transition: all 0.3s ease-out 0s;
+    transition: all 0.3s ease-out 0s;
+}
+
+.sign-with ul li a.linkFB:after, .sign-with ul li a.linkTweet:after, .sign-with ul li a.linkGoogle:after{
+    width:50px;
+    height:50px;
+}
+
+
+.sign-in-form ul li span, .mailSignin a span, .sign-with ul li a span{
+    display:inline-block;
+    vertical-align:middle;
+    position:relative;
+    z-index:1;
+}
+
+.sign-in-form ul li a.linkFB:hover:after, .sign-with ul li a.linkFB:hover:after{
+    width:100%;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.3) inset, 600px 0 0 #2d4373 inset;
+    -webkit-transition: all 0.3s ease-out 0s;
+    transition: all 0.3s ease-out 0s;
+}
+
+.sign-in-form ul li a.linkTweet:hover:after, .sign-with ul li a.linkTweet:hover:after{
+    width:100%;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.3) inset, 600px 0 0 #2795e9 inset;
+    -webkit-transition: all 0.3s ease-out 0s;
+    transition: all 0.3s ease-out 0s;
+}
+
+.sign-in-form ul li a.linkGoogle:hover:after, .sign-with ul li a.linkGoogle:hover:after{
+    width:100%;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.3) inset, 600px 0 0 #a50c1d inset;
+    -webkit-transition: all 0.3s ease-out 0s;
+    transition: all 0.3s ease-out 0s;
+}
+
+#getStart-pop .sign-in-form ul li a, #getStart-pop .mailSignin a{
+    line-height:50px;
+    height:50px;
+}
+
+#getStart-pop .registration-form .form .form-group .form-control{
+    padding:0;
+    font-size:14px;
+}
+
+#getStart-pop .sign-in-form ul li .fa, #getStart-pop .mailSignin a .fa, #getStart-pop .sign-with ul li a .fa{
+    line-height:50px;}
+
+
+
+#getStart-pop .sign-in-form ul li a.linkFB:after, #getStart-pop .sign-with ul li a.linkFB:after{
+    width:50px;
+    height:50px;
+}
+
+
+.midStrip{
+    margin-top:40px;
+    margin-bottom:20px;
+    position:relative;
+    border-top:1px solid rgba(0,0,0,0.2);
+    text-align:center;
+}
+
+.midStrip span{
+    position:relative;
+    top:-12px;
+    text-align:center;
+    font-size:16px;
+    font-family: Conv_BrandonText-Regular, sans-serif;
+    background:#ffffff;
+    padding:0 10px;
+}
+
+
+.sign-in-pop-form, .sign-with{
+    display:none;
+}
+
+.sign-with .midStrip{
+    margin-top:20px;
+    margin-bottom:10px;
+}
+
+.sign-with{
+    width:360px;
+    margin:0 auto;
+}
+
+.sign-with label{
+    font-size:20px;
+    text-transform:uppercase;
+    padding:20px 0 0 0;
+    font-family: Conv_BrandonText-Regular, sans-serif;
+    font-weight:normal;
+}
+
+.closeSignup{
+    margin:10px -15px 0;
+    display:block;
+    border-top:1px solid #9d9693;
+}
+
+
+.closeSignup a{
+    color:#ffffff;
+    text-align:center;
+    text-transform:uppercase;
+    text-decoration:none;
+    font-family: brandon_grotesquemedium, sans-serif;
+    font-size:16px;
+    display:block;
+    padding:10px;
+    background:rgba(59, 123, 113, 0.7);
+    opacity:0.5;
+}
+
+.closeSignup a:hover{
+    background:rgba(59, 123, 113, 0.7);
+    opacity:1;
+}
+
+body#main_v2 .quesForm .form-group{
+    display: table;
+    margin: 15px auto 0;
+}
+
+body#main_v3 .quesForm .form-group {
+    display: table;
+    margin: 15px auto 0;
+    width:400px;
+    max-width:100%;
+}
+
+@media screen and (min-width:1024px){
+    body#ver4 .autoheight, body#stitch-ver4 .autoheight{height:700px !important;}
+    body#stitch-ver1 .autoheight{height:700px !important;}
+}
+
+
+/****Tablet css*********************/
+@media screen and (max-width:1024px){
+    .banner1{background-position:-150px center;}
+    .banner1 .copy .pad15{text-align:center;}
+    .banner1 .copy img.text-logo{width: 280px;}
+    .banner1 .copy .tagline{font-size:12px; line-height:30px;}
+    .banner1 .copy .explain, .banner2 .copy .explain{font-size:16px; width:100%;}
+    /**/
+    .banner1 .copy .pad15, .banner2 .copy .pad15{max-width: 350px;  margin: 0 auto 8%;}	
+    .banner2 .copy .actions .btn.btn-red, .banner3 .copy .actions .btn.btn-red{height:60px; line-height:60 !;}
+    /**/
+    .banner3 .copy .actions{position:relative;}
+    .banner3 .copy .pad15{max-width: 350px;  margin: 0 auto 30px;}
+
+
+    body#ver2 .autoheight{height:500px !important;}
+    body#ver3 .autoheight{height:500px !important;}
+    body#ver4 .autoheight{height:500px !important;}
+    body#stitch-ver1 .autoheight, body#stitch-ver4 .autoheight{height:500px !important;}
+
+
+    .banner4 .copy{top:10%;}
+    .banner4 .copy .pad15{max-width:350px;}
+    .banner4 .copy .explain{font-size:16px;}
+    .banner4 .quesForm {padding: 30px 0 0;}
+
+    /**/
+    .stitch-banner1 .copy {min-height: inherit; top: 10%; position: relative; margin: 0 auto; width: 300px; text-align:center; left:0;}
+    .stitch-banner1 .copy .goto-signup .midStrip {margin: 25px 0 0;}
+    .stitch-banner1 .header .tagline {font-size:8.9px; line-height: 19px;}
+    .stitch-banner1 .copy .explain{font-size:14px;}
+    .stitch-banner1 .copy .quesForm{width:100%;}
+    .stitch-banner1 .copy .quesForm .form-group .btn-group > .btn {min-width: 20%;}
+    .stitch-banner2 .hide-signup {width: 40%; text-align:center;}
+    .stitch-banner2 .copy img.text-logo {margin: 0 auto 5px 0; width: 290px;}
+    .stitch-banner2 .copy .tagline, .stitch-banner2 .copy .explain{font-size:16px;}
+    .stitch-banner2 .copy .actions {width: 100%;}
+    .stitch-banner2 .copy .actions .btn.btn-red {width: 100%; min-width:100% !important;}
+    .stitch-banner3 .copy .pad15 {margin: 0 auto; padding: 20px; width: auto;}
+    .stitch-banner3 .copy .pad15 img.text-logo {margin: 0 auto; width: 100%;}
+    .stitch-banner3 .copy .pad15 .tagline{font-size:100%;}
+    .stitch-banner3 {background: #6abeb1 url("../images/desktop_sec/new_ver3.jpg") no-repeat scroll center bottom / 100% auto;}
+    .stitch-banner3 .registration-form{top:0; border-radius:0; height:100%;}
+    .sign-in-form ul li a, .mailSignin a {height: 40px; line-height: 40px;}
+    .sign-in-form ul li a.linkFB::after, .sign-with ul li a.linkFB::after{height:40px; width:40px;}
+    .sign-in-form ul li a .fa, .mailSignin a .fa{margin: 0 10px 0 0; line-height:40px;}
+    .stitch-banner3 .copy .actions{width:100%;}
+    .stitch-banner3 .copy .pad15 .explain {font-size: 16px; margin-top: 38px;}
+}
+
+@media screen and (max-width:1024px) and (orientation : portrait){
+    .banner1 {background-position: -170px top; background-size: 200% auto;}
+    .banner1 .copy .pad15 {display: table; margin: 0 auto 32%; padding: 15px 109px; width: 250px;}
+    .banner1 .copy .explain{width:auto;}
+    .addQuestion .quesForm, .copy .actions.ptc2, .copy.addQuestion .actions.ptc1{text-align:center;}
+}
+
+
+/****NEW BANNER PAGES CSS**********************/
+
+/***************/
+
+.stitch-banner4{
+    background:url(../images/desktop_sec/new_ver4.jpg) no-repeat;
+    background-position:center bottom;
+    background-size:cover;
+}
+
+.stitch-banner4 .copy{
+    background:rgba(255,255,255,0.8);
+    margin:0;
+    padding:30px 0;
+    width:100%;
+    height:auto;
+    left:0;
+    top:auto
+}

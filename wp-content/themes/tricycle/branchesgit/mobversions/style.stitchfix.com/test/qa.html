@@ -1,0 +1,578 @@
+<li><a href='http://blog.stitchfix.com/#signup' class="hiw" data-slow-scroll-via-class>HOW IT WORKS</a></li>
+<li><a href="https://www.stitchfix.com/faq">FAQ</a></li>
+<li><a href="http://blog.stitchfix.com/">Style Tips</a></li>
+<li><a class="rew" href='javascript:void(0);' data-slow-scroll-via-class>Reviews</a></li>
+<li><a href="https://style.stitchfix.com/gifts">Gift Cards</a></li>
+<section class='copy'></section>
+
+<div style="display:none;" class="sign-in-form fb-login-c">
+    <div>
+        <ul>
+            <li>
+                <div>
+                    <a data-controller-action="GET" data-controller-path="/linked_accounts/facebook/info" id="fb-button" href="#/">
+                        <div id="facebook_logo">
+                            <span class="facebook-f-logo"><img src="images/facebook_icon.png" class="center-facebook-f-logo"></span>
+                        </div>
+                        <div id="facebook_signup" class="facebook-text-box">SIGN UP WITH FACEBOOK</div>
+                    </a>
+                </div>
+            </li>
+        </ul>
+        <div class="line-separator"> OR </div>
+    </div>
+</div>
+<div style="display:none;" class="sign-in-form fb-login-d">
+    <div class="form-group" data-validate="presence">
+        <ul>
+            <li><a href="#/" data-controller-action="GET" data-controller-path="/linked_accounts/facebook/info" class="linkFB"><i class="fa fa-facebook" aria-hidden="true"></i><span>Continue with Facebook</span></a></li>
+        </ul>
+        <div class="midStrip"><span>OR</span></div>
+    </div>
+</div>
+<div class="form-group" data-validate="presence,zip">
+    <label class="control-label" for="user_client_attributes_shipping_postcode">Zip Code</label>
+    <input class="form-control input-lg" maxlength="10" size="10" type="text" name="user[client_attributes][shipping_postcode]" id="user_client_attributes_shipping_postcode" />
+    <p class="instructional-note  inline-note">At this time we ship only to U.S. mailing addresses.</p>
+</div>
+
+<div id="fixture"><div id="fb-root"></div><a href="https://www.stitchfix.com/login" class="login btn btn-white">Sign In</a><form method="post" accept-charset="UTF-8" action="https://www.stitchfix.com/?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&amp;utm_source=ampush&amp;utm_medium=other" id="new_user" data-init-blur-form-validation="true" data-init-batch-form-validation="true" novalidate="novalidate" class=""> 
+        <input type="hidden" value="✓" name="utf8"> 
+        <input type="hidden" value="N6XNgkKhiVmZndbJ6BaaajtZsvdaAsj/STamlcwBZl1UtzE0615aJMabpItASAcvH+rJ4Z+BbS7O8xC76FESSg==" name="authenticity_token"> 
+        <div class="sign-in-form fb-login-c" style=""> 
+            <div> 
+                <ul> 
+                    <li> 
+                        <div> 
+                            <a href="javascript:void(0)" id="fb-button" data-controller-path="/linked_accounts/facebook/info" data-controller-action="GET" onclick="checkLoginState(this, new_user)">
+                                <div id="facebook_logo"> 
+                                    <span class="facebook-f-logo"><img class="center-facebook-f-logo" src="images/facebook_icon.png"></span> 
+                                </div> 
+                                <div class="facebook-text-box" id="facebook_signup">SIGN UP WITH FACEBOOK</div> 
+                            </a> 
+                        </div> 
+                    </li> 
+                </ul> 
+                <div class="line-separator"> OR </div> 
+            </div> 
+        </div> 
+        <div class="sign-in-form fb-login-d" style="display:none;"> 
+            <div data-validate="presence" class="form-group"> 
+                <ul> 
+                    <li><a class="linkFB" data-controller-path="/linked_accounts/facebook/info" data-controller-action="GET" href="javascript:void(0)" onclick="checkLoginState(this, new_user)"><i aria-hidden="true" class="fa fa-facebook"></i><span>Continue with Facebook</span></a></li> 
+                </ul> 
+                <div class="midStrip"><span>OR</span></div> 
+            </div> 
+        </div> 
+        <div data-validate="presence" class="form-group"> 
+            <label for="user_first_name" class="control-label">First Name</label> 
+            <input type="text" id="user_first_name" name="user[first_name]" size="30" class="form-control input-lg" maxlength="30"> 
+            <div style="color:#ff5c61;font-size:11pt" class="error-msg"><em><span>This is a required field</span></em></div></div> 
+        <div data-validate="presence" class="form-group"> 
+            <label for="user_last_name" class="control-label">Last Name</label> 
+            <input type="text" id="user_last_name" name="user[last_name]" size="30" class="form-control input-lg" maxlength="30"> 
+        </div> 
+        <div data-validate="presence,email,emailUniqueness, emailValidTopLevelDomain, emailRareTopLevelDomain" class="form-group"> 
+            <label for="user_email" class="control-label">Email</label> 
+            <input type="email" id="user_email" name="user[email]" size="75" class="form-control input-lg" maxlength="75"> 
+        </div> 
+        <div data-validate="presence,zip" class="form-group" style="display: none;"> 
+            <label for="user_client_attributes_shipping_postcode" class="control-label">Zip Code</label> 
+            <input type="hidden" id="user_client_attributes_shipping_postcode" name="user[client_attributes][shipping_postcode]" size="10" maxlength="10" class="form-control input-lg" value="94107"> 
+            <p class="instructional-note  inline-note">At this time we ship only to U.S. mailing addresses.</p> 
+        </div> 
+        <div data-validate="presence" class="form-group"> 
+            <label for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id" class="control-label"> Dress Size </label> 
+            <div data-toggle="buttons" class="btn-group"> 
+                <label class="btn btn-default"> 
+                    <input type="radio" class="form-control rbtn-scale" value="37" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_37" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]"> 
+                    XS</label> 
+                <label class="btn btn-default"> 
+                    <input type="radio" class="form-control rbtn-scale" value="38" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_38" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]"> 
+                    S</label> 
+                <label class="btn btn-default"> 
+                    <input type="radio" class="form-control rbtn-scale" value="39" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_39" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]"> 
+                    M</label> 
+                <label class="btn btn-default"> 
+                    <input type="radio" class="form-control rbtn-scale" value="40" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_40" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]"> 
+                    L</label> 
+                <label class="btn btn-default"> 
+                    <input type="radio" class="form-control rbtn-scale" value="41" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_41" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]"> 
+                    XL</label> 
+                <label class="btn btn-default bannersize">
+                    <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_119" value="119" class="form-control rbtn-scale">
+                    XXL</label>
+            </div> 
+            <p class="instructional-note hidden-xs">Need sizing help? Consult our <a class="size-chart topsizechart" data-target="#sizeChart-pop" data-toggle="modal" href="#">Size Chart »</a></p> 
+            <p class="instructional-note">We carry sizes 0&ndash;14 (XS&ndash;XL), 
+                as well as maternity and petite&nbsp;clothing. </p> 
+        </div> 
+        <div class="form-group submission"> 
+            <p class="instructional-note">By signing up you accept the 
+                <a href="https://www.stitchfix.com/terms">terms and conditions</a> of Stitch&nbsp;Fix.</p> 
+            <input type="submit" data-disable-with="Signing up..." class="btn btn-red btn-lg submit" value="Take Your Style Quiz" name="commit"> 
+            <div class="help-block">Already a member? <a href="https://www.stitchfix.com/login">Sign In »</a></div> 
+            <div class="registration-opt-in"> 
+                <div class="email-opt-in"> 
+                    <div class="checkbox small"> 
+                        <input type="hidden" value="0" name="user[email_opt_in]"> 
+                        <input type="checkbox" id="user_email_opt_in" name="user[email_opt_in]" checked="checked" value="1"> 
+                        <label for="user_email_opt_in" class="control-label">Id like to receive exclusive news, styling tips and more</label> 
+                    </div> 
+                </div> 
+            </div> 
+        </div> 
+    </form></div> 
+
+<div id="fb-root"></div><div data-validate="presence" class="form-group"> 
+    <p class="instructional-note hidden-xs">Need sizing help? Consult our <a class="size-chart" data-target="#sizeChart-pop" data-toggle="modal" href="#">Size Chart »</a></p> 
+</div> 
+<form method="post" accept-charset="UTF-8" action="https://www.stitchfix.com/?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&amp;utm_source=ampush&amp;utm_medium=other" id="new_user_pop" data-init-blur-form-validation="true" data-init-batch-form-validation="true" novalidate="novalidate" class=""> 
+    <input type="hidden" value="✓" name="utf8"> 
+    <input type="hidden" value="37" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="popupsize"> 
+    <input type="hidden" value="N6XNgkKhiVmZndbJ6BaaajtZsvdaAsj/STamlcwBZl1UtzE0615aJMabpItASAcvH+rJ4Z+BbS7O8xC76FESSg==" name="authenticity_token"> 
+    <input value="Womens" type="hidden" name="user[business_line]" id="user_business_line" /> 
+    <input type="hidden" name="user[fb_oauth_token]" id="user_fb_oauth_token" />
+    <div class="sign-in-form fb-login-c" style=""> 
+        <div> 
+            <ul> 
+                <li><div> 
+                        <a href="javascript:void(0)" id="fb-button" data-controller-path="/linked_accounts/facebook/info" data-controller-action="GET" onclick="checkLoginState(this, 'new_user_pop')"> 
+                            <div id="facebook_logo"> 
+                                <span class="facebook-f-logo"><img class="center-facebook-f-logo" src="images/facebook_icon.png"></span> 
+                            </div> 
+                            <div class="facebook-text-box" id="facebook_signup">SIGN UP WITH FACEBOOK</div> 
+                        </a> 
+                    </div> 
+                </li> 
+            </ul> 
+            <div class="line-separator"> OR </div> 
+        </div> 
+    </div> 
+    <div class="sign-in-form fb-login-d" style="display:none;"> 
+        <div data-validate="presence" class="form-group"> 
+            <ul> 
+                <li><a class="linkFB" data-controller-path="/linked_accounts/facebook/info" data-controller-action="GET" href="javascript:void(0)" onclick="checkLoginState(this, 'new_user_pop')"><i aria-hidden="true" class="fa fa-facebook"></i><span>Continue with Facebook</span></a></li>
+            </ul> 
+            <div class="midStrip"><span>OR</span></div> 
+        </div> 
+    </div> 
+    <div data-validate="presence" class="form-group"> 
+        <label for="user_first_name" class="control-label">First Name</label> 
+        <input type="text" id="user_first_name" name="user[first_name]" size="30" class="form-control input-lg" maxlength="30"> 
+        <div style="color:#ff5c61;font-size:11pt" class="error-msg"><em><span>This is a required field</span></em></div></div> 
+    <div data-validate="presence" class="form-group"> 
+        <label for="user_last_name" class="control-label">Last Name</label> 
+        <input type="text" id="user_last_name" name="user[last_name]" size="30" class="form-control input-lg" maxlength="30"> 
+    </div> 
+    <div data-validate="presence,email,emailUniqueness, emailValidTopLevelDomain, emailRareTopLevelDomain" class="form-group"> 
+        <label for="user_email" class="control-label">Email</label> 
+        <input type="email" id="user_email" name="user[email]" size="75" class="form-control input-lg" maxlength="75"> 
+    </div> 
+    <div data-validate="presence,zip" class="form-group" style="display: none;"> 
+        <label for="user_client_attributes_shipping_postcode" class="control-label">Zip Code</label>
+        <input type="hidden" id="user_client_attributes_shipping_postcode" name="user[client_attributes][shipping_postcode]" size="10" maxlength="10" class="form-control input-lg" value="94107">
+        <p class="instructional-note  inline-note">At this time we ship only to U.S. mailing addresses.</p> 
+    </div> 
+    <div class="form-group submission"> 
+        <p class="instructional-note">By signing up you accept the <a href="https://www.stitchfix.com/terms">terms and conditions</a> of Stitch&nbsp;Fix.</p> 
+        <input type="submit" data-disable-with="Signing up..." class="btn btn-red btn-lg submit" value="Take Your Style Quiz" name="commit"> 
+        <div class="help-block">Already a member? <a href="https://www.stitchfix.com/login">Sign In »</a></div> 
+        <div class="registration-opt-in"> 
+            <div class="email-opt-in"> 
+                <div class="checkbox small"> 
+                    <input type="hidden" value="0" name="user[email_opt_in]"> 
+                    <input type="checkbox" id="user_email_opt_in" name="user[email_opt_in]" checked="checked" value="1"> 
+                    <label for="user_email_opt_in" class="control-label">Id like to receive exclusive news, styling tips and more</label> 
+                </div> 
+            </div> 
+        </div> 
+    </div> 
+</form> 
+
+<div class="row"> 
+    <div class="col-xs-12"> 
+        <section class="size-chart"> 
+            <h6>Weight (lbs.)</h6> 
+            <table class="size-chart"> 
+                <thead> 
+                    <tr> 
+                        <th>&nbsp;</th> 
+                        <th class="">&lt; 100</th> 
+                        <th class="">110</th> 
+                        <th class="">120</th> 
+                        <th class="">130</th> 
+                        <th class="">140</th> 
+                        <th class="">150</th> 
+                        <th class="">160</th> 
+                        <th class="">170</th> 
+                        <th class="">180</th> 
+                        <th class="">190</th> 
+                        <th class="">200</th> 
+                        <th class="">200+</th> 
+                    </tr> 
+                </thead> 
+                <tbody class="topsizechart"> 
+                    <tr> 
+                        <td class="xs">XS</td> 
+                        <td class="s">S</td> 
+                        <td class="s">S</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="xl">XL</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                    </tr> 
+                    <tr> 
+                        <th>5’0”</th> 
+                        <td class="xs">XS</td> 
+                        <td class="s">S</td> 
+                        <td class="s">S</td> 
+                        <td class="s">S</td> 
+                        <td class="m">M</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="xl">XL</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                    </tr> 
+                    <tr> 
+                        <th>5’1”</th> 
+                        <td class="xs">XS</td> 
+                        <td class="s">S</td> 
+                        <td class="s">S</td> 
+                        <td class="s">S</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="xl">XL</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                    </tr> 
+                    <tr> 
+                        <th>5’2”</th> 
+                        <td class="xs">XS</td> 
+                        <td class="xs">XS</td> 
+                        <td class="s">S</td> 
+                        <td class="s">S</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="xl">XL</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                    </tr> 
+                    <tr> 
+                        <th>5’3”</th> 
+                        <td class="xs">XS</td> 
+                        <td class="xs">XS</td> 
+                        <td class="s">S</td> 
+                        <td class="s">S</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="xl">XL</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                    </tr> 
+                    <tr> 
+                        <th>5’4”</th> 
+                        <td class="xs">XS</td> 
+                        <td class="xs">XS</td> 
+                        <td class="s">S</td> 
+                        <td class="s">S</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="xl">XL</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                    </tr> 
+                    <tr> 
+                        <th>5’5”</th> 
+                        <td class="xs">XS</td> 
+                        <td class="xs">XS</td> 
+                        <td class="s">S</td> 
+                        <td class="s">S</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="xl">XL</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                    </tr> 
+                    <tr> 
+                        <th>5’6”</th> 
+                        <td class="xs">XS</td> 
+                        <td class="s">S</td> 
+                        <td class="s">S</td> 
+                        <td class="s">S</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="xl">XL</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                    </tr> 
+                    <tr> 
+                        <th>5’7”</th> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="s">S</td> 
+                        <td class="s">S</td> 
+                        <td class="s">S</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="xl">XL</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                    </tr> 
+                    <tr> 
+                        <th>5’8”</th> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="s">S</td> 
+                        <td class="s">S</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="xl">XL</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                    </tr> 
+                    <tr> 
+                        <th>5’9”</th> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="s">S</td> 
+                        <td class="s">S</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="xl">XL</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                    </tr> 
+                    <tr> 
+                        <th>5’10”</th> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="s">S</td> 
+                        <td class="s">S</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="xl">XL</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                    </tr> 
+                    <tr> 
+                        <th>5’11”</th> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="xl">XL</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                    </tr> 
+                    <tr> 
+                        <th>6’0”</th> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="xl">XL</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                    </tr> 
+                    <tr> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="m">M</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="l">L</td> 
+                        <td class="xl">XL</td> 
+                        <td class="na">&nbsp;&nbsp;&nbsp;</td> 
+                    </tr> 
+                </tbody> 
+            </table> 
+            <legend>Currently we are only able to style XS&thinsp;&ndash;&thinsp;XL (0&thinsp;&ndash;14)</legend> 
+        </section> 
+    </div> 
+</div> 
+<div class="show-sm image-3"></div><div class="carousel-inner"></div><section class="copy">
+    <div data-toggle="buttons" class="btn-group">
+        <label class="btn btn-default bannersize">
+            <input type="radio" class="form-control rbtn-scale-pop" value="37" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_37" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]">
+            XS</label>
+        <label class="btn btn-default bannersize">
+            <input type="radio" class="form-control rbtn-scale-pop" value="38" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_38" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]">
+            S</label>
+        <label class="btn btn-default bannersize">
+            <input type="radio" class="form-control rbtn-scale-pop" value="39" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_39" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]">
+            M</label>
+        <label class="btn btn-default bannersize">
+            <input type="radio" class="form-control rbtn-scale-pop" value="40" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_40" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]">
+            L</label>
+        <label class="btn btn-default bannersize">
+            <input type="radio" class="form-control rbtn-scale-pop" value="41" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_41" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]">
+            XL</label>
+        <label class="btn btn-default bannersize">
+            <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_119" value="119" class="form-control rbtn-scale-pop">
+            XXL</label>
+
+    </div>
+    <div class="actions ptc2"><a data-slow-scroll="" class="get-started btn btn-red gstarted" href="javascript:void(0)">Get Started</a></div>
+    <div class="actions ptc1"> <a data-target="#getStart-pop" data-toggle="modal" class="get-started btn btn-red" href="#">Get Started</a></div>
+
+</section>
+<div class="horizontal bg-sizing image-1"></div>
+<!-- Modal -->
+<div class="modal fade on" id="getStart-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-body">
+        <div class="registration-form">
+          <div class="container-fluid">
+            <div class="row">
+          <div class="col-sm-6 hidden-xs image"></div>
+          <div class="col-sm-6 form">
+            <h3>We have just the fix you are looking for</h3>
+            <form class="" novalidate="novalidate" data-init-batch-form-validation="true" data-init-blur-form-validation="true" id="new_user_auto_pop" action="https://www.stitchfix.com/" accept-charset="UTF-8" method="post">
+              <input name="utf8" type="hidden" value="&#x2713;" />
+              <input type="hidden" name="authenticity_token" value="N6XNgkKhiVmZndbJ6BaaajtZsvdaAsj/STamlcwBZl1UtzE0615aJMabpItASAcvH+rJ4Z+BbS7O8xC76FESSg==" />
+              <div class="sign-in-form fb-login-c">
+                  <div>
+                      <ul>
+                          <li>
+                          <div>
+                                  <a data-controller-action="GET" data-controller-path="/linked_accounts/facebook/info" id="fb-button" href="#/">
+                                      <div id="facebook_logo">
+                                          <span class="facebook-f-logo"><img src="images/facebook_icon.png" class="center-facebook-f-logo"></span>
+                                      </div>
+                                      <div id="facebook_signup" class="facebook-text-box">SIGN UP WITH FACEBOOK</div>
+                                  </a>
+                              </div>
+                          </li>
+                      </ul>
+                      <div class="line-separator"> OR </div>
+                  </div>
+              </div>
+               <div style="display:none;" class="sign-in-form fb-login-d">
+                <div class="" data-validate="presence">
+                    <ul>
+                        <li><a href="#/" data-controller-action="GET" data-controller-path="/linked_accounts/facebook/info" class="linkFB"><i class="fa fa-facebook" aria-hidden="true"></i><span>Continue with Facebook</span></a></li>
+                    </ul>
+                    <div class="midStrip"><span>OR</span></div>
+                </div>
+            </div>
+              <div class="brder-gry">
+              <div class="form-group width50per" data-validate="presence">
+                <label class="control-label" for="user_first_name">First Name</label>
+                <input maxlength="30" class="form-control input-lg" size="30" type="text" name="user[first_name]" id="user_first_name" />
+              </div>
+              <div class="form-group width50per" data-validate="presence">
+                <label class="control-label" for="user_last_name">Last Name</label>
+                <input maxlength="30" class="form-control input-lg" size="30" type="text" name="user[last_name]" id="user_last_name" />
+              </div>
+              <div class="clearfix"></div>
+              <div class="form-group" data-validate="presence,email,emailUniqueness, emailValidTopLevelDomain, emailRareTopLevelDomain">
+                <label class="control-label" for="user_email">Email</label>
+                <input maxlength="75" class="form-control input-lg" size="75" type="email" name="user[email]" id="user_email" />
+              </div>
+              <div style="display:none;" class="form-group" data-validate="presence,zip">
+                <label class="control-label" for="user_client_attributes_shipping_postcode">Zip Code</label>
+                <input class="form-control input-lg" maxlength="10" size="10" type="hidden" name="user[client_attributes][shipping_postcode]" value='94101' id="user_client_attributes_shipping_postcode" />
+                <p class="instructional-note  inline-note">At this time we ship only to U.S. mailing addresses.</p>
+              </div>
+              <div class="form-group" data-validate="presence">
+                <label class="control-label" for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id"> Dress Size </label>
+                <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-default">
+                    <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_37" value="37" class="form-control rbtn-scale-auto-pop" />
+                    XS</label>
+                  <label class="btn btn-default">
+                    <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_38" value="38" class="form-control rbtn-scale-auto-pop" />
+                    S</label>
+                  <label class="btn btn-default">
+                    <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_39" value="39" class="form-control rbtn-scale-auto-pop" />
+                    M</label>
+                  <label class="btn btn-default">
+                    <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_40" value="40" class="form-control rbtn-scale-auto-pop" />
+                    L</label>
+                  <label class="btn btn-default">
+                    <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_41" value="41" class="form-control rbtn-scale-auto-pop" />
+                    XL</label>
+                    <label class="btn btn-default">
+                    <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_119" value="119" class="form-control rbtn-scale-auto-pop" />
+                    XXL</label>  
+                </div>
+              </div>
+              <div class="form-group submission">
+              <p  class="instructional-note">By signing up you accept the
+                  <a href="https://www.stitchfix.com/terms">terms and conditions</a> of Stitch&nbsp;Fix.</p>
+                <input type="submit" name="commit" value="Take Your Style Quiz" class="btn btn-red btn-lg submit" data-disable-with="Signing up..." />
+                <div class="help-block">Already a member? <a href="https://www.stitchfix.com/login">Sign In &raquo;</a></div>
+                <div class="registration-opt-in">
+                  <div class="email-opt-in">
+                    <div class="checkbox small">
+                      <input name="user[email_opt_in]" type="hidden" value="0" />
+                      <input type="checkbox" value="1" checked="checked" name="user[email_opt_in]" id="user_email_opt_in" />
+                      <label class="control-label" for="user_email_opt_in">I&#39;d like to receive exclusive news, styling tips and more</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </form>
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

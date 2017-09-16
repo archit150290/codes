@@ -1,0 +1,69 @@
+// home dharmatalks
+////////////////////////
+
+%dharmatalks-speaker {
+  color: $clr-dharmatalks;
+  font: 1.5em / 1.3 $heading-font-family;
+}
+
+.home-dharmatalks {
+  @extend %marquee;
+  @extend %marquee-image;
+  @extend %video;
+  @include clearfix;
+  @include dept-hover($clr-dharmatalks);
+
+  @include media($tablet-down) {
+    @include padding(null $small-spacing);
+  }
+
+  address {
+    @extend %dharmatalks-speaker;
+  }
+
+  main {
+    @extend %marquee-main;
+
+    @include media($wide-up) {
+      @include span-columns(8 of 12);
+
+      section {
+        margin-bottom: 0;
+      }
+    }
+
+    figure {
+      @include video-hover($clr-dharmatalks);
+    }
+
+    h1 {
+      margin-bottom: $small-spacing / 2;
+    }
+
+    address {
+      padding-bottom: $small-spacing;
+    }
+  }
+
+  aside {
+    @extend %marquee-aside;
+
+    @include media($wide-up) {
+      @include span-columns(4 of 12);
+      @include omega;
+
+      h2 {
+        padding-top: $small-spacing;
+      }
+    }
+  }
+
+  .more {
+    @include dept-button($clr-dharmatalks);
+
+    @include media($wide-up) {
+      @include span-columns(4 of 12);
+      @include omega;
+    }
+  }
+}

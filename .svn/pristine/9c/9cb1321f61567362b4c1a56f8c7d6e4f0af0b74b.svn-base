@@ -1,0 +1,395 @@
+<?php
+/*
+  Plugin Name: Tricycle Ad Management
+  Description: Allows to manage the ads on different pages.
+  Author: Purushottam Kumar Sinha
+ */
+
+        class TricycleAdManagement {
+
+                var $wpdb;
+                var $upload_dir;
+                var $upload_baseurl;
+                var $homepage_ad_option_key;
+
+                /**
+                 * This is a constructor which initializes some variables.
+                 * @global object $wpdb Wordpress db object
+                 */
+                function __construct() {
+                    global $wpdb;
+                    $this->wpdb = $wpdb;
+                    $this->plugin_url = get_bloginfo('url') . "/wp-admin/admin.php?page=ad-management/ad-management.php";
+                    $this->upload_dir = wp_upload_dir();
+                    $this->upload_baseurl = $this->upload_dir['baseurl'];
+                    $this->homepage_ad_option_key = "homepage_ad_option_key";
+                }
+
+                /**
+                 * This function is used to take some actions while activating the plugin.
+                 */
+                function activate_plugin() {
+                    /* Write the code what do want to do when the plugin will be activated */
+                }
+
+                /**
+                 * This function is used to take some actions while deactivating the plugin.
+                 */
+                function deactivate_plugin() {
+                    /* Write the code what do want to do when the plugin will be deactivated */
+                }
+
+                /**
+                 * This function is used to return the message in formatted pattern.
+                 * @param string $message
+                 * @return string
+                 */
+                function message($message) {
+                    $msg = '<div id = "message" class = "updated" style = "background-color : rgb(255, 251, 204);">';
+                    $msg .= '<a title="Close" href="javascript:void(0);" onclick="jQuery(\'#message\').hide();">X</a>';
+                    $msg .= '<p><strong>' . $message . '</strong></p>';
+                    $msg .= '</div>';
+                    return $msg;
+                }
+
+                /**
+                 * This function creates the menu of the plugin.
+                 */
+                function create_menu() {
+                    add_menu_page('Ad Management', 'Call-to-Action Modules', 'level_7', __FILE__, array(&$this, 'edit_content'));
+                    add_submenu_page(__FILE__, __('Ad Management', 'Ad Management'), __('Edit', 'Ad Management'), 'level_7', __FILE__, array(&$this, 'edit_content'));
+                }
+
+                /**
+                 * This function shows the editing form.
+                 */
+                function edit_content() {
+                    echo "<h1><u>Call To Action Module</u></h1>";
+                    $location = "homepage_ad1_"; //location to check for the first time
+
+                    if (!empty($_REQUEST['location'])) {
+                        $location = $_REQUEST["location"];
+                    }
+
+                    if ($_POST && isset($_POST['action']) && $_POST['action'] == "save_ad") {
+                        $home_ad_details = array();
+                        if (isset($_POST['home_page_ad_type']) && $_POST['home_page_ad_type'] != "display_nothing") {
+                            $home_ad_details['ad_type'] = $_POST['home_page_ad_type'];
+                            $home_ad_details['ad_content'] = "";
+                            if ($_POST['home_page_ad_type'] == "google_dfp") {
+                                $home_ad_details['ad_content'] = trim($_POST['home_page_google_dfp_textarea']);
+                                $home_ad_details['ad_content'] = stripslashes($home_ad_details['ad_content']);
+                                }
+                        } else if (isset($_POST['home_page_ad_type']) && $_POST['home_page_ad_type'] = "display_nothing") {
+                            $home_ad_details['ad_type'] = $_POST['home_page_ad_type'];
+                        }
+                        $datasaved = update_option($location . 'option_key', json_encode($home_ad_details));
+                        if ($datasaved == "1") {
+                            echo "<h3>Data Saved !!!</h3>";
+                        }
+                    }
+                    $location = "homepage_ad1_"; //location after data saved
+                    $ad_management_data = $this->get_ad_management_data($location);
+                    $home_ad_data = isset($ad_management_data[$location . "option_key"]) ? $ad_management_data[$location . "option_key"] : "";
+                    $ad_type = "";
+                    $ad_content = "";
+                    if ($home_ad_data) {
+                        $ad_type = $home_ad_data->ad_type;
+                        $ad_content = $home_ad_data->ad_type == "google_dfp" ? $home_ad_data->ad_content : "";
+                    }
+                    ?>
+                    <style>
+                        #message a:link, #message a:visited{
+                            display: block;
+                            float: right;
+                            padding: 1px 3px;      
+                            border: 1px solid #000;
+                            font-size: 11px;
+                            line-height: 13px;
+                            margin: 8px 0 0 0;
+                            color: #fff;
+                            background-color: #464646;    
+                        }
+                        #message.updated {
+                            margin: 5px 0 2px;
+                            padding: 0 0.6em;
+                        }
+                        #message p {
+                            margin: 0.5em 0;
+                            padding: 6px;
+                        }
+                        .clear {
+                            clear: both;
+                        }
+                        table.form-table{
+                            width: 90%;
+                        }
+                        table.form-table td, table.form-table th{
+                            border: 1px solid rgba(0, 0, 0, 0.1);
+                            padding: 5px 5px 5px 5px;
+                            vertical-align: top;
+                        }
+                        table.form-table thead tr th:first-child{
+                            width: 10%;
+                        }
+                        table.form-table thead tr th:nth-child(2){
+                            width: 10%;
+                        }
+                        table.form-table thead tr th:nth-child(3){
+                            width: 25%;
+                        }
+                        table.form-table input[type="submit"]{
+                            border: 2px solid #444;
+                            padding: 5px 20px 5px 20px;
+                            cursor: pointer;
+                        }
+                        table.form-table textarea {
+                            width: 100%;
+                            height: 255px;
+                        }
+                    </style>
+                    <script type="text/javascript">
+                        //path defined for ajax url
+                        var url = '<?php echo WP_PLUGIN_URL; ?>/ad-management/function-ad-management.php';
+                        jQuery(function () {
+
+                            //drop down to filter further options when user selects the page type from drop down
+                            jQuery("#location option").hide();
+                            jQuery("#locationnew").on('change', function () {
+                            jQuery("#location option").hide();
+                            jQuery("#location option").removeAttr('selected');
+                            jQuery("#location option:first-child").attr("selected", "selected");
+                            jQuery("#radiooptions label").hide();
+                            jQuery("#advtextarea label").hide();
+                            var val = jQuery("#locationnew").val();
+                            jQuery("#location option[id=" + val + "]").show();
+
+                            });
+
+
+                            //ajax call on changing dropdown page values... 
+                            jQuery('#location').on('change', function () {
+                                jQuery("#advtextarea label").show(); //as it was hidden at top, earlier
+                                var location = jQuery("#location").val();
+                                var ad_type = jQuery("#ad_type").val();
+                                var ad_content = jQuery("#ad_content").val();
+                                jQuery.ajax({
+                                    type: 'POST',
+                                    url: url,
+                                    dataType: 'json',
+                                    data: {
+                                        action: 'loadAdvOptions',
+                                        location: location,
+                                    },
+                                    success: function (data, textStatus, XMLHttpRequest) {
+                                        if (data.addetail)
+                                        {
+                                            var ad_type = data.addetail.ad_type;
+                                            jQuery("#ad_type").val(ad_type)
+                                            var ad_content = data.addetail.ad_type == "google_dfp" ? data.addetail.ad_content : "";
+                                            show_hide_after_ajax(ad_type, ad_content);
+                                        }
+                                        else
+                                        {
+                                            //if data is not yet saved in database then it will hide all the text area and images fields
+                                            jQuery("#google_dfp_textarea").val("");
+                                            jQuery("#google_dfp_textarea, #newsletter_signup_image, #tricycle_subscribe_module_image").hide();
+                                        }
+                                        jQuery("#radiooptions").html(data.html);
+
+                                    },
+                                    error: function (MLHttpRequest, textStatus, errorThrown) {
+                                        alert(errorThrown);
+                                    }
+                                });
+
+                            });
+
+                            if (jQuery(".advertisement").is(':checked'))
+                            {
+                                show_hide_ad_field_content(jQuery('input.advertisement:checked').val());
+                            }
+                            jQuery(document).on('click', '.advertisement', function (e) {
+
+                                show_hide_ad_field_content(jQuery('input.advertisement:checked').val());
+                            });
+
+                        });
+
+                        function show_hide_ad_field_content(section)
+                        {
+                            jQuery("#google_dfp_textarea, #newsletter_signup_image, #tricycle_subscribe_module_image").hide();
+
+                            if (section == "google_dfp")
+                            {
+                                jQuery("#google_dfp_textarea").show();
+                            }
+                            else if (section == "newsletter_signup")
+                            {
+                                jQuery("#newsletter_signup_image").show();
+                            }
+                            else if (section == "tricycle_subscribe_module")
+                            {
+                                jQuery("#tricycle_subscribe_module_image").show();
+                            }
+                        }
+
+                        function show_hide_after_ajax(ad_type, ad_content)
+                        {
+                            if (ad_type == "google_dfp")
+                            {
+                                jQuery("#google_dfp_textarea").show();
+                                jQuery("#google_dfp_textarea").val(ad_content);
+                                jQuery("#tricycle_subscribe_module_image, #newsletter_signup_image").hide();
+                            }
+                            if (ad_type == "newsletter_signup")
+                            {
+                                jQuery("#google_dfp_textarea, #tricycle_subscribe_module_image").hide();
+                                jQuery("#google_dfp_textarea").val(ad_content);
+                                jQuery("#newsletter_signup_image").show();
+                            }
+                            if (ad_type == "tricycle_subscribe_module")
+                            {
+                                jQuery("#newsletter_signup_image, #google_dfp_textarea").hide();
+                                jQuery("#google_dfp_textarea").val(ad_content);
+                                jQuery("#tricycle_subscribe_module_image").show();
+                            }
+                            if (ad_type == "display_nothing")
+                            {
+                                jQuery("#newsletter_signup_image, #google_dfp_textarea, #tricycle_subscribe_module_image").hide();
+                                jQuery("#google_dfp_textarea").val("");
+                            }
+                            if (ad_type == "daily_dharma")
+                            {
+                                jQuery("#newsletter_signup_image, #google_dfp_textarea, #tricycle_subscribe_module_image").hide();
+                                jQuery("#google_dfp_textarea").val("");
+                            }
+
+
+                        }
+                    </script>
+                    <form action="" method="post">
+                        <input type="hidden" name="ad_type" id="ad_type" value="<?php echo $ad_type; ?>" >
+                        <input type="hidden" name="ad_content" id="ad_content" value="<?php echo $ad_content; ?>" >
+                        <select id="locationnew">
+                            <option <?php echo "selected" ?>>Select Page</option>
+                            <option value="header">Header</option>
+                            <option value="homepage">Homepage</option>
+                            <option value="trikedailypage">Trike Daily - landing</option>
+                            <option value="magazinepage">Magazine – landing / issue contents</option>
+                            <option value="magazinepagearchive">Magazine – archive</option>
+                            <option value="dharmatalkspage">Dharma Talks – landing</option>
+                            <option value="dharmatalkspagearchive">Dharma Talks – archive</option>
+                            <option value="filmclubpage">Film Club – landing</option>
+                            <option value="filmclubpagearchive">Film Club – archive</option>
+                            <option value="filmfestivalpage">Film Festival – landing</option>
+                            <option value="filmfestivalpagearchive">Film Festival – archive</option>
+                            <option value="ebookspage">E-Books – archive</option>
+                            <option value="topicspage">Topics/Depts/Authors/Tags</option>
+<!--                        <option value="tagspage">Tags</option>
+                            <option value="authorspage">Authors</option>
+                            <option value="departmentspage">Departments/SubDepartments</option>-->
+                            <option value="pages">Static</option>
+                            <option value="search">Search</option>
+                            <option value="squaread">Sqaure AD</option>
+                           
+                        </select>
+                        <table class="form-table">
+                            <thead>
+                                <tr>
+                                    <th>Placement</th>
+                                    <th>Module Type</th>
+                                    <th>Ad Content</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="height:270px">
+                                    <?php
+                                    $radiooption['homepage_ad1_'] = array(
+                                        array("key" => "home_page_ad_type", "value" => "google_dfp", "label" => "Paid/House Ad from Google DFP"),
+                                        array("key" => "home_page_ad_type", "value" => "newsletter_signup", "label" => "Enews Signup"),
+                                        array("key" => "home_page_ad_type", "value" => "tricycle_subscribe_module", "label" => "Subscribe Module"),
+                                        array("key" => "home_page_ad_type", "value" => "display_nothing", "label" => "Displaying nothing")
+                                    );
+                                    ?>
+                                    <td>
+                                        <select name="location" id="location">
+                                            <?php $location = "homepage_ad1_"; ?>
+                                            <option id="blanks" value="blank">Select Position</option>
+                                            <option id="homepage" value="homepage_ad1_" <?php echo "selected"; ?>>Top Placement</option>
+                                            <option id="homepage" value="homepage_ad2_">Bottom Placement</option>
+                                            <option id="trikedailypage" value="trikedaily_ad1_">Top Placement</option>
+                                            <option id="trikedailypage" value="trikedaily_ad2_">Top Placement</option>
+                                            <option id="magazinepage" value="magazine_ad_">Top Placement</option>
+                                            <option id="magazinepagearchive" value="magazine_archive_ad_">Bottom Placement</option>
+                                            <option id="dharmatalkspage" value="dharmatalks_ad1_">Top Placement</option>
+                                            <option id="dharmatalkspage" value="dharmatalks_ad2_">Bottom Placement</option>
+                                            <option id="dharmatalkspagearchive" value="dharmatalks_archive_ad_">Bottom Placement</option>
+                                            <option id="filmclubpage" value="filmclub_ad1_">Top Placement</option>
+                                            <option id="filmclubpage" value="filmclub_ad2_">Bottom Placement</option>
+                                            <option id="filmclubpagearchive" value="filmclub_archive_ad_">Bottom Placement</option>
+                                            <option id="filmfestivalpage" value="filmfestival_ad1_">Top Placement</option>
+                                            <option id="filmfestivalpage" value="filmfestival_ad2_">Bottom Placement</option>
+                                            <option id="filmfestivalpagearchive" value="filmfestival_archive_ad_">Bottom Placement</option>
+                                            <option id="ebookspage" value="ebooks_ad1_">Bottom Placement</option>
+                                            <option id="topicspage" value="topics_ad1_">Top Placement</option>
+                                            <option id="topicspage" value="topics_ad2_">Bottom Placement</option>
+                                            <option id="pages" value="pages_">Bottom Placement</option>
+                                            <option id="search" value="search_">Bottom Placement</option>
+                                            <option id="squaread" value="square_ad_">Square AD</option>
+                                            <option id="header" value="header_ad_">Header</option>
+                                            
+                                            
+                                            
+                                        </select>
+                                    </td>
+                                    <!--Radio options for 1st Page or when the user loads it for 1st time -->
+                                    <td id="radiooptions">
+                                        <?php
+                                        foreach ($radiooption['homepage_ad1_'] as $data) {
+                                            $flag = ($ad_type == $data['value']) ? "checked" : "";
+                                            ?>
+                                            <label><input type="radio" name="<?php echo $data['key'] ?>" value="<?php echo $data['value'] ?>" class="advertisement" <?php echo $flag ?> /><?php echo $data['label'] ?></label>  
+                                            <div class="clear"></div>
+                                        <?php } ?>
+                                    </td>
+                                    <td id="advtextarea">
+                                        <label><textarea name="home_page_google_dfp_textarea" id="google_dfp_textarea" style="display: none;" placeholder="Enter Google Adsense Code"><?php echo $ad_type == "google_dfp" ? $ad_content : ""; ?></textarea>
+                                            <img style="display: none;" src="<?php echo plugin_dir_url(__FILE__) . 'images/newsletter_signup.png'; ?>" alt="Newsletter Signup" id="newsletter_signup_image" width="390px"/>
+                                            <img style="display: none;" src="<?php echo plugin_dir_url(__FILE__) . 'images/tricycl_subcribe_module.png'; ?>" alt="Tricycle Subscribe Module" id="tricycle_subscribe_module_image" width="390px" />
+                                        </label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" style="text-align: center;"><input type="submit" value="Save" /><input id="submitbutton" type="hidden" value="save_ad" name="action" /></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </form>
+                    <?php
+                }
+
+                function get_ad_management_data($location) {
+                    $home_ad_details = get_option($location . "option_key");
+                    if (!empty($home_ad_details)) {
+                        return array($location . "option_key" => json_decode($home_ad_details));
+                    } 
+                    else {
+                       echo '<div style="margin: 0 0 25px 0"></div>'; //if nothing is selected at the initials it will show a blank line
+                    }
+                }
+
+            }
+
+            $objTricycleAdManagement = new TricycleAdManagement();
+            if (isset($objTricycleAdManagement)) {
+                //It calls the function activate_plugin when the plugin got activated
+                register_activation_hook(__FILE__, array(&$objTricycleAdManagement, 'activate_plugin'));
+
+                //It calls the function deactivate_plugin when the plugin got deactivated
+                register_deactivation_hook(__FILE__, array(&$objTricycleAdManagement, 'deactivate_plugin'));
+
+                add_action('admin_menu', array(&$objTricycleAdManagement, 'create_menu'));
+            }

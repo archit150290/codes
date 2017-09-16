@@ -1,0 +1,170 @@
+// Fade Screen
+////////////////////////
+.nav-drawer-fade-screen {
+  @include position(fixed, 0 0 0 0);
+  @include transition(all .3s linear);
+  background: $clr-black;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 9999;
+
+  &.is-visible {
+    opacity: .6;
+    visibility: visible;
+  }
+}
+// Visible Nav Drawer
+.nav-open {
+  left: 0;
+}
+
+// Tricycle Logo
+%logo {
+  background-position: $padding-sides;
+  background-size: 7em;
+  display: block;
+  font-size: $base-font-size;
+}
+
+// Social Buttons
+%nav-social {
+  @include clearfix;
+
+  .icon-facebook,
+  .icon-twitter {
+    @include position;
+    @include size(2em);
+    border: 0;
+    float: left;
+    margin-right: $small-spacing;
+    padding: 0;
+
+    svg {
+      @include svg-embed(2em);
+      fill: $clr-red;
+    }
+
+    &:hover {
+      background-color: inherit;
+
+      svg {
+        fill: $clr-white;
+        stroke: $clr-red;
+      }
+    }
+  }
+}
+
+// Nav Drawer
+.nav-drawer {
+  $nav-drawer-width: 20em;
+
+  @extend %nav-drawer-type;
+  @include position(fixed, 0 auto 0 0);
+  @include size($nav-drawer-width 100%);
+  @include transform(translateX(- $nav-drawer-width));
+  @include transition($base-transition);
+  background: $clr-white;
+  box-shadow: $nav-shadow;
+  opacity: .98;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  padding-bottom: 2em;
+  z-index: 999999;
+
+  &.is-visible {
+    @include transform(translateX(0));
+  }
+
+  header {
+    width: 100%;
+  }
+
+  input {
+    display: inline-block;
+    margin: $padding-vert / 2 $padding-sides;
+    width: 83.33%;
+  }
+
+  .button {
+    @extend %base-button;
+    @include padding($padding-vert null $padding-vert - rem(2px));
+    display: inline-block;
+    font-size: 1em;
+    line-height: 1;
+    margin: $padding-vert / 2 $padding-sides;
+  }
+
+  .icon-logo {
+    @extend %logo;
+    @include size(100% $header-height-mobile + em(10px));
+    margin-top: $padding-vert;
+  }
+
+  .icon-close {
+    color: $clr-gray-lite;
+    cursor: pointer;
+    float: right;
+    font-size: 2.25em;
+    padding-right: $padding-sides;
+
+    &:hover {
+      color: $clr-red;
+    }
+  }
+}
+
+// Topics
+.nav-topics {
+  background-color: $clr-bg;
+
+  a {
+    font-size: 1em;
+
+    &:hover {
+      background-color: $clr-white;
+    }
+  }
+}
+
+// Subscribe
+.nav-subs {
+
+  h1,
+  a {
+    color: $clr-red;
+    cursor:pointer;
+
+    &:hover {
+      background-color: $clr-red;
+      color: $clr-white;
+    }
+  }
+
+  h1 {
+    border-bottom: 1px solid $clr-gray-lite;
+    cursor: pointer;
+  }
+
+  form {
+    @include transition(none);
+    display: none;
+    margin-top: $padding-vert;
+  }
+
+  input[type='email'] {
+    box-shadow: $form-box-shadow;
+  }
+
+  .link {
+    font-size: 1em;
+  }
+}
+
+// Social Buttons
+.nav-social {
+  @extend %nav-social;
+  border-top: 1px solid $clr-gray-lite;
+  margin-top: $padding-vert * 2;
+  padding: $padding-vert $padding-sides;
+}

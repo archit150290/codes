@@ -1,0 +1,392 @@
+%base-body {
+  color: $base-font-color;
+  font-family: $base-font-family;
+  -moz-font-feature-settings: 'liga', 'kern', 'pnum';
+  -moz-font-feature-settings: 'liga=1, kern=1', 'pnum=1';
+  -ms-font-feature-settings: 'liga', 'kern', 'pnum';
+  -o-font-feature-settings: 'liga', 'kern', 'pnum';
+  -webkit-font-feature-settings: 'liga', 'kern', 'pnum';
+  font-feature-settings: 'liga', 'kern', 'pnum';
+  font-size: $base-font-size;
+  font-weight: normal;
+  line-height: $base-line-height;
+}
+
+%oldstyle-numbers {
+  -moz-font-feature-settings: 'onum';
+  -moz-font-feature-settings: 'onum=1';
+  -ms-font-feature-settings: 'onum';
+  -o-font-feature-settings: 'onum';
+  -webkit-font-feature-settings: 'onum';
+  font-feature-settings: 'onum';
+}
+
+body {
+  @extend %base-body;
+  background-color: $base-background-color;
+}
+
+.p {
+  @extend %base-body;
+}
+
+h1,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $heading-font-family;
+  font-size: $base-font-size;
+  line-height: $heading-line-height;
+  margin: 0 0 $small-spacing;
+}
+
+h1 {
+  color: $clr-black;
+  font-size: 1.5em;
+}
+
+h2,
+.h2,
+time {
+  @extend %base-body;
+  @include font-smoothing(auto);
+  @include position;
+  font-size: .875rem;
+  letter-spacing: .1em;
+  line-height: 1.33;
+  margin: $small-spacing 0 $base-spacing;
+  text-transform: uppercase;
+}
+
+time {
+  color: $clr-gray-midhi;
+  display: block;
+  margin-bottom: 0;
+}
+
+%h2-cond {
+  @include font-smoothing;
+  font: 1.5em / 1 $gill-sans-cond;
+  text-transform: uppercase;
+}
+
+p {
+  margin: 0 0 $small-spacing;
+}
+
+a {
+  @include transition($base-transition);
+  color: $action-color;
+  text-decoration: none;
+
+  &:active,
+  &:focus,
+  &:hover {
+    color: shade($action-color, 25%);
+  }
+}
+
+address {
+  color: $clr-gray-midhi;
+  font-style: normal;
+
+  @include media($desktop-up) {
+    font-size: 1.125em;
+  }
+}
+
+img,
+picture {
+  margin: 0;
+  max-width: 100%;
+}
+
+.icon {
+  @include svg-bg;
+  @include size(2.5rem);
+}
+
+
+// Dept Colors
+////////////////////////
+.trikedaily { color: $clr-trikedaily; }
+.magazine { color: $clr-magazine; }
+.filmclub { color: $clr-filmclub; }
+.dharmatalks { color: $clr-dharmatalks; }
+.ebooks { color: $clr-ebooks; }
+.filmfestival { color: $clr-filmfestival; }
+
+
+// Base Nav Styles
+////////////////////////
+%nav-drawer-base {
+  @include transition($base-transition);
+  display: block;
+  font-size: 1.25em;
+  padding: $padding-vert $padding-sides $padding-vert - rem(2px);
+}
+
+%nav-drawer-type {
+  h1 {
+    @extend %nav-drawer-base;
+    color: $clr-black;
+    margin: 0;
+  }
+
+  p {
+    @include margin($base-spacing $padding-sides $padding-vert);
+    color: $clr-gray-off;
+    font-style: italic;
+  }
+
+  a {
+    @extend %nav-drawer-base;
+    border-bottom: 1px solid $clr-gray-lite;
+    color: $clr-gray-mid;
+
+    &:hover {
+      background-color: $clr-bg;
+      color: $clr-red;
+    }
+  }
+}
+
+
+// Homepage Misc
+////////////////////////
+%topic-1line {
+  border-left: 2px solid $clr-rule;
+  display: inline-block;
+  margin-left: $small-spacing;
+  margin-top: 0;
+  padding-left: $small-spacing;
+}
+
+%rule {
+  $rule-verticalspace: $base-spacing * 3;
+  @include padding($base-spacing * 1.5 $small-spacing);
+  @include size(100% ($rule-verticalspace + em(2px)));
+  background-clip: content-box;
+  background-color: $clr-rule;
+  clear: both;
+
+  @include media($tablet-up) {
+    @include padding(null $base-spacing);
+  }
+}
+
+.rule {
+  @extend %rule;
+}
+
+%view-contents {
+  @include margin(null null 0);
+  @include padding($small-spacing 0 0);
+  color: $clr-black;
+  display: inline-block;
+  font-size: 1rem;
+}
+
+// Article
+////////////////////////
+figcaption {
+  border-bottom: 1px solid $clr-gray-lite;
+  color: $clr-gray-midhi;
+  margin-bottom: $small-spacing;
+  padding-bottom: $small-spacing;
+
+  a {
+    color: $clr-black;
+  }
+}
+
+// Article Header
+%article-header {
+
+  h2 {
+    @include clearfix;
+
+    &.trikedaily { a:hover { color: $clr-trikedaily; } }
+    &.ebooks { a:hover { color: $clr-ebooks; } }
+    &.filmclub { a:hover { color: $clr-filmclub; } }
+    &.magazine { a:hover { color: $clr-magazine; } }
+    &.dharmatalks { a:hover { color: $clr-dharmatalks; } }
+    &.filmfestival { a:hover { color: $clr-filmfestival; } }
+
+    span {
+      display: block;
+    }
+  }
+
+  .subdept {
+    color: $clr-gray-midhi;
+
+    @include media ($tablet-up) {
+      display: inline-block;
+    }
+  }
+
+  p {
+    padding-right: $small-spacing;
+
+    @include media($desktop-up) {
+      line-height: 1.33em;
+    }
+  }
+
+  address {
+    display: inline-block;
+
+    + time {
+      @include media($mobile-up) {
+        @include topic-1line;
+      }
+    }
+  }
+
+  h1 {
+    @extend %oldstyle-numbers;
+    font-size: $heading-font-size;
+    padding-right: $small-spacing;
+
+    @include media($tablet-up) {
+      font-size: 2.5em;
+    }
+
+    @include media($desktop-up) {
+      font-size: 3em;
+      margin-bottom: $small-spacing / 2;
+    }
+
+    @include media($wide-up) {
+      font-size: 4em;
+      letter-spacing: -.01em;
+    }
+  }
+}
+
+// Article Body
+%article-dropcap {
+
+  .article-body > p:first-of-type::first-letter {
+    @include padding(.28em .1em null -.1em);
+    color: $clr-red;
+    float: left;
+    font-family: $heading-font-family;
+    font-size: $article-font-size * 3;
+    font-weight: bold;
+    line-height: .5;
+
+    @include media($desktop-up) {
+      @include padding(.22em .1em null -.1em);
+      font-size: $article-font-size * 5;
+    }
+  }
+}
+
+%article-p {
+  @extend %oldstyle-numbers;
+  font-family: $article-font-family;
+  font-size: $article-font-size;
+  line-height: $article-line-height;
+  margin-bottom: $article-font-size;
+
+  @include media($desktop-up) {
+    font-size: em(19px);
+  }
+}
+
+.article-body {
+
+  a { // links
+    border-bottom: 1px solid $clr-red;
+    padding-bottom: em(2px);
+  }
+
+  p { // body
+    @extend %article-p;
+    color: $clr-text !important;
+  }
+
+  > p:first-of-type::first-line {
+    font-weight: bold;
+  }
+
+  h1 { // subhed
+    font-family: $base-font-family;
+    line-height: $base-line-height;
+    margin-top: $article-font-size * 1.5;
+  }
+
+  h2 { // subsubhed
+    color: $clr-black;
+    font-family: $base-font-family;
+    font-size: $base-font-size;
+    font-weight: bold;
+    line-height: $base-line-height;
+    margin-top: $article-font-size * 2;
+  }
+
+  h3 { // pullquote
+    @extend %oldstyle-numbers;
+    @include margin($article-font-size 0);
+    color: $clr-red;
+    font-size: em(28px);
+    font-weight: normal;
+
+    @include media($tablet-up) {
+      @include margin(null $article-font-size);
+    }
+
+    @include media($wide-up) {
+      @include margin($small-spacing / 2 null $article-font-size $article-font-size);
+      @include span-columns(6 of 8);
+      float: right;
+      font-size: $heading-font-size;
+      margin-right: $heading-font-size * -2;
+    }
+  }
+
+  blockquote { // excerpt
+    @extend %article-p;
+    @include margin($heading-font-size 0);
+    @include padding(null $heading-font-size);
+    border-left: 2px solid $clr-red;
+    color: $clr-gray-mid;
+  }
+}
+
+// Article Author
+.article-author {
+
+  address {
+    color: $clr-gray-mid;
+    font-size: em(19px);
+    line-height: 1.4;
+  }
+
+  .author-name {
+    color: $clr-black;
+  }
+}
+
+// Film Director/author
+
+%dharmatalks-speaker,
+%filmclub-speaker,
+%filmfestival-speaker {
+  font-family: $heading-font-family;
+}
+
+%dharmatalks-speaker {
+  color: $clr-dharmatalks;
+}
+
+%filmclub-speaker {
+  color: $clr-filmclub;
+}
+
+%filmfestival-speaker {
+  color: $clr-filmfestival;
+}

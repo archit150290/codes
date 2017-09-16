@@ -1,0 +1,69 @@
+// home filmclub & filmfestival
+////////////////////////
+%home-film {
+  @extend %marquee;
+  @extend %marquee-image;
+  @extend %video;
+  @include omega;
+
+  @include media($tablet-down) {
+    @include padding(null $small-spacing);
+    @include omega;
+  }
+
+  @include media($desktop-up) {
+    @include span-columns(7 of 12);
+    @include omega;
+  }
+
+  @include media($wide-up) {
+    @include span-columns(8 of 12);
+    @include omega;
+  }
+
+  main {
+    @extend %marquee-main;
+    @include fill-parent;
+    @include transition($base-transition);
+  }
+
+  .view-contents {
+    @extend %view-contents;
+  }
+
+  .rule {
+    @include media($desktop-up) {
+      display: none;
+    }
+  }
+
+}
+
+.home-filmclub {
+  @extend %home-film;
+  @include dept-hover($clr-filmclub);
+
+  figure {
+    @include video-hover($clr-filmclub);
+  }
+
+  .more {
+    @include dept-button($clr-filmclub);
+  }
+}
+
+.home-filmfestival {
+  @extend %home-film;
+  @include dept-hover($clr-filmfestival);
+
+  figure {
+    @include video-hover($clr-filmfestival);
+  }
+
+  .more {
+    @include dept-button($clr-filmfestival);
+  }
+   h2{
+          z-index:2;
+        }
+}

@@ -1,0 +1,531 @@
+// search results page
+////////////////////////
+.search-field {
+
+  .search-form {
+    @include position;
+    font-size: 1.25em;
+  }
+
+  .icon-search {
+    @include position(absolute, 0 0 null null);
+    @include size(2.38671875em);
+    background-color: inherit;
+    border: 0;
+    padding: 0;
+
+    svg {
+      @include svg-embed(1.25rem);
+      fill: $clr-gray-off;
+    }
+
+    &:hover svg {
+      fill: $clr-red;
+    }
+  }
+}
+
+.search-count {
+  padding-left: $small-spacing;
+}
+
+.search-sort {
+  @include margin($base-spacing null);
+  font-size: 1em;
+  letter-spacing: .1em;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+
+  .icon-arrow_dropdown {
+    @include margin(null null null $base-spacing);
+    @include position;
+    @include size(1em .625em);
+    display: inline-block;
+  }
+
+  svg {
+    @include svg-embed(1em, .625em);
+    fill: $clr-gray-midhi;
+  }
+
+  .dropdown-button {
+    @include transition($base-transition);
+    @include padding(0 $base-spacing);
+    background-color: $clr-white;
+    border: $base-border;
+    color: $clr-gray-midhi;
+    display: inline-block;
+    height: 2.38671875em;
+    line-height: 2.6;
+
+    &:hover {
+      color: $clr-red;
+
+      path {
+        fill: $clr-red;
+      }
+    }
+  }
+
+  .dropdown-menu {
+    border: 1px solid $clr-gray-lite;
+    height: auto;
+    overflow-y: inherit;
+    z-index: 9999;
+  }
+}
+
+.search-stack {
+  @extend %card;
+  @include padding(null null $base-spacing);
+  @include dept-hover-helper;
+
+  .icon {
+    @extend %marquee-aside-icon;
+  }
+
+  section {
+    @include padding(null $base-spacing);
+  }
+
+  img {
+    height: 12em;
+    width: 100%;
+    object-fit: cover;
+
+    @include media($tablet-up) {
+      height: 15em;
+    }
+  }
+
+  .rubric {
+    margin-top: $base-spacing;
+  }
+
+  .topic {
+    display: block;
+  }
+}
+
+.search-pagination {
+  text-align: center;
+
+  ol {
+    @include margin(null auto);
+    display: inline-block;
+  }
+
+  li {
+    float: left;
+  }
+
+  .current-page {
+    @include padding($small-spacing $small-spacing $small-spacing - em(2px));
+  }
+
+  a {
+    @include margin(null $small-spacing);
+    @include padding($small-spacing $small-spacing * 1.5 $small-spacing - em(2px));
+    background-color: $clr-white;
+    display: inline-block;
+
+    &:hover {
+      color: $clr-red;
+    }
+  }
+
+  .rule {
+    @include media($wide-up) {
+      display: none;
+    }
+  }
+}
+
+//putting figure and titles side by side
+@include media($tablet-up) {
+
+  .wrap_search {
+    @include fill-parent;
+  }
+
+  .rubric_top {
+    @include fill-parent;
+  }
+
+  .search-field {
+    @include span-columns(7);
+  }
+
+  .search-sort {
+    @include margin(0 null null);
+    @include span-columns(4);
+    @include shift;
+    @include omega;
+
+    .dropdown-container {
+      width: 100%;
+    }
+
+    .dropdown-button {
+      height: 2.96875em;
+      line-height: 3.2;
+      width: 100%;
+    }
+  }
+
+  .search-stack {
+    @include padding($base-spacing null null);
+    clear: both;
+
+    article {
+      @include clearfix;
+      @include fill-parent;
+      @include padding(0 $base-spacing);
+      min-height: 10em;
+    }
+
+    figure {
+      @include margin(0 null);
+      @include span-columns(4);
+    }
+
+    section {
+      margin-top: $small-spacing;
+      width: 100%;
+    }
+
+    figure + section {
+      @include padding(null $small-spacing);
+      @include span-columns(8);
+      @include omega;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+  }
+}
+
+//adding sidebar on right
+@include media($wide-up) {
+
+  .search-main {
+    @include span-columns(8 of 12);
+  }
+
+  .search-aside {
+    @include card;
+    @include padding(0 null $base-spacing);
+    @include span-columns(4 of 12);
+  }
+}
+
+@include media($max) {
+  .search-aside {
+    padding-top: $base-spacing * 2;
+  }
+}
+
+
+
+/*Add new css here*/
+.search-main .gsc-control-cse{
+   background-color: inherit;
+    border: none;
+    padding:0;
+    .gsc-wrapper{
+       @extend %card;
+      @include padding(null null $base-spacing);
+      @include dept-hover-helper;
+      margin-top: -15px;
+    }
+
+}
+
+.search-main .gsc-control-cse {
+    font-family:"gill-sans",Lucida Grande,Tahoma,Verdana,Arial,sans-serif;
+    font-size:1em;
+  .gsc-search-box{
+    .gsc-search-box {
+      @include position;
+      font-size: 1.25em;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) inset, 0 0 3px rgba(0, 0, 0, 0.15);
+      background-color: white;
+      border: 1px solid #cccccc;
+      border-radius: 0;
+      box-sizing: border-box;
+      display: block;
+      float: left;
+      margin-right: 2.12766%;
+      width: 57.4468%;
+    }
+    .gsc-input-box {
+      height: auto;
+      border:none;
+      width: 380px;
+
+      &:focus, &.gsc-input-box-hover, &.gsc-input-box-focus {
+        border:none;
+        box-shadow:none !important;
+      }
+
+      .gsib_a {
+          padding: 0;
+      }  
+      input.gsc-input{
+        font-size: 1.25em;
+        padding: 0.6em !important;
+        box-shadow:none !important;
+      }
+    }
+    input.gsc-search-button {
+        @include position(absolute, 0 0 null null);
+        @include size(4.48em);
+        background-color:#000000;
+        border: 0;
+        padding: 15px; 
+        margin:0; 
+      }
+  }
+  .gsc-result-info {
+    padding-left: $small-spacing;
+    margin-bottom: $small-spacing;
+    color: #666666;
+    font-size:1em;
+
+  }
+  .gcsc-branding{
+      display:none;
+      }
+
+  .gsc-cursor-box{
+    display: table;
+    margin: 10px auto;
+    text-align:center;
+
+    .gsc-cursor {
+    @include margin(null auto);
+    display: inline-block;
+  }
+
+  .gsc-cursor .gsc-cursor-page {
+    float: left;
+    @include margin(null $small-spacing);
+    @include padding($small-spacing $small-spacing * 1.5 $small-spacing - em(2px));
+    background-color: $clr-gray-lite;
+    color: $clr-white;
+    display: inline-block;
+
+    &:hover {
+      color: $clr-red;
+      background-color: $clr-white;
+    }
+    &.gsc-cursor-current-page {
+      color: $clr-gray-midhi;
+      background-color: $clr-white;
+    }
+  }
+
+  .gsc-cursor-current-page {
+    @include padding($small-spacing $small-spacing $small-spacing - em(2px));
+  }
+
+  }
+
+
+
+
+}
+
+.search-main .gsc-result{
+	.gs-result{
+      @include clearfix;
+      @include fill-parent;
+      @include padding(0 $base-spacing);
+      min-height: 10em;
+    	border-bottom:2px solid #e9e2d2 !important;
+    	padding-bottom:30px;
+  		table td:first-child{
+  		display: block;
+  		float: left;
+  		margin-bottom: 0;
+  		margin-right: 2.12766%;
+  		margin-top: 0;
+  		width: 31.9149%;
+		
+			.gs-image-box{
+			 height: auto;
+			 overflow: hidden;
+			 width: 100%;
+			}
+			img {
+				height: 15em;
+				max-height: inherit;
+				max-width: inherit;
+				object-fit: cover;
+				width: 100%;
+			}
+		}
+
+		table td:last-child{
+			display: table;
+			margin-right: 0;
+			width:auto;
+			
+			.gs-snippet{
+			 font-size: 1.25rem;			 
+			 padding-left: 0.6em;
+			 padding-right: 0.6em;
+			 color: #666666;
+			 margin: 0 0 0.6em;
+			 font-family: "gill-sans",Lucida Grande,Tahoma,Verdana,Arial,sans-serif;
+   			 font-feature-settings: "liga", "kern", "pnum";
+			 font-weight: normal;
+    			line-height: 1.2;
+			}
+		}
+
+ b {
+          font-weight:normal;
+      }
+
+	.gs-title, .gs-title a.gs-title{
+	color: #111111;
+    font-size:1.4em;
+	font-family: "lyon-display",Georgia,Cambria,Times New Roman,Times,serif;
+    line-height: 1.125;
+	height:auto;
+	margin:0 0 20px 0;
+	overflow: visible;
+    text-decoration: none;
+	font-weight: bold;
+	}
+
+  .gs-title a.gs-title > b{
+    color: inherit;
+    font-size:inherit;
+    font-weight:bold;
+  }
+
+	.gs-title a.gs-title:hover{
+	color: #cc1221;
+	}
+	.gsc-url-top{
+	display:none;
+	}
+	
+	}	
+
+
+}
+
+.gsc-orderby-container{
+   width: 245px;
+   font-size: 1em;
+  .gsc-orderby {
+    @include margin(null);
+    font-size: 1em;
+    letter-spacing: .1em;
+    line-height: 1;
+    text-align: center;
+    text-transform: uppercase;
+    min-width: 97px;
+
+    .gsc-option-selector {
+     background-image:url(../images/svg-min/arrow_dropdown.svg);
+     width:16px;
+     height:10px;
+     right:40px;
+     top: 24px;
+     opacity: 0.4;
+    }
+    .gsc-inline-block{
+    display:block;
+    }
+
+    .gsc-orderby-label{
+    display:none;
+    }
+
+    .gsc-selected-option-container {
+      @include transition($base-transition);
+      background-color: $clr-white;
+      background-image:none;
+      border: $base-border;
+      color: $clr-gray-midhi;
+      display: inline-block;
+      line-height: 2.3;
+      max-width:inherit;
+      min-width:inherit;
+      width:100% !important;
+      padding:5px 10px;
+      font-size: 1.28em;
+      position:relative;
+      top:-50px;
+      height:auto;
+      font-weight:normal;
+
+      &:hover {
+        color: $clr-red;
+
+        path {
+          fill: $clr-red;
+        }
+      }
+    }
+
+    .dropdown-menu {
+      border: 1px solid $clr-gray-lite;
+      height: auto;
+      overflow-y: inherit;
+      z-index: 9999;
+    }
+    .gsc-option-menu{
+    width:100%;
+    top:0 !important;
+    font-size: inherit;
+    padding:0;
+    box-shadow: none;
+
+    .gsc-option{
+      text-align:center;
+      font-size: 1.28em;
+      line-height: 2.1;
+    }
+
+    .gsc-option-menu-item-highlighted{
+      display:none;
+    }
+
+    }
+  }
+} 
+
+/*.gs-webResult{
+ a.gs-title {
+   font-size:1.5em;
+   color: rgb(83, 37, 110);
+  }
+ .gsc-url-top {
+  color: rgb(153, 153, 153);
+  font-size: 0.875rem;
+ }
+ .gs-image {
+  .img {
+  object-fit: cover;
+     width: 100%; 
+  }
+ }
+ .gs-snippet {
+  color: rgb(102, 102, 102);
+  font-size: 1.25rem; 
+  margin-block-end: 1em;
+  margin-block-start: 1em;
+
+    b {
+          font-weight:normal;
+      }
+
+  }
+ }*/

@@ -1,0 +1,54 @@
+.icon-arrow_dropdown { background-image: url('png/arrow_dropdown.png'); background-repeat: no-repeat; }
+
+.icon-arrow_left { background-image: url('png/arrow_left.png'); background-repeat: no-repeat; }
+
+.icon-arrow_right { background-image: url('png/arrow_right.png'); background-repeat: no-repeat; }
+
+.icon-dept_dharmatalks { background-image: url('png/dept_dharmatalks.png'); background-repeat: no-repeat; }
+
+.icon-dept_ebooks { background-image: url('png/dept_ebooks.png'); background-repeat: no-repeat; }
+
+.icon-dept_facebook { background-image: url('png/dept_facebook.png'); background-repeat: no-repeat; }
+
+.icon-dept_filmclub { background-image: url('png/dept_filmclub.png'); background-repeat: no-repeat; }
+
+.icon-dept_filmfestival { background-image: url('png/dept_filmfestival.png'); background-repeat: no-repeat; }
+
+.icon-dept_magazine { background-image: url('png/dept_magazine.png'); background-repeat: no-repeat; }
+
+.icon-dept_trikedaily { background-image: url('png/dept_trikedaily.png'); background-repeat: no-repeat; }
+
+.icon-facebook { background-image: url('png/facebook.png'); background-repeat: no-repeat; }
+
+.icon-logo { background-image: url('png/logo.png'); background-repeat: no-repeat; }
+
+.icon-nav { background-image: url('png/nav.png'); background-repeat: no-repeat; }
+
+.icon-paywall_print { background-image: url('png/paywall_print.png'); background-repeat: no-repeat; }
+
+.icon-quote { background-image: url('png/quote.png'); background-repeat: no-repeat; }
+
+.icon-search { background-image: url('png/search.png'); background-repeat: no-repeat; }
+
+.icon-share_email { background-image: url('png/share_email.png'); background-repeat: no-repeat; }
+
+.icon-share_facebook { background-image: url('png/share_facebook.png'); background-repeat: no-repeat; }
+
+.icon-share_misc { background-image: url('png/share_misc.png'); background-repeat: no-repeat; }
+
+.icon-share_twitter { background-image: url('png/share_twitter.png'); background-repeat: no-repeat; }
+
+.icon-tools_email { background-image: url('png/tools_email.png'); background-repeat: no-repeat; }
+
+.icon-tools_facebook { background-image: url('png/tools_facebook.png'); background-repeat: no-repeat; }
+
+.icon-tools_print { background-image: url('png/tools_print.png'); background-repeat: no-repeat; }
+
+.icon-tools_twitter { background-image: url('png/tools_twitter.png'); background-repeat: no-repeat; }
+
+.icon-trikedaily { background-image: url('png/trikedaily.png'); background-repeat: no-repeat; }
+
+.icon-twitter { background-image: url('png/twitter.png'); background-repeat: no-repeat; }
+
+.icon-video_play { background-image: url('png/video_play.png'); background-repeat: no-repeat; }
+

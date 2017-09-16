@@ -1,0 +1,175 @@
+<?php
+/*
+Plugin Name: Tricycle E-book Content Management
+Description: Allows to manage E-book Content.
+Author: Vishal Mehta
+*/
+
+/** In main plugin file **/
+
+add_action('admin_print_scripts', 'do_jslibs' );
+add_action('admin_print_styles', 'do_css' );
+
+function do_css()
+{
+    wp_enqueue_style('thickbox');
+}
+
+function do_jslibs()
+{
+    wp_enqueue_script('wp_editor');
+    wp_enqueue_script('thickbox');
+   // add_action( 'admin_head', 'wp_tiny_mce' );
+}
+
+
+class TricycleEbooks 
+{
+    var $wpdb;
+    var $upload_dir;
+    var $upload_baseurl;
+    var $ebook_content_option_key;
+
+    /**
+     * This is a constructor which initializes some variables.
+     * @global object $wpdb Wordpress db object
+     */
+    function __construct()
+    {
+        global $wpdb;
+        $this->wpdb = $wpdb;
+        $this->plugin_url = get_bloginfo('url')."/wp-admin/admin.php?page=ebooks-content/ebooks-content.php";
+        $this->ebook_content_option_key = "ebook_content_option_key";
+    }
+    
+    /**
+     * This function is used to take some actions while activating the plugin.
+     */
+    function activate_plugin()
+    {
+        /*Write the code what do want to do when the plugin will be activated*/
+    }
+
+    /**
+     * This function is used to take some actions while deactivating the plugin.
+     */
+    function deactivate_plugin()
+    {
+        /*Write the code what do want to do when the plugin will be deactivated*/
+    }
+
+    /**
+     * This function creates the menu of the plugin.
+     */
+    function create_menu()
+    {
+       add_menu_page('E-book Content','E-book Content','level_9',__FILE__,array(&$this,'edit_content'));
+       add_submenu_page(__FILE__, __('E-book Content','E-book Content'), __('Edit','E-book Content'),'level_9', __FILE__,array(&$this,'edit_content'));
+    }
+    
+    
+    /**
+     * This function shows the editing form.
+     */
+    function edit_content()
+    {
+        echo "<h1><u>E-book Static Content</u></h1>";
+
+        if($_POST && isset($_POST['action']) && $_POST['action'] == "save_content")
+        {
+            if(isset($_POST['ebook_content']))
+            {
+                update_option($this->ebook_content_option_key, $_POST['ebook_content']);
+            }            
+        }
+        
+        $ebook_data = $this->get_content_management_data();
+        //echo $ebook_data[$this->ebook_content_option_key]; exit;
+        $ebook_content_data = isset($ebook_data[$this->ebook_content_option_key]) ? $ebook_data[$this->ebook_content_option_key] : "";
+        
+        ?>
+        <style>
+            #message a:link, #message a:visited{
+                display: block;
+                float: right;
+                padding: 1px 3px;      
+                border: 1px solid #000;
+                font-size: 11px;
+                line-height: 13px;
+                margin: 8px 0 0 0;
+                color: #fff;
+                background-color: #464646;    
+            }
+            #message.updated {
+                margin: 5px 0 2px;
+                padding: 0 0.6em;
+            }
+            #message p {
+                margin: 0.5em 0;
+                padding: 6px;
+            }
+            .clear {
+                clear: both;
+            }
+            table.form-table{
+                width: 90%;
+            }
+            table.form-table td, table.form-table th{
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                padding: 5px 5px 5px 5px;
+                vertical-align: top;
+            }
+            table.form-table thead tr th:first-child{
+                width: 10%;
+            }
+            table.form-table thead tr th:nth-child(2){
+                width: 10%;
+            }
+            table.form-table thead tr th:nth-child(3){
+                width: 25%;
+            }
+            table.form-table input[type="submit"]{
+                border: 2px solid #444;
+                padding: 5px 20px 5px 20px;
+                cursor: pointer;
+            }
+            table.form-table textarea {
+                width: 100%;
+                height: 255px;
+            }
+        </style>
+        
+       
+        
+        <form action="" method="post">
+            <table class="form-table">
+                <tr>
+                    <?php wp_editor($ebook_content_data,'ebook_content'); ?>
+                </tr>
+                <tr>
+                  <td colspan="4" style="text-align: center;"><input type="submit" value="Save" /><input type="hidden" value="save_content" name="action" /></td>
+                </tr>
+            </table>
+        </form>
+        <?php
+    }
+    
+    function get_content_management_data()
+    {
+        $content_details = get_option($this->ebook_content_option_key);
+        return array($this->ebook_content_option_key =>  $content_details);
+    }
+    
+}
+
+$objTricycleEbookContent = new TricycleEbooks();
+if (isset($objTricycleEbookContent))
+{
+    //It calls the function activate_plugin when the plugin got activated
+    register_activation_hook(__FILE__, array(&$objTricycleEbookContent, 'activate_plugin'));
+
+    //It calls the function deactivate_plugin when the plugin got deactivated
+    register_deactivation_hook(__FILE__, array(&$objTricycleEbookContent, 'deactivate_plugin'));
+
+    add_action('admin_menu',array(&$objTricycleEbookContent, 'create_menu'));
+}

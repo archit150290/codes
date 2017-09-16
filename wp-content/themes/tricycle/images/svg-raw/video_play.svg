@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="60px" height="60px" viewBox="400.5 30.5 60 60" style="enable-background:new 400.5 30.5 60 60;" xml:space="preserve">
+<style type="text/css">
+<![CDATA[
+	.st0{fill:#129488;}
+	.st1{fill:#FFFFFF;}
+	.st2{fill:#00214A;}
+	.st3{fill:#006D44;}
+	.st4{fill:#6F133B;}
+	.st5{fill:#400F61;}
+]]>
+</style>
+<path id="video-fill" d="M430.5,89.5c16.02,0,29-12.98,29-29s-12.98-29-29-29c-16.02,0-29,12.98-29,29S414.48,89.5,430.5,89.5"/>
+<polygon id="video-play" class="st1" points="421.83,75.83 446.79,60.5 421.83,45.17 "/>
+<g id="video-outline">
+	<path class="st1" d="M430.5,90.5c-16.54,0-30-13.46-30-30s13.46-30,30-30s30,13.46,30,30S447.04,90.5,430.5,90.5z M430.5,33.49
+		c-14.89,0-27.01,12.12-27.01,27.01s12.12,27.01,27.01,27.01s27.01-12.12,27.01-27.01S445.39,33.49,430.5,33.49z"/>
+</g>
+</svg>

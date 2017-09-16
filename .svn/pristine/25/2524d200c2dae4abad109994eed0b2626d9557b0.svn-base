@@ -1,0 +1,129 @@
+<?php
+/**
+ * The template for displaying pages
+ *
+ * This is the template that displays all pages by default.
+ * Please note that this is the WordPress construct of pages and that
+ * other "pages" on your WordPress site will use a different template.
+ *
+ * @package WordPress
+ * @subpackage Twenty_Fifteen
+ * @since Twenty Fifteen 1.0
+ */
+
+get_header(); ?>
+
+<!-- start content -->
+		<div class='wrap_outer_base'>
+
+			<!-- start static page rubric -->
+			<header class='rubric_top'>
+					<h1><?php the_title(); ?></h1>
+			</header>
+			<!-- end static page rubric -->
+
+			<!-- start white article frame -->
+			<main class='wrap_base'>
+
+				<!-- start article -->
+				<article class='article_base'>
+
+					<!-- start article body -->
+					<main class='article-main_base'>
+						<?php get_tool_tip_sharethis(get_the_title(),get_the_permalink(), get_the_ID()); ?>
+
+						<section class='article-body'>
+							
+                                                    <?php  
+                                                        while ( have_posts() ) : the_post();
+                                                                
+                                                                // Include the page content template.
+                                                                get_template_part( 'content', 'page' );
+                                                                
+                                                                the_content();
+                                                            
+                                                        // End the loop.
+                                                        endwhile;
+                                                    ?>
+						</section>
+					</main>
+					<!-- end article body -->
+
+					<!-- start article sidebar -->
+					<aside>
+						<div class='ad_square'>
+							<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/ad-shinyocenter'>
+						</div>
+                                                    <?php
+                                                        $mostpopularpost  = getMostViewPosts("","",5);
+                                                        
+                                                        if(!empty($mostpopularpost))
+                                                        {
+                                                    
+                                                    ?>    
+                                                            <div class='popular-posts'>
+                                                                    <header>
+                                                                            <h1>Most Popular</h1>
+                                                                    </header>
+                                                                    <main>
+                                                                            <ol>
+                                                                            <?php
+                                                                    
+                                                                               $viewedposts= "";
+                                                                                foreach($mostpopularpost as $mostpopular)
+                                                                                {
+                                                                                        $viewedposts .= '<li><h1><a href="'.$mostpopular["permalink"].'">'.$mostpopular["title"].'</a></h1></li>';
+                                                                                }
+                                                                                echo $viewedposts;
+                                                                            
+                                                                            ?>
+                                                                            </ol>
+                                                                    </main>
+                                                            </div>
+                                                    <?php
+                                                        
+                                                        }
+                                                    ?>
+					</aside>
+					<!-- end article sidebar -->
+
+				</article>
+			</main>
+			<!-- end article wrap -->
+
+			<aside>
+				<!-- start Call to Action module -->
+				<div class='CTA-module'>
+					<div class='rule'></div>
+					<div class='CTA-ad' style='
+						background-color: #ddd;
+						line-height: 1; padding: 2em;
+						margin: 0 auto;
+						width: 75%;
+						height: 10em;
+						text-align: center;
+					'>
+					<p>Call-to-Action Module. Can be set in the CMS to any of the following: (1) Ad served via Google DFP Small Business (TBD), (2) Daily Dharma, (3) Subscribe CTA, (4) Newletter CTA</p>
+					</div>
+					<div class='rule'></div>
+				</div>
+				<!-- end Call to Action module -->
+
+				<div class='aside-depts'>
+					<!-- start aside dharma talks -->
+                                            <?php show_latest_dharma_talks(); ?>
+					<!-- end aside dharma talks -->
+
+					<!-- start aside Film Club -->
+                                            <?php show_latest_filmclub(); ?>
+					<!-- end aside Film Club -->
+
+					<!-- start aside ebooks -->
+                                            <?php show_latest_ebooks(); ?>
+					<!-- end aside ebooks -->
+				</div>
+
+				<div class='rule'></div>
+
+
+<?php get_footer(); ?>

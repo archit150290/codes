@@ -1,0 +1,202 @@
+<?php
+/*
+  Template Name: Dharmatalks Archive
+ */
+//pr($_REQUEST);
+?>
+<?php get_header(); ?>
+
+<?php
+$post = get_post();
+$pageslug = $post->post_name;
+$pageUrl = get_site_url() . "/" . $pageslug . "/";
+?>
+<script>
+    var pageurl = '<?php echo $pageUrl; ?>';
+</script>
+<!-- start content -->
+<div class='wrap'>
+
+    <!-- start magazine rubric -->
+    <div class='rubric_top'>
+        <h1><span class='icon icon-dept_dharmatalks'></span>Dharma Talks</h1>
+        <p>Video teachings and discussions with contemporary Buddhist teachers</p>
+    </div>
+    <!-- end magazine rubric -->
+
+    <!-- start archive_ebooks grid -->
+    <div class='archive_dharmatalks'>
+        <div class='rule'></div>
+
+        <header class='rubric_mid dharmatalks'>
+            <h1>Archive</h1>
+            <?php
+            $currentYear = date('Y');
+            $getSearchArr = explode($pageslug, str_replace("/", "", $_SERVER['REQUEST_URI']));
+            $searchYear = isset($getSearchArr[1]) ? $getSearchArr[1] : $currentYear;
+            ?>
+            <div class='dropdown'>
+                <div class='dropdown-container'>
+                    <p class='button dropdown-button'>Browse By Year</p>
+                    <ul class='dropdown-menu dropdown-select'>
+                        <?php
+                        for ($i = $currentYear; $i >= 1991; $i--) {
+                            ?>
+                            <li class="yeardropdown" rel="<?php echo $i; ?>"><a href='javascript:void(0);'><?php echo $i; ?></a></li>
+                            <?php
+                        }
+                        ?>
+                    </ul>
+                </div>
+            </div>
+
+        </header>
+
+        <main id="moredata">
+            <?php
+            /* Get Post counts */
+            $posts = get_posts(array(
+                'numberposts' => -1, 'post_status' => 'publish', 'post_type' => FILM_CLUB_POST_TYPE, 'year' => $searchYear,
+            ));
+            $publishPosts = count($posts);
+            /* Get Post counts Ends */
+
+            $args = array(
+                'posts_per_page' => 12,
+                'orderby' => 'post_date',
+                'order' => 'DESC',
+                'year' => $searchYear,
+                'post_type' => DHARMATALKS_POST_TYPE,
+                'post_status' => 'publish',
+                'suppress_filters' => true
+            );
+
+            $queryfirst = new WP_Query($args);
+            query_posts($queryfirst);
+            $i = 1;
+            while ($queryfirst->have_posts()) : $queryfirst->the_post();
+                $postId[] = $queryfirst->post->ID;
+
+                $topics = get_topics_by_post_id(get_the_ID());
+                $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+
+                $publish_date = get_the_date('M Y');
+                ?>
+                <div class='archive-item'>
+                    <figure class='archive-cover_dharmatalks'>
+                        <a href='<?php the_permalink(); ?>'>
+                            <div class='icon-video_play' data-grunticon-embed></div>
+                            <?php echo get_image_with_srcset(array("image_type"=>"thumbnail", "post_id"=>get_the_ID(), "source_width"=>array(2000, 1000, 500), "size"=>"image-size-500", "attr_sizes"=>'(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,100vw')); ?>
+                            <?php //echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,100vw'); ?>
+                        </a>
+                    </figure>
+                    <header class='archive-titles'>
+                        <time><?php echo $publish_date; ?></time>
+                        <h2 class='topic dharmatalks'><?php echo $topic_urls; ?></h2>
+                        <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                        <address><?php echo getAuthorDetail(get_the_ID(), 0, 0); ?></address>
+                    </header>
+                </div>
+                <?php
+                if ($i == 12) {
+                    break;
+                }
+            endwhile;
+            wp_reset_query();
+            ?>
+        </main>
+        <?php
+        if ($publishPosts > 12) {
+            $post_type = DHARMATALKS_POST_TYPE;
+            ?>
+            <div id="loadingimage" style="position:relative"></div>
+            <div class='more dharmatalks'>
+                <input type="hidden" name="postId" id="postId" value="<?php echo json_encode($postId); ?>" />
+                <input type="hidden" name="posttype" id="posttype" value="<?php echo DHARMATALKS_POST_TYPE; ?>" />
+                <input type="hidden" name="searchyear" id="searchyear" value="<?php echo $searchYear; ?>" />
+                <!-- tax name, post type, url, post id's -->
+                <a href='javascript:void(0)' id="archiveloadmore" onclick="loadmorearchive()">Load More</a>
+            </div>
+        <?php } ?>
+    </div>
+    <!-- end archive_magazine grid -->
+    <div class='rule'></div>
+
+    <!-- start most popular module -->
+    <?php
+    $myrows = getMostPopular(DHARMATALKS_POST_TYPE);
+    //selection of most popular from database where interval is of 60 days as discussed in #59 of unfuddle 
+    if (!empty($myrows)) {
+        ?>
+        <div class='related-posts'>
+            <header class='rubric_top'>
+                <h1>Most Popular</h1>
+            </header>
+            <main>
+
+                <?php
+                $countviews = 0;
+                foreach ($myrows as $mostpopular) {
+                    if ($countviews == 3) {
+                        break;
+                    }
+                    $postid = $mostpopular->post_id;
+                    $counter = $mostpopular->counter;
+                    $title = get_the_title($postid);
+                    $topics = get_topics_by_post_id($postid);
+                    $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                    $authordetail = getAuthorDetail($postid, 0, 0);
+                    $date = get_the_date("M Y", $postid);
+                    $permalink = get_permalink($postid);
+                    $countviews++;
+                    ?>
+
+                    <article class='dharmatalks'>
+                        <figure>
+                            <a href='<?php echo $permalink; ?>'>
+                                <div class='icon-video_play' data-grunticon-embed></div>
+                                <?php echo get_image_with_srcset(array("image_type"=>"thumbnail", "post_id"=>get_the_ID(), "source_width"=>array(2000, 1000, 500), "size"=>"image-size-500", "attr_sizes"=>'(min-width: 50em) 33vw,100vw')); ?>
+                                <?php //echo srcset_post_thumbnail($postid, 'image', '', '(min-width: 50em) 33vw,100vw'); ?>
+                            </a>
+                        </figure>
+                        <section>
+                            <h2 class='rubric dharmatalks'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                            <h1><a href='<?php echo $permalink; ?>'><?php echo $title; ?></a></h1>
+                            <address><?php echo getAuthorDetail($postid, 0, 0); ?></address>
+                            <time><?php echo $date; ?></time>
+                        </section>
+                    </article>
+
+                <?php }
+                ?>
+            </main>
+        </div>
+    <?php }
+    ?>     
+    <!-- end most popular dharmatalks module -->
+
+    <!-- start Call to Action module -->
+    <div class='CTA-module'>
+        <?php get_the_ad("dharmatalks_archive_ad_"); ?>
+    </div>
+    <!-- end Call to Action module -->
+
+    <aside>
+        <div class='aside-depts'>
+            <!-- start aside Film Club -->
+            <?php show_latest_filmclub(); ?>
+            <!-- end aside Film Club -->
+
+            <!-- start aside magazine -->
+            <?php show_latest_magazine_article(); ?>
+            <!-- end aside magazine -->
+
+            <!-- start aside trikedaily -->
+            <?php show_latest_trike_daily(); ?>
+            <!-- end aside trikedaily -->
+        </div>
+
+        <div class='rule'></div>
+    
+        <?php get_footer(); ?>
+    

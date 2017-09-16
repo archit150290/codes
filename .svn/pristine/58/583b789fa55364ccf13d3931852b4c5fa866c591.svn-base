@@ -1,0 +1,1375 @@
+<?php
+/**
+ * Template Name: Import Live Data
+ */
+?>
+
+<?php
+global $wpdb;
+
+require_once(ABSPATH . "wp-admin" . '/includes/image.php');
+require_once(ABSPATH . "wp-admin" . '/includes/file.php');
+require_once(ABSPATH . "wp-admin" . '/includes/media.php');
+
+$upload_dir = wp_upload_dir();
+$baseurl = $upload_dir['baseurl']; //http://example.com/wp-content/uploads
+
+$doc = new DOMDocument();
+libxml_use_internal_errors(true);
+
+
+/*$dharmatalks = $wpdb->get_results("SELECT * FROM node WHERE type='teaching_series' and status=1 and nid < 40113 ORDER BY nid DESC, created DESC");
+
+if($dharmatalks)
+{
+    $dharmatalks_all_pdf = array();
+    $dharmatalks_content_pdf = array();
+    $dharmatalks_all_title = array();
+    $dharmatalks_all_videos = array();
+    
+    
+    foreach($dharmatalks as $dharma_talks)
+    {
+        $nodeIdsArr = array();
+        
+        $dharmatalks_content = $wpdb->get_results("SELECT nid,vid,uid,title,body,timestamp FROM node_revisions WHERE nid = ".$dharma_talks->nid." ORDER BY timestamp DESC LIMIT 1");
+        //pr($dharmatalks_content);
+        echo "<br/>nid: ".$dharma_talks->nid."<br/>";
+        $dharmatalks_node = $wpdb->get_results("SELECT * FROM nodehierarchy WHERE nid = ".$dharma_talks->nid."");
+        //pr($dharmatalks_node);
+        
+        $nodeIdsArr[] = $dharma_talks->nid;
+        
+        $dharmatalks_content_series = $wpdb->get_results("SELECT * FROM content_field_teaching_series WHERE field_teaching_series_nid = ".$dharmatalks_node[0]->nid." ");
+        //pr($dharmatalks_content_series);
+        
+        $dharama_content_imageId = $wpdb->get_results("SELECT * FROM content_type_teaching_series WHERE nid = ".$dharmatalks_node[0]->nid." ");
+        
+        $dharama_content_image = $wpdb->get_results("SELECT * FROM files WHERE fid = ".$dharama_content_imageId[0]->field_home_rotation_image_fid." ");
+        $dharama_content_imagepath = $dharama_content_image[0]->filepath;
+        
+        
+        if(!empty($dharmatalks_content_series))
+        {
+            foreach($dharmatalks_content_series as $dharma_data)
+            {
+                //pr($dharma_data);
+                $nodeIdsArr[] = $dharma_data->nid;
+                
+                $dharmatalks_all_title[] = $wpdb->get_results("SELECT * FROM node WHERE nid = ".$dharma_data->nid." and vid = ".$dharma_data->vid." ");
+                //pr($dharmatalks_content_video_titles);
+                
+                $dharmatalks_all_videos[] = $wpdb->get_results("SELECT * FROM content_type_teaching_v3 WHERE nid = ".$dharma_data->nid." and vid = ".$dharma_data->vid." ");
+                //pr($dharmatalks_content_videos);
+                
+                $dharmatalks_all_pdf[] = $wpdb->get_results("SELECT * FROM content_field_supplementary_materials WHERE nid = ".$dharma_data->nid." and vid = ".$dharma_data->vid." ");
+            }
+            
+            $dharmatalks_content_video_titles = $dharmatalks_all_title;
+            $dharmatalks_all_title= array();
+            
+            $dharmatalks_content_videos = $dharmatalks_all_videos;
+            $dharmatalks_all_videos = array();
+            
+            $dharmatalks_content_pdf = $dharmatalks_all_pdf;
+            $dharmatalks_all_pdf = array();
+            
+            
+        }
+        
+        $pub_date = date("Y-m-d H:i:s", $dharma_talks->created);
+        $post_dharmatalks = array(
+            'post_title'    => wp_strip_all_tags($dharma_talks->title),
+            'post_date'  => $pub_date,
+            'post_content' => $dharmatalks_content[0]->body,
+            'post_excerpt' => "",
+            'post_type' => "dharmatalks",
+            'post_status' => 'publish'
+        );
+        
+        $postId = wp_insert_post($post_dharmatalks);
+        if($postId)
+        {
+            if($dharama_content_imagepath)
+            {
+                if(substr($dharama_content_imagepath, 0, 1) == "/")
+                {
+                    $image_url = "http://tricycle.com".str_replace(" ", "%20", $dharama_content_imagepath);
+                }
+                else
+                {
+                    $image_url = "http://tricycle.com/".str_replace(" ", "%20", $dharama_content_imagepath);
+                }
+                
+                try {                    
+                    $image_src = media_sideload_image($image_url, $postId, "", "src");                    
+                    $thumbnail_id = get_image_id_from_url($image_src);
+                    set_post_thumbnail($postId, $thumbnail_id);
+                    
+                }
+                catch(Exception $ex) {
+                    echo 'Caught exception: ',  $ex->getMessage(), "\n";
+                }
+            }
+            
+            
+            $i = 1;
+            foreach($dharmatalks_content_video_titles as $video_titles)
+            {
+                //echo $video_titles[0]->title."<br/>";
+                
+                //if($i==1){
+                //    update_post_meta($postId, "dharma_talks_trailer_title", $video_titles[0]->title);
+                //}else{
+                    $video_title = "dharma_talks_video".$i."_title";
+                    
+                    update_post_meta($postId, $video_title, $video_titles[0]->title);
+                //}
+                $i++;
+            }
+            
+            $vid = 1;
+            foreach($dharmatalks_content_videos as $dharma_videos)
+            {
+               //echo "video - ".$dharma_videos[0]->field_video_embed_value."<br/>";
+               
+                //if($dharma_videos[0]->field_member_flag_value=="open"){    
+                //    update_post_meta($postId, "dharma_talks_trailer_url", $dharma_videos[0]->field_video_embed_value);
+                //    update_post_meta($postId, "dharma_talks_trailer_time_length", $dharma_videos[0]->field_video_length_value);
+                //}else{
+                    
+                    $video_meta = "dharma_talks_video".$vid."_url";
+                    $video_time = "dharma_talks_video".$vid."_time_length";
+                    
+                    update_post_meta($postId, $video_meta, $dharma_videos[0]->field_video_embed_value);
+                    update_post_meta($postId, $video_time, $dharma_videos[0]->field_video_length_value);
+                //}
+                $vid++;
+            }
+        
+            $pdf = 1;
+            //foreach($dharma_pdf as $dharmatalks_pdfs)
+            //{
+                
+                foreach($dharmatalks_content_pdf as $content_pdf)
+                {
+                        $dharma_pdf = array();
+                        $link = $content_pdf[0]->field_supplementary_materials_value;
+                        preg_match_all('/<a[^>]+href=([\'"])(.+?)\1[^>]*>/i', $link, $result);
+                        $dharma_pdf[] = $result[2][0];
+                        
+                        foreach($dharma_pdf as $pdffile)
+                        {
+                            //if($dharmatalks_pdfs)
+                            if($pdffile)
+                            {
+                                //if(substr($dharmatalks_pdfs, 0, 1) == "/")
+                                //{
+                                //    $pdf_file_url = "http://tricycle.com".str_replace(" ", "%20", $dharmatalks_pdfs);
+                                //}
+                                //else
+                                //{
+                                //    $pdf_file_url = "http://tricycle.com/".str_replace(" ", "%20", $dharmatalks_pdfs);
+                                //}
+                                
+                                
+                                if(substr($pdffile, 0, 1) == "/")
+                                {
+                                    
+                                    $pdf_file_url = "http://tricycle.com".str_replace(" ", "%20", $pdffile);
+                                }
+                                else
+                                {
+                                    $pdf_file_url = "http://tricycle.com/".str_replace(" ", "%20", $pdffile);
+                                }
+                                
+                                
+                                try {
+                                    
+                                    if(!is_wp_error($file_src = media_sideload_image($pdf_file_url, $postId, "", "src")))
+                                    {
+                                        
+                                        $uploaded_pdf_filepath = str_replace($baseurl."/", "", $file_src);
+                                        $pdf_meta = "dharma_talks_video".$pdf."_transcripts_pdf_url";
+                                        
+                                        echo "PDF  =  ".$pdf_file_url."<br/>";
+                                        echo $uploaded_pdf_filepath."<hr>";
+                                        update_post_meta($postId, $pdf_meta, $uploaded_pdf_filepath);
+                                    }
+                                    else{
+                                        echo "NOt Done PDF  =  ".$pdf_file_url."<br/>";
+                                    }
+                                }
+                                catch(Exception $ex) {
+                                    echo 'Caught exception: ',  $ex->getMessage(), "\n";
+                                }
+                            }
+                            
+                            $pdf++;
+                        }
+                }
+            //}
+            
+            $StrnodeIdsArr = implode(",",$nodeIdsArr);
+            $comments = $wpdb->get_results("SELECT * FROM comments where nid IN (".$StrnodeIdsArr. ") ORDER BY timestamp ASC");
+            
+            if($comments)
+            {
+                $existing_comment_ids = array();
+                $new_comment_ids = array();
+                foreach($comments as $comment)
+                {
+                    if($comment->pid == 0)
+                    {
+                        $commentdata = array(
+                            'comment_post_ID' => $postId, 
+                            'comment_author' => $comment->name, 
+                            'comment_author_email' => $comment->mail, 
+                            'comment_author_IP' => $comment->hostname,
+                            'comment_content' => $comment->comment, 
+                            'comment_parent' => 0, 
+                            'user_id' => '', 
+                            'comment_date' => date("Y-m-d H:i:s", $comment->timestamp),
+                            'comment_approved' => 1,
+                        );
+    
+                        $new_comment_id = wp_insert_comment($commentdata);
+                        $existing_comment_ids[$comment->cid] = $new_comment_id;
+                    }                
+                }
+                foreach($comments as $comment)
+                {
+                    if($comment->pid != 0)
+                    {
+                        if(array_key_exists($comment->pid, $existing_comment_ids))
+                        {
+                            $parent_id = $existing_comment_ids[$comment->pid];
+                            $commentdata = array(
+                                'comment_post_ID' => $postId, 
+                                'comment_author' => $comment->name, 
+                                'comment_author_email' => $comment->mail, 
+                                'comment_author_IP' => $comment->hostname,
+                                'comment_content' => $comment->comment, 
+                                'comment_parent' => $parent_id,
+                                'user_id' => '', 
+                                'comment_date' => date("Y-m-d H:i:s", $comment->timestamp),
+                                'comment_approved' => 1,
+                            );
+                            $new_comment_id = wp_insert_comment($commentdata);
+                            $existing_comment_ids[$comment->cid] = $new_comment_id;
+                        }
+                    }                
+                }
+            }
+            echo "<br/>Post ID: ".$postId."<br/>";
+        }
+        
+    }
+}
+ */
+// exit;
+
+/*
+// E-BOOKS IMPORT POSTS AND COMMENTS STARTS HERE..... 
+$ebook = $wpdb->get_results("SELECT * FROM node WHERE type='book' and status=1 ORDER BY nid DESC, created DESC");
+if($ebook)
+{
+    foreach($ebook as $ebooks_content)
+    {
+        $ebook_content = $wpdb->get_results("SELECT * FROM node_revisions WHERE nid = ".$ebooks_content->nid." ORDER BY timestamp DESC LIMIT 1");
+        
+        $ebook_toc = $wpdb->get_results("SELECT * FROM content_type_book where nid =".$ebooks_content->nid);
+        
+        $ebook_cover_image_res = $wpdb->get_results("SELECT * from files where fid = ".$ebook_toc[0]->field_book_cover_fid);
+        $ebook_file_epub_res = $wpdb->get_results("SELECT * from files where fid = ".$ebook_toc[0]->field_epub_file_fid);
+        $ebook_file_mobi_res = $wpdb->get_results("SELECT * from files where fid = ".$ebook_toc[0]->field_mobi_file_fid);
+        $ebook_file_pdf_res = $wpdb->get_results("SELECT * from files where fid = ".$ebook_toc[0]->field_pdf_file_fid);
+        
+        $ebook_cover_image = $ebook_cover_image_res[0]->filepath;
+        $ebook_file_epub = $ebook_file_epub_res[0]->filepath;
+        $ebook_file_mobi = $ebook_file_mobi_res[0]->filepath;
+        $ebook_file_pdf = $ebook_file_pdf_res[0]->filepath;
+        
+        
+        $pub_date = date("Y-m-d H:i:s", $ebooks_content->created);
+        $post_ebook = array(
+            'post_title'    => wp_strip_all_tags($ebooks_content->title),
+            'post_date'  => $pub_date,
+            'post_content' => $ebook_content[0]->body,
+            'post_excerpt' => "",
+            'post_type' => "ebooks",
+            'post_status' => 'publish'
+        );
+        
+        $postId = wp_insert_post($post_ebook);
+        if($postId)
+        {
+            if($ebook_cover_image)
+            {
+                if(substr($ebook_cover_image, 0, 1) == "/")
+                {
+                    $image_url = "http://tricycle.com".str_replace(" ", "%20", $ebook_cover_image);
+                }
+                else
+                {
+                    $image_url = "http://tricycle.com/".str_replace(" ", "%20", $ebook_cover_image);
+                }
+                
+                try {
+                    echo "EPUB Source: ".$image_url."<br/>";                    
+                    $image_src = media_sideload_image($image_url, $postId, "", "src");                    
+                    $thumbnail_id = get_image_id_from_url($image_src);
+                    set_post_thumbnail($postId, $thumbnail_id);
+                    
+                }
+                catch(Exception $ex) {
+                    echo 'Caught exception: ',  $ex->getMessage(), "\n";
+                }
+            }
+        
+            if($ebook_file_epub)
+            {
+                if(substr($ebook_file_epub, 0, 1) == "/")
+                {
+                    $epub_file_url = "http://tricycle.com".str_replace(" ", "%20", $ebook_file_epub);
+                }
+                else
+                {
+                    $epub_file_url = "http://tricycle.com/".str_replace(" ", "%20", $ebook_file_epub);
+                }
+                
+                try {
+                    echo "EPUB Source: ".$epub_file_url."<br/>";                    
+                    $file_src = media_sideload_image($epub_file_url, $postId, "", "src");                    
+                    $uploaded_epub_filepath = str_replace($baseurl."/", "", $file_src);
+                    update_post_meta($postId, "meta_keyebook_file_epub", $uploaded_epub_filepath);                
+                }
+                catch(Exception $ex) {
+                    echo 'Caught exception: ',  $ex->getMessage(), "\n";
+                }
+            }
+        
+            if($ebook_file_mobi)
+            {
+                if(substr($ebook_file_mobi, 0, 1) == "/")
+                {
+                    $mobi_file_url = "http://tricycle.com".str_replace(" ", "%20", $ebook_file_mobi);
+                }
+                else
+                {
+                    $mobi_file_url = "http://tricycle.com/".str_replace(" ", "%20", $ebook_file_mobi);
+                }
+                
+                try {
+                    echo "EPUB Source: ".$mobi_file_url."<br/>";                    
+                    $file_mobi_src = media_sideload_image($mobi_file_url, $postId, "", "src");                    
+                    $uploaded_mobi_filepath = str_replace($baseurl."/", "", $file_mobi_src);
+                    update_post_meta($postId, "meta_keyebook_file_mobi", $uploaded_mobi_filepath);                
+                }
+                catch(Exception $ex) {
+                    echo 'Caught exception: ',  $ex->getMessage(), "\n";
+                }
+            }
+            
+            if($ebook_file_pdf)
+            {
+                if(substr($ebook_file_pdf, 0, 1) == "/")
+                {
+                    $pdf_file_url = "http://tricycle.com".str_replace(" ", "%20", $ebook_file_pdf);
+                }
+                else
+                {
+                    $pdf_file_url = "http://tricycle.com/".str_replace(" ", "%20", $ebook_file_pdf);
+                }
+                
+                try {
+                    echo "EPUB Source: ".$pdf_file_url."<br/>";                    
+                    $file_pdf_src = media_sideload_image($pdf_file_url, $postId, "", "src");                    
+                    $uploaded_pdf_filepath = str_replace($baseurl."/", "", $file_pdf_src);
+                    update_post_meta($postId, "meta_keyebook_file_pdf", $uploaded_pdf_filepath);                
+                }
+                catch(Exception $ex) {
+                    echo 'Caught exception: ',  $ex->getMessage(), "\n";
+                }
+            }
+            
+            $comments = $wpdb->get_results("SELECT * FROM comments where nid = ".$ebooks_content->nid. " ORDER BY timestamp ASC");
+            if($comments)
+            {
+                $existing_comment_ids = array();
+                $new_comment_ids = array();
+                foreach($comments as $comment)
+                {
+                    if($comment->pid == 0)
+                    {
+                        $commentdata = array(
+                            'comment_post_ID' => $postId, 
+                            'comment_author' => $comment->name, 
+                            'comment_author_email' => $comment->mail, 
+                            'comment_author_IP' => $comment->hostname,
+                            'comment_content' => $comment->comment, 
+                            'comment_parent' => 0, 
+                            'user_id' => '', 
+                            'comment_date' => date("Y-m-d H:i:s", $comment->timestamp),
+                            'comment_approved' => 1,
+                        );
+    
+                        $new_comment_id = wp_insert_comment($commentdata);
+                        $existing_comment_ids[$comment->cid] = $new_comment_id;
+                    }                
+                }
+                foreach($comments as $comment)
+                {
+                    if($comment->pid != 0)
+                    {
+                        if(array_key_exists($comment->pid, $existing_comment_ids))
+                        {
+                            $parent_id = $existing_comment_ids[$comment->pid];
+                            $commentdata = array(
+                                'comment_post_ID' => $postId, 
+                                'comment_author' => $comment->name, 
+                                'comment_author_email' => $comment->mail, 
+                                'comment_author_IP' => $comment->hostname,
+                                'comment_content' => $comment->comment, 
+                                'comment_parent' => $parent_id,
+                                'user_id' => '', 
+                                'comment_date' => date("Y-m-d H:i:s", $comment->timestamp),
+                                'comment_approved' => 1,
+                            );
+                            $new_comment_id = wp_insert_comment($commentdata);
+                            $existing_comment_ids[$comment->cid] = $new_comment_id;
+                        }
+                    }                
+                }
+            }
+        }
+        
+    }
+}
+exit;
+// E-BOOKS IMPORT POSTS AND COMMENTS ENDS HERE..... 
+*/
+
+/*
+//FILMCLUB IMPORT POSTS AND COMMENTS STARTS HERE..... 
+$filmclub = $wpdb->get_results("SELECT * FROM node WHERE type='filmclub' ORDER BY nid DESC, created DESC");
+if($filmclub)
+{
+    $count = 1;
+    foreach($filmclub as $filmclubs)
+    {
+        $filmclub_content = $wpdb->get_results("SELECT * FROM node_revisions WHERE nid = ".$filmclubs->nid." ORDER BY timestamp DESC LIMIT 1");
+        
+        $filmclub_subhead = $wpdb->get_results("SELECT * FROM content_field_discussion_subhead WHERE nid = ".$filmclubs->nid."");
+        
+        $filmclucb_video = $wpdb->get_results("SELECT * FROM content_field_discussion_video_embed WHERE nid = ".$filmclubs->nid."");
+        $filmclucb_trailer = $wpdb->get_results("SELECT * FROM content_field_discussion_video_embed_pre WHERE nid = ".$filmclubs->nid."");
+        
+        $filmclub_trailer = $filmclucb_trailer[0]->field_discussion_video_embed_pre_value;
+        $filmclub_video   = $filmclucb_video[0]->field_discussion_video_embed_value;
+        
+        
+        $pub_date = date("Y-m-d H:i:s", $filmclubs->created);
+        $post_content = array(
+            'post_title'    => wp_strip_all_tags($filmclubs->title),
+            'post_date'  => $pub_date,
+            'post_content' => $filmclub_content[0]->body,
+            //'post_excerpt' => strip_tags($filmclub_content[0]->teaser),
+            'post_excerpt' => strip_tags($filmclub_subhead[0]->field_discussion_subhead_value),
+            'post_type' => "filmclub",
+            'post_status' => 'publish'
+        );
+        //pr($post_content);
+        
+        $postId = wp_insert_post($post_content);
+        echo "nid: ".$filmclubs->nid."<br/>";
+        echo "Post ID: ".$postId."<br/>";
+        echo "Count: ".$count++."<br/>";
+        if($postId)
+        {
+        
+            $updated_content = $filmclub_content[0]->body;
+            $doc->loadHTML($filmclub_content[0]->body);
+            $xpath = new DOMXPath($doc);
+            $imgs = $xpath->query("//img");
+            for ($i=0; $i < $imgs->length; $i++) 
+            {
+                $img = $imgs->item($i);
+                $src = $img->getAttribute("src");
+                
+                $parse_src_url = parse_url($src);
+                if(isset($parse_src_url['scheme']) && ($parse_src_url['scheme'] == 'https' || $parse_src_url['scheme'] == 'http'))
+                {
+                    $image_url = str_replace(" ", "%20", $src);
+                }
+                else
+                {
+                    if(substr($src, 0, 1) == "/")
+                    {
+                        $image_url = "http://tricycle.com".str_replace(" ", "%20", $src);
+                    }
+                    else
+                    {
+                        $image_url = "http://tricycle.com/".str_replace(" ", "%20", $src);
+                    }
+                }
+                
+                try {
+                    //echo "Original Image Source: ".$src."<br/>";            
+                    echo "Image Source: ".$image_url."<br/>";
+                    if(@getimagesize($image_url))
+                    {
+                        if(is_wp_error($image_src = media_sideload_image($image_url, $postId, "", "src")))
+                        {
+                             echo "<br/>Inserted Post ID (without image): ".$postId."<br/>";
+                        }
+                        else
+                        {
+                            echo "Uploaded Image URL: ".$image_src."<br/>";
+                            $updated_content = str_replace($src, $image_src, $updated_content);
+                        }
+                    }
+                } catch(Exception $ex) {
+                    echo 'Caught exception: ',  $ex->getMessage(), "<br/>";
+                }
+            }        
+            wp_update_post(array('ID' => $postId, 'post_content' => $updated_content));
+        
+        
+            update_post_meta($postId, "meta_type_filmclub_video", $filmclub_video);
+            update_post_meta($postId, "meta_type_filmclub_shorttrailer", $filmclub_trailer);
+
+            echo "<strong>Title: ".$filmclubs->title."</strong><br/>";
+            $comments = $wpdb->get_results("SELECT * FROM comments where nid = ".$filmclubs->nid. " ORDER BY timestamp ASC");
+            $existing_comment_ids = array();
+            $new_comment_ids = array();
+            foreach($comments as $comment)
+            {
+                if($comment->pid == 0)
+                {
+                    $commentdata = array(
+                        'comment_post_ID' => $postId, 
+                        'comment_author' => $comment->name, 
+                        'comment_author_email' => $comment->mail, 
+                        'comment_author_IP' => $comment->hostname,
+                        'comment_content' => $comment->comment, 
+                        'comment_parent' => 0, 
+                        'user_id' => '', 
+                        'comment_date' => date("Y-m-d H:i:s", $comment->timestamp),
+                        'comment_approved' => 1,
+                    );
+
+                    $new_comment_id = wp_insert_comment($commentdata);
+                    $existing_comment_ids[$comment->cid] = $new_comment_id;
+                }                
+            }
+
+            foreach($comments as $comment)
+            {
+                if($comment->pid != 0)
+                {
+                    if(array_key_exists($comment->pid, $existing_comment_ids))
+                    {
+                        $parent_id = $existing_comment_ids[$comment->pid];
+                        $commentdata = array(
+                            'comment_post_ID' => $postId, 
+                            'comment_author' => $comment->name, 
+                            'comment_author_email' => $comment->mail, 
+                            'comment_author_IP' => $comment->hostname,
+                            'comment_content' => $comment->comment, 
+                            'comment_parent' => $parent_id,
+                            'user_id' => '', 
+                            'comment_date' => date("Y-m-d H:i:s", $comment->timestamp),
+                            'comment_approved' => 1,
+                        );
+                        $new_comment_id = wp_insert_comment($commentdata);
+                        $existing_comment_ids[$comment->cid] = $new_comment_id;
+                    }
+                }                
+            }
+        }      
+    }
+}
+//FILMCLUB IMPORT POSTS AND COMMENTS ENDS HERE..... 
+die;
+*/
+
+
+/*
+//FILMFESTIVAL IMPORT POSTS AND COMMENTS ENDS HERE.....  
+$filmfestival = $wpdb->get_results("SELECT * FROM node WHERE type='film_festival' ORDER BY nid DESC, created DESC");
+if($filmfestival)
+{
+    $count = 1;
+    foreach($filmfestival as $filmfestivals)
+    {
+        $filmfestival_content = $wpdb->get_results("SELECT * FROM node_revisions WHERE nid = ".$filmfestivals->nid." ORDER BY timestamp DESC LIMIT 1");
+        $filmfestival_videos = $wpdb->get_results("SELECT * FROM content_field_ff_field_video_embed WHERE nid = ".$filmfestivals->nid."");
+        $filmfestival_trailers = $wpdb->get_results("SELECT * FROM content_field_ff_field_video_teaser WHERE nid = ".$filmfestivals->nid."");
+        
+        $filmfestival_directors = $wpdb->get_results("SELECT * FROM content_field_ff_director WHERE nid = ".$filmfestivals->nid."");
+        
+        $filmfestival_images = $wpdb->get_results("SELECT * FROM content_field_ff_image WHERE nid = ".$filmfestivals->nid."");
+        $filmfestival_files_images = $wpdb->get_results("SELECT * FROM files WHERE fid = ".$filmfestival_images[0]->field_ff_image_fid."");
+        
+        //pr($filmfestival_files_images);
+        $filmfestival_trailer = $filmfestival_trailers[0]->field_ff_field_video_teaser_value;
+        $filmfestival_video   = $filmfestival_videos[0]->field_ff_field_video_embed_value;
+        $filmfestival_director = $filmfestival_directors[0]->field_ff_director_value;
+        
+        $filmfestival_featured_image = $filmfestival_files_images[0]->filepath;
+        
+        
+        $pub_date = date("Y-m-d H:i:s", $filmfestivals->created);
+        $post_content = array(
+            'post_title'    => wp_strip_all_tags($filmfestivals->title),
+            'post_date'  => $pub_date,
+            'post_content' => $filmfestival_content[0]->body.'<br/><br/><a href="film-festival-faq">Questions? Click here for Festival FAQs</a>',
+            'post_excerpt' => strip_tags($filmfestival_content[0]->teaser),
+            'post_type' => "filmfestival",
+            'post_status' => 'publish'
+        );
+        
+        //pr($post_content);
+        
+        
+        $postId = wp_insert_post($post_content);
+        echo "nid: ".$filmfestivals->nid."<br/>";
+        echo "Post ID: ".$postId."<br/>";
+        echo "Count: ".$count++."<br/>";
+        if($postId)
+        {
+            update_post_meta($postId, "meta_type_filmfest_video1", $filmfestival_video);
+            update_post_meta($postId, "meta_type_filmfest_shorttrailer", $filmfestival_trailer);
+            update_post_meta($postId, "director_name_metabox", $filmfestival_director);
+            
+            
+            echo "<strong>Title: ".$filmfestivals->title."</strong><br/>";
+            
+            
+            if($filmfestival_featured_image)
+            {
+                $filepath_src_url = parse_url($filmfestival_featured_image);
+                if(isset($filepath_src_url['scheme']) && ($filepath_src_url['scheme'] == 'https' || $filepath_src_url['scheme'] == 'http'))
+                {
+                    $thumb_image_url = str_replace(" ", "%20", $filmfestival_featured_image);
+                }
+                else
+                {
+                    if(substr($filmfestival_featured_image, 0, 1) == "/")
+                    {
+                        $thumb_image_url = "http://tricycle.com".str_replace(" ", "%20", $filmfestival_featured_image);
+                    }
+                    else
+                    {
+                        $thumb_image_url = "http://tricycle.com/".str_replace(" ", "%20", $filmfestival_featured_image);
+                    }
+                }
+                try {
+                    if(@getimagesize($thumb_image_url))
+                    {
+                        echo "Original URL: ".$thumb_image_url."<br/>";
+                        $thumb_image_src = media_sideload_image($thumb_image_url, $postId, "", "src");
+                        echo "Uploade Image URL: ".$thumb_image_src."<br/>";
+                        $thumbnail_id = get_image_id_from_url($thumb_image_src);
+                        set_post_thumbnail($postId, $thumbnail_id); //Assign featured image to post
+                    }
+                } catch (Exception $ex) {
+                    echo 'Caught exception: ',  $ex->getMessage(), "<br/>";
+                }
+                
+            }
+            
+            $comments = $wpdb->get_results("SELECT * FROM comments where nid = ".$filmfestivals->nid. " ORDER BY timestamp ASC");
+            $existing_comment_ids = array();
+            $new_comment_ids = array();
+            foreach($comments as $comment)
+            {
+                if($comment->pid == 0)
+                {
+                    $commentdata = array(
+                        'comment_post_ID' => $postId, 
+                        'comment_author' => $comment->name, 
+                        'comment_author_email' => $comment->mail, 
+                        'comment_author_IP' => $comment->hostname,
+                        'comment_content' => $comment->comment, 
+                        'comment_parent' => 0, 
+                        'user_id' => '', 
+                        'comment_date' => date("Y-m-d H:i:s", $comment->timestamp),
+                        'comment_approved' => 1,
+                    );
+
+                    $new_comment_id = wp_insert_comment($commentdata);
+                    $existing_comment_ids[$comment->cid] = $new_comment_id;
+                }                
+            }
+
+            foreach($comments as $comment)
+            {
+                if($comment->pid != 0)
+                {
+                    if(array_key_exists($comment->pid, $existing_comment_ids))
+                    {
+                        $parent_id = $existing_comment_ids[$comment->pid];
+                        $commentdata = array(
+                            'comment_post_ID' => $postId, 
+                            'comment_author' => $comment->name, 
+                            'comment_author_email' => $comment->mail, 
+                            'comment_author_IP' => $comment->hostname,
+                            'comment_content' => $comment->comment, 
+                            'comment_parent' => $parent_id,
+                            'user_id' => '', 
+                            'comment_date' => date("Y-m-d H:i:s", $comment->timestamp),
+                            'comment_approved' => 1,
+                        );
+                        $new_comment_id = wp_insert_comment($commentdata);
+                        $existing_comment_ids[$comment->cid] = $new_comment_id;
+                    }
+                }                
+            }
+        }
+    }
+}
+//FILMFESTIVAL IMPORT POSTS AND COMMENTS STARTS HERE..... 
+die;
+*/
+
+/**
+ * Retrieves the attachment ID from the file URL
+ */
+function get_image_id_from_url($image_url) 
+{
+    global $wpdb;
+    $attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url )); 
+    return $attachment[0]; 
+}
+
+/**
+ * This function is used to verify the existence of file using URL.
+ * @param string $url
+ * @return boolean
+ */
+function if_file_exists($url) 
+{
+    $curl = curl_init($url);
+
+    //don't fetch the actual page, you only want to check the connection is ok
+    curl_setopt($curl, CURLOPT_NOBODY, true);
+
+    //do request
+    $result = curl_exec($curl);
+
+    $ret = false;
+
+    //if request did not fail
+    if ($result !== false) 
+    {
+        //if request was ok, check response code
+        $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);  
+
+        if ($statusCode == 200) 
+        {
+            $ret = true;   
+        }
+    }
+
+    curl_close($curl);
+
+    return $ret;
+}
+
+/*
+
+//DAILY-DHARMA IMPORT POSTS STARTS HERE.....  
+$dailydharma = $wpdb->get_results("SELECT * FROM node WHERE type='daily_dharma' ORDER BY nid DESC, created DESC");
+if($dailydharma)
+{
+    foreach($dailydharma as $dailydharmas)
+    {
+        $dailydharma_content = $wpdb->get_results("SELECT * FROM node_revisions WHERE nid = ".$dailydharmas->nid." ORDER BY timestamp DESC LIMIT 1");
+        $dailydharma_node = $wpdb->get_results("SELECT * FROM nodehierarchy WHERE nid = ".$dailydharmas->nid."");
+        $dailydharma_author = $wpdb->get_results("SELECT * FROM content_field_author WHERE nid = ".$dailydharma_node[0]->nid."");
+        $authorName = $dailydharma_author[0]->field_author_value;
+        
+        $pub_date = date("Y-m-d H:i:s", $dailydharmas->created);
+        $post_dharma = array(
+            'post_title'    => wp_strip_all_tags($dailydharmas->title),
+            'post_date'  => $pub_date,
+            'post_content' => $dailydharma_content[0]->body,
+            'post_excerpt' => "",
+            'post_type' => "dailydharma",
+            'post_status' => 'publish'
+        );
+        
+        $postId = wp_insert_post($post_dharma);
+        if($postId)
+        {
+            update_post_meta($postId, "dailydharma_authors_name_metabox", $authorName);                
+        }
+        echo "nid: ".$dailydharmas->nid."<br/>";
+        echo "Post ID: ".$postId."<br/>";
+    }
+}
+//  DAILY-DHARMA IMPORT POSTS ENDS HERE.....  
+die;   
+*/
+
+
+/*
+
+//Magazine article comment Import Process - Starts here//
+
+$issues = $wpdb->get_results("SELECT * FROM node WHERE type='issue' ORDER BY created ASC");
+if($issues)
+{
+    $live_magazine_issues = array();
+    foreach($issues as $issue)
+    {
+        $live_magazine_issues[$issue->vid] = $issue->title;
+    }
+}
+//pr($live_magazine_issues);
+$magazine_issues = get_magazine_issue_terms();
+//pr($magazine_issues);
+if($magazine_issues)
+{
+    foreach($magazine_issues as $magazine_issue)
+    {
+        $records = new WP_Query(
+                    array(
+                        "post_type"=>MAGAZINE_POST_TYPE, 
+                        "posts_per_page"=>-1, 
+                        'tax_query' => array(
+                            array(
+                                'taxonomy' => MAGAZINE_POST_ISSUE_TAXONOMY,
+                                'field' => 'slug',
+                                'terms' => $magazine_issue->slug
+                            )
+                        )
+                    )
+                );
+        
+        if($records->have_posts())
+        {
+            $loop = 1;
+            $record_array = array();
+            while($records->have_posts())
+            {
+                $records->the_post();
+                $record_array[get_the_ID()] = trim(get_the_title());
+            }
+        }
+        //pr($record_array);die;
+        echo "<strong>Issue: ".$magazine_issue->name."</strong><br/>";
+        $issue_id = array_search($magazine_issue->name, $live_magazine_issues);
+        
+        echo "SELECT nid FROM `content_type_issue` where vid = ".$issue_id."<hr>";
+        
+        $content_type_issue_nid = $wpdb->get_var("SELECT nid FROM `content_type_issue` where vid = ".$issue_id);
+        
+        $issue_articles = $wpdb->get_results("SELECT * FROM nodehierarchy where parent = ".$content_type_issue_nid);
+        
+        if($issue_articles)
+        {
+            $temp_article_ids = array();
+            foreach($issue_articles as $issue_article)
+            {
+                $temp_article_ids[] = $issue_article->nid;
+            }
+            
+            $stories = $wpdb->get_results("SELECT * FROM node where nid IN (".implode(", ", $temp_article_ids).") ORDER BY created");
+            if($stories)
+            {
+                foreach($stories as $story)
+                {
+                    $postId = array_search(trim($story->title), $record_array);
+                    
+                    if($postId)
+                    {
+                        echo "<strong>Title: ".$story->title."</strong><br/>";
+                        $comments = $wpdb->get_results("SELECT * FROM comments where nid = ".$story->nid. " ORDER BY timestamp ASC");
+                        
+                        //pr($comments);
+                        $existing_comment_ids = array();
+                        $new_comment_ids = array();
+                        foreach($comments as $comment)
+                        {
+                            if($comment->pid == 0)
+                            {
+                                $commentdata = array(
+                                    'comment_post_ID' => $postId, 
+                                    'comment_author' => $comment->name, 
+                                    'comment_author_email' => $comment->mail, 
+                                    'comment_author_IP' => $comment->hostname,
+                                    'comment_content' => $comment->comment, 
+                                    'comment_parent' => 0, 
+                                    'user_id' => '', 
+                                    'comment_date' => date("Y-m-d H:i:s", $comment->timestamp),
+                                    'comment_approved' => 1,
+                                );
+
+                                $new_comment_id = wp_insert_comment($commentdata);
+                                $existing_comment_ids[$comment->cid] = $new_comment_id;
+                            }                
+                        }
+
+                        foreach($comments as $comment)
+                        {
+                            if($comment->pid != 0)
+                            {
+                                if(array_key_exists($comment->pid, $existing_comment_ids))
+                                {
+                                    $parent_id = $existing_comment_ids[$comment->pid];
+                                    $commentdata = array(
+                                        'comment_post_ID' => $postId, 
+                                        'comment_author' => $comment->name, 
+                                        'comment_author_email' => $comment->mail, 
+                                        'comment_author_IP' => $comment->hostname,
+                                        'comment_content' => $comment->comment, 
+                                        'comment_parent' => $parent_id,
+                                        'user_id' => '', 
+                                        'comment_date' => date("Y-m-d H:i:s", $comment->timestamp),
+                                        'comment_approved' => 1,
+                                    );
+                                    $new_comment_id = wp_insert_comment($commentdata);
+                                    $existing_comment_ids[$comment->cid] = $new_comment_id;
+                                }
+                            }                
+                        }
+                        
+                    }
+                }
+            }
+        }
+    }
+}
+
+//Import Process - Ends here//
+die;
+*/
+
+//Blog Import Process - Starts here//
+//require_once(ABSPATH . "wp-admin" . '/includes/image.php');
+//require_once(ABSPATH . "wp-admin" . '/includes/file.php');
+//require_once(ABSPATH . "wp-admin" . '/includes/media.php');
+//$doc = new DOMDocument();
+//libxml_use_internal_errors(true);
+
+/*$stories = $wpdb->get_results("SELECT * FROM node WHERE node.type='blog_post' AND status = 1 AND nid <= 38077 ORDER BY node.nid DESC, node.created DESC");// ORDER BY node.created DESC LIMIT 555, 1000");
+if($stories)
+{
+    foreach($stories as $story)
+    {
+        echo "<br/><br/>nid: ".$story->nid."<br/><br/>";
+        $pub_date = date("Y-m-d H:i:s", $story->created);
+        $subtitles = $wpdb->get_results("SELECT * FROM content_field_subtitle WHERE nid = ".$story->nid." ORDER BY vid DESC LIMIT 1");
+        $content = $wpdb->get_results("SELECT * FROM node_revisions WHERE nid = ".$story->nid." ORDER BY timestamp DESC LIMIT 1");
+        $term_nodes = $wpdb->get_results("SELECT term_data.* FROM term_data JOIN term_node ON term_data.tid = term_node.tid WHERE term_node.vid = ".$story->vid);
+        
+        if($term_nodes)
+        {
+            $categories = array();
+            $tags = array();
+            foreach($term_nodes as $term_node)
+            {
+                if($term_node->vid == 11) //Category
+                {
+                    $inserted_term_array = wp_insert_term($term_node->name, 'category');
+                    if(isset($inserted_term_array->errors))
+                    {
+                        $categories[] =  $inserted_term_array->error_data['term_exists'];
+                    }
+                    else
+                    {
+                        $categories[] =  $inserted_term_array['term_id'];
+                    }
+                }
+                else if($term_node->vid == 12) //Tag
+                {
+                    $tags[] = $term_node->name;
+                }
+            }
+        }
+        
+        $video_in_iframe = $wpdb->get_var("SELECT ctbp.field_blog_video_embed_value FROM content_type_blog_post AS ctbp WHERE ctbp.nid = ".$story->nid." LIMIT 1");
+        if($video_in_iframe)
+        {
+            echo "Iframe found.<br/>";
+            $content[0]->body .= $video_in_iframe;
+        }
+        
+        $my_post = array(
+                'post_title'    => wp_strip_all_tags($story->title),
+                'post_date'  => $pub_date,
+                'post_content' => $content[0]->body,
+                'post_excerpt' => strip_tags($subtitles[0]->field_subtitle_value),
+                'post_type' => "post",
+                'post_status' => 'publish',
+                'post_category' => $categories, //Category IDs
+                'tags_input' => $tags //Tags
+            );
+        $postId = wp_insert_post($my_post);
+        
+        update_post_meta($postId, LAYOUT_META_KEY, "base");
+        
+        $audio_file_path = $wpdb->get_var("SELECT filepath FROM content_field_blog_audio AS cfba JOIN files ON files.fid = cfba.field_blog_audio_fid WHERE cfba.nid = ".$story->nid." ORDER BY files.timestamp DESC LIMIT 1");
+        if($audio_file_path)
+        {
+            if(substr($audio_file_path, 0, 1) == "/")
+            {
+                $audio_file_url = "http://tricycle.com".str_replace(" ", "%20", $audio_file_path);
+            }
+            else
+            {
+                $audio_file_url = "http://tricycle.com/".str_replace(" ", "%20", $audio_file_path);
+            }
+
+            try {
+                //echo "Original Image Source: ".$src."<br/>";            
+                echo "Audio Source: ".$audio_file_url."<br/>";
+                //if(if_file_exists($audio_file_url))
+                //{
+                    $audio_src = media_sideload_image($audio_file_url, $postId, "", "src");
+                    //pr($audio_src);
+                    echo "Uploaded Audio URL: ".$audio_src."<br/>";
+                    $uploaded_audio_filepath = str_replace($baseurl."/", "", $audio_src);
+                    echo "Saved Meta Value: ".$uploaded_audio_filepath."<br/>";
+                    update_post_meta($postId, "trikdedaily_meta_audio1", $uploaded_audio_filepath);
+                //}
+            } catch(Exception $ex) {
+                echo 'Caught exception: ',  $ex->getMessage(), "\n";
+            }
+        }
+        
+        //Upload inserted image in the body content
+        $updated_content = $content[0]->body;
+        $doc->loadHTML($content[0]->body);
+        $xpath = new DOMXPath($doc);
+        $imgs = $xpath->query("//img");
+        for ($i=0; $i < $imgs->length; $i++) 
+        {
+            $img = $imgs->item($i);
+            $src = $img->getAttribute("src");
+            
+            $parse_src_url = parse_url($src);
+            if(isset($parse_src_url['scheme']) && ($parse_src_url['scheme'] == 'https' || $parse_src_url['scheme'] == 'http'))
+            {
+                $image_url = str_replace(" ", "%20", $src);
+            }
+            else
+            {
+                if(substr($src, 0, 1) == "/")
+                {
+                    $image_url = "http://tricycle.com".str_replace(" ", "%20", $src);
+                }
+                else
+                {
+                    $image_url = "http://tricycle.com/".str_replace(" ", "%20", $src);
+                }
+            }
+            
+            try {
+                //echo "Original Image Source: ".$src."<br/>";            
+                echo "Image Source: ".$image_url."<br/>";
+                if(@getimagesize($image_url))
+                {
+                    if(is_wp_error($image_src = media_sideload_image($image_url, $postId, "", "src")))
+                    {
+                         echo "<br/>Inserted Post ID (without image): ".$postId."<br/>";
+                    }
+                    else
+                    {
+                        echo "Uploaded Image URL: ".$image_src."<br/>";
+                        $updated_content = str_replace($src, $image_src, $updated_content);
+                    }
+                }
+            } catch(Exception $ex) {
+                echo 'Caught exception: ',  $ex->getMessage(), "<br/>";
+            }
+        }        
+        wp_update_post(array('ID' => $postId, 'post_content' => $updated_content));
+        //Setting Post Thumbnail
+        
+        $filepath = $wpdb->get_var("SELECT filepath FROM (SELECT * FROM files WHERE fid IN (SELECT field_key_image_fid FROM content_field_key_image WHERE nid = ".$story->nid.")) AS temp ORDER BY timestamp DESC LIMIT 1");
+        if($filepath)
+        {
+            $filepath_src_url = parse_url($filepath);
+            if(isset($filepath_src_url['scheme']) && ($filepath_src_url['scheme'] == 'https' || $filepath_src_url['scheme'] == 'http'))
+            {
+                $thumb_image_url = str_replace(" ", "%20", $filepath);
+            }
+            else
+            {
+                if(substr($filepath, 0, 1) == "/")
+                {
+                    $thumb_image_url = "http://tricycle.com".str_replace(" ", "%20", $filepath);
+                }
+                else
+                {
+                    $thumb_image_url = "http://tricycle.com/".str_replace(" ", "%20", $filepath);
+                }
+            }
+            try {
+                if(@getimagesize($thumb_image_url))
+                {
+                    echo "Original URL: ".$thumb_image_url."<br/>";
+                    $thumb_image_src = media_sideload_image($thumb_image_url, $postId, "", "src");
+                    echo "Uploade Image URL: ".$thumb_image_src."<br/>";
+                    $thumbnail_id = get_image_id_from_url($thumb_image_src);
+                    set_post_thumbnail($postId, $thumbnail_id); //Assign featured image to post
+                }
+            } catch (Exception $ex) {
+                echo 'Caught exception: ',  $ex->getMessage(), "<br/>";
+            }
+            
+        }        
+        
+        $comments = $wpdb->get_results("SELECT * FROM comments where nid = ".$story->nid. " ORDER BY timestamp ASC");
+        if($comments)
+        {
+            $existing_comment_ids = array();
+            $new_comment_ids = array();
+            foreach($comments as $comment)
+            {
+                if($comment->pid == 0)
+                {
+                    $commentdata = array(
+                        'comment_post_ID' => $postId, 
+                        'comment_author' => $comment->name, 
+                        'comment_author_email' => $comment->mail, 
+                        'comment_author_IP' => $comment->hostname,
+                        'comment_content' => $comment->comment, 
+                        'comment_parent' => 0, 
+                        'user_id' => '', 
+                        'comment_date' => date("Y-m-d H:i:s", $comment->timestamp),
+                        'comment_approved' => 1,
+                    );
+                    
+                    $new_comment_id = wp_insert_comment($commentdata);
+                    $existing_comment_ids[$comment->cid] = $new_comment_id;
+                }                
+            }
+            
+            foreach($comments as $comment)
+            {
+                if($comment->pid != 0)
+                {
+                    if(array_key_exists($comment->pid, $existing_comment_ids))
+                    {
+                        $parent_id = $existing_comment_ids[$comment->pid];
+                        $commentdata = array(
+                            'comment_post_ID' => $postId, 
+                            'comment_author' => $comment->name, 
+                            'comment_author_email' => $comment->mail, 
+                            'comment_author_IP' => $comment->hostname,
+                            'comment_content' => $comment->comment, 
+                            'comment_parent' => $parent_id,
+                            'user_id' => '', 
+                            'comment_date' => date("Y-m-d H:i:s", $comment->timestamp),
+                            'comment_approved' => 1,
+                        );
+                        $new_comment_id = wp_insert_comment($commentdata);
+                        $existing_comment_ids[$comment->cid] = $new_comment_id;
+                    }
+                }                
+            }
+        }
+        
+        echo "<br/>Inserted Post ID: ".$postId."<br/>";
+    }
+}
+//Blog Import Process - Ends here//
+die;
+*/
+?>
+
+<?php
+/*
+require ( ABSPATH . 'wp-admin/includes/image.php' );
+$feed = file_get_contents('http://www.pcma.org/feeds/Convene.ashx');
+$xml = simplexml_load_string($feed);
+
+$content_array = array();
+$upload_dir = wp_upload_dir(); 
+$uploads = $upload_dir['path'];
+
+$date_july = date('Y-m');
+$date_june = date('Y-m', strtotime($date_july.' - 1 month'));
+    
+$dom = new DOMDocument;
+ 
+ $i=1;
+foreach ($xml->channel->item as $entry) :
+  
+    $pubDate = (string)$entry->pubDate;
+    $checkDate = date('Y-m' , strtotime($pubDate));
+    
+ if($checkDate == $date_july || $checkDate == $date_june)
+ {
+    $urls = array();
+    $temp = array();
+    
+    $temp['link'] = (string)$entry->link;
+    $temp['category'] = (string)$entry->category;
+    $temp['title'] = (string)$entry->title;
+    $temp['description'] = (string)$entry->description;
+    
+    $pagess = get_page_by_title($temp['title'], OBJECT, "post");
+    if(!$pagess)
+    {
+        $article_category = get_magazine_issue_details(trim($temp['category']));
+        $catID = $article_category['term_id'];
+
+        $description = (string)$entry->description;
+        $description = str_replace('&gt;','>',$description);
+        $description = str_replace('&lt;','<',$description);
+
+        $namespaces = $entry->getNameSpaces(true);
+        $author = $entry->children($namespaces['a10']);
+        $temp['author_name'] = (string)$author->author->name;
+
+        
+        $addSec = strtotime($pubDate) + $i;
+        
+        $temp['pubDate'] = date("Y-m-d H:i:s", $addSec);
+
+       // $temp['pubDate'] = date("Y-m-d H:i:s", strtotime($pubDate));
+       
+        $year= date("Y",strtotime($pubDate));
+        $month= date("m",strtotime($pubDate));
+ 
+        $user_dirname = $upload_dir['basedir'].'/'.$year."/".$month;
+        
+        if( ! file_exists( $user_dirname ) )
+        {
+            wp_mkdir_p( $user_dirname );
+        }
+
+        $dom->loadHTML($description);
+
+        $attachment_array = array();
+        foreach($dom->getElementsByTagName('img') as $link)
+        {
+            $path = pathinfo($link->getAttribute('src'));
+            $path = explode('?',$path['basename']);
+
+            //save image to the folder
+            $content = file_get_contents($link->getAttribute('src'));
+
+            $img_filename = upload_filename($upload_dir['basedir'].'/'.$year."/".$month.'/', $path[0]);
+            $img = $upload_dir['basedir'].'/'.$year."/".$month.'/'.$img_filename;
+          
+            file_put_contents($img, $content);
+
+            // Check the type of file. We'll use this as the 'post_mime_type'.
+            $filetype = wp_check_filetype($img_filename, null);
+
+            // Prepare an array of post data for the attachment.
+            $attachment = array(
+                'guid'           => $upload_dir['baseurl'].'/'.$year.'/'.$month.'/'.$img_filename, 
+                'post_mime_type' => $filetype['type'],
+                'post_title'     => preg_replace( '/\.[^.]+$/', '', $img_filename ),
+                'post_content'   => '',
+                'post_status'    => 'inherit',
+                'post_date'      => $temp['pubDate']
+            );
+
+            $attachment_temp = array();
+            $attachment_temp['attachment'] = $attachment;
+            $attachment_temp['absolute_path'] = $img;
+            $attachment_array[] = $attachment_temp;
+
+            $temp['description']= str_replace($link->getAttribute('src'),$upload_dir['baseurl'].'/'.$year."/".$month.'/'.$path[0],$temp['description']);
+            $urls[] = $upload_dir['baseurl'].'/'.$year."/".$month.'/'.$path[0];
+        } 
+        $temp['images'] = $urls;
+   
+*/
+        /** fetch the <h2> tag content **/
+/*        $Tag ='';
+        foreach($dom->getElementsByTagName('h2') as $tags)
+        {
+            $Tag = $tags->nodeValue;
+        }
+    
+        $temp['post_excerpt'] = $Tag;
+        $search_string = $temp['post_excerpt'];
+        $temp['description'] = str_replace($search_string, "", $temp['description']); //Delete the excerpt from the description section.
+        $temp['description'] = preg_replace_callback('~<h2>(.*?)</h2>~i', function($m){ return ucfirst(strtolower(trim($m[1])));}, $temp['description'], 1);
+        
+        //Create the author
+        if($temp['author_name'])
+        {
+            $user_name = str_replace("-", "_", sanitize_title(str_ireplace("by ", "", str_ireplace("as told to ", "", $temp['author_name']))));
+            $user_email = $user_name."@example.com";
+            $user_id = username_exists($user_name);
+            if(!$user_id and email_exists($user_email) == false) 
+            {
+                $random_password = wp_generate_password($length=12, $include_standard_special_chars=false);
+                $user_id = wp_create_user($user_name, $random_password, $user_email);
+            }
+            
+            $my_post = array(
+                'post_title'    => wp_strip_all_tags($temp['title'] ),
+                'post_date'  => $temp['pubDate'] ,
+                'post_content' => $temp['description'],
+                'post_excerpt' => $temp['post_excerpt'],
+                'post_type' => "post",
+                'post_status' => 'publish',
+                'post_author' => $user_id
+            );
+        }
+        else
+        {
+            $my_post = array(
+                'post_title'    => wp_strip_all_tags($temp['title'] ),
+                'post_date'  => $temp['pubDate'] ,
+                'post_content' => $temp['description'],
+                'post_excerpt' => $temp['post_excerpt'],
+                'post_type' => "post",
+                'post_status' => 'publish'
+            );
+        }
+*/
+        /*$my_post = array(
+            'post_title'    => wp_strip_all_tags($temp['title'] ),
+            'post_date'  => $temp['pubDate'] ,
+            'post_excerpt' => $temp['post_excerpt'],
+            'post_content' => $temp['description'],
+            'post_type' => "post",
+            'post_status' => 'publish'
+        );*/
+
+/*        // Insert the post into the database
+        $postId = wp_insert_post($my_post);
+
+        // An array of IDs of categories we want this post to have.
+        $cat_ids = array($catID);
+
+        // If this was coming from the database or another source, we would need to make sure 
+        // these where integers: //
+
+        $cat_ids = array_map( 'intval', $cat_ids );
+
+        $term_taxonomy_ids = wp_set_object_terms($postId, $cat_ids, MAGAZINE_ISSUE_TAXONOMY, true);
+
+        update_post_meta($postId, "article_custom_author", $temp['author_name']);
+        
+        if($attachment_array)
+        {
+            foreach($attachment_array as $attachment_val)
+            {
+                // Insert the attachment.
+                $attach_id = wp_insert_attachment($attachment_val['attachment'], $attachment_val['absolute_path'], $postId);
+                $attach_data = wp_generate_attachment_metadata($attach_id, $attachment_val['absolute_path']);
+                wp_update_attachment_metadata( $attach_id, $attach_data );
+            }
+        }
+        echo("Post ID:".$postId."<br/>");
+    }
+ }
+
+$i++;
+endforeach;
+*/
+?>

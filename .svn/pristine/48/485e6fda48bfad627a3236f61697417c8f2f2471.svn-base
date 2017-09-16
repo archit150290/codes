@@ -1,0 +1,184 @@
+<?php get_header(); ?>
+<!-- start content -->
+<div class='wrap'><!--Closing div is in footer.php-->
+    <!-- start landing marquee -->
+    <div class='landing-marquee_video dharmatalks'>
+        <header class='rubric_top'>
+            <h1><span class='icon icon-dept_dharmatalks'></span>Dharma Talks</h1>
+            <p>Video teachings and discussions with contemporary Buddhist teachers</p>
+            <a class='button' href='<?php echo get_permalink(get_page_id_by_slug(DHARMA_TALKS_ARCHIVE_PAGE_SLUG)); ?>'>Dharma Talks Archive</a>
+        </header>
+
+        <main>
+            <?php
+            $postId = array();
+            if (have_posts()) {
+                while (have_posts()) {
+                    the_post();
+                    $postId[] = get_the_ID();
+                    $topics = get_topics_by_post_id(get_the_ID());
+                    $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                    ?>
+                    <article class='dharmatalks'>
+                        <section class='titles'>
+                            <time><?php the_date('M Y'); ?></time>
+                            <h2 class='dharmatalks'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                            <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                            <address><?php echo getAuthorDetail(get_the_ID(), 0, 0); ?></address>
+                        </section>
+                        <figure>
+                            <a href='<?php the_permalink(); ?>'>
+                                <div class='icon-video_play' data-grunticon-embed></div>
+                                <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 60em) 75vw, 100vw'); ?>	
+                            </a>
+                        </figure>
+                        <section class='synopsis'>
+                            <p><?php the_excerpt(); ?></p>
+                            <p class='h2'><a class='view-contents' href='<?php the_permalink(); ?>'>Watch Talk</a></p>
+                        </section>
+                    </article>
+                    <?php
+                    break;
+                }
+            }
+            ?>
+        </main>
+    </div>
+    <!-- end landing marquee -->
+
+    <!-- start landing stack -->
+    <div class='landing-stack_video'>
+        <?php
+        if (have_posts()) {
+            $counter = 1;
+            while (have_posts()) {
+                the_post();
+                $postId[] = get_the_ID();
+                $topics = get_topics_by_post_id(get_the_ID());
+                $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                ?>
+                <article class='dharmatalks'>
+                    <section class='titles'>
+                        <time><?php echo get_the_date('M Y'); ?></time>
+                        <h2 class='dharmatalks'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                        <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                        <address><?php echo getAuthorDetail(get_the_ID(), 0, 0); ?></address>
+                    </section>
+                    <figure>
+                        <a href='<?php the_permalink(); ?>'>
+                            <div class='icon-video_play' data-grunticon-embed></div>
+                            <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 50em) 25vw,100vw'); ?>
+                        </a>
+                    </figure>
+                    <section class='synopsis'>
+                        <p><?php the_excerpt(); ?></p>
+                        <p class='h2'><a class='view-contents' href='<?php the_permalink(); ?>'>Watch Talk</a></p>
+                    </section>
+                </article>
+                <?php
+                if($counter == 2)
+                {
+                    ?>
+                    <div class='CTA-module'>
+                    <?php
+                    get_the_ad("dharmatalks_ad1_");
+                    ?>
+                    </div>
+                    <?php
+                }
+                $counter++;
+                
+                if($counter == 6)
+                {
+                    break;
+                }
+            }
+        }
+        ?>        
+        <div class='more dharmatalks'>
+            <a class='button' href='<?php echo get_permalink(get_page_id_by_slug(DHARMA_TALKS_ARCHIVE_PAGE_SLUG)); ?>'>Dharma Talks Archive</a>
+        </div>        
+    </div>
+    <div class='rule'></div>
+    <!-- end landing stack -->
+
+    <!-- start most popular module -->
+                                    <?php $myrows = $wpdb->get_results( "SELECT post_id,count(*) as counter FROM try_postview"
+                                            . " where date_format(date,'%Y-%m-%d')"
+                                            . " BETWEEN date_sub(date_format(NOW(),'%Y-%m-%d'), INTERVAL 60 DAY) AND NOW()"
+                                            . " GROUP BY post_id ORDER BY counter DESC LIMIT 3" ); 
+                                    //selection of most popular from database where interval is of 60 days as discussed in #59 of unfuddle 
+                                    if(!empty($myrows))
+                                    {?>
+                                        <div class='related-posts'>
+                                        <header class='rubric_top'>
+                                           <h1>Most Popular</h1>
+                                        </header>
+                                       <main>
+
+                                       <?php
+                                       foreach($myrows as $mostpopular)
+                                        {
+                                            $postid = $mostpopular->post_id;
+                                            $counter = $mostpopular->counter;
+                                            $title = get_the_title($postid);
+                                            $topics = get_topics_by_post_id($postid);
+                                            $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                                            $authordetail = getAuthorDetail($postid,0,0);
+                                            $date = get_the_date("M Y",$postid );
+                                            $permalink = get_permalink($postid);
+                                            if($postid == $postId)
+                                            {
+                                                //to check if the above id is same as below id 
+                                                continue;
+                                            }
+                                            ?>
+
+                                            <article class='dharmatalks'>
+                                                <figure>
+                                                        <a href='<?php echo $permalink; ?>'>
+                                                                        <div class='icon-video_play' data-grunticon-embed></div>
+                                                                        <?php echo srcset_post_thumbnail($postid, 'image', '','(min-width: 50em) 33vw,100vw'); ?>
+                                                        </a>
+                                                </figure>
+                                                <section>
+                                                        <h2 class='rubric dharmatalks'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                                                        <h1><a href='<?php echo $permalink; ?>'><?php echo $title; ?></a></h1>
+                                                        <address><?php echo getAuthorDetail($postid,0,0); ?></address>
+                                                        <time><?php echo $date; ?></time>
+                                                </section>
+                                            </article>
+
+                                       <?php  }
+                                        ?>
+                                            </main>
+                                                                    </div>
+                                    <?php }
+                                    ?>     
+    <!-- start Call to Action module -->
+   
+        <div class='CTA-module'>
+                    <?php
+                    get_the_ad("dharmatalks_ad2_");
+                    ?>
+        </div>
+     
+    <!-- end Call to Action module -->
+
+    <div class='aside-depts'>
+        <!-- start aside Film Club -->
+        <?php show_latest_filmclub(); ?>
+        <!-- end aside Film Club -->
+
+        <!-- start aside magazine -->
+        <?php show_latest_magazine_article(); ?>
+        <!-- end aside magazine -->
+
+        <!-- start aside trikedaily -->
+        <?php show_latest_trike_daily(); ?>
+        <!-- end aside trikedaily -->
+    </div>
+
+    <div class='rule'></div>
+    <!-- end wrap_outer -->
+    <?php get_footer(); ?>

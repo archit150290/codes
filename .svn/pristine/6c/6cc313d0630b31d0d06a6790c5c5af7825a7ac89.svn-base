@@ -1,0 +1,147 @@
+<?php
+define("FILM_CLUB_POST_TYPE", "film-club");
+define("FILM_CLUB_META_POST_SHORT_TRAILER", "meta_type_filmclub_shorttrailer");
+define("FILM_CLUB_META_POST_VIDEO", "meta_type_filmclub_video");
+define("FILMCLUB_AUTHORS_NAME_METABOX", "authors_name_metabox");
+define("FILMCLUB_AUTHORS_SELECT_METABOX", "authors_select_metabox");
+
+function add_film_club_meta_boxes() {
+    add_meta_box('filmclub_Byline_authors', 'Byline/Authors', 'add_filmclub_authors_metabox', FILM_CLUB_POST_TYPE, 'normal', 'high');
+    add_meta_box('article_dek_metabox_id', 'Dek', 'add_film_club_dek_meta_box', FILM_CLUB_POST_TYPE, 'normal', 'default');
+    add_meta_box('filmclub_shorttrailer_metabox_id', 'Short Trailer', 'add_filmclub_shorttrailer_metabox', FILM_CLUB_POST_TYPE, 'normal', 'default');
+    add_meta_box('filmclub_video_metabox_id', 'Video', 'add_filmclub_video_metabox', FILM_CLUB_POST_TYPE, 'normal', 'default');
+    add_meta_box('home_featured_articles_metabox_id', __('Home Featured Article'), 'add_film_club_home_featured_meta_box', FILM_CLUB_POST_TYPE, 'normal', 'default');
+    add_meta_box('fil_club_country_metabox_id', 'Country', 'add_film_club_country_meta_box', FILM_CLUB_POST_TYPE, 'normal', 'default');
+}
+
+/**
+ * This function adds a meta box of "Dek" and called from "add_post_meta_boxes".
+ * @param Object $post
+ */
+function add_filmclub_authors_metabox($post) {
+    $filmclub_authorname = get_post_meta($post->ID, FILMCLUB_AUTHORS_NAME_METABOX, true);
+    ?>
+    <select name="filmclub_authors_select_metabox">
+        <option value="By">By</option>
+        <option value="Directed By">Directed By</option>
+    </select>
+    <input type="text" placeholder="Add First Name and Last Name separated by Commas , or Slashe / " style="width: 85%" name="filmclub_authors_name_metabox" value="<?php echo $filmclub_authorname; ?>">
+
+    <?php
+}
+
+function add_film_club_dek_meta_box($post) {
+    wp_nonce_field('film_club_save_meta_box_data', 'film_club_meta_box_nonce');
+
+    $post_dek = get_post_meta($post->ID, DEK_META_KEY, true);
+    ?>
+    <input type="text" name="post_dek" style="width: 100%;" value="<?php echo esc_attr($post_dek); ?>" />
+    <?php
+}
+
+function add_film_club_country_meta_box($post) {
+    $post_country = get_post_meta($post->ID, 'country_meta_key', true);
+    ?>
+    <input type="text" name="post_country" style="width: 100%;" value="<?php echo esc_attr($post_country); ?>" />
+    <?php
+}
+
+function add_filmclub_shorttrailer_metabox($post) {
+    $film_club_shorttrailer = get_post_meta($post->ID, FILM_CLUB_META_POST_SHORT_TRAILER, true);
+    $htmlst = '<p>Enter Embeded Code</p>';
+    $htmlst.='<textarea name="film_club_meta_short_trailer" style="width: 100%" id="film_club_meta_short_trailer">' . $film_club_shorttrailer . '</textarea>';
+    echo $htmlst;
+}
+
+function add_filmclub_video_metabox($post) {
+    $film_club_video = get_post_meta($post->ID, FILM_CLUB_META_POST_VIDEO, true);
+    $htmlvideo = '<p>Enter Embeded Code</p>';
+    $htmlvideo.='<textarea name="film_club_meta_video" style="width: 100%" id="film_club_meta_video">' . $film_club_video . '</textarea>';
+    echo $htmlvideo;
+}
+
+/**
+ * This function is used to show featured articles meta box.
+ * @param type $post
+ */
+function add_film_club_home_featured_meta_box($post) {
+    $home_featured = get_post_meta($post->ID, HOME_FEATURED_META_KEY, true);
+    ?>
+    <label><input type="checkbox" value="1" name="home_featured" id="home_featured" <?php echo ($home_featured) ? "checked='checked'" : ''; ?> /> Set Home Featured</label>
+    <?php
+}
+
+/**
+ * When the post is saved, saves our custom data.
+ *
+ * @param int $post_id The ID of the post being saved.
+ */
+function save_film_club_meta_box_data($post_id) {
+    /*
+     * We need to verify this came from our screen and with proper authorization,
+     * because the save_post action can be triggered at other times.
+     */
+
+// Check if our nonce is set.
+    if (!isset($_POST['film_club_meta_box_nonce'])) {
+        return;
+    }
+
+// Verify that the nonce is valid.
+    if (!wp_verify_nonce($_POST['film_club_meta_box_nonce'], 'film_club_save_meta_box_data')) {
+        return;
+    }
+
+// If this is an autosave, our form has not been submitted, so we don't want to do anything.
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+// Check the user's permissions.
+    if (isset($_POST['post_type']) && 'page' == $_POST['post_type']) {
+        if (!current_user_can('edit_page', $post_id)) {
+            return;
+        }
+    } else {
+        if (!current_user_can('edit_post', $post_id)) {
+            return;
+        }
+    }
+
+    /* OK, it's safe for us to save the data now. */
+
+// Sanitize user input.
+    $post_dek_data = sanitize_text_field($_POST['post_dek']);
+
+// Update the meta field in the database.
+    update_post_meta($post_id, DEK_META_KEY, $post_dek_data);
+
+    $post_short_trailer = sanitize_text_field($_POST['film_club_meta_short_trailer']);
+
+// Update the meta field in the database.
+    update_post_meta($post_id, FILM_CLUB_META_POST_SHORT_TRAILER, $post_short_trailer);
+
+    $post_video = sanitize_text_field($_POST['film_club_meta_video']);
+
+// Update the meta field in the database.
+    update_post_meta($post_id, FILM_CLUB_META_POST_VIDEO, $post_video);
+
+    $filmclubauthorname = sanitize_text_field($_POST['filmclub_authors_name_metabox']);
+    $filmclubauthorselect = sanitize_text_field($_POST['filmclub_authors_select_metabox']);
+    update_post_meta($post_id, FILMCLUB_AUTHORS_NAME_METABOX, $filmclubauthorname);
+    update_post_meta($post_id, FILMCLUB_AUTHORS_SELECT_METABOX, $filmclubauthorselect);
+
+    $post_country_data = sanitize_text_field($_POST['post_country']);
+
+// Update the meta field in the database.
+    update_post_meta($post_id, country_meta_key, $post_country_data);
+
+    $home_featured_post = isset($_POST['home_featured']) ? $_POST['home_featured'] : "";
+    update_post_meta($post_id, HOME_FEATURED_META_KEY, $home_featured_post);
+}
+
+/**
+ * This action hook is called to call "save_film_club_meta_box_data".
+ */
+add_action('save_post', 'save_film_club_meta_box_data');
+?>

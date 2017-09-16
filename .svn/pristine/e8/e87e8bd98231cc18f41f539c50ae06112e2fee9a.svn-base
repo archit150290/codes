@@ -1,0 +1,419 @@
+<?php
+define("DHARMATALKS_POST_TYPE", "dharmatalks");
+
+function custom_post_type_and_taxonomy_init_dharmatalks() {
+    $labels = array(
+        'name' => _x('Dharma-Talks', 'post type general name', 'your-plugin-textdomain'),
+        'singular_name' => _x('Dharma-Talk', 'post type singular name', 'your-plugin-textdomain'),
+        'menu_name' => _x('Dharma Talks', 'admin menu', 'your-plugin-textdomain'),
+        'name_admin_bar' => _x('Dharma-Talk', 'add new on admin bar', 'your-plugin-textdomain'),
+        'add_new' => _x('Add New', 'article', 'your-plugin-textdomain'),
+        'add_new_item' => __('Add New Talk', 'your-plugin-textdomain'),
+        'new_item' => __('New Talk', 'your-plugin-textdomain'),
+        'edit_item' => __('Edit Talk', 'your-plugin-textdomain'),
+        'view_item' => __('View Talk', 'your-plugin-textdomain'),
+        'all_items' => __('All Talks', 'your-plugin-textdomain'),
+        'search_items' => __('Search Articles', 'your-plugin-textdomain'),
+        'parent_item_colon' => __('Parent Articles:', 'your-plugin-textdomain'),
+        'not_found' => __('No articles found.', 'your-plugin-textdomain'),
+        'not_found_in_trash' => __('No articles found in Trash.', 'your-plugin-textdomain')
+    );
+
+    $args = array(
+        'labels' => $labels,
+        'public' => true,
+        'publicly_queryable' => true,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'rewrite' => array('slug' => DHARMATALKS_POST_TYPE, 'with_front' => true),
+        'capability_type' => 'post',
+        'has_archive' => true,
+        'hierarchical' => true,
+        'menu_position' => null,
+        'supports' => array('title', 'editor', 'author', 'thumbnail', 'comments'),
+        'taxonomies' => array('post_tag'),
+        'register_meta_box_cb' => 'add_dharma_talks_meta_boxes'
+    );
+
+    register_post_type(DHARMATALKS_POST_TYPE, $args);
+}
+
+add_action('init', 'custom_post_type_and_taxonomy_init_dharmatalks');
+
+function add_dharma_talks_meta_boxes() {
+   // add_meta_box('dharmatalks_Byline_authors', 'Byline/Authors', 'add_dharmatalks_authors_metabox', DHARMATALKS_POST_TYPE, 'normal', 'high');
+    add_meta_box('dharmatalks_shorttrailer_metabox_id', 'Trailer', 'add_dharmatalks_shorttrailer_metabox', DHARMATALKS_POST_TYPE, 'normal', 'default');
+    add_meta_box('dharmatalks_video1_metabox_id', 'Video 1', 'add_dharmatalks_video1_metabox', DHARMATALKS_POST_TYPE, 'normal', 'default');
+    add_meta_box('dharmatalks_video2_metabox_id', 'Video 2', 'add_dharmatalks_video2_metabox', DHARMATALKS_POST_TYPE, 'normal', 'default');
+    add_meta_box('dharmatalks_video3_metabox_id', 'Video 3', 'add_dharmatalks_video3_metabox', DHARMATALKS_POST_TYPE, 'normal', 'default');
+    add_meta_box('dharmatalks_video4_metabox_id', 'Video 4', 'add_dharmatalks_video4_metabox', DHARMATALKS_POST_TYPE, 'normal', 'default');
+    add_meta_box('dharmatalks_home_featured_articles_metabox_id', __('Set Home Page Marquee'), 'add_dharma_talks_home_featured_articles_meta_box', DHARMATALKS_POST_TYPE, 'normal', 'default');
+}
+
+define("DHARMA_TALKS_TRAILER_TITLE_META_KEY", "dharma_talks_trailer_title");
+define("DHARMA_TALKS_TRAILER_TITLE_URL_FORMAT_META_KEY", "dharma_talks_trailer_title_url_format");
+define("DHARMA_TALKS_TRAILER_URL_META_KEY", "dharma_talks_trailer_url");
+define("DHARMA_TALKS_TRAILER_TIME_LENGTH_META_KEY", "dharma_talks_trailer_time_length");
+define("DHARMA_TALKS_TRAILER_TRANSCRIPTS_PDF_URL_META_KEY", "dharma_talks_trailer_transcripts_pdf_url");
+define("DHARMA_TALKS_VIDEO1_TITLE_META_KEY", "dharma_talks_video1_title");
+define("DHARMA_TALKS_VIDEO1_URL_META_KEY", "dharma_talks_video1_url");
+define("DHARMA_TALKS_VIDEO1_TIME_LENGTH_META_KEY", "dharma_talks_video1_time_length");
+define("DHARMA_TALKS_VIDEO1_TRANSCRIPTS_PDF_URL_META_KEY", "dharma_talks_video1_transcripts_pdf_url");
+define("DHARMA_TALKS_VIDEO2_TITLE_META_KEY", "dharma_talks_video2_title");
+define("DHARMA_TALKS_VIDEO2_URL_META_KEY", "dharma_talks_video2_url");
+define("DHARMA_TALKS_VIDEO2_TIME_LENGTH_META_KEY", "dharma_talks_video2_time_length");
+define("DHARMA_TALKS_VIDEO2_TRANSCRIPTS_PDF_URL_META_KEY", "dharma_talks_video2_transcripts_pdf_url");
+define("DHARMA_TALKS_VIDEO3_TITLE_META_KEY", "dharma_talks_video3_title");
+define("DHARMA_TALKS_VIDEO3_URL_META_KEY", "dharma_talks_video3_url");
+define("DHARMA_TALKS_VIDEO3_TIME_LENGTH_META_KEY", "dharma_talks_video3_time_length");
+define("DHARMA_TALKS_VIDEO3_TRANSCRIPTS_PDF_URL_META_KEY", "dharma_talks_video3_transcripts_pdf_url");
+define("DHARMA_TALKS_VIDEO4_TITLE_META_KEY", "dharma_talks_video4_title");
+define("DHARMA_TALKS_VIDEO4_URL_META_KEY", "dharma_talks_video4_url");
+define("DHARMA_TALKS_VIDEO4_TIME_LENGTH_META_KEY", "dharma_talks_video4_time_length");
+define("DHARMA_TALKS_VIDEO4_TRANSCRIPTS_PDF_URL_META_KEY", "dharma_talks_video4_transcripts_pdf_url");
+define("DHARMA_TALKS_AUTHORS_NAME_METABOX", "authors_name_metabox");
+define("DHARMA_TALKS_AUTHORS_SELECT_METABOX", "authors_select_metabox");
+
+function add_dharmatalks_authors_metabox($post) {
+    $dharma_talks_authorname = get_post_meta($post->ID, DHARMA_TALKS_AUTHORS_NAME_METABOX, true);
+    ?>
+    <!--<select name="dharmatalks_authors_select_metabox">
+        <option value="By">By</option>
+        <option value="Directed By">Directed By</option>
+    </select>-->
+    <input type="text" placeholder="Add First Name and Last Name separated by Commas , or Slashe / " style="width: 85%" name="dharmatalks_authors_name_metabox" value="<?php echo $dharma_talks_authorname; ?>">
+    <br/>
+    <label>(Please add by line like: By/Directed By/ Edited By  [author1] [author2]) </label>
+    <?php
+}
+
+function add_dharmatalks_shorttrailer_metabox($post) {
+    $upload_dir = wp_upload_dir();
+    ?>
+    
+    <script type="text/javascript">
+        
+        function upload_meta_image(title,textboxinput)
+        {
+            var meta_image_frame;
+            meta_image_frame = wp.media.frames.meta_image_frame = wp.media({
+            title: title,
+            button: { text:  title },
+            multiple: false
+            }) 
+            .on('select',function(){
+            var attachment = meta_image_frame.state().get('selection').first().toJSON();
+            jQuery("#"+textboxinput).val(attachment.url); 
+            })
+            meta_image_frame.open();
+        }
+        
+    </script>
+    <?php
+    $dharma_talks_trailer_title = get_post_meta($post->ID, DHARMA_TALKS_TRAILER_TITLE_META_KEY, true);
+    $dharma_talks_trailer_title_url_format = get_post_meta($post->ID, DHARMA_TALKS_TRAILER_TITLE_URL_FORMAT_META_KEY, true);
+
+    $permalink = get_permalink($post->ID);
+    if ($permalink) {
+        $dharma_talks_trailer_title_url = $permalink . $dharma_talks_trailer_title_url_format . "/";
+    } else {
+        $dharma_talks_trailer_title_url = "";
+    }
+
+    $dharma_talks_trailer_url = get_post_meta($post->ID, DHARMA_TALKS_TRAILER_URL_META_KEY, true);
+    $dharma_talks_trailer_time_length = get_post_meta($post->ID, DHARMA_TALKS_TRAILER_TIME_LENGTH_META_KEY, true);
+    $dharma_talks_trailer_transcripts_pdf_url = get_post_meta($post->ID, DHARMA_TALKS_TRAILER_TRANSCRIPTS_PDF_URL_META_KEY, true);
+    $savepdffile = get_post_meta($post->ID, DHARMA_TALKS_TRAILER_TRANSCRIPTS_PDF_URL_META_KEY, true);
+    if (!empty($savepdffile)) {
+        $upload_baseurl = $upload_dir['baseurl'] . '/' . $savepdffile;
+    } else {
+        $upload_baseurl = "";
+    }
+    ?>
+    <label>Title<?php echo $dharma_talks_trailer_title_url ? " (" . $dharma_talks_trailer_title_url . ")" : ""; ?>:</label><div style="clear: both;"></div>
+    <input type="text" name="<?php echo DHARMA_TALKS_TRAILER_TITLE_META_KEY; ?>" style="width: 100%;" value="<?php echo esc_attr($dharma_talks_trailer_title); ?>" />
+    <label>URL:</label><div style="clear: both;"></div>
+    <input type="text" name="<?php echo DHARMA_TALKS_TRAILER_URL_META_KEY; ?>" style="width: 100%;" value="<?php echo esc_attr($dharma_talks_trailer_url); ?>" />
+    <label>Time Length (In Minutes):</label><div style="clear: both;"></div>
+    <input type="text" name="<?php echo DHARMA_TALKS_TRAILER_TIME_LENGTH_META_KEY; ?>" style="width: 15%;" maxlength="4" value="<?php echo esc_attr($dharma_talks_trailer_time_length); ?>" />
+<!--    <div style="clear: both;"></div><label>Transcripts PDF URL:</label><div style="clear: both;"></div>-->
+    <?php
+      $htmlpdf = '<input id="upload_file" type="hidden" size="36" name="upload_file" value="" />';
+//    $htmlpdf .= '<input id="upload_file_pdf" type="text" size="90%" name="upload_file_pdf" value="' . $upload_baseurl . '" />';
+//    $htmlpdf .='<input type="button" id="upload_file_button" value="Upload PDF" />';
+      echo $htmlpdf . "<br>";
+}
+
+function add_dharmatalks_video1_metabox($post) {
+    ?>
+    
+    <?php
+    wp_nonce_field('dharmatalks_save_meta_box_data', 'dharmatalks_meta_box_nonce');
+    $dharma_talks_video1_title = get_post_meta($post->ID, DHARMA_TALKS_VIDEO1_TITLE_META_KEY, true);
+    $dharma_talks_video1_url = get_post_meta($post->ID, DHARMA_TALKS_VIDEO1_URL_META_KEY, true);
+    $dharma_talks_video1_time_length = get_post_meta($post->ID, DHARMA_TALKS_VIDEO1_TIME_LENGTH_META_KEY, true);
+    $dharma_talks_video1_transcripts_pdf_url = get_post_meta($post->ID, DHARMA_TALKS_VIDEO1_TRANSCRIPTS_PDF_URL_META_KEY, true);
+    $upload_dir = wp_upload_dir();
+    $savepdffile = get_post_meta($post->ID, DHARMA_TALKS_VIDEO1_TRANSCRIPTS_PDF_URL_META_KEY, true);
+    if (!empty($savepdffile)) {
+        $upload_baseurl = $upload_dir['baseurl'] . '/' . $savepdffile;
+    } else {
+        $upload_baseurl = "";
+    }
+    ?>
+    <label>Title:</label><div style="clear: both;"></div>
+    <input type="text" name="<?php echo DHARMA_TALKS_VIDEO1_TITLE_META_KEY; ?>" style="width: 100%;" value="<?php echo esc_attr($dharma_talks_video1_title); ?>" />
+    <label>URL:</label><div style="clear: both;"></div>
+    <input type="text" name="<?php echo DHARMA_TALKS_VIDEO1_URL_META_KEY; ?>" style="width: 100%;" value="<?php echo esc_attr($dharma_talks_video1_url); ?>" />
+    <label>Time Length (In Minutes):</label><div style="clear: both;"></div>
+    <input type="text" name="<?php echo DHARMA_TALKS_VIDEO1_TIME_LENGTH_META_KEY; ?>" style="width: 15%;" maxlength="4" value="<?php echo esc_attr($dharma_talks_video1_time_length); ?>" />
+    <div style="clear: both;"></div><label>Transcripts PDF URL:</label><div style="clear: both;"></div>
+    <?php
+    $htmlvideo1 = '<input id="upload_file_pdf_video_1" type="text" size="90%" name="upload_file_pdf_video_1" value="' . $upload_baseurl . '" />';
+    $htmlvideo1 .='<input type="button" onclick = upload_meta_image("upload-PDF","upload_file_pdf_video_1") id="upload_file_video_1" value="Upload PDF" />';
+    echo $htmlvideo1 . "<br>";
+}
+
+function add_dharmatalks_video2_metabox($post) {
+    ?>
+    
+    <?php
+    $dharma_talks_video2_title = get_post_meta($post->ID, DHARMA_TALKS_VIDEO2_TITLE_META_KEY, true);
+    $dharma_talks_video2_url = get_post_meta($post->ID, DHARMA_TALKS_VIDEO2_URL_META_KEY, true);
+    $dharma_talks_video2_time_length = get_post_meta($post->ID, DHARMA_TALKS_VIDEO2_TIME_LENGTH_META_KEY, true);
+    $dharma_talks_video2_transcripts_pdf_url = get_post_meta($post->ID, DHARMA_TALKS_VIDEO2_TRANSCRIPTS_PDF_URL_META_KEY, true);
+    $savepdffile = get_post_meta($post->ID, DHARMA_TALKS_VIDEO2_TRANSCRIPTS_PDF_URL_META_KEY, true);
+    $upload_dir = wp_upload_dir();
+    if (!empty($savepdffile)) {
+        $upload_baseurl = $upload_dir['baseurl'] . '/' . $savepdffile;
+    } else {
+        $upload_baseurl = "";
+    }
+    ?>
+    <label>Title:</label><div style="clear: both;"></div>
+    <input type="text" name="<?php echo DHARMA_TALKS_VIDEO2_TITLE_META_KEY; ?>" style="width: 100%;" value="<?php echo esc_attr($dharma_talks_video2_title); ?>" />
+    <label>URL:</label><div style="clear: both;"></div>
+    <input type="text" name="<?php echo DHARMA_TALKS_VIDEO2_URL_META_KEY; ?>" style="width: 100%;" value="<?php echo esc_attr($dharma_talks_video2_url); ?>" />
+    <label>Time Length (In Minutes):</label><div style="clear: both;"></div>
+    <input type="text" name="<?php echo DHARMA_TALKS_VIDEO2_TIME_LENGTH_META_KEY; ?>" style="width: 15%;" maxlength="4" value="<?php echo esc_attr($dharma_talks_video2_time_length); ?>" />
+    <div style="clear: both;"></div><label>Transcripts PDF URL:</label><div style="clear: both;"></div>
+    <?php
+    $htmlVideo2 = ' <input type="text" name="upload_file_pdf_video_2" size="90%" id="upload_file_pdf_video_2" value="' . $upload_baseurl . '" />';
+    $htmlVideo2 .='<input type="button" onclick = upload_meta_image("upload-PDF","upload_file_pdf_video_2") id="upload_file_video_2" value="Upload PDF" />';
+    echo $htmlVideo2;
+}
+
+function add_dharmatalks_video3_metabox($post) {
+    ?>
+   
+    <?php
+    $dharma_talks_video3_title = get_post_meta($post->ID, DHARMA_TALKS_VIDEO3_TITLE_META_KEY, true);
+    $dharma_talks_video3_url = get_post_meta($post->ID, DHARMA_TALKS_VIDEO3_URL_META_KEY, true);
+    $dharma_talks_video3_time_length = get_post_meta($post->ID, DHARMA_TALKS_VIDEO3_TIME_LENGTH_META_KEY, true);
+    $dharma_talks_video3_transcripts_pdf_url = get_post_meta($post->ID, DHARMA_TALKS_VIDEO3_TRANSCRIPTS_PDF_URL_META_KEY, true);
+    $upload_dir = wp_upload_dir();
+    $savepdffile = get_post_meta($post->ID, DHARMA_TALKS_VIDEO3_TRANSCRIPTS_PDF_URL_META_KEY, true);
+    if (!empty($savepdffile)) {
+        $upload_baseurl = $upload_dir['baseurl'] . '/' . $savepdffile;
+    } else {
+        $upload_baseurl = "";
+    }
+    ?>
+    <label>Title:</label><div style="clear: both;"></div>
+    <input type="text" name="<?php echo DHARMA_TALKS_VIDEO3_TITLE_META_KEY; ?>" style="width: 100%;" value="<?php echo esc_attr($dharma_talks_video3_title); ?>" />
+    <label>URL:</label><div style="clear: both;"></div>
+    <input type="text" name="<?php echo DHARMA_TALKS_VIDEO3_URL_META_KEY; ?>" style="width: 100%;" value="<?php echo esc_attr($dharma_talks_video3_url); ?>" />
+    <label>Time Length (In Minutes):</label><div style="clear: both;"></div>
+    <input type="text" name="<?php echo DHARMA_TALKS_VIDEO3_TIME_LENGTH_META_KEY; ?>" style="width: 15%;" maxlength="4" value="<?php echo esc_attr($dharma_talks_video3_time_length); ?>" />
+    <div style="clear: both;"></div><label>Transcripts PDF URL:</label><div style="clear: both;"></div>
+    <?php
+    $htmlVideo3 = ' <input type="text" name="upload_file_pdf_video_3" size="90%" id="upload_file_pdf_video_3" value="' . $upload_baseurl . '" />';
+    $htmlVideo3 .='<input type="button" onclick = upload_meta_image("upload-PDF","upload_file_pdf_video_3") id="upload_file_video_3" value="Upload PDF" />';
+    echo $htmlVideo3;
+}
+
+function add_dharmatalks_video4_metabox($post) {
+    ?>
+   
+    <?php
+    $dharma_talks_video4_title = get_post_meta($post->ID, DHARMA_TALKS_VIDEO4_TITLE_META_KEY, true);
+    $dharma_talks_video4_url = get_post_meta($post->ID, DHARMA_TALKS_VIDEO4_URL_META_KEY, true);
+    $dharma_talks_video4_time_length = get_post_meta($post->ID, DHARMA_TALKS_VIDEO4_TIME_LENGTH_META_KEY, true);
+    $dharma_talks_video4_transcripts_pdf_url = get_post_meta($post->ID, DHARMA_TALKS_VIDEO4_TRANSCRIPTS_PDF_URL_META_KEY, true);
+    $upload_dir = wp_upload_dir();
+    $savepdffile = get_post_meta($post->ID, DHARMA_TALKS_VIDEO4_TRANSCRIPTS_PDF_URL_META_KEY, true);
+    if (!empty($savepdffile)) {
+        $upload_baseurl = $upload_dir['baseurl'] . '/' . $savepdffile;
+    } else {
+        $upload_baseurl = "";
+    }
+    ?>
+    <label>Title:</label><div style="clear: both;"></div>
+    <input type="text" name="<?php echo DHARMA_TALKS_VIDEO4_TITLE_META_KEY; ?>" style="width: 100%;" value="<?php echo esc_attr($dharma_talks_video4_title); ?>" />
+    <label>URL:</label><div style="clear: both;"></div>
+    <input type="text" name="<?php echo DHARMA_TALKS_VIDEO4_URL_META_KEY; ?>" style="width: 100%;" value="<?php echo esc_attr($dharma_talks_video4_url); ?>" />
+    <label>Time Length (In Minutes):</label><div style="clear: both;"></div>
+    <input type="text" name="<?php echo DHARMA_TALKS_VIDEO4_TIME_LENGTH_META_KEY; ?>" style="width: 15%;" maxlength="4" value="<?php echo esc_attr($dharma_talks_video4_time_length); ?>" />
+    <div style="clear: both;"></div><label>Transcripts PDF URL:</label><div style="clear: both;"></div>
+    <?php
+    $htmlVideo4 = '<input type="text" name="upload_file_pdf_video_4" size="90%" id="upload_file_pdf_video_4" value="' . $upload_baseurl . '" />';
+    $htmlVideo4 .='<input type="button"  onclick = upload_meta_image("upload-PDF","upload_file_pdf_video_4") id="upload_file_video_4" value="Upload PDF" />';
+    echo $htmlVideo4;
+}
+
+function add_dharma_talks_home_featured_articles_meta_box($post) {
+    $home_featured = get_post_meta($post->ID, HOME_FEATURED_META_KEY, true);
+    ?>
+    <label><input type="checkbox" value="1" name="home_featured" id="home_featured" <?php echo ($home_featured) ? "checked='checked'" : ''; ?> /> Set Home Featured</label>
+    <?php
+}
+
+function save_dharma_talks_meta_box_data($post_id) {
+    /*
+     * We need to verify this came from our screen and with proper authorization,
+     * because the save_post action can be triggered at other times.
+     */
+
+    // Check if our nonce is set.
+    if (!isset($_POST['dharmatalks_meta_box_nonce'])) {
+        return;
+    }
+
+    // Verify that the nonce is valid.
+    if (!wp_verify_nonce($_POST['dharmatalks_meta_box_nonce'], 'dharmatalks_save_meta_box_data')) {
+        return;
+    }
+
+    // If this is an autosave, our form has not been submitted, so we don't want to do anything.
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    // Check the user's permissions.
+    if (isset($_POST['post_type']) && 'page' == $_POST['post_type']) {
+        if (!current_user_can('edit_page', $post_id)) {
+            return;
+        }
+    } else {
+        if (!current_user_can('edit_post', $post_id)) {
+            return;
+        }
+    }
+
+    /* OK, it's safe for us to save the data now. */
+
+    // Sanitize user input and update the meta field in the database.
+    update_post_meta($post_id, DHARMA_TALKS_TRAILER_TITLE_META_KEY, sanitize_text_field($_POST[DHARMA_TALKS_TRAILER_TITLE_META_KEY]));
+    update_post_meta($post_id, DHARMA_TALKS_TRAILER_TITLE_URL_FORMAT_META_KEY, sanitize_title(sanitize_text_field($_POST[DHARMA_TALKS_TRAILER_TITLE_META_KEY])));
+    update_post_meta($post_id, DHARMA_TALKS_TRAILER_URL_META_KEY, sanitize_text_field($_POST[DHARMA_TALKS_TRAILER_URL_META_KEY]));
+    update_post_meta($post_id, DHARMA_TALKS_TRAILER_TIME_LENGTH_META_KEY, sanitize_text_field($_POST[DHARMA_TALKS_TRAILER_TIME_LENGTH_META_KEY]));
+    // update_post_meta($post_id, DHARMA_TALKS_TRAILER_TRANSCRIPTS_PDF_URL_META_KEY, sanitize_text_field($_POST[DHARMA_TALKS_TRAILER_TRANSCRIPTS_PDF_URL_META_KEY]));
+    if (isset($_POST['upload_file_pdf'])) {
+        $upload_dir = wp_upload_dir();
+        $upload_baseurl = $upload_dir['baseurl'];
+        $background_file_url = $_POST['upload_file_pdf'];
+        $file_array = explode($upload_baseurl, $background_file_url);
+        $filepdf = substr($file_array[1], 1);
+        update_post_meta($post_id, DHARMA_TALKS_TRAILER_TRANSCRIPTS_PDF_URL_META_KEY, $filepdf);
+    }
+
+    // Update the meta field in the database.
+    update_post_meta($post_id, DHARMA_TALKS_VIDEO1_TITLE_META_KEY, sanitize_text_field($_POST[DHARMA_TALKS_VIDEO1_TITLE_META_KEY]));
+    update_post_meta($post_id, DHARMA_TALKS_VIDEO1_URL_META_KEY, sanitize_text_field($_POST[DHARMA_TALKS_VIDEO1_URL_META_KEY]));
+    update_post_meta($post_id, DHARMA_TALKS_VIDEO1_TIME_LENGTH_META_KEY, sanitize_text_field($_POST[DHARMA_TALKS_VIDEO1_TIME_LENGTH_META_KEY]));
+    //update_post_meta($post_id, DHARMA_TALKS_VIDEO1_TRANSCRIPTS_PDF_URL_META_KEY, sanitize_text_field($_POST[DHARMA_TALKS_VIDEO1_TRANSCRIPTS_PDF_URL_META_KEY]));
+    if (isset($_POST['upload_file_pdf_video_1'])) {
+        $upload_dir = wp_upload_dir();
+        $upload_baseurl = $upload_dir['baseurl'];
+        $background_file_url = $_POST['upload_file_pdf_video_1'];
+        $file_array = explode($upload_baseurl, $background_file_url);
+        $filepdf = substr($file_array[1], 1);
+        update_post_meta($post_id, DHARMA_TALKS_VIDEO1_TRANSCRIPTS_PDF_URL_META_KEY, $filepdf);
+    }
+
+    update_post_meta($post_id, DHARMA_TALKS_VIDEO2_TITLE_META_KEY, sanitize_text_field($_POST[DHARMA_TALKS_VIDEO2_TITLE_META_KEY]));
+    update_post_meta($post_id, DHARMA_TALKS_VIDEO2_URL_META_KEY, sanitize_text_field($_POST[DHARMA_TALKS_VIDEO2_URL_META_KEY]));
+    update_post_meta($post_id, DHARMA_TALKS_VIDEO2_TIME_LENGTH_META_KEY, sanitize_text_field($_POST[DHARMA_TALKS_VIDEO2_TIME_LENGTH_META_KEY]));
+    //update_post_meta($post_id, DHARMA_TALKS_VIDEO2_TRANSCRIPTS_PDF_URL_META_KEY, sanitize_text_field($_POST[DHARMA_TALKS_VIDEO2_TRANSCRIPTS_PDF_URL_META_KEY]));
+    if (isset($_POST['upload_file_pdf_video_2'])) {
+        $upload_dir = wp_upload_dir();
+        $upload_baseurl = $upload_dir['baseurl'];
+        $background_file_url = $_POST['upload_file_pdf_video_2'];
+        $file_array = explode($upload_baseurl, $background_file_url);
+        $filepdf = substr($file_array[1], 1);
+        update_post_meta($post_id, DHARMA_TALKS_VIDEO2_TRANSCRIPTS_PDF_URL_META_KEY, $filepdf);
+    }
+    update_post_meta($post_id, DHARMA_TALKS_VIDEO3_TITLE_META_KEY, sanitize_text_field($_POST[DHARMA_TALKS_VIDEO3_TITLE_META_KEY]));
+    update_post_meta($post_id, DHARMA_TALKS_VIDEO3_URL_META_KEY, sanitize_text_field($_POST[DHARMA_TALKS_VIDEO3_URL_META_KEY]));
+    update_post_meta($post_id, DHARMA_TALKS_VIDEO3_TIME_LENGTH_META_KEY, sanitize_text_field($_POST[DHARMA_TALKS_VIDEO3_TIME_LENGTH_META_KEY]));
+    //update_post_meta($post_id, DHARMA_TALKS_VIDEO3_TRANSCRIPTS_PDF_URL_META_KEY, sanitize_text_field($_POST[DHARMA_TALKS_VIDEO3_TRANSCRIPTS_PDF_URL_META_KEY]));
+    if (isset($_POST['upload_file_pdf_video_3'])) {
+        $upload_dir = wp_upload_dir();
+        $upload_baseurl = $upload_dir['baseurl'];
+        $background_file_url = $_POST['upload_file_pdf_video_3'];
+        $file_array = explode($upload_baseurl, $background_file_url);
+        $filepdf = substr($file_array[1], 1);
+        update_post_meta($post_id, DHARMA_TALKS_VIDEO3_TRANSCRIPTS_PDF_URL_META_KEY, $filepdf);
+    }
+    update_post_meta($post_id, DHARMA_TALKS_VIDEO4_TITLE_META_KEY, sanitize_text_field($_POST[DHARMA_TALKS_VIDEO4_TITLE_META_KEY]));
+    update_post_meta($post_id, DHARMA_TALKS_VIDEO4_URL_META_KEY, sanitize_text_field($_POST[DHARMA_TALKS_VIDEO4_URL_META_KEY]));
+    update_post_meta($post_id, DHARMA_TALKS_VIDEO4_TIME_LENGTH_META_KEY, sanitize_text_field($_POST[DHARMA_TALKS_VIDEO4_TIME_LENGTH_META_KEY]));
+    // update_post_meta($post_id, DHARMA_TALKS_VIDEO4_TRANSCRIPTS_PDF_URL_META_KEY, sanitize_text_field($_POST[DHARMA_TALKS_VIDEO4_TRANSCRIPTS_PDF_URL_META_KEY]));
+    if (isset($_POST['upload_file_pdf_video_4'])) {
+        $upload_dir = wp_upload_dir();
+        $upload_baseurl = $upload_dir['baseurl'];
+        $background_file_url = $_POST['upload_file_pdf_video_4'];
+        $file_array = explode($upload_baseurl, $background_file_url);
+        $filepdf = substr($file_array[1], 1);
+        update_post_meta($post_id, DHARMA_TALKS_VIDEO4_TRANSCRIPTS_PDF_URL_META_KEY, $filepdf);
+    }
+
+    $home_featured_post = isset($_POST['home_featured']) ? $_POST['home_featured'] : "";
+    update_post_meta($post_id, HOME_FEATURED_META_KEY, $home_featured_post);
+
+    /* Saving slug for all the videos*/
+    if(!empty($_REQUEST[DHARMA_TALKS_TRAILER_TITLE_META_KEY])){  $trailer = sanitize_title_with_dashes($_REQUEST[DHARMA_TALKS_TRAILER_TITLE_META_KEY]); } else { $trailer = "";}
+    if(!empty($_REQUEST[DHARMA_TALKS_VIDEO1_TITLE_META_KEY])){  $video1 = sanitize_title_with_dashes($_REQUEST[DHARMA_TALKS_VIDEO1_TITLE_META_KEY]); } else { $video1 = "";}
+    if(!empty($_REQUEST[DHARMA_TALKS_VIDEO2_TITLE_META_KEY])){  $video2 = sanitize_title_with_dashes($_REQUEST[DHARMA_TALKS_VIDEO2_TITLE_META_KEY]); } else { $video2 = "";}
+    if(!empty($_REQUEST[DHARMA_TALKS_VIDEO3_TITLE_META_KEY])){  $video3 = sanitize_title_with_dashes($_REQUEST[DHARMA_TALKS_VIDEO3_TITLE_META_KEY]); } else { $video3 = "";}
+    if(!empty($_REQUEST[DHARMA_TALKS_VIDEO4_TITLE_META_KEY])){  $video4 = sanitize_title_with_dashes($_REQUEST[DHARMA_TALKS_VIDEO4_TITLE_META_KEY]); } else { $video4 = "";}
+   
+    
+    $slug_array = array($trailer, $video1, $video2, $video3, $video4);
+        $output = array();
+    	$uni_value = array();
+	foreach($slug_array as $k){
+            $uni_value[$k][] = '-';
+	}
+	//pr($uni_value);
+        foreach($uni_value as $k => $data){
+           $ctr = 0;
+            foreach($data as $d){	
+                if($ctr == 0){
+                        $output[] = $k;
+                }else{
+                        $output[] = $k."-".$ctr;
+                }
+                $ctr++;
+              }
+            }
+      
+    $i = 1;
+    foreach($output as $resultant_slug)
+    {   
+        update_post_meta($post_id, "dharmatalks_slug_video".$i, $resultant_slug);
+        $i++;
+    }
+    
+    /* End of Saving slug for all the videos*/
+    
+/*    echo $dharmatalkauthorname = sanitize_text_field($_POST['dharmatalks_authors_name_metabox']);
+    echo $dharmatalkauthorselect = sanitize_text_field($_POST['dharmatalks_authors_select_metabox']);
+    update_post_meta($post_id, DHARMA_TALKS_AUTHORS_NAME_METABOX, $dharmatalkauthorname);
+    update_post_meta($post_id, DHARMA_TALKS_AUTHORS_SELECT_METABOX, $dharmatalkauthorselect); */
+}
+
+/**
+ * This action hook is called to call "save_film_club_meta_box_data".
+ */
+add_action('save_post', 'save_dharma_talks_meta_box_data');

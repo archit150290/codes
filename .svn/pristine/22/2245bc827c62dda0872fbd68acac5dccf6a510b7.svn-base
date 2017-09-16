@@ -1,0 +1,61 @@
+<?php
+//print_r($_POST);
+if(isset($_POST['action']) && $_POST['action'] == "logout")
+{
+    session_start();
+    unset($_SESSION['Cambey_Login']);
+    echo json_encode(array("status"=>"success"));
+}
+else
+{
+    try {
+        $subscriber_email = $_POST['l_email'];
+        $subscriber_pass = $_POST['l_pass'];
+
+        $url = "https://www.cambeywest.com/api_rest_test/api_rest.svc/GetSubscriberData?pub_acronym=TRI&auth_user=mr39d6pl&auth_pass=44gnjn2aq";
+        $url .= "&subscriber_email=".$subscriber_email;
+        $url .= "&subscriber_pass=".$subscriber_pass;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($ch);
+        $result1 = json_decode($result);
+        curl_close($ch);
+        $name = "";
+        $login = 0;
+        $error = "";
+        $email = "";
+
+        foreach($result1 as $key => $res)
+        {
+            if($key == "d")
+            {
+                $xml_array = array(simplexml_load_string($res->d));
+                if(strtolower($xml_array[0]->SubscriberData->result) == "true")
+                {
+                    $login = 1;
+                    $name = $xml_array[0]->SubscriberData->f_name." ".$xml_array[0]->SubscriberData->l_name;
+                    session_start();
+                    $_SESSION['Cambey_Login'] = $name;
+                }
+                else
+                {
+                    $error = $xml_array[0]->SubscriberData->error;
+                }
+                break;
+            }
+        }
+    
+        if($login)
+        {
+            echo json_encode(array("status"=>"success", "name"=>$_SESSION['Cambey_Login']));
+        }
+        else
+        {
+            echo json_encode(array("status"=>"fail", "message"=>$error));
+        }
+    } catch (Exception $ex) {
+        echo json_encode(array("status"=>"fail"));
+    }
+}
+die;

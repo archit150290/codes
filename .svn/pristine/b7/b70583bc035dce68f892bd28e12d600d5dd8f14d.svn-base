@@ -1,0 +1,228 @@
+// search results page
+////////////////////////
+.search-field {
+
+  .search-form {
+    @include position;
+    font-size: 1.25em;
+  }
+
+  .icon-search {
+    @include position(absolute, 0 0 null null);
+    @include size(2.38671875em);
+    background-color: inherit;
+    border: 0;
+    padding: 0;
+
+    svg {
+      @include svg-embed(1.25rem);
+      fill: $clr-gray-off;
+    }
+
+    &:hover svg {
+      fill: $clr-red;
+    }
+  }
+}
+
+.search-count {
+  padding-left: $small-spacing;
+}
+
+.search-sort {
+  @include margin($base-spacing null);
+  font-size: 1em;
+  letter-spacing: .1em;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+
+  .icon-arrow_dropdown {
+    @include margin(null null null $base-spacing);
+    @include position;
+    @include size(1em .625em);
+    display: inline-block;
+  }
+
+  svg {
+    @include svg-embed(1em, .625em);
+    fill: $clr-gray-midhi;
+  }
+
+  .dropdown-button {
+    @include transition($base-transition);
+    @include padding(0 $base-spacing);
+    background-color: $clr-white;
+    border: $base-border;
+    color: $clr-gray-midhi;
+    display: inline-block;
+    height: 2.38671875em;
+    line-height: 2.6;
+
+    &:hover {
+      color: $clr-red;
+
+      path {
+        fill: $clr-red;
+      }
+    }
+  }
+
+  .dropdown-menu {
+    border: 1px solid $clr-gray-lite;
+    height: auto;
+    overflow-y: inherit;
+    z-index: 9999;
+  }
+}
+
+.search-stack {
+  @extend %card;
+  @include padding(null null $base-spacing);
+  @include dept-hover-helper;
+
+  .icon {
+    @extend %marquee-aside-icon;
+  }
+
+  section {
+    @include padding(null $base-spacing);
+  }
+
+  img {
+    height: 12em;
+    width: 100%;
+    object-fit: cover;
+
+    @include media($tablet-up) {
+      height: 15em;
+    }
+  }
+
+  .rubric {
+    margin-top: $base-spacing;
+  }
+
+  .topic {
+    display: block;
+  }
+}
+
+.search-pagination {
+  text-align: center;
+
+  ol {
+    @include margin(null auto);
+    display: inline-block;
+  }
+
+  li {
+    float: left;
+  }
+
+  .current-page {
+    @include padding($small-spacing $small-spacing $small-spacing - em(2px));
+  }
+
+  a {
+    @include margin(null $small-spacing);
+    @include padding($small-spacing $small-spacing * 1.5 $small-spacing - em(2px));
+    background-color: $clr-white;
+    display: inline-block;
+
+    &:hover {
+      color: $clr-red;
+    }
+  }
+
+  .rule {
+    @include media($wide-up) {
+      display: none;
+    }
+  }
+}
+
+//putting figure and titles side by side
+@include media($tablet-up) {
+
+  .wrap_search {
+    @include fill-parent;
+  }
+
+  .rubric_top {
+    @include fill-parent;
+  }
+
+  .search-field {
+    @include span-columns(7);
+  }
+
+  .search-sort {
+    @include margin(0 null null);
+    @include span-columns(4);
+    @include shift;
+    @include omega;
+
+    .dropdown-container {
+      width: 100%;
+    }
+
+    .dropdown-button {
+      height: 2.96875em;
+      line-height: 3.2;
+      width: 100%;
+    }
+  }
+
+  .search-stack {
+    @include padding($base-spacing null null);
+    clear: both;
+
+    article {
+      @include clearfix;
+      @include fill-parent;
+      @include padding(0 $base-spacing);
+      min-height: 10em;
+    }
+
+    figure {
+      @include margin(0 null);
+      @include span-columns(4);
+    }
+
+    section {
+      margin-top: $small-spacing;
+      width: 100%;
+    }
+
+    figure + section {
+      @include padding(null $small-spacing);
+      @include span-columns(8);
+      @include omega;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+  }
+}
+
+//adding sidebar on right
+@include media($wide-up) {
+
+  .search-main {
+    @include span-columns(8 of 12);
+  }
+
+  .search-aside {
+    @include card;
+    @include padding(0 null $base-spacing);
+    @include span-columns(4 of 12);
+  }
+}
+
+@include media($max) {
+  .search-aside {
+    padding-top: $base-spacing * 2;
+  }
+}

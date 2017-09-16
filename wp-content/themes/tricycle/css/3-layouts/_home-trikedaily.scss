@@ -1,0 +1,11 @@
+// homepage trikedaily stack
+////////////////////////
+.home-trikedaily {
+  @extend %stack;
+  @extend %stack-rows;
+  @include dept-hover($clr-trikedaily);
+
+  .more {
+    @include dept-button($clr-trikedaily);
+  }
+}

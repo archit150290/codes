@@ -1,0 +1,117 @@
+@charset "utf-8";
+/* CSS Document */
+
+.hero_banner{
+	background:url(../images/baner.jpg) no-repeat center center;
+	background-size:cover;
+	height:660px;
+	width:100%;
+	box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.3) inset;
+	position:relative;
+	z-index:1;
+	margin-top:50px;
+}
+
+.hero_banner .flush-left{
+	float:left;
+	margin:30px;
+	box-shadow:0 0 10px rgba(0,0,0,0.5);
+	border-radius:10px;
+	overflow:hidden;
+	background:rgba(255,255,255,0.85);
+	max-width:100%;
+	width:380px;
+	padding:20px !important;
+}
+
+.corporate-logos.buffer.slick.row {
+    height: 78px;
+    overflow: hidden;
+}
+
+.corporate-logos.buffer.slick.row li {
+	float:left;
+}
+
+.hero_banner  .selectPantry{
+	background:none;
+	margin:0;
+	padding:0;
+}
+
+.hero_banner .selectPantry .choose_num .form p, .hero_banner .selectPantry .choose_freq .form p{
+	border: 1px solid #e0e0e0;
+	background:#eeeeee;
+}
+
+#non-members .hero_banner .selectPantry h1{
+	font-family: 'Roboto', sans-serif !important;
+	font-size:30px;
+	font-weight:400;
+	color:#000000;
+	line-height:30px;
+	text-align:center;
+	text-transform:uppercase;
+	display:block;
+	margin:0;
+	padding:10px 0 0;
+}
+
+.hero_banner .selectPantry h1 span{
+	font-size:50px;
+	font-weight:500;
+	color:#dd5f13;
+}
+
+
+.hero_banner .selectPantry label{
+	font-size:16px;
+	padding:20px 0 10px;
+	color:#000000;	
+}
+
+.hero_banner .selectPantry .form label{
+	font-size:18px;
+}
+
+.hero_banner .selectPantry .form p [type="radio"]:checked + label{
+	height: 60px;
+}
+
+.hero_banner .selectPantry .choose_num .form p, .hero_banner .selectPantry .choose_freq .form p{
+	height:60px;
+}
+
+.hero_banner .discountBg {
+    margin: 0;
+    padding: 40px 0 0;
+}
+
+.hero_banner .discount_price p{
+	font-size:20px !important;
+	color:#333333 !important;
+}
+
+.hero_banner .discount_price p span{
+	font-family: 'Roboto', sans-serif !important;
+	font-size:20px !important;
+}
+
+.hero_banner .discount_price .shipping{
+	padding: 10px 100px 10px 10px;
+	background-size:90px;
+	font-size: 32px;
+}
+
+.hero_banner .discount_price .shipping span {
+    font-size: 46px;
+}
+
+.shorttxt{
+	font-family: 'Roboto', sans-serif !important;
+	font-size:13px;
+	font-weight:400;
+	color:#000000;
+	text-align:center;
+	padding:10px;
+}

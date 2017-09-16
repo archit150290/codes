@@ -1,0 +1,249 @@
+<?php
+/*
+Plugin Name: Tricycle Ad Management
+Description: Allows to manage the ads on different pages.
+Author: Purushottam Kumar Sinha
+*/
+class TricycleAdManagement 
+{
+    var $wpdb;
+    var $upload_dir;
+    var $upload_baseurl;
+    var $homepage_ad_option_key;
+
+    /**
+     * This is a constructor which initializes some variables.
+     * @global object $wpdb Wordpress db object
+     */
+    function __construct()
+    {
+        global $wpdb;
+        $this->wpdb = $wpdb;
+        $this->plugin_url = get_bloginfo('url')."/wp-admin/admin.php?page=ad-management/ad-management.php";
+
+        $this->upload_dir = wp_upload_dir();
+        $this->upload_baseurl = $this->upload_dir['baseurl'];
+        
+        $this->homepage_ad_option_key = "homepage_ad_option_key";
+    }
+    
+    /**
+     * This function is used to take some actions while activating the plugin.
+     */
+    function activate_plugin()
+    {
+        /*Write the code what do want to do when the plugin will be activated*/
+    }
+
+    /**
+     * This function is used to take some actions while deactivating the plugin.
+     */
+    function deactivate_plugin()
+    {
+        /*Write the code what do want to do when the plugin will be deactivated*/
+    }
+
+    /**
+     * This function is used to return the message in formatted pattern.
+     * @param string $message
+     * @return string
+     */
+    function message($message)
+    {
+        $msg  = '<div id = "message" class = "updated" style = "background-color : rgb(255, 251, 204);">';
+        $msg .= '<a title="Close" href="javascript:void(0);" onclick="jQuery(\'#message\').hide();">X</a>';
+        $msg .= '<p><strong>'.$message.'</strong></p>';
+        $msg .= '</div>';
+        return $msg;
+    }
+
+    /**
+     * This function creates the menu of the plugin.
+     */
+    function create_menu()
+    {
+       add_menu_page('Ad Management','Ad Management','level_7',__FILE__,array(&$this,'edit_content'));
+       add_submenu_page(__FILE__, __('Ad Management','Ad Management'), __('Edit','Ad Management'),'level_7', __FILE__,array(&$this,'edit_content'));
+    }
+    
+    /**
+     * This function shows the editing form.
+     */
+    function edit_content()
+    {
+        echo "<h1><u>Ad Management</u></h1>";
+
+        if($_POST && isset($_POST['action']) && $_POST['action'] == "save_ad")
+        {
+            $home_ad_details = array();
+            if(isset($_POST['home_page_ad_type']) && $_POST['home_page_ad_type'] != "display_nothing")
+            {
+                $home_ad_details['ad_type'] = $_POST['home_page_ad_type'];
+                $home_ad_details['ad_content'] = "";
+                if($_POST['home_page_ad_type'] == "google_dfp")
+                {
+                    $home_ad_details['ad_content'] = trim($_POST['home_page_google_dfp_textarea']);
+                }
+            }
+            else if(isset($_POST['home_page_ad_type']) && $_POST['home_page_ad_type'] = "display_nothing")
+            {
+                $home_ad_details['ad_type'] = $_POST['home_page_ad_type'];
+            }
+            update_option($this->homepage_ad_option_key, json_encode($home_ad_details));
+        }
+        
+        $ad_management_data = $this->get_ad_management_data();
+        $home_ad_data = isset($ad_management_data[$this->homepage_ad_option_key]) ? $ad_management_data[$this->homepage_ad_option_key] : "";
+        $ad_type = "";
+        $ad_content = "";
+        if($home_ad_data)
+        {
+            $ad_type = $home_ad_data->ad_type;
+            $ad_content = $home_ad_data->ad_type == "google_dfp" ? $home_ad_data->ad_content : "";
+        }
+        ?>
+        <style>
+            #message a:link, #message a:visited{
+                display: block;
+                float: right;
+                padding: 1px 3px;      
+                border: 1px solid #000;
+                font-size: 11px;
+                line-height: 13px;
+                margin: 8px 0 0 0;
+                color: #fff;
+                background-color: #464646;    
+            }
+            #message.updated {
+                margin: 5px 0 2px;
+                padding: 0 0.6em;
+            }
+            #message p {
+                margin: 0.5em 0;
+                padding: 6px;
+            }
+            .clear {
+                clear: both;
+            }
+            table.form-table{
+                width: 90%;
+            }
+            table.form-table td, table.form-table th{
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                padding: 5px 5px 5px 5px;
+                vertical-align: top;
+            }
+            table.form-table thead tr th:first-child{
+                width: 10%;
+            }
+            table.form-table thead tr th:nth-child(2){
+                width: 10%;
+            }
+            table.form-table thead tr th:nth-child(3){
+                width: 25%;
+            }
+            table.form-table input[type="submit"]{
+                border: 2px solid #444;
+                padding: 5px 20px 5px 20px;
+                cursor: pointer;
+            }
+            table.form-table textarea {
+                width: 100%;
+                height: 255px;
+            }
+        </style>
+        <script type="text/javascript">
+            jQuery(function(){
+                if(jQuery(".advertisement").is(':checked'))
+                {
+                    show_hide_ad_field_content(jQuery('input.advertisement:checked').val());
+                }
+                
+                jQuery(".advertisement").click(function(){
+                    show_hide_ad_field_content(jQuery('input.advertisement:checked').val());
+                });
+            });
+            
+            function show_hide_ad_field_content(section)
+            {
+                jQuery("#google_dfp_textarea, #newsletter_signup_image, #tricycle_subscribe_module_image").hide();
+                
+                if(section == "google_dfp")
+                {
+                    jQuery("#google_dfp_textarea").show();
+                }
+                else if(section == "newsletter_signup")
+                {
+                    jQuery("#newsletter_signup_image").show();
+                }
+                else if(section == "tricycle_subscribe_module")
+                {
+                    jQuery("#tricycle_subscribe_module_image").show();
+                }
+            }
+        </script>
+        <form action="" method="post">
+            <table class="form-table">
+                <thead>
+                    <tr>
+                        <th>Ad No.</th>
+                        <th>Page</th>
+                        <th>Ad Type</th>
+                        <th>Ad Content</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="height: 270px;">
+                        <td>1.</td>
+                        <td>Home Page</td>
+                        <td>
+                            <label><input type="radio" name="home_page_ad_type" value="google_dfp" class="advertisement" <?php echo ($ad_type == "google_dfp") ? "checked" : "ch"; ?> /> Paid Ad / House ad</label>
+                            <div class="clear"></div>
+                            <label><input type="radio" name="home_page_ad_type" value="newsletter_signup" class="advertisement" <?php echo $ad_type == "newsletter_signup" ? "checked" : ""; ?> /> Newsletter Signup</label>
+                            <div class="clear"></div>
+                            <label><input type="radio" name="home_page_ad_type" value="tricycle_subscribe_module" class="advertisement" <?php echo $ad_type == "tricycle_subscribe_module" ? "checked" : ""; ?> /> Tricycle Subscribe module</label>
+                            <div class="clear"></div>
+                            <label><input type="radio" name="home_page_ad_type" value="display_nothing" class="advertisement" <?php echo $ad_type == "display_nothing" ? "checked" : ""; ?> /> Displaying nothing</label>
+                        </td>
+                        <td>
+                            <textarea name="home_page_google_dfp_textarea" id="google_dfp_textarea" style="display: none;" placeholder="Enter Google Adsense Code"><?php echo $ad_type == "google_dfp" ? $ad_content : ""; ?></textarea>
+                            <img style="display: none;" src="<?php echo plugin_dir_url( __FILE__ ) . 'images/newsletter_signup.png'; ?>" alt="Newsletter Signup" id="newsletter_signup_image" />
+                            <img style="display: none;" src="<?php echo plugin_dir_url( __FILE__ ) . 'images/tricycl_subcribe_module.png'; ?>" alt="Tricycle Subscribe Module" id="tricycle_subscribe_module_image" />
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" style="text-align: center;"><input type="submit" value="Save" /><input type="hidden" value="save_ad" name="action" /></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+        <?php
+    }
+    
+    function get_ad_management_data()
+    {
+        $home_ad_details = get_option($this->homepage_ad_option_key);
+        if($home_ad_details)
+        {
+            return array($this->homepage_ad_option_key =>  json_decode($home_ad_details));
+        }
+        else
+        {
+            return;
+        }
+    }
+}
+
+$objTricycleAdManagement = new TricycleAdManagement();
+if (isset($objTricycleAdManagement))
+{
+    //It calls the function activate_plugin when the plugin got activated
+    register_activation_hook(__FILE__, array(&$objTricycleAdManagement, 'activate_plugin'));
+
+    //It calls the function deactivate_plugin when the plugin got deactivated
+    register_deactivation_hook(__FILE__, array(&$objTricycleAdManagement, 'deactivate_plugin'));
+
+    add_action('admin_menu',array(&$objTricycleAdManagement, 'create_menu'));
+}

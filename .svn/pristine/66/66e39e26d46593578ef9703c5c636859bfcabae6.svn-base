@@ -1,0 +1,136 @@
+// paywall module
+////////////////////////
+%CTA-type {
+
+  h1, p {
+    color: $clr-white !important;
+  }
+
+  h1 {
+    font-weight: bold;
+    font-size: $heading-font-size;
+    margin: $small-spacing / 2 0;
+  }
+
+  p {
+    @extend %article-p;
+    @include media($desktop-up) {
+      line-height: 1.33;
+    }
+  }
+}
+
+.paywall {
+   @include linear-gradient(rgba(255, 255, 255, 0), $clr-white 25%);
+   @include padding(15em 0 $base-spacing);
+   @include position(absolute, null null 0 null);
+ }
+
+.article-main_dharmatalks,
+.article-main_film,
+.article-main_ebooks {
+  .paywall {
+    @include margin(null auto);
+    @include position;
+    @include padding(0 null null);
+    background-image: none;
+    max-width: 50em;
+  }
+}
+
+.article-main_ebooks .paywall {
+  clear: both;
+}
+
+.paywall-body {
+  @extend %CTA-type;
+  @include padding($base-spacing);
+  text-align: center;
+
+  &.trikedaily { background-color:$clr-trikedaily; .button { color:$clr-trikedaily; } }
+  &.magazine { background-color:$clr-magazine; .button { color:$clr-magazine; } }
+  &.dharmatalks { background-color:$clr-dharmatalks; .button { color:$clr-dharmatalks; } }
+  &.filmclub { background-color:$clr-filmclub; .button { color:$clr-filmclub; } }
+  &.filmfestival { background-color:$clr-filmfestival; .button { color:$clr-filmfestival; } }
+  &.ebooks { background-color:$clr-ebooks; .button { color:$clr-ebooks; } }
+
+  .icon {
+    @include size(em(96px) em(50px));
+    display: inline-block;
+  }
+
+  .button, form .button, form a {
+    border: 0;
+  }
+
+  .button {
+    @include transition($base-transition);
+    background-color: $clr-white;
+    color: $clr-red;
+    display: inline-block;
+    // font-size: 1em;
+    letter-spacing: .1em;
+    margin: $small-spacing 0 $base-spacing;
+    padding: $small-spacing $base-spacing $small-spacing - em(2px);
+    text-transform: uppercase;
+
+    &:hover {
+      color: $clr-red;
+    }
+  }
+
+  form {
+    @include media($mobile-to-tablet) {
+      @include margin(null $base-spacing * 2);
+    }
+
+    @include media($desktop-up) {
+      @include span-columns(10 of 12);
+      @include shift;
+    }
+
+    a {
+      clear: both;
+      color: $clr-gray-lite;
+      display: block;
+      font-size: .875em;
+      font-style: italic;
+
+      @include media($desktop-up) {
+        color: $clr-gray-midhi;
+      }
+    }
+
+    a.link:hover {
+      color: $clr-gray-lite;
+    }
+
+    .button {
+      @include media($desktop-up) {
+        @include span-columns(2 of 10);
+        @include omega;
+        @include padding(null 0);
+        @include margin(0 null);
+        border: 1px solid $clr-gray-lite;
+        box-shadow: $base-box-shadow;
+      }
+    }
+  }
+
+  input {
+    @include media($tablet-to-desktop) {
+      @include span-columns(6 of 12);
+      @include omega(2n);
+      // @include margin(null 0);
+      // display: inline-block;
+      // float: left;
+      // width: 50%;
+    }
+
+    @include media($desktop-up) {
+      @include span-columns(4 of 10, block-collapse);
+      border-right: 0;
+      box-shadow: $form-box-shadow, $base-box-shadow;
+    }
+  }
+}

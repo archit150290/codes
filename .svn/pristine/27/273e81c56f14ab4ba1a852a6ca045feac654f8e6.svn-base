@@ -1,0 +1,220 @@
+<?php
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+class options_page {
+    
+    function __construct() {
+        add_action('admin_menu', array($this, 'admin_menu'));
+    }
+
+    function admin_menu() {
+        add_options_page('Page Title', 'Tricycle Settings', 'manage_options', 'options_page_slug', array(
+            $this,
+            'settings_page'
+                )
+        );
+    }
+
+    function settings_page() {
+        
+        $upload_dir = wp_upload_dir();
+        $upload_url = $upload_dir['baseurl'];
+        wp_enqueue_media();
+        
+        
+        if (isset($_REQUEST['submit'])) {
+            
+            $regulator = isset($_REQUEST['film_regulator']) ? $_REQUEST['film_regulator'] : "0";
+            update_option("film_regulator", $regulator);
+            
+            $subscribeheadline = $_REQUEST['subscribeheadline'];
+            update_option("settings-subscribeheadline", $subscribeheadline);
+            
+           
+            $subscribetext = $_REQUEST['subscribetext'];
+            update_option("settings-subscribetext", $subscribetext);
+            
+           
+            if(!empty($_REQUEST['subscribeboxhidden'])){
+            $background_file_url = $_REQUEST['subscribeboxhidden'];
+            $file_array = explode($upload_url, $background_file_url);
+            $subscribeimage = substr($file_array[1], 1);
+            update_option("settings-subscribeimage", $subscribeimage); 
+            }
+            else
+            {
+             update_option("settings-subscribeimage", ""); 
+            }
+                
+            
+           
+            $enewssignupheadline = $_REQUEST['enewssignupheadline'];
+            update_option("settings-enewsheadline", $enewssignupheadline);
+            
+           
+            $enewssignuptext = $_REQUEST['enewssignuptext'];
+            update_option("settings-enewstext", $enewssignuptext);
+            
+            if(!empty($_REQUEST['enewssignupboxhidden'])){
+            $background_file_url1 = $_REQUEST['enewssignupboxhidden'];
+            $file_array1 = explode($upload_url, $background_file_url1);
+            $enewssignupimage = substr($file_array1[1], 1);
+            update_option("settings-enewsimage", $enewssignupimage);
+            }
+            else
+            {
+             update_option("settings-enewsimage", ""); 
+            }
+            
+            
+            $footersubscribeheadline = $_REQUEST['footersubscribeheadline'];
+            update_option("settings-footersubscribeheadline", $footersubscribeheadline);
+            
+            
+            $footersubscribetext = $_REQUEST['footersubscribetext'];
+            update_option("settings-footersubscribetext", $footersubscribetext);
+            
+            
+            $footernewslettertext = $_REQUEST['footernewslettertext'];
+            update_option("settings-footernewslettertext", $footernewslettertext);
+            
+        }
+        
+        $subscribeheadline_key = get_option( 'settings-subscribeheadline' );
+        $subscribetext_key = get_option( 'settings-subscribetext' );
+        $subscribeimage_key = get_option( 'settings-subscribeimage' );
+        if($subscribeimage_key)
+        {
+            $subscriber_image = $upload_url.'/'.$subscribeimage_key;
+        }
+        $enewssignupheadline_key = get_option( 'settings-enewsheadline' );
+        $enewssignuptext_key = get_option( 'settings-enewstext' );
+        $enewssignupimage_key = get_option( 'settings-enewsimage' );
+        if($enewssignupimage_key)
+        {
+            $enewssignupimage = $upload_url.'/'.$enewssignupimage_key;
+        }
+        $footersubscribeheadline_key = get_option( 'settings-footersubscribeheadline' );
+        $footersubscribetext_key = get_option( 'settings-footersubscribetext' );
+        $footernewslettertext_key = get_option( 'settings-footernewslettertext' );
+        
+        ?>
+        <script type="text/javascript">
+        
+            function meta_imagebox(title, inputboxhidden, inputimage)
+            {   
+                var meta_image_frame_settings;
+                meta_image_frame_settings = wp.media.frames.meta_image_frame_settings = wp.media({
+                title: title,
+                button: { text:  title },
+                multiple: false
+                }) 
+                .on('select',function(){
+                var attachment = meta_image_frame_settings.state().get('selection').first().toJSON();
+                jQuery("#"+inputimage).attr('src', attachment.url);
+                //jQuery("#"+removeimage).text("Remove Image");
+                jQuery("#"+inputboxhidden).val(attachment.url); 
+                })
+                meta_image_frame_settings.open();
+            }
+            
+            function removeimage(removetag, getinputbox, getimage)
+            {
+                jQuery("#"+getinputbox).val("");
+                jQuery("#"+getimage).attr('src', "");
+                jQuery("#"+removetag).remove();
+            }
+        
+        </script>
+
+        <div class="wrap"> 
+            <h1>Tricycle Settings</h1>
+            <form action="" method="post">
+                <h3>Please Tick the Checkbox to Switch On/Off Film Festival</h3>
+                <?php $film_regulator = get_option("film_regulator"); ?>
+                <table class="form-table">
+                <tr>
+                    <td><label><input type="checkbox" value="1" name="film_regulator" id="film_regulator" <?php echo ($film_regulator == "1") ? "checked" : ""; ?>  /> Set Film Festival Up</label></td>
+                </tr></table>
+           
+
+      
+                <h3>Subscribe Module</h3>
+                <table class="form-table">
+                <tbody>
+                <tr>
+                <th scope="row"><label for="blogname">Headline</label></th>
+                <td><input type="text" class="regular-text" id="subscribeheadline" name="subscribeheadline" value="<?php echo $subscribeheadline_key;?>"></td>
+                </tr>
+                <tr>
+                <th scope="row"><label for="blogname">Text</label></th>
+                <td><textarea cols="39" id="subscribetext" name="subscribetext"><?php echo $subscribetext_key;?></textarea></td>
+                </tr>
+                <tr>
+                <th scope="row"><label for="blogname">Image</label></th>
+                <input readonly type="hidden" class="regular-text" id="subscribeboxhidden" name="subscribeboxhidden" value="<?php if($subscribeimage_key) { echo $subscriber_image; }?>">
+                <td><img id="subscribeimage" alt="" src="<?php echo $subscriber_image; ?>" width="150px"><input type="button" onclick="meta_imagebox('Subscribe-Module', 'subscribeboxhidden', 'subscribeimage')" class="button button-primary" value="Upload Image"><?php if($subscribeimage_key){?><div><a id="removeimagesubscribe" onclick="removeimage('removeimagesubscribe','subscribeboxhidden', 'subscribeimage')">Remove Image</a></div><?php } ?></td>
+                </tr>
+                </tbody>
+                </table>
+          
+
+       
+                <h3>Enews Signup</h3>
+                <table class="form-table">
+                <tbody>
+                <tr>
+                <th scope="row"><label for="blogname">Headline</label></th>
+                <td><input type="text" class="regular-text" id="enewssignupheadline" name="enewssignupheadline" value="<?php echo $enewssignupheadline_key;?>"></td>
+                </tr>
+                <tr>
+                <th scope="row"><label for="blogname">Text</label></th>
+                <td><textarea cols="39" id="enewssignuptext" name="enewssignuptext"><?php echo $enewssignuptext_key;?></textarea></td>
+                </tr>
+                <tr>
+                <th scope="row"><label for="blogname">Image</label></th>
+                <input type="hidden" class="regular-text" id="enewssignupboxhidden" name="enewssignupboxhidden" value="<?php if($enewssignupimage_key) { echo $enewssignupimage; }?>"> 
+                <td><img id="enewsimage" src="<?php echo $enewssignupimage ;?>" alt="" width="150px"><input type="button" onclick="meta_imagebox('Enews-Signup', 'enewssignupboxhidden','enewsimage')" class="button button-primary" value="Upload Image"><?php if($enewssignupimage_key) { ?><div><a id="removeimageenews" onclick="removeimage('removeimageenews','enewssignupboxhidden', 'enewsimage')">Remove Image</a></div><?php } ?></td>
+                </tr>
+                </tbody>
+                </table>
+                
+                <h3>Footer Subscribe Today</h3>
+                <table class="form-table">
+                <tbody>
+                <tr>
+                <th scope="row"><label for="blogname">Headline</label></th>
+                <td><input type="text" class="regular-text" id="subscribeheadline" name="footersubscribeheadline" value="<?php echo $footersubscribeheadline_key;?>"></td>
+                </tr>
+                <tr>
+                <th scope="row"><label for="blogname">Text</label></th>
+                <td><textarea cols="39" id="footersubscribetext" name="footersubscribetext"><?php echo $footersubscribetext_key;?></textarea></td>
+                </tr>
+                </table>
+                
+                <h3>Footer Weekly Newsletter</h3>
+                <table class="form-table">
+                <tbody>
+                <tr>
+                <th scope="row"><label for="blogname">Headline</label></th>
+                <td><textarea cols="39" id="footernewslettertext" name="footernewslettertext"><?php echo $footernewslettertext_key;?></textarea></td>
+                </tr>
+                
+                </tbody>
+                </table>
+                <p class="submit"> 
+                 <label><input class="button button-primary" type="submit" name="submit" value="Save Changes"></label>
+                </p>
+            </form>
+        </div>
+   
+        <?php
+    }
+
+}
+new options_page;
+?>

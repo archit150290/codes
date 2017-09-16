@@ -1,0 +1,415 @@
+var site_url = window.location.toString();
+var site_q = window.location.search;
+var stitchfixUrl = 'https://www.stitchfix.com/';
+var allowedParams = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_id"];
+var utmToken = '';
+var utmID = '';
+var defaultUtmToken = '68ba126472fa2d9a8bb75a848dbd29cd';
+var timer = 0;
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+function getQueryStr(objParams) {
+    var paramArr = [];
+    if (Object.keys(objParams).length) {
+        for (var x in objParams) {
+            paramArr.push(x + "=" + objParams[x]);
+        }
+    }
+    return paramArr.join("&");
+}
+function getQueryParams(x) {
+    var u = x.split("?");
+    var a = "";
+    if (u.length == 2) {
+        a = u[1];
+        a = a.split('&');
+    }
+    if (a == "")
+        return {};
+    var b = {};
+    for (var i = 0; i < a.length; ++i)
+    {
+        var p = a[i].split('=');
+        if (p.length != 2)
+            continue;
+        p[1] = decodeURIComponent(p[1]).trim();
+        b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+    }
+    return b;
+}
+var delay = (function () {
+    return function (callback, ms) {
+        clearTimeout(timer);
+        timer = setTimeout(callback, ms);
+    };
+})();
+function addQueryToAnchors() {
+    $('a[href*=".stitchfix.com"]').each(function () {
+        var tUrl = $(this).attr("href");
+        tUrl = tUrl.split("?")[0];
+        var isStyleDomain = tUrl.search("style.stitchfix") >= 0 ? true : false;
+
+        var offset = "";
+        if (tUrl.search("#") >= 0) {
+            var tUrls = tUrl.split("#");
+            tUrl = tUrls[0];
+            offset = tUrls.length > 1 ? "#" + tUrls[1] : '#';
+        }
+        var q = site_q;
+        var q_params = getQueryParams(site_q);
+        var q_params_org = $.extend(true, {}, q_params);
+        var ck_params = getCookie("utm_params");
+        ck_params = ck_params != "" ? JSON.parse(ck_params) : {};
+        if (site_q == "" || site_q == "?" || !("utm_campaign" in q_params)) {
+
+            if (Object.keys(ck_params).length) {
+                q_params = $.extend(true, {}, ck_params);
+                delete q_params["utm_id"];
+            }
+        }
+        q_params["utm_source"] = "ampush";
+        if (!isStyleDomain) {
+            q_params["utm_campaign"] = utmToken;
+        } else {
+            q_params["utm_campaign"] = utmID;
+            if ("utm_id" in ck_params && !("utm_campaign" in q_params_org)) {
+                q_params["utm_campaign"] = ck_params["utm_id"];
+            }
+        }
+
+        if (!("utm_medium" in q_params) || q_params["utm_medium"] == "") {
+            q_params["utm_medium"] = 'other';
+        }
+
+        var allowedParams = ["utm_source", "utm_medium", "utm_campaign", "utm_content"];
+        for (var x in q_params) {
+            if ($.inArray(x, allowedParams) < 0) {
+                delete q_params[x];
+            }
+        }
+        q = "?" + getQueryStr(q_params);
+        tUrl = tUrl + q + offset;
+        $(this).attr("href", tUrl);
+    });
+}
+(function ($) {
+    $.QueryString = (function (a) {
+        if (a == "")
+            return {};
+        var b = {};
+        for (var i = 0; i < a.length; ++i)
+        {
+            var p = a[i].split('=');
+            if (p.length != 2)
+                continue;
+            p[1] = decodeURIComponent(p[1]).trim();
+            b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+        }
+        return b;
+    })(window.location.search.substr(1).split('&'))
+})(jQuery);
+
+function isGetStartedVisible() {
+    var viewData = getViewportOffset($(".hero-box .actions a"));
+    return  ("insideViewport" in viewData && viewData.insideViewport == true) ? true : false;
+}
+
+$(document).scroll(function () {
+    var nheight = 30
+    if ($('#top-promo').is(':visible')) {
+        nheight = 350
+    }
+    if (isGetStartedVisible() == true || $('body').offset().top + $(window).scrollTop() < nheight) {
+        $("body").toggleClass("global-nav-fixed", false)
+    } else {
+        $("body").toggleClass("global-nav-fixed", true)
+    }
+
+});
+
+function getViewportOffset($e) {
+    var checkTopPromo = ($("#top-promo").is(":visible") == true) ? $("#top-promo").height() : 0;
+    var $window = $(window), scrollLeft = $window.scrollLeft(), scrollTop = $window.scrollTop() + checkTopPromo, offset = $e.offset(),
+            rect1 = {x1: scrollLeft, y1: scrollTop, x2: scrollLeft + $window.width(), y2: scrollTop + $window.height()},
+    rect2 = {x1: offset.left, y1: offset.top, x2: offset.left + $e.width(), y2: offset.top + $e.height()};
+    return {
+        left: offset.left - scrollLeft,
+        top: offset.top - scrollTop,
+        insideViewport: rect1.x1 < rect2.x2 && rect1.x2 > rect2.x1 && rect1.y1 < rect2.y2 && rect1.y2 > rect2.y1
+    };
+}
+
+
+var apiURL = window.location.host == "localhost" ? "http://localhost:3000/" : "https://ab.ampush.design/";
+var testCases = ["popupform"];
+var testConfig = {};
+var tc = "";
+
+var ABalytics = (function (window, document, undefined) {
+    /* exported ABalytics */
+    // Returns a classic or universal analytics wrapper object
+    this.variantId = 0;
+    this.variantName = "women-a";
+    this.client = "";
+
+    return {
+        changes: [],
+        init: function (config) {
+            var experiment,
+                    variants,
+                    variant,
+                    variantId,
+                    change;
+
+            var r = Math.floor((Math.random() * 100) + 1)
+            this.range = r;
+            this.utm_medium = (typeof $.QueryString['utm_medium'] != 'undefined' && $.QueryString['utm_medium'] != '') ?
+                    $.QueryString['utm_medium'].toLowerCase() : "other";
+
+            if (md.mobile() != null) {
+                if (this.utm_medium == "brand") {
+                    //=====mobile brand 
+                    testConfig = {"s-banner": {"min": 1, "max": 100, "variant_id": 0}};
+                } else {
+                    //=====mobile other 
+                    testConfig = {"s-banner": {"min": 1, "max": 100, "variant_id": 0}};
+                }
+            } else {
+                if (this.utm_medium == "brand") {
+                    //=====desktop brand 
+                    testConfig = {"s-banner": {"min": 1, "max": 100, "variant_id": 0}};
+                } else {
+                    //=====desktop other 
+                    testConfig = {"s-banner": {"min": 1, "max": 100, "variant_id": 0}};
+                }
+            }
+            variantId = getVariant(r, testConfig);
+            console.log(r + "-" + variantId);
+            this.variantId = variantId;
+        },
+        // apply the selected variants for each experiment
+        applyHtml: function () {
+            switch (this.variantId) {
+                case  0:
+                    ABalytics.paintOnLoad("#new_user", function () {
+                        $("input[name='user[client_attributes][shipping_postcode]']").attr('type', 'hidden');
+                        $("input[name='user[client_attributes][shipping_postcode]']").parent().css('display', 'none');
+                        $(document).on("click", ".copy .btn-group", function () {
+                            delay(function () {
+                                $(".rbtn-scale").parent().removeClass("active");
+                                $(".rbtn-scale").prop("checked", false);
+                                $("#new_user .btn-group").parent(".form-group").css("display", "none")
+                                var valueselected = $('.copy .btn-group input:radio:checked').val();
+                                $(".rbtn-scale[value=" + valueselected + "]").parent().addClass("active");
+                                console.log("Value Selected is " + valueselected);
+                                $(".rbtn-scale[value=" + valueselected + "]").prop("checked", true);
+                            }, 500);
+                        })
+                    }, 20);
+                    break;
+            }
+        }
+    };
+})(window, document);
+ABalytics.paintOnLoad = function (selector, myFunction, intervalTime) {
+    var interval = setInterval(function () {
+        if ($(selector).length > 0) {
+            myFunction();
+            clearInterval(interval);
+        }
+    }, intervalTime);
+}
+ABalytics.getQueryString = function (objParams) {
+    var queryParams = [], r = '';
+    if (Object.keys(objParams).length) {
+        for (var x in objParams) {
+            queryParams[queryParams.length] = x + '=' + objParams[x];
+        }
+        r = queryParams.join("&");
+        r = "?" + r;
+    }
+    return r;
+}
+ABalytics.generateToken = function () {
+    var params = ["utm_campaign"];
+    var queryParams = [];
+    for (var x in params) {
+        if (params[x] in $.QueryString) {
+            queryParams[queryParams.length] = params[x] + '=' + $.QueryString[params[x]];
+        }
+    }
+    if (queryParams.length == 0) {
+        var c_params = getCookie("utm_params");
+        if (c_params != "") {
+            params = JSON.parse(c_params);
+            delete params["utm_id"];
+            for (var x in params) {
+                queryParams[queryParams.length] = x + '=' + params[x];
+            }
+        }
+    }
+    if (queryParams.length === 0) {
+        queryParams[0] = 'utm_campaign=' + dfutm_camid;
+    }
+    if (queryParams.length) {
+        var queryStr = queryParams.length ? "?" + queryParams.join("&") : "";
+        var targetURL = apiURL + "utmparams/generate" + queryStr + "&client=" + this.client + "&access_token=b182f027115663f7a5a790b609f61447";
+        var c_params = getCookie("utm_params");
+        c_params = c_params != "" ? JSON.parse(c_params) : {};
+        $.ajax({url: targetURL, "method": "post", success: function (result) {
+                if ("status" in result && result.status == true) {
+                    setUtmParams(result.amp_id);
+                } else {
+                    setUtmParams(defaultUtmToken);
+                }
+            }
+            , error: function (xhr, ajaxOptions, thrownError) {
+                setUtmParams(defaultUtmToken);
+            }
+        });
+    } else {
+        addQueryToAnchors();
+    }
+}
+
+ //====experimenter function
+ABalytics.getExperimenterVariant = function () {
+    var params = ["utm_campaign"];
+    var queryParams = [];
+    var apiUTMcampaign = dfutm_camid;
+    var apiUTMmedium = ABalytics.utm_medium;
+    for (var x in params) {
+        if (params[x] in $.QueryString) {
+            queryParams[queryParams.length] = params[x] + '=' + $.QueryString[params[x]];
+            apiUTMcampaign = $.QueryString[params[x]];
+        }
+    }
+    if (queryParams.length == 0) {
+        var c_params = getCookie("utm_params");
+        if (c_params != "") {
+            params = JSON.parse(c_params);
+            if (params['utm_campaign'] === "") {
+                apiUTMcampaign = params['utm_id'];
+            }
+            delete params["utm_id"];
+            for (var x in params) {
+                queryParams[queryParams.length] = x + '=' + params[x];
+            }
+        }
+    }
+
+    if (queryParams.length === 0) {
+        queryParams[0] = 'utm_campaign=' + dfutm_camid;
+    }
+    if (apiUTMcampaign == "") {
+        apiUTMcampaign = dfutm_camid;
+    }
+    var start_time = 0;
+    var targetURL = "https://api.ampush.us/partners/sfix/experimenter/?utm_campaign=" + apiUTMcampaign + "&utm_medium=" + apiUTMmedium + "&utm_source=ampush";
+    $.ajax({url: targetURL, "method": "get", 
+        beforeSend: function () {
+            start_time = new Date().getTime();
+        },
+        success: function (result) {
+            var request_time = new Date().getTime() - start_time;            
+            ABalytics.updateExperimenterResponse(result, request_time);
+        }, error: function (xhr, ajaxOptions, thrownError) {
+           
+        }
+    });
+};
+
+ABalytics.updateExperimenterResponse = function ( res, request_time) {
+    $.ajax({
+        type: "GET",
+        url: "https://ampush.io/track?TestExperimenterVariant="+ res + "&TestExperimenterResponseTime="+request_time,
+        success: function (data, textStatus, xhr) {
+        },
+        error: function (xhr, status, error) {
+        }
+    });
+};
+
+function setUtmParams(ampUtmToken) {
+    var queryParams = $.QueryString;
+
+    var c_params = getCookie("utm_params");
+    c_params = c_params != "" ? JSON.parse(c_params) : {};
+
+    if ("utm_campaign" in queryParams) {
+        utmID = queryParams['utm_campaign'];
+    } else {
+        if ("utm_id" in c_params) {
+            utmID = c_params["utm_id"];
+        } else {
+            utmID = dfutm_camid;
+        }
+    }
+    queryParams['utm_campaign'] = ampUtmToken;
+    utmToken = ampUtmToken;
+
+    addQueryToAnchors();
+    queryParams['utm_source'] = "ampush";
+
+    delete c_params["utm_id"];
+    for (var x in c_params) {
+        if (!(x in queryParams)) {
+            queryParams[x] = c_params[x];
+        }
+    }
+
+    if (!("utm_medium" in queryParams) || queryParams["utm_medium"] == "") {
+        queryParams["utm_medium"] = 'other';
+    }
+
+    var allowedParams = ["utm_source", "utm_medium", "utm_campaign", "utm_content"];
+    for (var x in queryParams) {
+        if ($.inArray(x, allowedParams) < 0) {
+            delete queryParams[x];
+        }
+    }
+
+    var c_params = $.extend(true, {}, queryParams);
+    c_params["utm_id"] = utmID;
+    document.cookie = "utm_params=" + JSON.stringify(c_params) + ";";
+
+    var url = $("#new_user").attr("action") + ABalytics.getQueryString(queryParams);
+    url = $("#new_user").attr("action").split("?")[0] + ABalytics.getQueryString(queryParams);
+    $("#new_user, #new_user_pop").attr("action", url);
+}
+$(document).ready(function () {
+    ABalytics.generateToken();
+    ABalytics.getExperimenterVariant();
+    $('a').click(function () {
+        var hr = $(this).attr("href");
+        if (hr.search(".stitchfix.com") > 0) {
+            if (hr.search("style.stitchfix.com") < 0) {
+                chReferer();
+            }
+        }
+    });
+});
+/* --------------------------------------------- */
+function getVariant(val, items) {
+    var variant_id = 0;
+    for (var x in items) {
+        if (val <= items[x]["max"] && val >= items[x]["min"]) {
+            variant_id = items[x]["variant_id"];
+            ABalytics.variantName = x;
+            break;
+        }
+    }
+    return variant_id;
+}

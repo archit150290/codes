@@ -1,0 +1,107 @@
+<?php
+if(isset($_POST['action']) && $_POST['action'] == "logout")
+{
+    /*session_start();
+    unset($_SESSION['Cambey_Login']);
+    unset($_SESSION['Cambey_Account']);
+    echo json_encode(array("status"=>"success"));*/
+    setcookie('Cambey_Login', '', time() - 3600, "/", "tricycle.org");
+    setcookie('Cambey_Account', '', time() - 3600, "/", "tricycle.org");
+    echo json_encode(array("status"=>"success"));
+}
+else
+{
+    try {
+        $subscriber_email = $_POST['l_email']; 
+        $subscriber_pass = urlencode($_POST['l_pass']);
+        
+        $url = "https://www.cambeywest.com/api_rest_test/api_rest.svc/GetSubscriberData?pub_acronym=TRI&auth_user=mr39d6pl&auth_pass=44gnjn2aq";
+        $url .= "&subscriber_email=".$subscriber_email;
+        $url .= "&subscriber_pass=".$subscriber_pass;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($ch);
+        $result1 = json_decode($result);
+        curl_close($ch);
+        $name = "";
+        $login = 0;
+        $error = "";
+        $email = "";
+
+        if($result1)
+        {
+            foreach($result1 as $key => $res)
+            {
+                if($key == "d")
+                {
+                    $xml_array = array(simplexml_load_string($res->d, 'SimpleXMLElement', LIBXML_NOCDATA));
+                    if(strtolower($xml_array[0]->SubscriberData->result) == "true" && trim($xml_array[0]->SubscriberData->frienderrormsg) == "")
+                    {
+                        $login = 1;
+                        $name = $xml_array[0]->SubscriberData->f_name." ".$xml_array[0]->SubscriberData->l_name;
+                        $accNo = $xml_array[0]->SubscriberData->acctno;
+                        /*session_start();
+                        $_SESSION['Cambey_Login'] = $name;
+                        $_SESSION['Cambey_Account'] = (int)$accNo;
+                        $_SESSION['password'] = $password;*/
+                    }
+                    else
+                    {
+                        if($xml_array[0]->SubscriberData->frienderrormsg)
+                        {
+                            $error = trim($xml_array[0]->SubscriberData->frienderrormsg); //$xml_array[0]->SubscriberData->error;
+
+                            if($xml_array[0]->SubscriberData->friendcorrectiveaction)
+                            {
+                                $error .= "<br/>";
+                                if($xml_array[0]->SubscriberData->friendhttp)
+                                {
+                                    $error_text = trim($xml_array[0]->SubscriberData->friendcorrectiveaction);
+                                    $error_link_text = everything_in_tags(trim($xml_array[0]->SubscriberData->friendcorrectiveaction), "b");
+                                    $error_link = "<a href='".trim($xml_array[0]->SubscriberData->friendhttp)."' target='_blank'>".$error_link_text."</a>";
+                                    $error_text = str_replace($error_link_text, $error_link, $error_text);
+                                    $error .= $error_text;
+                                }
+                                else
+                                {
+                                    $error .= trim($xml_array[0]->SubscriberData->friendcorrectiveaction);
+                                }
+                            }
+                        }
+                        else if(strtolower($xml_array[0]->result) == "false")
+                        {
+                            $frienderrormsg = $xml_array[0]->frienderrormsg;
+                            $friendcorrectiveaction = $xml_array[0]->friendcorrectiveaction;
+                            $error .= $frienderrormsg."<br/>".$friendcorrectiveaction;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+        else
+        {
+            $error .= "There is a problem while getting the information.<br/>Please try again.";
+        }
+        
+        if($login)
+        {
+            echo json_encode(array("status"=>"success", "name"=>$name, "accountNo"=> (int)$accNo));
+        }
+        else
+        {
+            echo json_encode(array("status"=>"fail", "message"=>$error));
+        }
+    } catch (Exception $ex) {
+        echo json_encode(array("status"=>"fail"));
+    }
+}
+die;
+
+function everything_in_tags($string, $tagname)
+{
+    $pattern = "#<\s*?$tagname\b[^>]*>(.*?)</$tagname\b[^>]*>#s";
+    preg_match($pattern, $string, $matches);
+    return $matches[1];
+}

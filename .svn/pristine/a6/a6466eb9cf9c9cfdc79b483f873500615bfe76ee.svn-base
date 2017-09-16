@@ -1,0 +1,60 @@
+%video-figure {
+  @include position;
+  cursor: pointer;
+
+  .icon-video_play {
+    @include position;
+    width: 100%;
+    z-index: 1;
+  }
+
+  img {
+    @include position(absolute, 0 0 null null);
+    max-height: 27em;
+  }
+
+  path {
+    @include transition($base-transition);
+  }
+
+  #video-fill {
+    opacity: .4;
+  }
+}
+
+%video-figure_small {
+  @extend %video-figure;
+
+  svg {
+    @include size(2.5rem);
+    bottom: $base-spacing;
+    left: $base-spacing;
+    top: auto;
+  }
+}
+
+%video {
+
+  figure {
+    @extend %video-figure;
+
+    svg {
+      @include svg-embed(3.75rem);
+    }
+  }
+
+  .video-wrapper {
+    display: none;
+    height: 0;
+    overflow: hidden;
+    padding-bottom: 56.25%; // For ratio 16:9. 75% if ratio is 4:3
+    position: relative;
+
+    embed,
+    object,
+    iframe {
+      @include position(absolute, 0 null null 0);
+      @include size(100%);
+    }
+  }
+}

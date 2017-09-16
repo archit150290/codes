@@ -1,0 +1,119 @@
+// base stack, non responsive
+%stack {
+  @extend %base-module;
+
+  article {
+    @extend %card;
+    padding-bottom: $base-spacing;
+
+    section {
+      @include padding(null $base-spacing);
+    }
+
+    img, .icon-video_play {
+      display: block;
+      height: 12em;
+      object-fit: cover;
+      width: 100%;
+
+
+      @include media($mobile-to-tablet) {
+        height: 16em;
+      }
+
+      @include media($tablet-to-desktop) {
+        height: 10em;
+      }
+      
+
+    }
+  }
+
+  a {
+    color: inherit;
+  }
+
+  .rubric {
+    margin-top: $base-spacing;
+
+    @include media($tablet-down) {
+      &:first-child {
+        padding-top: $base-spacing;
+      }
+    }
+  }
+
+  .topic {
+    color: $clr-gray-midhi;
+    display: block;
+  }
+
+  article p {
+    @include media($desktop-up) {
+      font-size: 1.25em;
+    }
+  }
+}
+
+// desktop-up each article is one row w/ 3 columns:
+// rubric, image, titles
+%stack-rows {
+  @include media($tablet-up) {
+
+    article {
+      @include clearfix;
+      @include fill-parent;
+      @include padding(null $small-spacing);
+      @include omega(auto);
+      min-height: 10em;
+    }
+
+    figure {
+      @include margin($base-spacing null null);
+      @include span-columns(3);
+    }
+
+    article section {
+      @include padding(null 0);
+    }
+
+    .rubric {
+      @include span-columns(3);
+      padding-top: $small-spacing;
+
+      &.trikedaily { border-top: 2px solid $clr-trikedaily; }
+      &.ebooks { border-top: 2px solid $clr-ebooks; }
+      &.filmclub { border-top: 2px solid $clr-filmclub; }
+      &.magazine { border-top: 2px solid $clr-magazine; }
+      &.dharmatalks { border-top: 2px solid $clr-dharmatalks; }
+    }
+
+    .titles {
+      @include padding($base-spacing $small-spacing null null);
+      @include span-columns(6);
+    }
+
+    .topic {
+      padding-top: $small-spacing;
+    }
+  }
+
+  @include media($wide-up) {
+
+    article h1 {
+      font-size: 2em;
+    }
+
+    article p {
+      font-size: 1.25em;
+    }
+
+    .rubric {
+      @include span-columns(2)
+    }
+
+    .titles {
+      @include span-columns(7)
+    }
+  }
+}

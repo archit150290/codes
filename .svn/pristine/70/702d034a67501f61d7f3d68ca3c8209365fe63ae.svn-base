@@ -1,0 +1,227 @@
+<?php get_header(); ?>
+
+<?php
+$postId = get_the_ID();
+$topics = get_topics_by_post_id($postId);
+$topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+$objPost = get_post($postId);
+
+/* call setPostView() function for increasing view counter of the post */
+setPostViews($postId);
+$ebooksmeta =  get_post_meta(get_the_ID());
+			//					pr($ebooksmeta);
+?>
+        <!-- start content -->
+		<div class='wrap_outer_base'>
+
+			<!-- start ebooks article marquee/slider -->
+			<div class='landing-marquee ebooks'>
+				<header class='rubric_top'>
+						<h1><span class='icon icon-dept_ebooks'></span>E-Books</h1>
+						<p>Tricycle wisdom in e-book format</p>
+						<a class='button' href='<?php echo get_post_type_archive_link(EBOOKS_POST_TYPE); ?>'>E-Library</a>
+				</header>
+
+				<main class='slider'>
+					<div class='rule'></div>
+                                    <?php
+                                    
+                                                $btnNextdisable = "";
+                                                $btnPredisable = "";
+                                                $rel="";
+                                                $next_post = get_next_post();
+                                                
+                                                $nextpostLink = "";
+                                                $prepostLink = "";
+                                                
+                                                
+                                                if(empty($next_post)){
+                                                    $btnNextdisable = "arrow-off";
+                                                }else{
+                                                    $nextpostLink =  get_permalink($next_post->ID);
+                                                }
+                                                
+                                                $prev_post = get_previous_post();
+                                                if(empty($prev_post)){
+                                                    $btnPredisable = "arrow-off";
+                                                }else{
+                                                    $prepostLink =  get_permalink($prev_post->ID);
+                                                }
+                                    ?>
+					<div class='slider-next <?php echo $btnNextdisable; ?>'>
+						<button class='icon-arrow_left' type='button' onclick='javascript:navigate_posts("<?php echo $nextpostLink; ?>");' data-grunticon-embed></button>
+					</div>
+
+					<figure class='slider-cover'>
+						<?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,75vw'); ?>
+					</figure>
+
+					<div class='slider-prev <?php echo $btnPredisable; ?>'>
+						<button class='icon-arrow_right' onclick='javascript:navigate_posts("<?php echo $prepostLink; ?>")' type='button' data-grunticon-embed></button>
+					</div>
+
+					<header class='slider-date'>
+						<h2 class='topic'><?php echo $topic_urls; ?></h2>
+						<h1><?php the_title(); ?></h1>
+					</header>
+
+					<!-- <div class='more ebooks'>
+						<a class='button' href='#'>Download</a>
+					</div> -->
+                                        <?php
+                                                $upload_dir = wp_upload_dir();
+                                                $uploadDirectory = $upload_dir['basedir']."/";
+                                        ?> 
+                                        <?php
+                                                $downloadPDF  =  get_post_meta(get_the_ID() ,'meta_keyebook_file_pdf',true);
+                                                $downloadEPUB =  get_post_meta(get_the_ID() ,'meta_keyebook_file_epub',true); 
+                                                $downloadMOBI  =  get_post_meta(get_the_ID() ,'meta_keyebook_file_mobi',true);
+                                        
+					 
+                                                if($downloadPDF!="" || $downloadEPUB!="" || $downloadMOBI){
+                                        ?>
+							<div class='dropdown more ebooks'>
+							  <div class='dropdown-container'>
+							    <p class='button dropdown-button'>Download</p>
+							    <ul class='dropdown-menu dropdown-select'>
+								
+								<?php if($downloadEPUB!=""){ ?>
+								    <li><a href='<?php echo get_site_url(); ?>/download.php?file=<?php echo $uploadDirectory.$downloadEPUB; ?>'>epub</a></li>
+								<?php } ?>
+								<?php if($downloadMOBI!=""){ ?>
+								    <li><a href='<?php echo get_site_url(); ?>/download.php?file=<?php echo $uploadDirectory.$downloadMOBI; ?>'>mobi</a></li>
+							      <?php } ?>
+							      <?php if($downloadPDF!=""){ ?>
+								    <li><a href='<?php echo get_site_url(); ?>/download.php?file=<?php echo urlencode($uploadDirectory.$downloadPDF); ?>'>pdf</a></li>
+							      <?php } ?>
+							    
+							    </ul>
+							  </div>
+							</div>
+                                        <?php 	} ?>
+					
+
+				</main>
+			</div>
+			<!-- end ebooks article marquee/slider -->
+
+			<main class='wrap_base'>
+
+				<!-- start article -->
+				<article class='article_ebooks ebooks'>
+					<!-- start article body -->
+					<main class='article-main_ebooks'>
+
+						<?php get_tool_tip_sharethis(get_the_title(), get_permalink()); ?>
+
+						<section class='article-body'>
+							<?php echo $objPost->post_content; ?>
+						</section>
+
+							<?php
+								$ebooksmeta =  get_post_meta(get_the_ID());
+								//pr($ebooksmeta);
+								$metaData = array();
+								$i=$j= 1;
+								
+								foreach($ebooksmeta as $metakey=>$value)
+								{
+									$metakey_titlekey = "";
+									$metakey_bylinekey = "";
+									
+									if(strstr($metakey,"ebooks_toc_title_")){
+										$metakey_title = explode("ebooks_toc_title_",$metakey);										
+										$metakey_titlekey = $metakey_title[1];
+										$metaData[$i]['toc_title'] = $value[0];
+										$i++;
+									}
+									
+									if(strstr($metakey, "ebooks_toc_byline_")){
+										$metakey_byline = explode("ebooks_toc_byline_",$metakey);
+										$metakey_bylinekey = $metakey_byline[1];
+										$metaData[$j]['toc_byline'] = $value[0];
+										$j++;
+									}
+									
+								}								
+								
+							if(!empty($metaData))
+							{
+							?>
+								<section class='article_ebooks-contents'>
+									<h1 class='h2'>Table of Contents</h1>
+								<ol>
+									<?php 	
+									foreach($metaData as $metaDataContent){
+										
+										if($metaDataContent['toc_title']!=""){
+										?>
+											<li>
+												<h1><?php echo $metaDataContent['toc_title']; ?></h1><address><?php echo $metaDataContent['toc_byline']; ?></address>
+											</li>
+										<?php
+										}										
+									}
+									?>
+								</ol>
+									<div class='rule'></div>
+								</section>
+							
+							<?php
+							}
+							?>
+
+							
+
+						<section class='article-body article_ebooks-boilerplate'>
+							<?php echo get_option( "ebook_content_option_key"); ?> 
+						</section>
+
+						<?php
+							if(!$paywall_login)
+							{ 
+								get_paywall_login('ebooks','TK e-books paywall copy!'); 
+							}
+						?> 
+							<?php
+								$ebooks_tags_array = wp_get_post_tags(get_the_ID());
+								if(!empty($ebooks_tags_array)){
+							?>
+									<div class='article-bottom-matter'>
+									    <section class='article-tags'>
+										    <ul>
+											    <?php foreach($ebooks_tags_array as $tags){ ?>
+												    <li><p class='tag'><a href='<?php echo get_tag_link($tags->term_id); ?>'><?php echo ucfirst($tags->name); ?></a></p></li>
+											    <?php } ?>
+											    
+										    </ul>
+									    </section>
+									</div>
+							
+							<?php } ?>
+						
+					</main>
+				</article>
+
+			</main>
+			<!-- end article wrap -->
+
+			<aside>
+				<div class='aside-depts'>
+					<!-- start aside Film Club -->
+						<?php show_latest_filmclub(); ?>
+					<!-- end aside Film Club -->
+
+					<!-- start aside dharma talks -->
+						<?php show_latest_dharma_talks(); ?>
+					<!-- end aside dharma talks -->
+
+					<!-- start aside magazine -->
+						<?php show_latest_magazine_article(); ?>
+					<!-- end aside magazine -->
+				</div>
+
+				<div class='rule'></div>
+
+				
+<?php get_footer(); ?>

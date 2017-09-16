@@ -1,0 +1,106 @@
+footer {
+  @extend %base-module;
+  @extend %page-frame;
+  @extend %nav-drawer-type;
+  @include clearfix;
+  @include padding(null 0 $base-spacing);
+  box-shadow: $nav-shadow;
+
+  nav {
+    margin: 0 auto;
+    max-width: $max-width;
+  }
+
+  .logo {
+    float: left;
+  }
+
+  .icon-logo {
+    @extend %logo;
+    @include size($header-logo-width-mobile + 1.5em 4em);
+    border: 0;
+
+    @include media($tablet-up) {
+      background-size: $header-logo-width-tablet;
+      width: $header-logo-width-tablet + 1.5em;
+    }
+
+    @include media($desktop-up) {
+      @include margin(null 1.2rem);
+      background-position: 0;
+      height: 5em;
+    }
+
+    &:hover {
+      background-color: inherit;
+    }
+  }
+
+  .icon-facebook,
+  .icon-twitter {
+    @include size(2em 2.5em);
+    margin: $padding-vert 0;
+}
+
+  .icon-facebook {
+    margin-left: $small-spacing;
+  }
+}
+
+.footer-social {
+  @extend %nav-social;
+  float: right;
+
+  @include media($desktop-up) {
+    @include margin($small-spacing $small-spacing null null)
+  }
+}
+
+.footer-links {
+  @include clearfix;
+  clear: both;
+
+  @include media($desktop-up) {
+    border-bottom: 1px solid $clr-gray-lite;
+    margin: 0 1.2rem;
+  }
+}
+
+.footer-link {
+  @include media($desktop-up) {
+    float: left;
+
+    a {
+      @include padding(null $base-spacing null 0);
+      border: 0;
+      font-size: 1em;
+
+      &:hover {
+        background-color: inherit;
+      }
+    }
+  }
+}
+
+.footer-fine-print {
+  @include media($desktop-up) {
+    float: left;
+    line-height: 2em;
+  }
+
+  p {
+    font-size: .75em;
+    font-style: normal;
+
+    @include media($desktop-up) {
+      @include margin(0 1.2rem);
+    }
+  }
+
+  a {
+    display: inline;
+    font: inherit;
+    font-size: inherit;
+    padding: 0;
+  }
+}

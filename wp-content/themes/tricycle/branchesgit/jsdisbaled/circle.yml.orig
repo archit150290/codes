@@ -1,0 +1,29 @@
+general:
+  build_dir: style.stitchfix.com
+
+machine:
+  node:
+    version: 4.4.5
+
+dependencies:
+  pre:
+    - npm install -g karma-cli
+<<<<<<< HEAD
+
+test:
+  override:
+    - karma start karma.conf.js --single-run
+=======
+    - npm install -g phantomjs
+    - npm install
+
+  post:
+    - npm install -g casperjs
+    - casperjs test/getlinks.js
+
+test:
+   override:
+    - karma start karma.conf.js --single-run
+    - casperjs test test/404check.spec.js
+
+>>>>>>> fcc56cf79336b67194dbc686926e7b97f40b5902

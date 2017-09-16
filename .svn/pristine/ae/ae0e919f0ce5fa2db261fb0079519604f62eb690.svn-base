@@ -1,0 +1,988 @@
+<?php
+define("MAGAZINE_ISSUE_TAXONOMY", "magazine-issue");
+define("ARTICLE_POST_TYPE", "article");
+define("ARTICLE_POST_CATEGORY_TAXONOMY", "article-category");
+define("DEFAULT_ARTICLE_CATEGORY_TAXONOMY_TERM_SLUG", "columns");
+define("DEFAULT_ARTICLE_CATEGORY_TAXONOMY_TERM_NAME", "Columns");
+
+/**
+ * This function is used to create custom taxonomy "magazine-issue" and "topic".
+ */
+function custom_post_type_and_taxonomy_init()
+{
+    //Magazine Issue taxonomy starts here
+    $magazine_issue_taxonomy_labels = array(
+        'name'              => _x( 'Magazine Issues', 'taxonomy general name' ),
+        'singular_name'     => _x( 'Magazine Issue', 'taxonomy singular name' ),
+        'search_items'      => __( 'Search Magazine Issue' ),
+        'all_items'         => __( 'All Magazine Issues' ),
+        'parent_item'       => __( 'Parent Magazine Issue' ),
+        'parent_item_colon' => __( 'Parent Magazine Issue:' ),
+        'edit_item'         => __( 'Edit Magazine Issue' ),
+        'update_item'       => __( 'Update Magazine Issue' ),
+        'add_new_item'      => __( 'Add New Issue' ),
+        'new_item_name'     => __( 'New Magazine Issue Name' ),
+        'menu_name'         => __( 'Issues' ),
+        'choose_from_most_used' => 'Choose from the most used issues',
+        'separate_items_with_commas' => 'Separate issues with commas',
+        'not_found'         => 'No issues found.'
+    );
+
+    $magazine_issue_taxonomy_args = array(
+        'hierarchical'      => false,
+        'labels'            => $magazine_issue_taxonomy_labels,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array('slug' => "magazine-issue")
+        
+    );
+   
+    register_taxonomy(MAGAZINE_ISSUE_TAXONOMY, array(ARTICLE_POST_TYPE), $magazine_issue_taxonomy_args);
+    //Magazine Issue taxonomy ends here
+    
+    //Article post type starts here
+    $labels = array(
+        'name'               => _x( 'Articles', 'post type general name', 'your-plugin-textdomain' ),
+        'singular_name'      => _x( 'Article', 'post type singular name', 'your-plugin-textdomain' ),
+        'menu_name'          => _x( 'Magazine', 'admin menu', 'your-plugin-textdomain' ),
+        'name_admin_bar'     => _x( 'Article', 'add new on admin bar', 'your-plugin-textdomain' ),
+        'add_new'            => _x( 'Add New', 'article', 'your-plugin-textdomain' ),
+        'add_new_item'       => __( 'Add New Article', 'your-plugin-textdomain' ),
+        'new_item'           => __( 'New Article', 'your-plugin-textdomain' ),
+        'edit_item'          => __( 'Edit Article', 'your-plugin-textdomain' ),
+        'view_item'          => __( 'View Article', 'your-plugin-textdomain' ),
+        'all_items'          => __( 'All Articles', 'your-plugin-textdomain' ),
+        'search_items'       => __( 'Search Articles', 'your-plugin-textdomain' ),
+        'parent_item_colon'  => __( 'Parent Articles:', 'your-plugin-textdomain' ),
+        'not_found'          => __( 'No articles found.', 'your-plugin-textdomain' ),
+        'not_found_in_trash' => __( 'No articles found in Trash.', 'your-plugin-textdomain' )
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'rewrite'            => array( 'slug' => ARTICLE_POST_TYPE."/%".ARTICLE_POST_CATEGORY_TAXONOMY."%", 'with_front' => false ),
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_position'      => null,
+        'supports'           => array('title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments'),
+        'taxonomies' => array('post_tag'),
+        'register_meta_box_cb' => 'add_article_meta_boxes'
+    );
+
+    register_post_type( ARTICLE_POST_TYPE, $args );
+    //Article post type starts here
+    
+    //Article category taxonomy starts here    
+    $article_category_labels = array(
+        'name'              => _x( 'Article Categories', 'taxonomy general name' ),
+        'singular_name'     => _x( 'Article Category', 'taxonomy singular name' ),
+        'search_items'      => __( 'Search Article Category' ),
+        'all_items'         => __( 'All Categories' ),
+        'parent_item'       => __( 'Parent Article Category' ),
+        'parent_item_colon' => __( 'Parent Article Category:' ),
+        'edit_item'         => __( 'Edit Article Category' ),
+        'update_item'       => __( 'Update Article Category' ),
+        'add_new_item'      => __( 'Add New Category' ),
+        'new_item_name'     => __( 'New Article Category Name' ),
+        'menu_name'         => __( 'Categories' ),
+        'choose_from_most_used' => 'Choose from the most used categories',
+        'separate_items_with_commas' => 'Separate issues with commas',
+        'not_found'         => 'No issues found.'
+    );
+
+    $article_category_args = array(
+        'hierarchical'      => true,
+        'labels'            => $article_category_labels,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array('slug' => ARTICLE_POST_CATEGORY_TAXONOMY)        
+    );
+   
+    register_taxonomy(ARTICLE_POST_CATEGORY_TAXONOMY, array(ARTICLE_POST_TYPE), $article_category_args);
+    //Article category taxonomy ends here
+    
+    $parent_term = term_exists(DEFAULT_ARTICLE_CATEGORY_TAXONOMY_TERM_NAME, ARTICLE_POST_CATEGORY_TAXONOMY); // array is returned if taxonomy is given
+    if(!$parent_term)
+    {
+        $parent_term_id = $parent_term['term_id']; // get numeric term id
+        wp_insert_term(
+            DEFAULT_ARTICLE_CATEGORY_TAXONOMY_TERM_NAME, // the term 
+            ARTICLE_POST_CATEGORY_TAXONOMY, // the taxonomy
+            array('slug' => DEFAULT_ARTICLE_CATEGORY_TAXONOMY_TERM_SLUG)
+        );
+    }
+    
+    //Topic taxonomy starts here
+    $topic_taxonomy_labels = array(
+        'name'              => _x( 'Topics', 'taxonomy general name' ),
+        'singular_name'     => _x( 'Topic', 'taxonomy singular name' ),
+        'search_items'      => __( 'Search Topic' ),
+        'all_items'         => __( 'All Topics' ),
+        'parent_item'       => __( 'Parent Topic' ),
+        'parent_item_colon' => __( 'Parent Topic:' ),
+        'edit_item'         => __( 'Edit Topic' ),
+        'update_item'       => __( 'Update Topic' ),
+        'add_new_item'      => __( 'Add New Topic' ),
+        'new_item_name'     => __( 'New Topic Name' ),
+        'menu_name'         => __( 'Topics' ),
+        'choose_from_most_used' => 'Choose from the most used topics',
+        'separate_items_with_commas' => 'Separate topics with commas',
+        'not_found'         => 'No topics found.'
+    );
+
+    $topic_taxonomy_args = array(
+        'hierarchical'      => false,
+        'labels'            => $topic_taxonomy_labels,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array('slug' => "topic")
+        
+    );
+   
+    register_taxonomy(TOPIC_TAXONOMY, array("post", ARTICLE_POST_TYPE), $topic_taxonomy_args);
+    //Topic taxonomy ends here
+    
+    //Film Club post type starts here
+    $film_club_labels = array(
+        'name'               => _x( 'Film Clubs', 'post type general name', 'your-plugin-textdomain' ),
+        'singular_name'      => _x( 'Film Club', 'post type singular name', 'your-plugin-textdomain' ),
+        'menu_name'          => _x( 'Film Clubs', 'admin menu', 'your-plugin-textdomain' ),
+        'name_admin_bar'     => _x( 'Film Club', 'add new on admin bar', 'your-plugin-textdomain' ),
+        'add_new'            => _x( 'Add New', 'film clubs', 'your-plugin-textdomain' ),
+        'add_new_item'       => __( 'Add New Film Club', 'your-plugin-textdomain' ),
+        'new_item'           => __( 'New Film Club', 'your-plugin-textdomain' ),
+        'edit_item'          => __( 'Edit Film Club', 'your-plugin-textdomain' ),
+        'view_item'          => __( 'View Film Club', 'your-plugin-textdomain' ),
+        'all_items'          => __( 'All Film Clubs', 'your-plugin-textdomain' ),
+        'search_items'       => __( 'Search Film Clubs', 'your-plugin-textdomain' ),
+        'parent_item_colon'  => __( 'Parent Film Clubs:', 'your-plugin-textdomain' ),
+        'not_found'          => __( 'No film Clubs found.', 'your-plugin-textdomain' ),
+        'not_found_in_trash' => __( 'No film Clubs found in Trash.', 'your-plugin-textdomain' )
+    );
+
+    $film_club_args = array(
+        'labels'             => $film_club_labels,
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'rewrite'            => array( 'slug' => FILM_CLUB_SLUG, 'with_front' => false ),
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_position'      => null,
+        'supports'           => array('title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments'),
+        'taxonomies' => array('post_tag'),
+        'register_meta_box_cb' => 'add_film_club_meta_boxes'
+    );
+
+    register_post_type( FILM_CLUB_SLUG, $film_club_args );
+    //Film Club post type ends here
+}
+
+/**
+ * This function is used to change the permalink structure of article.
+ * @param type $post_link
+ * @param type $post
+ * @param type $leavename
+ * @param type $sample
+ * @return type
+ */
+function article_category_permalink_structure($post_link, $post, $leavename, $sample) 
+{
+    if (false !== strpos($post_link, '%'.ARTICLE_POST_CATEGORY_TAXONOMY.'%')) 
+    {
+        $article_category_type_term = get_the_terms($post->ID, ARTICLE_POST_CATEGORY_TAXONOMY);
+        if (!empty($article_category_type_term))
+            $post_link = str_replace('%'.ARTICLE_POST_CATEGORY_TAXONOMY.'%', array_pop($article_category_type_term)->slug, $post_link);
+        else
+            $post_link = str_replace('%'.ARTICLE_POST_CATEGORY_TAXONOMY.'%', '', $post_link);
+    }
+    return $post_link;
+}
+
+/**
+ * This filter hook is used to call "article_category_permalink_structure"
+ */
+add_filter('post_type_link', 'article_category_permalink_structure', 10, 4);
+
+/**
+ * This function is used to call the function "move_posteditor_scripts" to move metaboxes.
+ * @param String $hook
+ */
+function move_post_metabox( $hook ) 
+{
+    if($hook == 'post.php' OR $hook == 'post-new.php')
+    {
+        wp_enqueue_script('jquery');
+        add_action('admin_print_footer_scripts', 'move_posteditor_scripts');
+    }
+}
+
+/**
+ * This action hook is used to call "move_post_metabox" function.
+ */
+add_action('admin_enqueue_scripts', 'move_post_metabox', 10, 1);
+
+/**
+ * This function is called from "move_post_metabox" and used to move meta boxes.
+ */
+function move_posteditor_scripts() 
+{
+    ?>
+    <script type="text/javascript">
+        jQuery('#tagsdiv-post_tag').insertAfter('#article-categorydiv' );
+    </script>
+    <?php 
+}
+
+/**
+ * This action hook is used to call the function custom_taxonomy_init().
+ */
+add_action('init', 'custom_post_type_and_taxonomy_init');
+
+/**
+ * This function is used to create a dropdonw of magazine issues in admin section to filter the articles.
+ */
+function magazine_issue_admin_posts_filter_restrict_manage_posts()
+{
+    $type = ARTICLE_POST_TYPE;
+    if(isset($_GET['post_type']))
+    {
+        $type = $_GET['post_type'];
+    }
+    
+    //Only add filter to post type "article"
+    if(ARTICLE_POST_TYPE == $type)
+    {
+        $tax_obj = get_taxonomy(MAGAZINE_ISSUE_TAXONOMY);
+        wp_dropdown_categories(array(
+            'show_option_none'  => 'No Magazine Issue',
+            'option_none_value' => 'none',
+            'show_option_all'   => __('All '.strtolower($tax_obj->label)),
+            'taxonomy'          => MAGAZINE_ISSUE_TAXONOMY,
+            'name'              => $tax_obj->name,
+            'orderby'           => 'id',
+            'order'             => 'DESC',
+            'selected'          => isset($_GET[$tax_obj->query_var]) ? $_GET[$tax_obj->query_var]: '',
+            'hierarchical'      => $tax_obj->hierarchical,
+            'show_count'        => true,
+            'hide_empty'        => false
+        ));
+    }
+}
+
+/**
+ * This action hook is used to call the function magazine_issue_admin_posts_filter_restrict_manage_posts().
+ */
+add_action('restrict_manage_posts', 'magazine_issue_admin_posts_filter_restrict_manage_posts');
+
+/**
+ * This function is used to filter the records on the basis of magazine issue in admin.
+ * @global type $pagenow
+ * @param type $query
+ */
+function magazine_issue_posts_filter($query)
+{
+    global $pagenow;
+    $type = ARTICLE_POST_TYPE;
+    
+    if(isset($_GET['post_type']))
+    {
+        $type = $_GET['post_type'];
+    }
+    
+    if($type == ARTICLE_POST_TYPE && is_admin() && $pagenow=='edit.php' && isset($_GET[MAGAZINE_ISSUE_TAXONOMY]) && $_GET[MAGAZINE_ISSUE_TAXONOMY] != '')
+    {
+        if($_GET[MAGAZINE_ISSUE_TAXONOMY] == 'none')
+        {
+            $var = &$query->query_vars[MAGAZINE_ISSUE_TAXONOMY];
+            $taxonomy_terms = get_terms(MAGAZINE_ISSUE_TAXONOMY, array(
+                'hide_empty' => 0,
+                'fields' => 'ids'
+            ));
+
+            $query->set('tax_query', array(
+                array(
+                    'taxonomy' => MAGAZINE_ISSUE_TAXONOMY,
+                    'field'    => 'id',
+                    'terms'    => $taxonomy_terms,
+                    'operator' => 'NOT IN'
+                )
+            ));
+            $var = '';
+        }
+        else
+        {
+            $var = &$query->query_vars[MAGAZINE_ISSUE_TAXONOMY];
+            if(isset($var) && $var != 0)
+            {
+                $term = get_term_by('id', $var, MAGAZINE_ISSUE_TAXONOMY);
+                $var = $term->slug;
+            }
+        }
+    }
+    
+    if(($type == ARTICLE_POST_TYPE || $type == "post") && is_admin() && $pagenow=='edit.php' && isset($_GET[TOPIC_TAXONOMY]) && $_GET[TOPIC_TAXONOMY] != '')
+    {
+        if($_GET[TOPIC_TAXONOMY] == 'none')
+        {
+            $var1 = &$query->query_vars[TOPIC_TAXONOMY];
+            $taxonomy_terms1 = get_terms(TOPIC_TAXONOMY, array(
+                'hide_empty' => 0,
+                'fields' => 'ids'
+            ));
+
+            $query->set('tax_query', array(
+                array(
+                    'taxonomy' => TOPIC_TAXONOMY,
+                    'field'    => 'id',
+                    'terms'    => $taxonomy_terms1,
+                    'operator' => 'NOT IN'
+                )
+            ));
+            $var1 = '';
+        }
+        else
+        {
+            $var1 = &$query->query_vars[TOPIC_TAXONOMY];
+            if(isset($var1) && $var1 != 0)
+            {
+                $term1 = get_term_by('id', $var1, TOPIC_TAXONOMY);
+                $var1 = $term1->slug;
+            }
+        }
+    }
+}
+
+/**
+ * This filter hook is used to call the function magazine_issue_posts_filter().
+ */
+add_filter('parse_query', 'magazine_issue_posts_filter');
+
+/**
+ * This function is used to create metaboxes for "article" post type. 
+ * This is called from "custom_post_type_and_taxonomy_init".
+ */
+function add_article_meta_boxes()
+{
+    add_meta_box('article_dek_metabox_id', 'Dek', 'add_dek_meta_box', ARTICLE_POST_TYPE, 'normal', 'default');
+    add_meta_box('related_articles_metabox_id', 'Related Articles', 'add_related_articles_meta_box', ARTICLE_POST_TYPE, 'normal', 'default');
+    add_meta_box('home_featured_articles_metabox_id', __('Home Featured Article'), 'add_home_featured_articles_meta_box', ARTICLE_POST_TYPE, 'normal', 'default');
+    add_meta_box('article_layout_metabox_id', 'Layout', 'add_layout_meta_box', ARTICLE_POST_TYPE, 'normal', 'default');
+}
+
+/**
+ * This function adds a meta box of "Dek" and called from "add_article_meta_boxes".
+ * @param Object $post
+ */
+function add_dek_meta_box($post)
+{
+    wp_nonce_field('article_save_meta_box_data', 'article_meta_box_nonce');
+    
+    $article_dek = get_post_meta($post->ID, ARTICLE_DEK_META_KEY, true);
+    ?>
+    <input type="text" name="article_dek" style="width: 100%;" value="<?php echo esc_attr($article_dek); ?>" />
+    <?php
+}
+
+/**
+ * This function is used to show the related articles meta box.
+ * @param type $post
+ */
+function add_related_articles_meta_box($post)
+{
+    $all_articles = new WP_Query(array("post_type"=>ARTICLE_POST_TYPE, "post__not_in"=>array($post->ID)));
+    
+    $related_articles_list = get_related_articles($post->ID);
+    if(!$related_articles_list)
+    {
+        $related_articles_list = array();
+    }
+    ?>
+    <style>
+        #related_article_container {
+            width: 100%; 
+            height: 400px;
+        }
+        #related_article_container .width45{
+            width: 48%;
+            vertical-align: top;
+        }
+        #related_article_container td {
+            border: 1px solid #222;
+        }
+        #related_article_container thead tr {
+            height: 30px;
+        }
+        #related_article_container tbody td p {
+            margin: 0 0 1em 0;
+        }
+        #related_article_container tbody td #all_articles {
+            overflow-x: auto;
+            height: 360px;
+        }
+        
+    </style>
+    
+    <table id="related_article_container">
+        <thead>
+            <tr>
+                <th class="width45">All Articles</th>
+                <th>&nbsp;</th>
+                <th class="width45">Related Articles</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="width45">
+                    <div id="all_articles">
+                        <?php
+                        if($all_articles->have_posts())
+                        {
+                            while($all_articles->have_posts())
+                            {
+                                $all_articles->the_post();
+                                if(in_array(get_the_ID(), $related_articles_list))
+                                {
+                                    $checked = " checked='true' ";
+                                    $disabled = " disabled='true' ";
+                                }
+                                else
+                                {
+                                    $checked = "";
+                                    $disabled = "";
+                                }
+                                ?>
+                                <p>
+                                    <label id="lbl_<?php echo get_the_ID(); ?>"><input type="checkbox" name="article_list[]" value="<?php echo get_the_ID(); ?>" <?php echo $checked.$disabled; ?> /><?php the_title(); ?></label>&nbsp;&nbsp;<?php edit_post_link("Edit"); ?>
+                                </p>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </div>
+                </td>
+                <td>
+                    <input type="button" value=">>" id="add_to_related_list" /><br/><input type="button" value="<<" id="add_to_main_list" />
+                </td>
+                <td class="width45">
+                    <div id="selected_articles"></div>
+                </td>
+            </tr>
+            
+        </tbody>
+    </table>
+    <script type="text/javascript">
+        jQuery(function() {
+            jQuery('#all_articles input:checked').each(function() {
+                var el_id;
+                el_id = jQuery(this).val();
+                jQuery("#lbl_"+el_id).clone().appendTo("#selected_articles").wrap("<p id='rel_"+el_id+"'></p>").attr("id","lbl_related_"+el_id);
+                jQuery("#lbl_related_"+el_id+" input").attr("name", "related_list[]").prop("disabled", false);
+            });
+            
+            jQuery("#add_to_related_list").click(function(){
+                var el_id;
+                if(jQuery("#selected_articles p").length < 2)
+                {
+                    if(jQuery('#all_articles input:checked').length > 2)
+                    {
+                        alert("You have selected more than 2 related articles.");
+                    }
+                    else
+                    {
+                        jQuery('#all_articles input:checked').each(function() {
+
+                            if(!jQuery(this).is(':disabled'))
+                            {
+                                el_id = jQuery(this).val();
+                                jQuery("#lbl_"+el_id).clone().appendTo("#selected_articles").wrap("<p id='rel_"+el_id+"'></p>").attr("id","lbl_related_"+el_id);
+                                jQuery("#lbl_related_"+el_id+" input").attr("name", "related_list[]");
+                                jQuery("#lbl_"+el_id+" input").prop("disabled", true);
+                            }
+
+                        });
+                    }
+                }
+                else
+                {
+                    alert("You have already added 2 related articles.");
+                }
+            });
+            
+            jQuery("#add_to_main_list").click(function(){
+                var el_id;
+                jQuery('#selected_articles input:checked').each(function() {
+                    el_id = jQuery(this).val();
+                    jQuery("#rel_"+el_id).remove();
+                    jQuery("#lbl_"+el_id+" input").prop("disabled", false);
+                });
+            });
+        });
+    </script>
+    <?php
+}
+
+/**
+ * This function is used to show featured articles meta box.
+ * @param type $post
+ */
+function add_home_featured_articles_meta_box($post)
+{
+    $home_featured = get_post_meta($post->ID, HOME_FEATURED_META_KEY, true);
+    ?>
+    <label><input type="checkbox" value="1" name="home_featured" id="home_featured" <?php echo ($home_featured) ? "checked='checked'" : ''; ?> /> Set Home Featured</label>
+    <?php
+}
+
+/**
+ * This function is used to show layout meta box.
+ * @param type $post
+ */
+function add_layout_meta_box($post)
+{
+    $layout = get_post_meta($post->ID, LAYOUT_META_KEY, true);
+    ?>
+    <label style="display: inline-block;">
+        <span style="float: left; padding: 10px;"><input type="radio" value="base" name="layout" <?php echo ($layout == "base") ? "checked='checked'" : ''; ?> <?php echo $default_selected; ?> /> Base</span>
+        <img style="width: 100px;" src="<?php echo get_template_directory_uri(). "/images/base_layout.jpg" ?>" />
+    </label>
+    <label style="display: inline-block;">
+        <span style="float: left; padding: 10px;"><input type="radio" value="hero" name="layout" <?php echo ($layout == "hero") ? "checked='checked'" : ''; ?> /> Hero</span>
+        <img style="width: 100px;" src="<?php echo get_template_directory_uri(). "/images/hero_layout.jpg" ?>" />
+    </label>
+    <?php
+}
+
+/**
+ * This function adds the custom field "Author Credit Line" in User Profile section.
+ * @param array $profile_fields
+ * @return array
+ */
+function add_byline_author_field($profile_fields) 
+{
+    // Field addition and removal will be done here
+    $profile_fields['credit_line'] = 'Credit Line';
+    return $profile_fields;
+}
+
+/**
+ * This action hook calls the function "add_byline_author_field".
+ */
+add_filter('user_contactmethods', 'add_byline_author_field');
+
+/**
+ * This function hides the personal options in User Profile section.
+ */
+function hide_personal_options()
+{
+    echo "\n" . '<script type="text/javascript">jQuery(document).ready(function($) {
+        $(\'form#your-profile > h3:first\').hide();
+        $(\'form#your-profile > table:first\').hide();
+        $(\'form#your-profile\').show();
+ 
+        $(\'label[for=url], input#url\').hide();
+        $("tr.user-credit_line-wrap").insertAfter("tr.user-description-wrap");
+    });
+    </script>' . "\n";
+}
+
+/**
+ * This action hook is used to call "hide_personal_options function".
+ */
+add_action('admin_head', 'hide_personal_options');
+
+/**
+ * Add Photo field in Profile section.
+ */
+function add_custom_user_profile_fields( $user ) 
+{
+    wp_enqueue_media();    
+    $upload_dir = wp_upload_dir();
+    $upload_baseurl = $upload_dir['baseurl'];
+    $profile_image_url = get_user_meta($user->ID, PROFILE_PHOTO_META_KEY, true);
+    ?>
+    <h3>Your Photo</h3>
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            jQuery(document).on('click', '#profile_photo_upload_button', function(e) {
+                var image_src_el = "profile_photo";
+                var background_image_el = "profile_photo_url";
+                e.preventDefault();
+                var custom_uploader = wp.media({
+                    title: 'Profile Photo',
+                    button: {
+                        text: 'Select Photo'
+                    },
+                    multiple: false
+                })
+                .on('select', function() {
+                    var attachment = custom_uploader.state().get('selection').first().toJSON();
+                    jQuery('.'+image_src_el).attr('src', attachment.url).css("display","inline-block");                    
+                    jQuery('.'+background_image_el).val(attachment.url);
+                    jQuery(".remove_profile_photo").show();
+                })
+                .open();
+            });
+        });
+        
+        function remove_profile_photo()
+        {
+            jQuery(".profile_photo").hide().attr("src", "");
+            jQuery(".profile_photo_url").val("");
+            jQuery(".remove_profile_photo").hide();
+        }
+    </script>
+    <table id="custom_user_field_table" class="form-table">
+        <tr id="custom_user_field_row">
+            <th>
+                <label for="specs">Upload Photo</label>
+            </th>
+            <td>
+                <?php
+                if(!empty($profile_image_url))
+                {
+                    ?>
+                    <img class="profile_photo" style="width:150px; float:left; margin: 0px 10px 0px 0px;" src="<?php echo $upload_baseurl.'/'.$profile_image_url; ?>"/>
+                    <input class="profile_photo_url" type="hidden" name="profile_photo_url" value="<?php echo $upload_baseurl.'/'.$profile_image_url; ?>" />
+                    <a href="javascript:void(0);" class="remove_profile_photo" onclick="remove_profile_photo();">Delete Photo</a>
+                    <?php
+                }
+                else
+                {
+                    ?>
+                    <img class="profile_photo" style="width:150px; float:left; margin: 0px 10px 0px 0px; display:none;" />
+                    <input class="profile_photo_url" type="hidden" name="profile_photo_url" />
+                    <a href="javascript:void(0);" class="remove_profile_photo" onclick="remove_profile_photo();" style="display: none;">Delete Photo</a>
+                    <?php
+                }            
+                ?>
+                <input type="button" id="profile_photo_upload_button" value="Upload Photo" />
+            </td>
+        </tr>
+    </table>
+    <?php
+}
+
+/**
+ * This action hook is used to call "add_custom_user_profile_fields".
+ */
+add_action( 'show_user_profile', 'add_custom_user_profile_fields' );
+add_action( 'edit_user_profile', 'add_custom_user_profile_fields' );
+
+/**
+ * This function is used to save "Profile Photo" data.
+ * @param type $user_id
+ */
+function save_custom_user_profile_fields($user_id)
+{
+    if(isset($_POST["profile_photo_url"]))
+    {        
+        $upload_dir = wp_upload_dir();
+        $upload_baseurl = $upload_dir['baseurl'];
+        $background_image_url = $_POST["profile_photo_url"];
+        $photo_array = explode($upload_baseurl, $background_image_url);        
+        $photo = substr($photo_array[1], 1);
+    }
+    else
+    {
+        $photo = '';
+    }
+    update_user_meta($user_id, PROFILE_PHOTO_META_KEY, $photo);
+}
+
+/**
+ * This action hook is used to call "save_custom_user_profile_fields".
+ */
+add_action( 'personal_options_update', 'save_custom_user_profile_fields' );
+add_action( 'edit_user_profile_update', 'save_custom_user_profile_fields' );
+
+/**
+ * A callback function to add a custom field to our "magazine-issue" taxonomy  
+ */
+function magazine_issue_taxonomy_custom_fields($tag) 
+{  
+    // Check for existing taxonomy meta for the term you're editing  
+    $t_id = $tag->term_id; // Get the ID of the term you're editing  
+    $term_meta = get_option( "taxonomy_term_$t_id" ); // Do the check  
+    $magazine_issue_cover_image = $term_meta['cover_image'];
+    
+    wp_enqueue_media();    
+    $upload_dir = wp_upload_dir();
+    $upload_baseurl = $upload_dir['baseurl'];
+    ?>
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            jQuery(document).on('click', '#magazine_issue_cover_image_upload_button', function(e) {
+                var image_src_el = "magazine_issue_cover_image";
+                var background_image_el = "magazine_issue_cover_image_url";
+                e.preventDefault();
+                var custom_uploader = wp.media({
+                    title: 'Magazine Cover Image',
+                    button: {
+                        text: 'Select Image'
+                    },
+                    multiple: false
+                })
+                .on('select', function() {
+                    var attachment = custom_uploader.state().get('selection').first().toJSON();
+                    jQuery('.'+image_src_el).attr('src', attachment.url).css("display","inline-block");                    
+                    jQuery('.'+background_image_el).val(attachment.url);
+                    jQuery(".remove_profile_photo").show();
+                })
+                .open();
+            });
+        });
+        
+        function remove_magazine_issue_cover_image()
+        {
+            jQuery(".magazine_issue_cover_image").hide().attr("src", "");
+            jQuery(".magazine_issue_cover_image_url").val("");
+            jQuery(".remove_magazine_issue_cover_image").hide();
+        }
+    </script>
+    <tr class="form-field">  
+        <th scope="row" valign="top">  
+            <label for="presenter_id"><?php _e('Cover Image'); ?></label>  
+        </th>  
+        <td>  
+            <?php
+                if(!empty($magazine_issue_cover_image))
+                {
+                    ?>
+                    <img class="magazine_issue_cover_image" style="width:150px; float:left; margin: 0px 10px 0px 0px;" src="<?php echo $upload_baseurl.'/'.$magazine_issue_cover_image; ?>"/>
+                    <input class="magazine_issue_cover_image_url" type="hidden" name="term_meta[cover_image]" value="<?php echo $upload_baseurl.'/'.$magazine_issue_cover_image; ?>" />
+                    <a href="javascript:void(0);" class="remove_magazine_issue_cover_image" onclick="remove_magazine_issue_cover_image();">Delete Cover Image</a>
+                    <?php
+                }
+                else
+                {
+                    ?>
+                    <img class="magazine_issue_cover_image" style="width:150px; float:left; margin: 0px 10px 0px 0px; display:none;" />
+                    <input class="magazine_issue_cover_image_url" type="hidden" name="term_meta[cover_image]" />
+                    <a href="javascript:void(0);" class="remove_magazine_issue_cover_image" onclick="remove_magazine_issue_cover_image();" style="display: none;">Delete Cover Image</a>
+                    <?php
+                }            
+                ?>
+                <input type="button" id="magazine_issue_cover_image_upload_button" value="Upload Cover Image" /><br />
+        </td>  
+    </tr>
+    <tr class="form-field">  
+        <th scope="row" valign="top">  
+            <label for="presenter_id"><?php _e('Cover Image Credit'); ?></label>  
+        </th>  
+        <td>  
+            <input type="text" name="term_meta[cover_image_credit]" id="term_meta[cover_image_credit]" size="25" style="width:60%;" value="<?php echo $term_meta['cover_image_credit'] ? $term_meta['cover_image_credit'] : ''; ?>"><br />  
+        </td>  
+    </tr>
+    <?php  
+}  
+
+// Add the fields to the "magazine-issue" taxonomy, using our callback function  
+add_action( 'magazine-issue_edit_form_fields', 'magazine_issue_taxonomy_custom_fields', 10, 2 );  
+
+/**
+ * A callback function to save our extra taxonomy (magazine-issue) field(s)  
+ */
+function save_taxonomy_custom_fields( $term_id ) 
+{
+    if (isset($_POST['term_meta'])) 
+    {  
+        $upload_dir = wp_upload_dir();
+        $upload_baseurl = $upload_dir['baseurl'];
+                    
+        $t_id = $term_id;  
+        $term_meta = get_option( "taxonomy_term_$t_id" );  
+        $cat_keys = array_keys( $_POST['term_meta'] );  
+        foreach ($cat_keys as $key)
+        {  
+            if (isset($_POST['term_meta'][$key]))
+            {  
+                if($key == "cover_image")
+                {
+                    $magazine_issue_cover_image_url = $_POST['term_meta'][$key];
+                    $photo_array = explode($upload_baseurl, $magazine_issue_cover_image_url);        
+                    $photo = substr($photo_array[1], 1);
+                    $term_meta[$key] = $photo;
+                }
+                else
+                {
+                    $term_meta[$key] = $_POST['term_meta'][$key];  
+                }
+            }  
+        }  
+        //save the option array  
+        update_option( "taxonomy_term_$t_id", $term_meta );  
+    }  
+}
+
+/**
+ * Save the changes made on the "magazine-issue" taxonomy, using our callback function  
+ */
+add_action( 'edited_magazine-issue', 'save_taxonomy_custom_fields', 10, 2 );  
+
+/**
+ * This function returns the related articles ids in array.
+ * @param integer $post_id
+ * @return array/null
+ */
+function get_related_articles($post_id)
+{
+    return get_post_meta($post_id, MAGAZINE_RELATED_ARTICLES_META_KEY, true);
+}
+
+/**
+ * When the post is saved, saves our custom data.
+ *
+ * @param int $post_id The ID of the post being saved.
+ */
+function article_save_meta_box_data( $post_id ) 
+{
+    // Check if our nonce is set.
+    if (!isset($_POST['article_meta_box_nonce'])) 
+    {
+        return;
+    }
+
+    // Verify that the nonce is valid.
+    if (!wp_verify_nonce($_POST['article_meta_box_nonce'], 'article_save_meta_box_data'))
+    {
+        return;
+    }
+
+    // If this is an autosave, our form has not been submitted, so we don't want to do anything.
+    if (defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE)
+    {
+        return;
+    }
+
+    // Check the user's permissions.
+    if (!current_user_can('edit_post', $post_id))
+    {
+        return;
+    }
+
+    /* OK, it's safe for us to save the data now. */
+    
+    // Get the terms
+    $terms = wp_get_post_terms($post_id, ARTICLE_POST_CATEGORY_TAXONOMY);
+
+    // Only set default if no terms are set yet
+    if (!$terms) 
+    {
+        // Assign the default category
+        $default_term = get_term_by('slug', 'columns', ARTICLE_POST_CATEGORY_TAXONOMY);
+        wp_set_post_terms($post_id, array($default_term->term_id), ARTICLE_POST_CATEGORY_TAXONOMY);
+    }
+
+    // Sanitize user input.
+    $article_dek_data = sanitize_text_field($_POST['article_dek']);
+
+    // Update the meta field in the database.
+    update_post_meta($post_id, ARTICLE_DEK_META_KEY, $article_dek_data);
+    
+    $related_artiles_list = $_POST['related_list'];
+    update_post_meta($post_id, MAGAZINE_RELATED_ARTICLES_META_KEY, $related_artiles_list);
+    
+    $home_featured_post = isset($_POST['home_featured']) ? $_POST['home_featured'] : "";
+    update_post_meta($post_id, HOME_FEATURED_META_KEY, $home_featured_post);
+    
+    $layout = isset($_POST['layout']) ? $_POST['layout'] : "base";
+    update_post_meta($post_id, LAYOUT_META_KEY, $layout);
+}
+
+/**
+ * This action hook is used to call "article_save_meta_box_data" function.
+ */
+add_action('save_post_'.ARTICLE_POST_TYPE, 'article_save_meta_box_data');
+
+/**
+ * This function is used to create a dropdonw of magazine issues in admin section to filter the articles.
+ */
+function topic_admin_posts_filter_restrict_manage_posts()
+{
+    $type = 'post';
+    if(isset($_GET['post_type']))
+    {
+        $type = $_GET['post_type'];
+    }
+    
+    //Only add filter to post type "post"
+    if('post' == $type || ARTICLE_POST_TYPE == $type)
+    {
+        $tax_obj = get_taxonomy(TOPIC_TAXONOMY);
+        wp_dropdown_categories(array(
+            'show_option_none'  => 'No Topic',
+            'option_none_value' => 'none',
+            'show_option_all'   => __('All '.strtolower($tax_obj->label)),
+            'taxonomy'          => TOPIC_TAXONOMY,
+            'name'              => $tax_obj->name,
+            'orderby'           => 'name',
+            'selected'          => isset($_GET[$tax_obj->query_var]) ? $_GET[$tax_obj->query_var]: '',
+            'hierarchical'      => $tax_obj->hierarchical,
+            'show_count'        => false,
+            'hide_empty'        => false
+        ));
+    }
+}
+
+/**
+ * This action hook is used to call the function topic_admin_posts_filter_restrict_manage_posts().
+ */
+add_action('restrict_manage_posts', 'topic_admin_posts_filter_restrict_manage_posts');
+
+/**
+ * This function returns all the terms of magazines issue taxonomy.
+ * @return Array
+ */
+function get_magazine_issue_terms()
+{
+    $args = array(
+        'orderby'           => 'id', 
+        'order'             => 'DESC',
+        'hide_empty'        => false
+    ); 
+
+    $terms = get_terms(MAGAZINE_ISSUE_TAXONOMY, $args);
+    if($terms)
+    {
+        foreach($terms as $term)
+        {
+            $term->term_url = get_term_link($term, MAGAZINE_ISSUE_TAXONOMY);
+        }
+    }
+    return $terms;
+}
+
+/**
+ * This function returns all the terms of topic taxonomy.
+ * @return Array
+ */
+function get_topic_terms()
+{
+    $args = array(
+        'orderby'           => 'name', 
+        'order'             => 'ASC',
+        'hide_empty'        => false
+    ); 
+
+    $terms = get_terms(TOPIC_TAXONOMY, $args);
+    if($terms)
+    {
+        foreach($terms as $term)
+        {
+            $term->term_url = get_term_link($term, TOPIC_TAXONOMY);
+        }
+    }
+    return $terms;
+}
+?>

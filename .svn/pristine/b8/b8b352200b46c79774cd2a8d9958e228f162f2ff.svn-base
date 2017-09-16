@@ -1,0 +1,168 @@
+<?php
+global $paywall_login;
+session_start();
+if(isset($_SESSION['Cambey_Login']))
+{
+    $paywall_login = 1;
+    $paywall_login_name = $_SESSION['Cambey_Login'];
+    $account_no = $_SESSION['account_no'];
+}
+    else
+{
+    $paywall_login = 0;
+}
+?>
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <meta charset="<?php bloginfo( 'charset' ); ?>">
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
+        <!-- external CSS link -->
+        <link rel='stylesheet' href='<?php echo get_template_directory_uri(); ?>/css/screen.css'>
+        <link rel='stylesheet' href='<?php echo get_stylesheet_directory_uri(); ?>/css/tricycle.css'>
+        <script>
+            /*! grunt-grunticon Stylesheet Loader - v2.1.6 | https://github.com/filamentgroup/grunticon | (c) 2015 Scott Jehl, Filament Group, Inc. | MIT license. */
+            !function(){function e(e,n,t){"use strict";var o=window.document.createElement("link"),r=n||window.document.getElementsByTagName("script")[0],a=window.document.styleSheets;return o.rel="stylesheet",o.href=e,o.media="only x",r.parentNode.insertBefore(o,r),o.onloadcssdefined=function(e){for(var n,t=0;t<a.length;t++)a[t].href&&a[t].href===o.href&&(n=!0);n?e():setTimeout(function(){o.onloadcssdefined(e)})},o.onloadcssdefined(function(){o.media=t||"all"}),o}function n(e,n){e.onload=function(){e.onload=null,n&&n.call(e)},"isApplicationInstalled"in navigator&&"onloadcssdefined"in e&&e.onloadcssdefined(n)}!function(t){var o=function(r,a){"use strict";if(r&&3===r.length){var i=t.navigator,c=t.document,s=t.Image,d=!(!c.createElementNS||!c.createElementNS("http://www.w3.org/2000/svg","svg").createSVGRect||!c.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Image","1.1")||t.opera&&-1===i.userAgent.indexOf("Chrome")||-1!==i.userAgent.indexOf("Series40")),l=new s;l.onerror=function(){o.method="png",o.href=r[2],e(r[2])},l.onload=function(){var t=1===l.width&&1===l.height,i=r[t&&d?0:t?1:2];t&&d?o.method="svg":t?o.method="datapng":o.method="png",o.href=i,n(e(i),a)},l.src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==",c.documentElement.className+=" grunticon"}};o.loadCSS=e,o.onloadCSS=n,t.grunticon=o}(this),function(e,n){"use strict";var t=n.document,o="grunticon:",r=function(e){if(t.attachEvent?"complete"===t.readyState:"loading"!==t.readyState)e();else{var n=!1;t.addEventListener("readystatechange",function(){n||(n=!0,e())},!1)}},a=function(e){return n.document.querySelector('link[href$="'+e+'"]')},i=function(e){var n,t,r,a,i,c,s={};if(n=e.sheet,!n)return s;t=n.cssRules?n.cssRules:n.rules;for(var d=0;d<t.length;d++)r=t[d].cssText,a=o+t[d].selectorText,i=r.split(");")[0].match(/US\-ASCII\,([^"']+)/),i&&i[1]&&(c=decodeURIComponent(i[1]),s[a]=c);return s},c=function(e){var n,r,a,i;a="data-grunticon-embed";for(var c in e){i=c.slice(o.length);try{n=t.querySelectorAll(i)}catch(s){continue}r=[];for(var d=0;d<n.length;d++)null!==n[d].getAttribute(a)&&r.push(n[d]);if(r.length)for(d=0;d<r.length;d++)r[d].innerHTML=e[c],r[d].style.backgroundImage="none",r[d].removeAttribute(a)}return r},s=function(n){"svg"===e.method&&r(function(){c(i(a(e.href))),"function"==typeof n&&n()})};e.embedIcons=c,e.getCSS=a,e.getIcons=i,e.ready=r,e.svgLoadedCallback=s,e.embedSVG=s}(grunticon,this)}();
+            grunticon(["<?php echo get_template_directory_uri(); ?>/images/svg-output/icons.data.svg.css", "<?php echo get_template_directory_uri(); ?>/images/svg-output/icons.data.png.css", "<?php echo get_template_directory_uri(); ?>/images/svg-output/icons.fallback.css"], grunticon.svgLoadedCallback);
+        </script>
+        <noscript><link href="<?php echo get_template_directory_uri(); ?>/images/svg-output/icons.fallback.css" rel="stylesheet"></noscript>
+	<script type='text/javascript'>
+	    /*var googletag = googletag || {};
+	    googletag.cmd = googletag.cmd || [];
+	    (function() {
+	      var gads = document.createElement('script');
+	      gads.async = true;
+	      gads.type = 'text/javascript';
+	      var useSSL = 'https:' == document.location.protocol;
+	      gads.src = (useSSL ? 'https:' : 'http:') +
+		'//www.googletagservices.com/tag/js/gpt.js';
+	      var node = document.getElementsByTagName('script')[0];
+	      node.parentNode.insertBefore(gads, node);
+	    })();*/
+	</script>
+        <?php wp_head(); ?>
+    </head>
+
+    <body>
+        <header role='banner'>
+            <nav class='header header-mobile' role='navigation'>
+		<!-- start header ad -->
+<!--				<div class='header-ad'>
+				    <?php //get_the_ad("header_ad_"); ?>
+				    <div id='div-gpt-ad-1455072820172-0' style='height:50px; width:320px;'>
+					<script type='text/javascript'>
+					googletag.cmd.push(function() { googletag.display('div-gpt-ad-1455072820172-0'); });
+					</script>
+				    </div>
+				</div>-->
+				<!-- end header ad -->
+
+                <ul>
+                    <li class='nav-left icon-nav' role='button' data-grunticon-embed></li>
+                    <li class='nav-left'>
+                        <a class='icon-logo' href='<?php echo site_url("/"); ?>'></a>
+                    </li>
+                    <li class='nav-right'>
+                        <a class='subscribe' href='https://subscribe.tricycle.com/TRI/?f=join' target="blank">Subscribe</a>
+                    </li>
+                    <li class='nav-right icon-search' role='button' data-grunticon-embed></li>
+                    <li class='mobile-search'>
+                        <form role="search" class='search-form' name='search' action="<?php echo site_url()."/searchpage/"; ?>" id="searchform" method="get">				
+				<input placeholder='Search' type='text' id="s" name="q" value="" autocomplete="off">
+				<input name="cx" type="hidden" value="005201521681940513761:vzjqa03hgl8"/>
+				<input name="ie" type="hidden" value="ISO-8859-1"/>
+				<input type="hidden" name="cof" value="FORID:10" />				
+			    <button class='icon-search' name="sa" type='submit' data-grunticon-embed></button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+
+            <nav class='header header-desktop' role='navigation'>
+<!--		<div class='header-ad'>
+		    <?php //get_the_ad("header_ad_"); ?>
+		    <div id='div-gpt-ad-1455072820172-1'>
+			<script type='text/javascript'>
+			googletag.cmd.push(function() { googletag.display('div-gpt-ad-1455072820172-1'); });
+			</script>
+		    </div>
+		</div>-->
+                <ul class='nav'>
+                    <li class='nav-left icon-nav' role='button' data-grunticon-embed></li>
+                    <li class='nav-left'>
+                        <a class='icon-logo' href='<?php echo site_url("/"); ?>'></a>
+                    </li>
+                    <li class='nav-right'>
+                        <ul class='links'>
+                            <li><a class='link' href='https://subscribe.tricycle.com/TRI/?f=donate' target="_blank">Donate</a></li>
+                            <?php
+                            if($paywall_login)
+                            {
+                                ?>
+                                <li><p class='link'><a target="_blank" href="https://subscribe.tricycle.com/TRI/?f=custcare&a=<?php echo $account_no;?>"><?php echo $paywall_login_name; ?></a></p></li>
+                                <li><p class='link logout-link'>Logout</p></li>
+                                <?php
+                            }
+                            else
+                            {
+                                ?>
+                                <li><a class='link' href='https://subscribe.tricycle.com/TRI/?f=join' target="_blank">Link Your Subscription</a></li>
+                                <li><p class='link login-link'>Login</p></li>
+                                <?php
+                            }
+                            ?>
+                            <li><a class='subscribe' href='https://subscribe.tricycle.com/TRI/?f=join' target="_blank">Subscribe</a></li>
+                        </ul>
+                    </li>
+                    <li class='nav-right login'>
+                        <form class='login-form' name='login' id="login" ref="<?php echo get_template_directory_uri(); ?>">
+                            <input class='email l_email' placeholder='Email / Username' type='email' name="l_email" id="l_email">
+                            <input class='pass l_pass' placeholder='Password' type='password' name="l_pass" id="l_pass">
+                            <button class='button login-button' type='submit' id="login-button">Login</button>
+                            <a class='link' target="_blank" href='https://subscribe.tricycle.com/TRI/?f=custreg'>Need help with email or password?</a>
+                        </form>
+                    </li>
+                    <li class='nav-right search'>
+			<form role="search" class='search-form' name='search' action="<?php echo site_url()."/searchpage/"; ?>" id="searchform" method="get">				
+                            <input placeholder='Search' type='text' id="s" name="q" value="" autocomplete="off">
+                            <input name="cx" type="hidden" value="005201521681940513761:vzjqa03hgl8"/>
+                            <input name="ie" type="hidden" value="ISO-8859-1"/>
+                            <input type="hidden" name="cof" value="FORID:10" />				
+			    <button class='icon-search' name="sa" type='submit' data-grunticon-embed></button>
+                        </form>
+			<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+                    </li>
+                </ul>
+            </nav>	    
+	    
+	    <!-- start login modal -->
+	    <div class='login-modal'>
+                <input class='modal-state' id='login-modal-switch' type='checkbox'/>
+                <div class='modal-fade-screen'>
+                    <div class='modal-inner'>
+                        <div class='modal-close' for='login-modal-switch'></div>
+                        <h1>Log In</h1>
+                        <div class='flash-error js_error'></div>
+                        <form class='login-form' name='login' id='login-modal-form' ref="<?php echo get_template_directory_uri(); ?>">
+                            <input class='email l_email' placeholder='Email / Username' type='email' name="l_email" id="l__paywall_email">
+                            <input class='pass l_pass' placeholder='Password' type='password' name="l_pass" id="l_paywall_pass">
+                            <button class='button login-button' type='submit' id='login-modal-submit'>Login</button>
+			    <div id="loadingimage_login" style="display:none;"><img src="<?php echo get_template_directory_uri() . '/images/loader.gif'; ?>"/></div>
+                        </form>
+                        <a class='link' href='https://subscribe.tricycle.com/TRI/?f=custreg' target='_blank'>Need help with email or password?</a>
+                        <a class='link' href='https://subscribe.tricycle.com/TRI/?f=join' target='_blank'>Link your subscription</a>
+                    </div>
+                </div>
+	    </div>
+	    <!-- end login modal -->	    
+	    
+            <script type="text/javascript">
+                var ajax_url = "<?php echo admin_url('admin-ajax.php'); ?>";
+            </script>
+            <!-- including spin load for ajax load more call-->
+            <script src='<?php echo get_template_directory_uri(); ?>/js/spin.js'></script>
+        </header>
+        <!-- end header -->

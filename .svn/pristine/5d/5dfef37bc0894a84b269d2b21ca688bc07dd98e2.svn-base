@@ -1,0 +1,9 @@
+%base-module {
+  @include clearfix;
+  @include margin(0 null);
+  @include padding(null $small-spacing);
+
+  @include media($tablet-up) {
+    @include padding(null $base-spacing);
+  }
+}

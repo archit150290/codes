@@ -1,0 +1,68 @@
+<?php
+/*
+  Template Name:ebooks data
+ */
+?>
+<?php
+$searchYear = $_GET['searchyear'];
+$exist_post_id = $_GET['postid'];
+$postId = json_decode($exist_post_id);
+?>
+
+    <?php
+    $args = array(
+        'posts_per_page' => 3,
+        'orderby' => 'post_date',
+        'post__not_in' => $postId,
+        'order' => 'DESC',
+        'year' => $searchYear,
+        'post_type' => FILM_CLUB_POST_TYPE,
+        'post_status' => 'publish',
+        'suppress_filters' => true
+    );
+
+    $queryfirst = new WP_Query($args);
+    query_posts($queryfirst);
+    $count = 1;
+
+    $i = 1;
+    while ($queryfirst->have_posts()) : $queryfirst->the_post();
+        $postId[] = $queryfirst->post->ID;
+        $count;
+        $topicSet = get_the_terms(get_the_ID(), "topic");
+        $topicName = isset($topicSet[0]) ? $topicSet[0]->name : "";
+        $topicSlug = isset($topicSet[0]) ? $topicSet[0]->slug : "";
+
+        $publish_date = get_the_date('M Y');
+        ?>
+         <div class='archive-item'>
+                    <figure class='archive-cover_filmclub'>
+                        <a href='<?php the_permalink(); ?>'>
+                            <div class="icon-video_play" style="background-image: none; height: 199px;"><svg viewBox="400.5 30.5 60 60" height="60" width="60" xmlns="http://www.w3.org/2000/svg" id="Layer_1"><style> .st0{fill:#129488;} .st1{fill:#FFFFFF;} .st2{fill:#00214A;} .st3{fill:#006D44;} .st4{fill:#6F133B;} .st5{fill:#400F61;}</style><path d="M430.5 89.5c16.02 0 29-12.98 29-29s-12.98-29-29-29-29 12.98-29 29 12.98 29 29 29" id="video-fill"/><path d="M421.83 75.83l24.96-15.33-24.96-15.33z" class="st1" id="video-play"/><path id="video-outline" d="M430.5 90.5c-16.54 0-30-13.46-30-30s13.46-30 30-30 30 13.46 30 30-13.46 30-30 30zm0-57.01c-14.89 0-27.01 12.12-27.01 27.01s12.12 27.01 27.01 27.01 27.01-12.12 27.01-27.01-12.12-27.01-27.01-27.01z" class="st1"/></svg></div>
+                            <?php echo srcset_post_thumbnail(get_the_ID(), 'image', ''); ?>
+                        </a>
+                    </figure>
+
+                    <header class='archive-titles'>
+                        <time><?php echo $publish_date; ?></time>
+                        <h2 class='topic filmclub'><a href='<?php getTopicUrl($topicSlug); ?>'><?php echo $topicName; ?></a></h2>
+                        <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                        <address><?php echo ucfirst(get_post_meta(get_the_ID(), 'authors_name_metabox', true)); ?></address>
+                    </header>
+                </div>
+
+        <?php $count++ ?>
+        <?php
+        if ($i == 12) {
+            break;
+        }
+    endwhile;
+    wp_reset_query();
+    ?>
+
+<?php if ($count > 3) { ?>
+    <div class='more filmclub'> 
+        <?php $onclick = 'onclick=loadmoreajax("' . $searchYear . '","' . json_encode($postId) . '");' ?>
+        <a id="loadMore" class="button" href="javascript:void(0)" <?php echo $onclick ?> >Load More</a>
+    </div>
+<?php } ?>

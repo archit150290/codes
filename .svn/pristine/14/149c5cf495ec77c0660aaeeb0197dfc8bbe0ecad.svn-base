@@ -1,0 +1,150 @@
+<?php get_header(); ?>
+            
+            <!-- start content -->
+		<div class='wrap'>
+
+			<!-- start landing marquee -->
+			<div class='landing-marquee_video filmclub'>
+				<header class='rubric_top'>
+						<h1><span class='icon icon-dept_filmclub'></span>Film Club</h1>
+						<p>Buddhist films and discussion for the Tricycle Community</p>
+						<a class='button' href='<?php echo bloginfo('url')."/filmclub-archive"; ?>'>Film Club Archive</a>
+				</header>
+
+				<main>
+                                        <?php
+					$postId = array();
+					if (have_posts()) {
+					    while (have_posts()) {
+						the_post();
+						$postId[] = get_the_ID();
+						$topics = get_topics_by_post_id(get_the_ID());
+						$topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+					?>
+                                    
+                                            <article class='filmclub'>
+						<section class='titles'>
+							<time><?php the_date('M Y'); ?></time>
+							<h2 class='filmclub'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+							<h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+							<address><?php echo getAuthorDetail(get_the_ID(),0,0); ?></address>
+						</section>
+						<figure>
+							<a href='<?php the_permalink(); ?>'>
+                                                                  
+								<div class='icon-video_play' data-grunticon-embed></div>
+								<!--<img src='images/jpg/home-llama_1x.jpg'
+									srcset='images/jpg/home-llama_4x.jpg 2000w,
+													images/jpg/home-llama_2x.jpg 1000w,
+													images/jpg/home-llama_1x.jpg 500w'
+									sizes= '(min-width: 60em) 75vw,100vw' alt='Llama' />-->
+                                                            <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 60em) 75vw,100vw'); ?>            
+							</a>
+						</figure>
+						<section class='synopsis'>
+							<p><?php the_excerpt(); ?></p>
+							<p class='h2'><a class='view-contents' href='<?php the_permalink(); ?>'>Watch Film</a></p>
+						</section>
+					</article>
+                                        <?php
+						break;
+					    }
+					}
+					?>
+				</main>
+			</div>
+			<!-- end landing marquee -->
+
+			<!-- start stack title -->
+			<div class='landing-stack-slug filmclub'>
+				<h2 class='button'>Former Film Club Selections</h2>
+			</div>
+			<!-- end stack title -->
+                        
+                        
+			<!-- start landing stack -->
+			<div class='landing-stack_video'>
+				<?php
+				if (have_posts()) {
+				    $counter = 1;
+				    while (have_posts()) {
+					the_post();
+					$postId[] = get_the_ID();
+					$topics = get_topics_by_post_id(get_the_ID());
+					$topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+				?>                
+                                        <article class='filmclub'>
+                                                <section class='titles'>
+                                                        <time><?php echo get_the_date('M Y'); ?></time>
+                                                        <h2 class='filmclub'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                                                        <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                                        <address><?php echo getAuthorDetail(get_the_ID(),0,0); ?></address>
+                                                </section>
+                                                <figure>
+                                                        <a href='<?php the_permalink(); ?>'>
+                                                            <div class='icon-video_play' data-grunticon-embed></div>
+                                                            <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 50em) 25vw,100vw'); ?>       
+                                                        </a>
+                                                </figure>
+                                                <section class='synopsis'>
+                                                        <p><?php the_excerpt(); ?></p>
+                                                        <p class='h2'><a class='view-contents' href='<?php the_permalink(); ?>'>Read More</a></p>
+                                                </section>
+                                        </article>
+                                <?php
+					if($counter == 2 || $counter == 6)
+					{
+					    ?>
+					    <div class='CTA-module'>
+						<div class='rule'></div>
+						<div class='CTA-ad' style='
+						     background-color: #ddd;
+						     line-height: 1; padding: 2em;
+						     margin: 0 auto;
+						     width: 75%;
+						     height: 10em;
+						     text-align: center;
+						     '>
+						    <p>Call-to-Action Module. Can be set in the CMS to any of the following: (1) Ad served via Google DFP Small Business (TBD), (2) Daily Dharma, (3) Subscribe CTA, (4) Newletter CTA</p>
+						</div>
+						<div class='rule'></div>
+					    </div>
+					    <?php
+					}
+					$counter++;
+					
+					if($counter == 6)
+					{
+					    break;
+					}
+				    }
+				}
+				?>         
+                                    
+                                <div class='more filmclub'>
+                                        <a class='button' href='<?php echo bloginfo('url')."/filmclub-archive"; ?>'>Film Club Archive</a>
+                                </div>
+			</div>
+				<div class='rule'></div>
+			
+			<aside>
+
+				<div class='aside-depts'>
+					<!-- start aside dharma talks -->
+						<?php show_latest_dharma_talks(); ?>
+					<!-- end aside dharma talks -->
+
+					<!-- start aside trikedaily -->
+						<?php show_latest_trike_daily(); ?>
+					<!-- end aside trikedaily -->
+
+					<!-- start aside magazine -->
+					<?php show_latest_magazine_article(); ?>
+					<!-- end aside magazine -->
+				</div>
+
+				<div class='rule'></div>
+
+				
+            
+<?php get_footer(); ?>                

@@ -1,0 +1,175 @@
+<?php
+define("DHARMATALKS_POST_TYPE", "dharma-talks");
+
+function custom_post_type_and_taxonomy_init_dharmatalks()
+{
+$labels = array(
+        'name'               => _x( 'Dharma-Talks', 'post type general name', 'your-plugin-textdomain' ),
+        'singular_name'      => _x( 'Dharma-Talk', 'post type singular name', 'your-plugin-textdomain' ),
+        'menu_name'          => _x( 'Dharma Talks', 'admin menu', 'your-plugin-textdomain' ),
+        'name_admin_bar'     => _x( 'Dharma-Talk', 'add new on admin bar', 'your-plugin-textdomain' ),
+        'add_new'            => _x( 'Add New', 'article', 'your-plugin-textdomain' ),
+        'add_new_item'       => __( 'Add New Talk', 'your-plugin-textdomain' ),
+        'new_item'           => __( 'New Talk', 'your-plugin-textdomain' ),
+        'edit_item'          => __( 'Edit Talk', 'your-plugin-textdomain' ),
+        'view_item'          => __( 'View Talk', 'your-plugin-textdomain' ),
+        'all_items'          => __( 'All Talks', 'your-plugin-textdomain' ),
+        'search_items'       => __( 'Search Articles', 'your-plugin-textdomain' ),
+        'parent_item_colon'  => __( 'Parent Articles:', 'your-plugin-textdomain' ),
+        'not_found'          => __( 'No articles found.', 'your-plugin-textdomain' ),
+        'not_found_in_trash' => __( 'No articles found in Trash.', 'your-plugin-textdomain' )
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'rewrite'            => array( 'slug' => DHARMATALKS_POST_TYPE, 'with_front' => false ),
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_position'      => null,
+        'supports'           => array('title', 'editor', 'author', 'thumbnail', 'comments'),
+        'taxonomies' => array('post_tag'),
+        'register_meta_box_cb' => 'add_dharma_talks_meta_boxes'
+    );
+
+    register_post_type( DHARMATALKS_POST_TYPE, $args );
+
+}
+add_action('init', 'custom_post_type_and_taxonomy_init_dharmatalks');
+
+function add_dharma_talks_meta_boxes()
+{
+    add_meta_box('dharmatalks_shorttrailer_metabox_id', 'Short Trailer', 'add_dharmatalks_shorttrailer_metabox', DHARMATALKS_POST_TYPE, 'normal', 'default');
+    add_meta_box('dharmatalks_video1_metabox_id', 'Video 1', 'add_dharmatalks_video1_metabox', DHARMATALKS_POST_TYPE, 'normal', 'default');
+    add_meta_box('dharmatalks_video2_metabox_id', 'Video 2', 'add_dharmatalks_video2_metabox', DHARMATALKS_POST_TYPE, 'normal', 'default');
+    add_meta_box('dharmatalks_video3_metabox_id', 'Video 3', 'add_dharmatalks_video3_metabox', DHARMATALKS_POST_TYPE, 'normal', 'default');
+    add_meta_box('dharmatalks_video4_metabox_id', 'Video 4', 'add_dharmatalks_video4_metabox', DHARMATALKS_POST_TYPE, 'normal', 'default');
+}
+function add_dharmatalks_shorttrailer_metabox($post)
+{
+    $dharma_talks_shorttrailer = get_post_meta($post->ID, 'meta_type_dharmatalks_shorttrailer', true);
+    ?>
+    <input type="text" name="dharma_talks_shorttrailer" style="width: 100%;" value="<?php echo esc_attr($dharma_talks_shorttrailer); ?>" />
+    <?php
+}
+function add_dharmatalks_video1_metabox($post)
+{
+    wp_nonce_field('dharmatalks_save_meta_box_data', 'dharmatalks_meta_box_nonce');
+    
+    $dharma_talks1 = get_post_meta($post->ID, 'meta_type_dharmatalks_url1', true);
+    ?>
+    <input type="text" name="dharma_talks_video1" style="width: 100%;" value="<?php echo esc_attr($dharma_talks1); ?>" />
+    <?php
+}
+function add_dharmatalks_video2_metabox($post)
+{
+   
+    
+    $dharma_talks2 = get_post_meta($post->ID, 'meta_type_dharmatalks_url2', true);
+    ?>
+    <input type="text" name="dharma_talks_video2" style="width: 100%;" value="<?php echo esc_attr($dharma_talks2); ?>" />
+    <?php
+}
+function add_dharmatalks_video3_metabox($post)
+{
+  
+    
+    $dharma_talks3 = get_post_meta($post->ID, 'meta_type_dharmatalks_url3', true);
+    ?>
+    <input type="text" name="dharma_talks_video3" style="width: 100%;" value="<?php echo esc_attr($dharma_talks3); ?>" />
+    <?php
+}
+function add_dharmatalks_video4_metabox($post)
+{
+   
+    
+    $dharma_talks4 = get_post_meta($post->ID, 'meta_type_dharmatalks_url4', true);
+    ?>
+    <input type="text" name="dharma_talks_video4" style="width: 100%;" value="<?php echo esc_attr($dharma_talks4); ?>" />
+    <?php
+}
+
+
+function save_dharma_talks_meta_box_data( $post_id ) 
+{
+    /*
+     * We need to verify this came from our screen and with proper authorization,
+     * because the save_post action can be triggered at other times.
+     */
+
+    // Check if our nonce is set.
+    if ( ! isset( $_POST['dharmatalks_meta_box_nonce'] ) ) 
+    {
+        return;
+    }
+
+    // Verify that the nonce is valid.
+    if ( ! wp_verify_nonce( $_POST['dharmatalks_meta_box_nonce'], 'dharmatalks_save_meta_box_data' ) ) 
+    {
+        return;
+    }
+
+    // If this is an autosave, our form has not been submitted, so we don't want to do anything.
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
+    {
+        return;
+    }
+
+    // Check the user's permissions.
+    if ( isset( $_POST['post_type'] ) && 'page' == $_POST['post_type'] ) 
+    {
+        if ( ! current_user_can( 'edit_page', $post_id ) ) 
+        {
+            return;
+        }
+
+    } 
+    else 
+    {
+        if ( ! current_user_can( 'edit_post', $post_id ) ) 
+        {
+            return;
+        }
+    }
+
+    /* OK, it's safe for us to save the data now. */
+
+    // Sanitize user input.
+    $dharma_talks_shorttrailer = sanitize_text_field( $_POST['dharma_talks_shorttrailer'] );
+
+    // Update the meta field in the database.
+    update_post_meta($post_id, 'meta_type_dharmatalks_shorttrailer', $dharma_talks_shorttrailer);
+    
+     $dharma_talks_data1 = sanitize_text_field( $_POST['dharma_talks_video1'] );
+
+    // Update the meta field in the database.
+    update_post_meta($post_id, 'meta_type_dharmatalks_url1', $dharma_talks_data1);
+    
+    $dharma_talks_data2 = sanitize_text_field( $_POST['dharma_talks_video2'] );
+
+    // Update the meta field in the database.
+    update_post_meta($post_id, 'meta_type_dharmatalks_url2', $dharma_talks_data2);
+    
+     $dharma_talks_data3= sanitize_text_field( $_POST['dharma_talks_video3'] );
+
+    // Update the meta field in the database.
+    update_post_meta($post_id, 'meta_type_dharmatalks_url3', $dharma_talks_data3);
+    
+     $dharma_talks_data4= sanitize_text_field( $_POST['dharma_talks_video4'] );
+
+    // Update the meta field in the database.
+    update_post_meta($post_id, 'meta_type_dharmatalks_url4', $dharma_talks_data4);
+    
+   
+    
+   
+}
+
+/**
+ * This action hook is called to call "save_film_club_meta_box_data".
+ */
+add_action('save_post', 'save_dharma_talks_meta_box_data');

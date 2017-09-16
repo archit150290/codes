@@ -1,0 +1,355 @@
+<?php get_header(); ?>
+
+<?php
+$postId = get_the_ID();
+$topics = get_topics_by_post_id($postId);
+$topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+$objPost = get_post($postId);
+
+/* call setPostView() function for increasing view counter of the post */
+setPostViews($postId);
+
+?>
+        <!-- start content -->
+		<div class='wrap_outer_base'>
+
+			<!-- start ebooks article marquee/slider -->
+			<div class='landing-marquee ebooks'>
+				<header class='rubric_top'>
+						<h1><span class='icon icon-dept_ebooks'></span>E-Books</h1>
+						<p>Tricycle wisdom in e-book format</p>
+						<a class='button' href='<?php echo bloginfo('url')."/".E_BOOKS_SLUG; ?>'>E-Library</a>
+				</header>
+
+				<main class='slider'>
+					<div class='rule'></div>
+                                    <?php
+                                    
+                                                $btnNextdisable = "";
+                                                $btnPredisable = "";
+                                                $rel="";
+                                                $next_post = get_next_post();
+                                                
+                                                $nextpostLink = "";
+                                                $prepostLink = "";
+                                                
+                                                
+                                                if(empty($next_post)){
+                                                    $btnNextdisable = "arrow-off";
+                                                }else{
+                                                    $nextpostLink =  get_permalink($next_post->ID);
+                                                }
+                                                
+                                                $prev_post = get_previous_post();
+                                                if(empty($prev_post)){
+                                                    $btnPredisable = "arrow-off";
+                                                }else{
+                                                    $prepostLink =  get_permalink($prev_post->ID);
+                                                }
+                                    ?>
+					<div class='slider-next <?php echo $btnNextdisable; ?>'>
+						<button class='icon-arrow_left' type='button' onclick='javascript:navigate_posts("<?php echo $nextpostLink; ?>");' data-grunticon-embed></button>
+					</div>
+
+					<figure class='slider-cover'>
+						<?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,75vw'); ?>
+					</figure>
+
+					<div class='slider-prev <?php echo $btnPredisable; ?>'>
+						<button class='icon-arrow_right' onclick='javascript:navigate_posts("<?php echo $prepostLink; ?>")' type='button' data-grunticon-embed></button>
+					</div>
+
+					<header class='slider-date'>
+						<h2 class='topic'><?php echo $topic_urls; ?></h2>
+						<h1><?php the_title(); ?></h1>
+					</header>
+
+					<!-- <div class='more ebooks'>
+						<a class='button' href='#'>Download</a>
+					</div> -->
+                                        <?php
+                                                $upload_dir = wp_upload_dir();
+                                                $uploadDirectory = $upload_dir['basedir']."/";
+                                        ?> 
+                                        <?php
+                                                $downloadPDF  =  get_post_meta(get_the_ID() ,'meta_keyebook_file_pdf',true);
+                                                $downloadEPUB =  get_post_meta(get_the_ID() ,'meta_keyebook_file_epub',true); 
+                                                $downloadMOBI  =  get_post_meta(get_the_ID() ,'meta_keyebook_file_mobi',true);
+                                                
+                                                if($downloadPDF!="" || $downloadEPUB!="" || $downloadMOBI){
+                                        ?>
+					<div class='dropdown more ebooks'>
+					  <div class='dropdown-container'>
+					    <p class='button dropdown-button'>Download</p>
+					    <ul class='dropdown-menu dropdown-select'>
+                                                
+                                                <?php if($downloadEPUB!=""){ ?>
+                                                    <li><a href='<?php echo get_site_url(); ?>/download.php?file=<?php echo $uploadDirectory.$downloadEPUB; ?>'>epub</a></li>
+                                                <?php } ?>
+                                                <?php if($downloadMOBI!=""){ ?>
+                                                    <li><a href='<?php echo get_site_url(); ?>/download.php?file=<?php echo $uploadDirectory.$downloadMOBI; ?>'>mobi</a></li>
+                                              <?php } ?>
+                                              <?php if($downloadPDF!=""){ ?>
+                                                    <li><a href='<?php echo get_site_url(); ?>/download.php?file=<?php echo urlencode($uploadDirectory.$downloadPDF); ?>'>pdf</a></li>
+                                              <?php } ?>
+					    
+                                            </ul>
+					  </div>
+					</div>
+                                        <?php } ?>
+
+				</main>
+			</div>
+			<!-- end ebooks article marquee/slider -->
+
+			<main class='wrap_base'>
+
+				<!-- start article -->
+				<article class='article_ebooks ebooks'>
+					<!-- start article body -->
+					<main class='article-main_ebooks'>
+
+						<div class='tools_top'>
+							<ul>
+								<li><a class='icon icon-tools_facebook' href='#' data-grunticon-embed></a></li>
+								<li><a class='icon icon-tools_twitter' href='#' data-grunticon-embed></a></li>
+								<li><a class='icon icon-tools_email' href='#' data-grunticon-embed></a></li>
+								<li><a class='icon icon-tools_print' href='#' data-grunticon-embed></a></li>
+							</ul>
+						</div>
+
+						<section class='article-body'>
+							<p><?php echo $objPost->post_content; ?></p>
+						</section>
+
+						<section class='article_ebooks-contents'>
+							<h1 class='h2'>Table of Contents</h1>
+							<ol>
+								<li>
+									<h1>Facing Fear</h1><address>by Lama Tsony</address>
+								</li>
+								<li>
+									<h1>Trying to Speak: A Personal History of Stage Fright</h1><address>by David Guy</address>
+								</li>
+								<li>
+									<h1>The Price of Fear</h1><address>by Joel Agee</address>
+								</li>
+								<li>
+									<h1>As the Clouds Vanish</h1><address>an interview with Tsoknyi Rinpoche</address>
+								</li>
+								<li>
+									<h1>Inviting Fear</h1><address>by Ajahn Amaro</address>
+								</li>
+								<li>
+									<h1>It’s Only Natural</h1><address>by Wes Nisker</address>
+								</li>
+								<li>
+									<h1>Taking Fear Apart</h1><address>by Ken McLeod</address>
+								</li>
+								<li>
+									<h1>Between Two Mountains</h1><address>by John Daido Loori Roshi</address>
+								</li>
+							</ol>
+
+							<div class='rule'></div>
+						</section>
+
+						<section class='article-body article_ebooks-boilerplate'>
+							<p>If you are having trouble downloading the e-book, please contact our support services at <a href='mailto:support@tricycle.com'>support@tricycle.com</a> or 1-800-873-9871. Please note that the support line is only open from 8:30am to 4:30pm EST. Please download this e-book on Safari or Firefox.</p>
+							<p>If you are using an iPad, make sure you have downloaded iBooks. If you are using an Android device, please download an e-reader of your choice.</p>
+						</section>
+
+						
+							<?php
+								$ebooks_tags_array = wp_get_post_tags(get_the_ID());
+								if(!empty($ebooks_tags_array)){
+							?>
+                                                        <div class='article-bottom-matter'>
+                                                            <section class='article-tags'>
+                                                                    <ul>
+                                                                            <?php foreach($ebooks_tags_array as $tags){ ?>
+                                                                                    <li><p class='tag'><a href='<?php echo get_tag_link($tags->term_id); ?>'><?php echo ucfirst($tags->name); ?></a></p></li>
+                                                                            <?php } ?>
+                                                                            
+                                                                    </ul>
+                                                            </section>
+                                                        </div>
+							
+							<?php } ?>
+						
+					</main>
+				</article>
+
+			</main>
+			<!-- end article wrap -->
+
+			<aside>
+				<div class='aside-depts'>
+					<!-- start aside Film Club -->
+					<section class='aside-filmclub'>
+						<header class='rubric_small'>
+								<h1><a href='<?php echo bloginfo('url')."/".FILM_CLUB_POST_TYPE; ?>'><span class='icon icon-dept_filmclub'></span>Film Club</a></h1>
+								<p>Buddhist films and discussion for the Tricycle Community</p>
+						</header>
+
+						<main>
+							<?php
+                                                    
+								$args = array(
+								'posts_per_page' => 1,
+								'orderby' => 'post_date',
+								'order' => 'DESC',
+								'post_type' => FILM_CLUB_POST_TYPE,
+								'post_status' => 'publish',
+								'suppress_filters' => true
+								);
+								
+								$querydharma = new WP_Query($args);
+								query_posts( $querydharma );
+								while ( $querydharma->have_posts() ) : $querydharma->the_post();
+									$topics = get_topics_by_post_id(get_the_ID());
+									$topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+							?>
+							
+							<article>
+								<figure>
+									<a href='<?php the_permalink(); ?>'>
+										<div class='icon-video_play' data-grunticon-embed></div>
+										<?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 50em) 33vw,100vw'); ?>
+									</a>
+								</figure>
+								<section>
+									<h2 class='rubric filmclub'>
+										<span class='topic'><?php echo $topic_urls; ?></span>
+									</h2>
+									<h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+									<p><?php the_excerpt(); ?></p>
+									<address><?php echo getAuthorDetail(get_the_ID(),1,0); ?></address>
+								</section>
+							</article>
+							<?php
+								endwhile;
+								wp_reset_query();
+							?>
+						</main>
+						<div class='rule-responsive'></div>
+					</section>
+					<!-- end aside Film Club -->
+
+					<!-- start aside dharma talks -->
+					<section class='aside-dharmatalks'>
+						<header class='rubric_small'>
+								<h1><a href='<?php echo bloginfo('url')."/".DHARMATALKS_POST_TYPE ?>'><span class='icon icon-dept_dharmatalks'></span>Dharma Talks</a></h1>
+								<p>Video teachings and discussions with contemporary Buddhist teachers</p>
+						</header>
+
+						<main>
+							<?php
+                                                    
+                                                        $args = array(
+                                                        'posts_per_page' => 1,
+                                                        'orderby' => 'post_date',
+                                                        'order' => 'DESC',
+                                                        'post_type' => DHARMATALKS_POST_TYPE,
+                                                        'post_status' => 'publish',
+                                                        'suppress_filters' => true
+                                                        );
+                                                        
+                                                        $querydharma = new WP_Query($args);
+                                                        query_posts( $querydharma );
+                                                        while ( $querydharma->have_posts() ) : $querydharma->the_post();                                                        
+								$topics = get_topics_by_post_id(get_the_ID());
+								$topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                                                      
+							?>
+							
+							<article>
+								<figure>
+									<a href='<?php the_permalink(); ?>'>
+										<div class='icon-video_play' data-grunticon-embed></div>
+										<?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 50em) 33vw,100vw'); ?>
+									</a>
+								</figure>
+								<section>
+									<h2 class='rubric dharmatalks'>
+										<span class='topic'>
+											<?php echo $topic_urls; ?>
+										</span>
+									</h2>
+									<h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+									<address><?php echo getAuthorDetail(get_the_ID(),0,0); ?></address>
+									<time><?php the_date('M Y'); ?></time>
+								</section>
+							</article>
+							<?php
+                                                            endwhile;
+                                                            wp_reset_query();
+                                                        ?>
+						</main>
+						<div class='rule-responsive'></div>
+					</section>
+					<!-- end aside dharma talks -->
+
+					<!-- start aside magazine -->
+					<section class='aside-magazine'>
+						<header class='rubric_small'>
+								<h1><a href='<?php echo bloginfo('url')."/".MAGAZINE_POST_TYPE; ?>'><span class='icon icon-dept_magazine'></span>Magazine</a></h1>
+								<p>The Buddhist Review</p>
+						</header>
+
+						<main>
+							<?php
+                                                        
+								$args = array(
+								'posts_per_page' => 1,
+								'orderby' => 'post_date',
+								'order' => 'DESC',
+								'post_type' => MAGAZINE_POST_TYPE,
+								'post_status' => 'publish',
+								'suppress_filters' => true
+								);
+								
+								$querymagazine = new WP_Query($args);
+								query_posts( $querymagazine );
+								while ( $querymagazine->have_posts() ) : $querymagazine->the_post();
+								
+									$topics = get_topics_by_post_id(get_the_ID());
+									$topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+								    
+								    $issueSet = get_the_terms( get_the_ID(), "magazine-issue" );
+								    $issueName = isset($issueSet[0]) ? $issueSet[0]->name : "";
+								    $issueSlug = isset($issueSet[0]) ? $issueSet[0]->slug : "" ;
+                                                      
+							?>
+							
+							<article>
+								<figure>
+									<a href='<?php the_permalink(); ?> '>
+										<?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 50em) 33vw,100vw'); ?>
+									</a>
+								</figure>
+								<section>
+									<h2 class='rubric magazine'>
+										<span class='topic'>
+											<?php echo $topic_urls; ?>
+										</span>
+									</h2>
+									<h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+									<p><?php the_excerpt(); ?></p>
+									<address><?php echo getAuthorDetail(get_the_ID(),1,0); ?></address>
+									<time><?php echo $issueName; ?></time>
+								</section>
+							</article>
+							<?php
+                                                            endwhile;
+                                                            wp_reset_query();
+                                                        ?>
+						</main>
+					</section>
+					<!-- end aside magazine -->
+				</div>
+
+				<div class='rule'></div>
+
+				
+<?php get_footer(); ?>

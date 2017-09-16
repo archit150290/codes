@@ -1,0 +1,53 @@
+<?php
+/*
+ *Including config file
+ */
+$config_file_path = "../../../wp-config.php"; 
+include_once $config_file_path;
+    $args = array(
+      'post_type' => array('filmclub'), 
+      'post_status' => 'publish', 
+      'order' => 'DESC', 
+      'orderby' => 'date',
+      'post_per_page'=>1, 
+    );
+    $eq_query = new WP_Query($args);
+    //pr($eq_query);
+    while($eq_query->have_posts()){
+        $eq_query->the_post();
+        $recent_post_id = get_the_ID();
+        break;
+    }
+    $args = array(
+      'post_type' => array('filmclub'), 
+      'post_status' => 'publish', 
+      'order' => 'DESC',
+      'post__not_in' => array($recent_post_id), 
+      'orderby' => 'date',
+    );
+    $eq_query = new WP_Query($args);
+    $earlier_post_id = array();
+    $updated_ids = array();
+    $non_updated_ids = array();
+    while($eq_query->have_posts()){
+        $eq_query->the_post();
+        $earlier_post_id[] = get_the_ID();
+    }
+    foreach($earlier_post_id as $post_ids){
+        $updated_done = update_post_meta($post_ids,"behind_the_paywall",0);
+        if($updated_done == "1"){
+            $updated_ids[] = $post_ids;
+        }else{
+            $non_updated_ids[] = $post_ids;
+        }
+    }
+    if(($updated_ids)){
+        echo "These Id's were updated and now not behind the paywall<br>";
+        print_r($updated_ids);
+        echo "<br>";
+    }
+    if($non_updated_ids){
+        echo "These Id's were already not behind the paywall<br>";
+        print_r($non_updated_ids);  
+    }
+?>

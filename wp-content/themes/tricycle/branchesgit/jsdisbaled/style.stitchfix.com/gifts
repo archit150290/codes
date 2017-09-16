@@ -1,0 +1,337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if IE 9]>         <html class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" role="application" class="">
+<!--<![endif]-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="Get your own personal stylist. Hand-selected women’s fashion shipped free, straight to your door. Try on at home risk-free.">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Stitch Fix | Gift Certificates</title>
+<link rel="shortcut icon" href="images/favicon.ico">
+<link href="//hello.myfonts.net/count/2b26e2" rel='stylesheet' type='text/css'>
+<link href="//hello.myfonts.net/count/2ff577" rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="css/minified_design.css" media="screen">
+<link href="css/main.6.css" rel="stylesheet" type="text/css" />
+<link href="css/gift.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery2.1.0.js"></script>
+<script type="text/javascript" src="js/abanalytics.15.js"></script>
+<!--[if lt IE 9]>
+    <script type="text/javascript" src="js/html5shiv.js"></script>
+<![endif]-->
+<script>
+var site_url = window.location.toString();
+var site_q = window.location.search;
+var dfutm_camid = 111111222222;
+function chReferer(){  
+  if (site_url.indexOf("?") > 0) {
+      var clean_url = site_url.substring(0, site_url.indexOf("?"));
+      window.history.replaceState({}, document.title, clean_url);
+  }
+}
+//chReferer();
+ABalytics.init({
+popupform: [
+  {
+      name: 'v1',
+  },
+  {
+      name: 'v2',
+  }
+],
+});
+ABalytics.client = "stitchfix";
+ABalytics.applyHtml();
+</script>
+</head>
+
+<body id="gifts-show" class="public-home global-nav-fixed">
+<div id="sticky-footer-page-wrap" class="wrapper">
+
+  <div id="frame-main-content">
+      
+  <div class="container layout-container">
+    <div class="row">
+      <div id="layout-content-primary" class="col-sm-12">
+        
+<div class="gifts-show">
+  <section id='gift-card-primary-cta' class="row">
+    <div class='col-xs-7'>
+      <h1>Give the gift of<br>personal style</h1>
+
+      <p>Give her the gift of style with a Stitch Fix gift card.
+        Help her look and feel her best with the latest styles, hand-picked just for her.</p>
+
+      <div class='row'>
+        <div class='col-xs-12 col-sm-6 col-md-4'>
+          <a class="btn btn-primary" href="https://www.stitchfix.com/gifts/buy">GIVE A GIFT CARD</a>
+        </div>
+        <div class='col-xs-12 col-sm-6 col-md-4'>
+          <a class="btn btn-default" href="https://www.stitchfix.com/gifts/redeem">REDEEM A GIFT CARD</a>
+        </div>
+      </div>
+    </div>
+    <div class='col-xs-5'>
+      <div class='img'></div>
+    </div>
+  </section>
+  <section id='three-reasons' class="row reversed">
+    <div class='col-xs-12'>
+      <h2>3 Reasons Stitch Fix<br>Makes a Great Gift</h2>
+
+      <h3>EXPERT STYLISTS</h3>
+
+      <p>Our styling team will pick perfect pieces<br>based on her personal preferences.</p>
+
+      <h3>QUALITY CLOTHING</h3>
+
+      <p>We send unique, high quality pieces she<br>will want to wear again and again.</p>
+
+      <h3>HELP HER FEEL HER BEST</h3>
+
+      <p>Each piece comes with unique styling tips<br>to help her feel amazing.</p>
+    </div>
+  </section>
+
+  <section id='how-it-works' class="row">
+    <div class="col-xs-12">
+      <h2>How Our Fix Service Works</h2>
+    </div>
+    <div>
+      <ul>
+        <li class="col-md-4">
+          <img alt="A clipboard representing an online style profile." title="First, You Fill Out a Fun and Comprehensive Style Profile" src="images/gifts/clipboard.png" />
+          <h3>Your Style Profile</h3>
+
+          <p>
+            Fill out an online style profile to tell us about your style preferences, size, budget, and what
+            occasions you tend to dress for.
+          </p>
+        </li>
+        <li class="col-md-4">
+          <img alt="A box of five-hand picked items." title="Next, We Send You Five Hand-picked Clothing Items" src="images/gifts/box.png" />
+          <h3>Hand-picked Items</h3>
+
+          <p>Our personal stylists pick five clothing or accessory items based on your unique preferences and
+            provide styling tips for each piece.
+          </p>
+        </li>
+        <li class="col-md-4">
+          <img alt="If you don&#39;t like your hand-picked clothes, send back the items you don&#39;t like." title="Finally, You Keep the Hand-picked Clothes You Like and Send Back the Rest." src="images/gifts/shirt-large.png" />
+
+          <h3>Free, Easy Returns</h3>
+
+          <p>Keep and pay for only what you like. Send back everything else in a prepaid envelope.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="delivery-options" class="row">
+    <div class="col-sm-5 hidden-xs">
+      <img src="images/gifts/pdf-gift-card-cropped.png" style="width: 100%">
+      <a class="terms-link" href="https://www.stitchfix.com/terms#gift-cards">Gift card terms and conditions &raquo;</a>
+    </div>
+    <div class="col-sm-7">
+      <h2>3 Convenient Ways to Give!</h2>
+
+      <h3> MAIL</h3>
+
+      <p> Surprise her with the gift of style, shipped straight to her mailbox.</p>
+
+      <h3>E-MAIL</h3>
+
+      <p>Simply write a personalized message and we'll email it directly to her.</p>
+
+      <h3>PRINT</h3>
+
+      <p>Print your gift at home (or office!) and add a personalized note.</p>
+
+    </div>
+  </section>
+
+  <section id="gift-card-secondary-cta" class="row reversed">
+    <div class='hidden-xs'>
+      <h2>Give the gift of Stitch Fix.</h2>
+      <a class="btn btn-primary btn-block-dynamic" href="https://www.stitchfix.com/gifts/buy">GIVE A GIFT CARD</a>
+      <a class="btn btn-default btn-block-dynamic" href="https://www.stitchfix.com/gifts/redeem">REDEEM A GIFT CARD</a>
+    </div>
+    <div class='visible-xs'>
+      <div class="col-sm-9">
+        <h2>Give the gift of Stitch Fix now! </h2>
+      </div>
+      <div class="cta col-sm-3 visible-xs">
+        <a class="btn btn-primary btn-block-dynamic" href="https://www.stitchfix.com/gifts/buy">GIVE A GIFT CARD</a>
+        <a class="btn btn-default btn-block-dynamic" href="https://www.stitchfix.com/gifts/redeem">REDEEM A GIFT CARD</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+  .get-started {
+    display: none !important;
+  }
+</style>
+
+      </div>
+    </div>
+  </div>
+
+
+
+    </div>
+  
+  <!--FOOTER -->
+  <footer class="footer">
+   
+    
+
+    
+    <!--Footer navigation-->
+    <section class="wide-footer-nav hidden-xs container" role="navigation">
+      <div class="row">
+        <hr>
+      </div>
+      <div class="row">
+        <div class="col-sm-3 logo"> <img src="images/logo_w_tagline_left.png" alt="Stitch Fix Logo" />
+          <p class="copyright" style="margin-top: 11px;">Stitch Fix and Fix are<br>
+            trademarks of Stitch Fix, Inc.</p>
+          <a href='http://appstore.com/stitchfix'
+           class='iphone-app-store'
+           data-onclick-event="iPhone Promo,Click Badge - footer,Download iPhone App"
+           title="Download on the App Store"> <img src="images/download-app-store.jpg"  alt="Apple App store badge"  /> </a> </div>
+        <div class="col-sm-2 links">
+          <ul>
+            <li><a title="About" href="https://www.stitchfix.com/about">About</a></li>
+            <li><a title="Stitch Fix Style Tips" href="http://blog.stitchfix.com/">Style Tips</a></li>
+            <li><a title="Gift Cards" href="https://style.stitchfix.com/gifts">Gift Cards</a></li>
+            <li><a href="https://www.stitchfix.com/iphone-app">iPhone App</a></li>
+            <li><a href="https://www.stitchfix.com/men">Men</a></li>
+            <li><a href="https://www.stitchfix.com/plus">Plus Sizes</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-2 links">
+          <ul>
+            <li><a title="Press" href="https://www.stitchfix.com/press">Press</a></li>
+            <li><a title="Affiliate Program" href="https://www.stitchfix.com/affiliate_program">Affiliate Program</a></li>
+            <li><a title="Careers" href="https://www.stitchfix.com/careers">Careers</a></li>
+            <li><a href="http://technology.stitchfix.com/blog/">Tech Blog</a></li>
+            <li><a title="Stitch Fix Terms of Use" href="https://www.stitchfix.com/terms">Terms of Use</a></li>
+            <li><a title="Stitch Fix Privacy Policy" href="https://www.stitchfix.com/privacy">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-2 help">
+          <h6>Have a question?</h6>
+          <ul>
+            <li><a title="FAQ" href="https://www.stitchfix.com/faq">FAQ</a></li>
+            <li><a title="Help Center" href="https://www.stitchfix.com/help_center">Help Center</a></li>
+            <li><a title="Contact Us" href="https://www.stitchfix.com/contact_us">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-3 social-networks">
+          <h6>Follow Us!</h6>
+          <ul class="social-networks">
+            <li> <a href="http://www.facebook.com/stitchfix" title="The Stitch Fix Facebook page"><span class="ss-social ss-facebook"><i class="fa fa-facebook"></i></span></a> </li>
+            <li> <a href="http://instagram.com/stitchfix" title="Stitch Fix on Instagram"><span class="ss-social ss-instagram"><i class="fa fa-instagram"></i></span></a> </li>
+            <li> <a href="http://pinterest.com/StitchFix/" title="The Stitch Fix Pinterest page"><span class="ss-social ss-pinterest"><i class="fa fa-pinterest"></i></span></a> </li>
+            <li> <a href="http://twitter.com/stitchfix" title="Stitch Fix on Twitter - @stitchfix"><span class="ss-social ss-twitter"><i class="fa fa-twitter"></i></span></a> </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <!--Footer navigation End--> 
+    
+    <!--Footer Mobile navigation-->
+    <div class="navbar navbar-inverse visible-xs" role="navigation">
+      <div class="container">
+        <ul class="nav navbar-nav navbar-left company-info-links">
+          <li><a title="About" href="https://www.stitchfix.com/about">About</a></li>
+          <li><a title="FAQ" href="https://www.stitchfix.com/faq">FAQ</a></li>
+          <li><a title="Stitch Fix Style Tips" href="http://blog.stitchfix.com/">Style Tips</a></li>
+          <li><a href="https://www.stitchfix.com/iphone-app">iPhone App</a></li>
+          <li><a title="Gift Cards" href="https://style.stitchfix.com/gifts">Gift Cards</a></li>
+          <li><a title="Mens" href="https://www.stitchfix.com/men">Men</a></li>
+          <li><a href="https://www.stitchfix.com/plus">Plus Sizes</a></li>
+          <li><a title="Press" href="https://www.stitchfix.com/press">Press</a></li>
+          <li><a title="Affiliate Program" href="https://www.stitchfix.com/affiliate_program">Affiliate Program</a></li>
+          <li><a title="Careers" href="https://www.stitchfix.com/careers">Careers</a></li>
+          <li><a title="Technology Blog" class="hidden-sm" href="http://technology.stitchfix.com/blog/">Tech Blog</a></li>
+          <li><a title="Stitch Fix Privacy Policy" href="https://www.stitchfix.com/privacy">Privacy Policy</a></li>
+          <li><a title="Stitch Fix Terms of Use" href="https://www.stitchfix.com/terms">Terms of Use</a></li>
+        </ul>
+        <p class="copyright">Stitch Fix and Fix are trademarks of Stitch Fix, Inc.</p>
+        <div class="stitchfix-logo"></div>
+      </div>
+    </div>
+    <!--Footer Mobile navigation--> 
+  </footer>
+  <!--FOOTER End -->
+</div>
+
+<!--Top Menu-->
+<div class="global-nav hidden-xs" role="navigation">
+  <div class="container">
+    <div class="row">
+      <div class="global-nav-fullsize">
+        <div class="navbar navbar-default">
+          <div class="col-sm-2">
+            <div class="navbar-brand"> <img src="images/logo-b.png"  class="logotype" alt="Stitch Fix"  /> </div>
+          </div>
+          <div class="col-sm-10">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="https://www.stitchfix.com/faq">FAQ</a></li>
+              <li><a href="http://blog.stitchfix.com/">Style Tips</a></li>
+              <li><a href="https://style.stitchfix.com/#review-section" data-slow-scroll-via-class>Reviews</a> </li>
+              <li><a class="gift-card-icon" href="https://style.stitchfix.com/gifts">Gift Cards</a></li>
+              <li class="get-started"> <a href="https://style.stitchfix.com/#sign-up" class="get-started btn btn-red" data-slow-scroll="-60">Get Started</a> </li>
+              <li class="sign-in"> <a class="login btn btn-white" href="https://www.stitchfix.com/login">Sign In</a> </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="global-nav" role="navigation">
+  <div class='global-nav-compact'>
+    <div class="mobile-global-nav navbar-header"> <a class="navbar-brand" href="/"> <img alt="Stitch Fix" class="text-logo" src="images/svg/logo.svg" /> </a>
+      <div class="hamburger navbar-toggle"> &#x2261; <span class="sr-only">Toggle navigation</span> </div>
+       <a class="get-started btn btn-red gstarted" data-slow-scroll="-44" href="https://style.stitchfix.com/#sign-up">GET STARTED</a> </div>
+  </div>
+</div>
+
+<div class="mobile-global-nav-tray right">
+  <ul>
+    <li class="close"><a href="javascript:void(0);" title="close menu">Close <i class="fa fa-times" aria-hidden="true"></i></a></li>
+    <li><a href="https://www.stitchfix.com/login">Sign In</a></li>
+    <li><a href='https://style.stitchfix.com/#how-it-works-section' class="hiw" data-slow-scroll-via-class>HOW IT WORKS</a></li>
+    <li><a href="https://www.stitchfix.com/faq">FAQ</a></li>
+    <li><a href="http://blog.stitchfix.com">Style Tips</a></li>
+    <li><a class="rew" href='https://style.stitchfix.com/#review-section' data-slow-scroll-via-class>Reviews</a> </li>
+    <li><a href="https://style.stitchfix.com/gifts">GIFT CARDS</a></li>
+  </ul>
+</div>
+<!-- Modal -->
+<!--All JavaScript Here--> 
+ 
+<script differ type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" charset="utf-8" async>
+  !function(){var t=document.createElement("script");t.setAttribute("type","text/javascript");
+t.setAttribute("src","//files.ampush.io/tracker.js?"+(new Date).valueOf());
+"undefined"!=typeof t&&document.getElementsByTagName("head")[0].appendChild(t);
+t.onload=function(){ampt.init("ampush-stitchfix-test"),ampt.pageview()}}();
+$(".hamburger, li.close a").click(function() {
+            $("body").toggleClass("mobile-navbar-shown")
+        })
+</script>
+<!--[if lte IE 9]>
+<script type="text/javascript" src="js/respond.min.js"></script>
+<![endif]-->
+</body>
+</html>

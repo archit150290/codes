@@ -1,0 +1,421 @@
+<?php get_header(); ?>
+<!-- start content -->
+<?php
+$topicsfinal = get_magazine_issue_terms();
+$nexturl = get_magazine_issue_terms(); 
+?>
+<div class='wrap'>
+    <!-- start magazine landing marquee -->
+    <div class='landing-marquee magazine'>
+        <header class='rubric_top'>
+            <h1><span class='icon icon-dept_magazine'></span>Magazine</h1>
+            <p>The Buddhist Review</p>
+            <a class='button' href='<?php echo get_permalink(get_page_id_by_slug("magazine-archive")); ?>'>Back Issues</a>
+        </header>
+        <?php 
+        if(!empty($topicsfinal))
+        {
+            ?>
+            <main class='slider'>
+                <div class='rule'></div>
+                <div class='slider-next arrow-off'>
+                    <button class='icon-arrow_left' type='button' name="PrevValue" data-grunticon-embed></button>
+                </div>
+                <figure class='slider-cover'>
+                    <?php
+                    $t_id = $topicsfinal[0]->term_id;
+                    $term_meta = get_option("taxonomy_term_$t_id");
+                    //$magazine_issue_cover_image = $term_meta['cover_image'];
+                    ?>
+                    <?php echo get_image_with_srcset(array("image_type"=>"magazine_issue_cover_image", "term_id"=>$t_id, "source_width"=>array(800, 400), "size"=>"image-size-400", "attr_sizes"=>'(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,75vw')); ?>
+                    <?php //echo getImagewithSrcset($magazine_issue_cover_image, 'image-size-400', '', '(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,75vw'); ?>
+                    <figcaption>
+                        <?php 
+                        if (!empty($term_meta['cover_image_credit'])) 
+                        { 
+                           echo $term_meta['cover_image_credit']; ?><?php 
+                        }
+                        ?>
+                    </figcaption>
+                </figure>
+                <div class='slider-prev'>
+                    <button class='icon-arrow_right' type='button' name="NextValue" data-grunticon-embed onclick="location.href = '<?php echo $topicsfinal[1]->term_url; ?>'"></button>
+                </div>
+                <header class='slider-date'>
+                    <time class='h2'><?php echo $topicsfinal[0]->name; ?><span class='vol-no'><?php
+                        if (!empty($term_meta['volume'])) {
+                            echo "Volume " . $term_meta['volume'] . ",";
+                        }
+                        ?><?php
+                        if (!empty($term_meta['number'])) {
+                            echo " Number " . $term_meta['number'];
+                        }
+                        ?></span>
+                    </time>
+                    <p class="h2">
+                        <?php if(isset($term_meta['buyissuelink']) && !empty($term_meta['buyissuelink'])){?>
+                            <a class="buy-issue" target="_blank" href="http://<?php echo $term_meta['buyissuelink'];?>">Buy Issue</a>
+                        <?php }else{
+                        ?>
+                            <a class="buy-issue" href="javascript:void(0)">Buy Issue</a>
+                        <?php } ?>
+                    
+                    </p>
+                </header>
+            </main>
+            <?php 
+        } 
+        ?>
+    </div>
+    <!-- end magazine landing marquee -->
+    <?php 
+    if(!empty($topicsfinal)) 
+    { 
+        ?>
+        <!-- start stack title -->
+        <div class='landing-stack-slug magazine'>
+            <h2 class='button'>In This Issue </h2>
+        </div>
+        <!-- end stack title -->
+
+        <!-- start magazine landing stack -->
+        <div class='landing-stack'>
+            <section class='magazine-section'>
+                <?php
+                $args = array(
+                    'post_type' => array(MAGAZINE_POST_TYPE),
+                    'tax_query' => array(
+                        'relation' => 'AND',
+                        array(
+                            'taxonomy' => MAGAZINE_POST_DEPARTMENT_TAXONOMY,
+                            'field' => 'slug',
+                            'terms' => array('special-sections'),
+                            'operator' => 'IN',
+                        ),
+                        array(
+                            'taxonomy' => 'magazine-issue',
+                            'field' => 'slug',
+                            'terms' => $topicsfinal[0]->name,
+                            'operator' => 'IN',
+                        ),
+                    ),
+                    'post_status' => 'publish',
+                    'order' => 'ASC',
+                    'orderby' => 'menu_order',
+                    'posts_per_page' => '-1'
+                );
+                $eq_query = new WP_Query($args);
+                $count_number_post = $eq_query->post_count;
+
+                if ($count_number_post != "0") 
+                {
+                    ?>
+                    <header class = 'rubric_mid'>
+                        <h1>Special Sections</h1>
+                    </header>
+                    <main>
+                        <?php
+                        while ($eq_query->have_posts()): $eq_query->the_post();
+                            $topics = get_topics_by_post_id(get_the_ID());
+                            $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                            ?>
+                            <article class='magazine'>
+                                <?php
+                                if(has_post_thumbnail())
+                                {
+                                    ?>
+                                    <figure>
+                                        <a href='<?php the_permalink(); ?>'>
+                                            <?php echo get_image_with_srcset(array("image_type"=>"thumbnail", "post_id"=>get_the_ID(), "source_width"=>array(1000, 500), "size"=>"image-size-500", "attr_sizes"=>'(min-width: 37.5em) 25vw, 100vw')); ?>
+                                            <?php //echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 37.5em) 25vw,100vw'); ?>	
+                                        </a>
+                                    </figure>
+                                    <?php
+                                }
+                                ?>
+                                <section class='rubric magazine'>
+                                    <h2 class='magazine'>
+                                        <?php get_the_sub_department($post->ID, MAGAZINE_POST_DEPARTMENT_TAXONOMY); ?>        
+                                        <span class='topic'><?php echo $topic_urls; ?></span>
+                                    </h2>
+                                </section>
+                                <section class='titles'>
+                                    <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                    <p><?php the_excerpt(); ?></p>
+                                    <address><?php echo getAuthorDetail(get_the_ID(), 1, 0); ?></address>
+                                </section>
+                            </article>
+                            <?php
+                        endwhile;
+                        ?>
+                    </main>
+                    <?php
+                }
+                wp_reset_query();
+                ?>                    
+            </section>
+
+            <section class='magazine-section'>
+                <?php
+                $args = array(
+                    'post_type' => array(MAGAZINE_POST_TYPE),
+                    'tax_query' => array(
+                        'relation' => 'AND',
+                        array(
+                            'taxonomy' => MAGAZINE_POST_DEPARTMENT_TAXONOMY,
+                            'field' => 'slug',
+                            'terms' => array('features'),
+                            'operator' => 'IN',
+                        ),
+                        array(
+                            'taxonomy' => 'magazine-issue',
+                            'field' => 'slug',
+                            'terms' => $topicsfinal[0]->name,
+                            'operator' => 'IN',
+                        ),
+                    ),
+                    'post_status' => 'publish',
+                    'order' => 'ASC',
+                    'orderby' => 'menu_order',
+                    'posts_per_page' => '-1'
+                );
+                $eq_query = new WP_Query($args);
+                $count_number_post = $eq_query->post_count;
+
+                if ($count_number_post != "0") 
+                {
+                    ?>
+                    <header class='rubric_mid'>
+                        <h1>Features</h1>
+                    </header>
+                    <main>
+                        <?php
+                        while ($eq_query->have_posts()): $eq_query->the_post();
+                            $byline = get_post_meta($post->ID, 'authors_select_metabox', true);
+                            $byauthor = get_post_meta($post->ID, 'authors_name_metabox', true);
+
+                            $topics = get_topics_by_post_id(get_the_ID());
+                            $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                            ?>                            
+                            <article class='magazine'>
+                                <?php
+                                if(has_post_thumbnail())
+                                {
+                                    ?>
+                                    <figure>
+                                        <a href='<?php the_permalink(); ?>'>
+                                            <?php echo get_image_with_srcset(array("image_type"=>"thumbnail", "post_id"=>get_the_ID(), "source_width"=>array(1000, 500), "size"=>"image-size-500", "attr_sizes"=>'(min-width: 37.5em) 25vw, 100vw')); ?>
+                                            <?php //echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 37.5em) 25vw,100vw'); ?>	
+                                        </a>
+                                    </figure>
+                                    <?php
+                                }
+                                ?>
+                                <section class='rubric magazine'>
+                                    <h2 class='magazine'>
+                                        <?php
+                                        get_the_sub_department($post->ID, MAGAZINE_POST_DEPARTMENT_TAXONOMY);
+                                        ?>        
+                                        <span class='topic'><?php echo $topic_urls; ?></span></h2>
+                                </section>
+                                <section class='titles'>
+                                    <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                    <p><?php the_excerpt(); ?></p>
+                                    <address><?php echo getAuthorDetail(get_the_ID(), 1, 0); ?></address>
+                                </section>
+                            </article>
+                        <?php
+                        endwhile;
+                        ?>
+                    </main>
+                    <?php
+                }
+                wp_reset_query();
+                ?>
+            </section>
+
+            <section class='magazine-section'>
+                <?php
+                $args = array(
+                    'post_type' => array(MAGAZINE_POST_TYPE),
+                    'tax_query' => array(
+                        'relation' => 'AND',
+                        array(
+                            'taxonomy' => MAGAZINE_POST_DEPARTMENT_TAXONOMY,
+                            'field' => 'slug',
+                            'terms' => array('departments'),
+                            'operator' => 'IN',
+                        ),
+                        array(
+                            'taxonomy' => 'magazine-issue',
+                            'field' => 'slug',
+                            'terms' => $topicsfinal[0]->name,
+                            'operator' => 'IN',
+                        ),
+                    ),
+                    'post_status' => 'publish',
+                    'order' => 'ASC',
+                    'orderby' => 'menu_order',
+                    'posts_per_page' => '-1'
+                );
+                $eq_query = new WP_Query($args);
+                $count_number_post = $eq_query->post_count;
+
+                if ($count_number_post != "0") 
+                {
+                    ?>  
+                    <header class='rubric_mid'>
+                        <h1>Departments</h1>
+                    </header>
+                    <main>
+                        <?php
+                        while ($eq_query->have_posts()): $eq_query->the_post();
+                            $byline = get_post_meta($post->ID, 'authors_select_metabox', true);
+                            $byauthor = get_post_meta($post->ID, 'authors_name_metabox', true);
+                            $topics = get_topics_by_post_id(get_the_ID());
+                            $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                            ?>
+                            <article class='magazine'>
+                                <?php
+                                if(has_post_thumbnail())
+                                {
+                                    ?>
+                                    <figure>
+                                        <a href='<?php the_permalink(); ?>'>
+                                            <?php echo get_image_with_srcset(array("image_type"=>"thumbnail", "post_id"=>get_the_ID(), "source_width"=>array(1000, 500), "size"=>"image-size-500", "attr_sizes"=>'(min-width: 37.5em) 25vw, 100vw')); ?>
+                                            <?php //echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 37.5em) 25vw,100vw'); ?>	
+                                        </a>
+                                    </figure>
+                                    <?php
+                                }
+                                ?>
+                                <section class='rubric magazine'>
+                                    <h2 class='magazine'>
+                                        <?php
+                                        get_the_sub_department($post->ID, MAGAZINE_POST_DEPARTMENT_TAXONOMY);
+                                        ?>        
+                                        <span class='topic'><?php echo $topic_urls; ?></span></h2>
+                                </section>
+                                <section class='titles'>
+                                    <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                    <p><?php the_excerpt(); ?></p>
+                                    <address><?php echo getAuthorDetail(get_the_ID(), 1, 0); ?></address>
+                                </section>
+                            </article>
+                            <?php
+                        endwhile;
+                        ?>
+                    </main>
+                    <?php
+                }
+                wp_reset_query();
+                ?>
+            </section>
+        </div>
+        
+        <!-- start Call to Action module -->
+        <div class='CTA-module'>
+            <?php get_the_ad("magazine_ad_"); ?>
+        </div>
+        <!-- end Call to Action module -->
+        <div class="landing-stack">
+        <!-- <div class='landing-stack'> -->
+
+        <section class='magazine-section'>
+            <?php
+            $args = array(
+                'post_type' => array(MAGAZINE_POST_TYPE),
+                'tax_query' => array(
+                    'relation' => 'AND',
+                    array(
+                        'taxonomy' => MAGAZINE_POST_DEPARTMENT_TAXONOMY,
+                        'field' => 'slug',
+                        'terms' => array('columns'),
+                        'operator' => 'IN',
+                    ),
+                    array(
+                        'taxonomy' => 'magazine-issue',
+                        'field' => 'slug',
+                        'terms' => $topicsfinal[0]->name,
+                        'operator' => 'IN',
+                    ),
+                ),
+                'post_status' => 'publish',
+                'order' => 'ASC',
+                'orderby' => 'menu_order',
+                'posts_per_page' => '-1'
+            );
+            $eq_query = new WP_Query($args);
+            $count_number_post = $eq_query->post_count;
+
+            if ($count_number_post != "0") {
+                ?>
+                <header class='rubric_mid'>
+                    <h1>Columns</h1>
+                </header>
+                <main>
+                    <?php
+                    while ($eq_query->have_posts()): 
+                        $eq_query->the_post();
+                        $topics = get_topics_by_post_id(get_the_ID());
+                        $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                        ?>
+                        <article class='magazine'>
+                            <?php
+                            if(has_post_thumbnail())
+                            {
+                                ?>
+                                <figure>
+                                    <a href='<?php the_permalink(); ?>'>
+                                        <?php echo get_image_with_srcset(array("image_type"=>"thumbnail", "post_id"=>get_the_ID(), "source_width"=>array(1000, 500), "size"=>"image-size-500", "attr_sizes"=>'(min-width: 37.5em) 25vw, 100vw')); ?>
+                                        <?php //echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 37.5em) 25vw,100vw'); ?>	
+                                    </a>
+                                </figure>
+                                <?php
+                            }
+                            ?>
+                            <section class='rubric magazine'>
+                                <h2 class='magazine'>
+                                    <?php get_the_sub_department($post->ID, MAGAZINE_POST_DEPARTMENT_TAXONOMY); ?>        
+                                    <span class='topic'><?php echo $topic_urls; ?></span></h2>
+                            </section>
+                            <section class='titles'>
+                                <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                <p><?php the_excerpt(); ?></p>
+                                <address><?php echo getAuthorDetail(get_the_ID(), 1, 0); ?></address>
+                            </section>
+                        </article>
+                        <?php
+                    endwhile;
+                    ?>
+                </main>
+                <?php
+            }
+            wp_reset_query();
+            ?>
+        </section>
+
+        <div class='more magazine'>
+            <a class='button' href='<?php echo get_permalink(get_page_id_by_slug("magazine-archive")); ?>'>Back Issues</a>
+        </div>
+    </div>
+        <?php } ?>
+    <!-- end landing stack -->
+    <div class='rule'></div>
+
+    <aside>
+        <div class='aside-depts'>
+            <!-- start aside trikedaily -->
+            <?php show_latest_trike_daily(); ?>
+            <!-- end aside trikedaily -->
+
+            <!-- start aside ebooks -->
+            <?php show_latest_ebooks(); ?>
+            <!-- end aside ebooks -->
+
+            <!-- start aside dharma talks -->
+            <?php show_latest_dharma_talks(); ?>
+            <!-- end aside dharma talks -->
+        </div>
+        <div class='rule'></div>
+        <?php get_footer(); ?>

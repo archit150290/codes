@@ -1,0 +1,120 @@
+// universal top rubric, from homepage modules originally
+%rubric_base {
+  @include position;
+  margin-bottom: $base-spacing;
+  text-align: center;
+
+  .icon {
+    @include position(relative, rem(2px) null null null);
+    @include size(2rem);
+    display: inline-block;
+    margin-right: .6rem;
+
+    @include media($mobile-up) {
+      @include size(2.25rem);
+    }
+
+    @include media($tablet-up) {
+      @include size(2.5rem);
+    }
+  }
+
+  h1 {
+    font-family: $brandon-grot;
+    font-weight: normal;
+    margin-bottom: 0;
+  }
+
+  p {
+    color: $clr-gray-mid;
+  }
+
+}
+
+.rubric_top {
+  @extend %rubric_base;
+
+  .button {
+    @extend %base-button;
+    border: 0;
+    color: $clr-gray-mid;
+    display: inline-block;
+    margin: $small-spacing 0;
+    padding: $small-spacing $base-spacing $small-spacing - em(2px);
+
+    @include media($max) {
+      @include position(absolute, 0 0 null null);
+    }
+  }
+
+  &.dharmatalks .button {
+    &:hover {
+      background-color: $clr-dharmatalks;
+    }
+  }
+
+  &.filmclub .button {
+    &:hover {
+      background-color: $clr-filmclub;
+    }
+  }
+
+  &.filmfestival .button {
+    &:hover {
+      background-color: $clr-filmfestival;
+    }
+  }
+
+  h1 {
+    font-size: 3em;
+    letter-spacing: -.04em;
+
+    @include media($mobile-up) {
+      font-size: 3.5em;
+    }
+
+    @include media($desktop-up) {
+      font-size: 4em;
+    }
+  }
+}
+
+.rubric_mid {
+  @extend %rubric_base;
+
+  h1 {
+    font-size: 2.25em;
+
+    @include media($mobile-up) {
+      font-size: 2.5em;
+      letter-spacing: -.02em;
+      margin-left: 1.2rem;
+      text-align: left;
+    }
+
+    @include media($tablet-up) {
+      margin-left: .6rem;
+    }
+
+    @include media($desktop-up) {
+      font-size: 3em;
+      letter-spacing: -.04em;
+    }
+  }
+}
+
+.rubric_small {
+  @extend %rubric_base;
+
+  .icon {
+    top: rem(7px);
+  }
+
+  h1 {
+    font-size: 2em;
+
+    @include media($mobile-up) {
+      font-size: 2.25em;
+    }
+  }
+}

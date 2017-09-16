@@ -1,0 +1,507 @@
+<?php
+/*
+  Template Name: Print Template
+ */
+?>
+<?php
+session_start();
+if (isset($_SESSION['Cambey_Login'])) {
+    $paywall_login = 1;
+    $paywall_login_name = $_SESSION['Cambey_Login'];
+} else {
+    $paywall_login = 0;
+}
+?>
+
+<?php
+$post_ID = $_REQUEST['pid'];
+$post_type = get_post_type($post_ID);
+$post_title = get_the_title($post_ID);
+$post_content = get_post_field('post_content', $post_ID);
+$postValues = get_post_type_object($post_type);
+$labels = $postValues->labels; //to fetch the menu name
+$postMenuName = $labels->menu_name;
+$postTypeLink = get_post_type_archive_link($post_type);
+
+if ($post_type == "post") {
+    $post_type = "trikedaily";
+    $postMenuName = "Trike Daily";
+}
+
+$topics = get_topics_by_post_id($post_ID);
+$topic_urls = $topics && isset($topics['names_without_urls']) ? implode(", ", $topics['names_without_urls']) : "";
+$issues = get_issues_by_post_id($post_ID);
+$issues_names_without_urls = $issues && isset($issues['names_without_urls']) ? implode(", ", $issues['names_without_urls']) : "";
+$post_excerpt = get_post_field('post_excerpt', $post_ID);
+$layout = get_post_meta($post_ID, LAYOUT_META_KEY, true);
+
+
+$gettemplateImage = get_base_hero_template_featured_image($post_ID);
+//pr($gettemplateImage); exit;
+$getbase_hero_image = "";
+$figurecaption = "";
+
+if (isset($gettemplateImage['featured_image_url']) && $gettemplateImage['featured_image_url'] != "") {
+    $getbase_hero_image = $gettemplateImage['featured_image_url'];
+} else if (isset($gettemplateImage['use_default_featured_image']) && $gettemplateImage['use_default_featured_image'] == 1) {
+    $image_id = get_post_thumbnail_id();
+    $image_url = wp_get_attachment_image_src($image_id, 'full', true);
+    $getbase_hero_image = $image_url[0];
+}
+?>
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <meta charset="<?php bloginfo('charset'); ?>">
+        <link rel="profile" href="http://gmpg.org/xfn/11">
+        <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>">
+        <!-- external CSS link -->
+        <link rel='stylesheet' href='<?php echo get_template_directory_uri(); ?>/css/screen.css'>
+        <link rel='stylesheet' href='<?php echo get_stylesheet_directory_uri(); ?>/css/tricycle.css'>
+        <script>
+            /*! grunt-grunticon Stylesheet Loader - v2.1.6 | https://github.com/filamentgroup/grunticon | (c) 2015 Scott Jehl, Filament Group, Inc. | MIT license. */
+            !function () {
+                function e(e, n, t) {
+                    "use strict";
+                    var o = window.document.createElement("link"), r = n || window.document.getElementsByTagName("script")[0], a = window.document.styleSheets;
+                    return o.rel = "stylesheet", o.href = e, o.media = "only x", r.parentNode.insertBefore(o, r), o.onloadcssdefined = function (e) {
+                        for (var n, t = 0; t < a.length; t++)
+                            a[t].href && a[t].href === o.href && (n = !0);
+                        n ? e() : setTimeout(function () {
+                            o.onloadcssdefined(e)
+                        })
+                    }, o.onloadcssdefined(function () {
+                        o.media = t || "all"
+                    }), o
+                }
+                function n(e, n) {
+                    e.onload = function () {
+                        e.onload = null, n && n.call(e)
+                    }, "isApplicationInstalled"in navigator && "onloadcssdefined"in e && e.onloadcssdefined(n)
+                }
+                !function (t) {
+                    var o = function (r, a) {
+                        "use strict";
+                        if (r && 3 === r.length) {
+                            var i = t.navigator, c = t.document, s = t.Image, d = !(!c.createElementNS || !c.createElementNS("http://www.w3.org/2000/svg", "svg").createSVGRect || !c.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Image", "1.1") || t.opera && -1 === i.userAgent.indexOf("Chrome") || -1 !== i.userAgent.indexOf("Series40")), l = new s;
+                            l.onerror = function () {
+                                o.method = "png", o.href = r[2], e(r[2])
+                            }, l.onload = function () {
+                                var t = 1 === l.width && 1 === l.height, i = r[t && d ? 0 : t ? 1 : 2];
+                                t && d ? o.method = "svg" : t ? o.method = "datapng" : o.method = "png", o.href = i, n(e(i), a)
+                            }, l.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==", c.documentElement.className += " grunticon"
+                        }
+                    };
+                    o.loadCSS = e, o.onloadCSS = n, t.grunticon = o
+                }(this), function (e, n) {
+                    "use strict";
+                    var t = n.document, o = "grunticon:", r = function (e) {
+                        if (t.attachEvent ? "complete" === t.readyState : "loading" !== t.readyState)
+                            e();
+                        else {
+                            var n = !1;
+                            t.addEventListener("readystatechange", function () {
+                                n || (n = !0, e())
+                            }, !1)
+                        }
+                    }, a = function (e) {
+                        return n.document.querySelector('link[href$="' + e + '"]')
+                    }, i = function (e) {
+                        var n, t, r, a, i, c, s = {};
+                        if (n = e.sheet, !n)
+                            return s;
+                        t = n.cssRules ? n.cssRules : n.rules;
+                        for (var d = 0; d < t.length; d++)
+                            r = t[d].cssText, a = o + t[d].selectorText, i = r.split(");")[0].match(/US\-ASCII\,([^"']+)/), i && i[1] && (c = decodeURIComponent(i[1]), s[a] = c);
+                        return s
+                    }, c = function (e) {
+                        var n, r, a, i;
+                        a = "data-grunticon-embed";
+                        for (var c in e) {
+                            i = c.slice(o.length);
+                            try {
+                                n = t.querySelectorAll(i)
+                            } catch (s) {
+                                continue
+                            }
+                            r = [];
+                            for (var d = 0; d < n.length; d++)
+                                null !== n[d].getAttribute(a) && r.push(n[d]);
+                            if (r.length)
+                                for (d = 0; d < r.length; d++)
+                                    r[d].innerHTML = e[c], r[d].style.backgroundImage = "none", r[d].removeAttribute(a)
+                        }
+                        return r
+                    }, s = function (n) {
+                        "svg" === e.method && r(function () {
+                            c(i(a(e.href))), "function" == typeof n && n()
+                        })
+                    };
+                    e.embedIcons = c, e.getCSS = a, e.getIcons = i, e.ready = r, e.svgLoadedCallback = s, e.embedSVG = s
+                }(grunticon, this)
+            }();
+            grunticon(["<?php echo get_template_directory_uri(); ?>/images/svg-output/icons.data.svg.css", "<?php echo get_template_directory_uri(); ?>/images/svg-output/icons.data.png.css", "<?php echo get_template_directory_uri(); ?>/images/svg-output/icons.fallback.css"], grunticon.svgLoadedCallback);</script>
+        <noscript><link href="<?php echo get_template_directory_uri(); ?>/images/svg-output/icons.fallback.css" rel="stylesheet"></noscript>
+        <?php wp_head(); ?>
+
+    </head>
+    <body>
+        <!-- Div for non Logged in Users-->
+        <div id="non_logged_in" style="display:none">
+
+        </div>
+        <!--End Of Div-->
+        <?php if ($paywall_login) { ?>
+
+            <?php if ($post_type == MAGAZINE_POST_TYPE) { ?>
+                <main class='wrap_base'>
+                    <!-- start Magazine Article -->
+                    <article class='article_base trikedaily'>
+                        <header class='article-header_base'>
+                            <h2 class='rubric <?php echo $post_type; ?>'>
+                                <span class='dept'><a href='#'>Magazine</a></span>
+                                <span class='subdept'><?php get_the_sub_department($post_ID, "magazine-department"); ?></span><span class='topic'><?php echo $topic_urls; ?></span>
+                            </h2>
+                            <h1><?php echo get_the_title($post_ID); ?></h1>
+                            <address><?php echo getAuthorDetail($post_ID, 1, 1); ?></address>
+                            <time><?php echo $issues_names_without_urls; ?></time>
+                        </header>
+
+                        <!-- start article body -->
+                        <main class='article-main_base'>
+                            <div class='article-image_featured'>
+                                <?php
+                                if (!empty($getbase_hero_image)) {
+                                    //echo srcset_post_thumbnail($post_id, 'image', '', '(min-width: 60em) 66vw,100vw', "base");
+                                    echo srcset_post_base_hero_template($getbase_hero_image, '', '', '(min-width: 60em) 66vw,100vw', 'base');
+                                }
+                                ?>
+                            </div>  
+
+                            <section class='article-body'>
+                                <?php echo $post_content; ?>
+                            </section>
+                        </main>
+
+
+                        <div class='article-bottom-matter'>
+                            <section class='article-author'>
+                                <address><?php echo getAuthorDetail($post_ID, 0, 1, 1); ?></address>
+                            </section>
+                        </div>
+                    </article>
+                </main>
+            <?php } //end of magazine post      ?>
+
+
+            <?php if ($post_type == "trikedaily") { ?>
+                <main class='wrap_base'>
+                    <!-- start Magazine Article -->
+                    <article class='article_base trikedaily'>
+                        <header class='article-header_base'>
+                            <h2 class='rubric <?php echo $post_type; ?>'>
+                                <span class='dept'><a href='#'>Trike Daily</a></span>
+                                <span class='subdept'><?php get_trikedaily_department($post_ID); ?></span><span class='topic'><?php echo $topic_urls; ?></span>
+                            </h2>
+                            <h1><?php echo get_the_title($post_ID); ?></h1>
+                            <address><?php echo getAuthorDetail($post_ID, 1, 1); ?></address>
+                            <time><?php echo $issues_names_without_urls; ?></time>
+                        </header>
+
+                        <!-- start article body -->
+                        <main class='article-main_<?php echo $layout; ?>'>
+                            <div class='article-image_featured'>
+                                <figure>
+                                    <?php
+                                    if (!empty($getbase_hero_image)) {
+                                        //echo srcset_post_thumbnail($post_id, 'image', '', '(min-width: 60em) 66vw,100vw', "base");
+                                        echo srcset_post_base_hero_template($getbase_hero_image, '', '', '(min-width: 60em) 66vw,100vw', 'base');
+                                    }
+                                    ?>
+
+                                </figure>
+                            </div>  
+
+                            <section class='article-body'>
+                                <?php echo $post_content; ?>
+                            </section>
+                        </main>
+
+
+                        <div class='article-bottom-matter'>
+                            <section class='article-author'>
+                                <address><?php echo getAuthorDetail($post_ID, 0, 1, 1); ?></address>
+                            </section>
+                        </div>
+                    </article>
+                </main>
+            <?php } //end of magazine post      ?>
+
+            <?php if ($post_type == DHARMATALKS_POST_TYPE) { ?>
+
+                <main class='wrap_base'>
+
+                    <!-- start Magazine Article -->
+                    <article class='article_dharmatalks dharmatalks'>
+                        <header class='article-header_video'>
+                            <h2 class='rubric dharmatalks'>
+                                <span class='dept'><a href='<?php echo get_post_type_archive_link(DHARMATALKS_POST_TYPE); ?>'>Dharma Talks</a></span>
+                                <span class='topic'><?php echo $topic_urls; ?></span>
+                            </h2>
+                            <time><?php echo get_the_date('M Y', $post_ID); ?></time>
+                            <h1><?php echo $post_title; ?></h1>
+                            <address><a href=''><?php echo getAuthorDetail($post_ID, 0, 0); ?></a></address>
+                        </header>
+                        <!-- start article body -->
+                        <main class='article-main_film'>
+                            <div class='article-image_featured'>
+                                <figure>
+                                    <?php echo srcset_post_thumbnail($post_ID, 'image', '', '(min-width: 50em) 75vw,100vw'); ?>
+
+                                </figure>
+                            </div>  
+                            <section class='article-body'>
+                                <?php echo $post_content; ?>
+                            </section>
+                        </main>
+
+                    </article>
+
+                </main>
+
+            <?php } ?>
+
+
+            <?php if ($post_type == FILM_CLUB_POST_TYPE) { ?>
+
+                <main class='wrap_base'>
+                    <article class='article_base filmclub'>
+                        <header class='article-header_video'>
+                            <h2 class='rubric filmclub'>
+                                <span class='dept'>Film Club</span>
+                                <span class='topic'><?php echo $topic_urls; ?></span>
+                            </h2>
+                            <time><?php echo get_the_date('M d, Y', $post_ID); ?></time>
+                            <h1><?php echo $post_title; ?></h1>
+
+                        </header>
+                        <!-- start article body -->
+                        <main class='article-main_dharmatalks'>
+                            <div class='article-image_featured'>
+                                <figure>
+                                    <?php echo srcset_post_thumbnail($post_ID, 'image', '', '(min-width: 50em) 75vw,100vw'); ?>
+                                </figure>
+
+                                <section class='article-body'>
+                                    <p>
+                                        <?php
+                                        $authorname = getAuthorDetail($post_ID, 0, 0);
+                                        $country = get_post_meta($post_ID, 'country_meta_key', true);
+                                        ?>
+                                        Director: <?php echo $authorname; ?><br />
+                                        Country: <?php echo $country; ?><br />
+                                        Year: <?php echo get_the_date('Y', $post_ID); ?></p>
+                                    <?php echo $post_content; ?>
+
+                                </section>
+                            </div>  
+                        </main>
+                    </article>
+                </main>
+
+            <?php } ?>
+
+            <?php if ($post_type == FILM_FESTIVAL_POST_TYPE) { ?>
+
+                <main class='wrap_base'>
+                    <article class='article_base filmfestival'>
+                        <header class='article-header_video'>
+                            <h2 class='rubric filmfestival'>
+                                <span class='dept'>Film Festival</span>
+                                <span class='topic'><?php echo $topic_urls; ?></span>
+                            </h2>
+                            <time><?php echo get_the_date('M d, Y', $post_ID); ?></time>
+                            <h1><?php echo $post_title; ?></h1>
+
+                        </header>
+                        <!-- start article body -->
+                        <main class='article-main_dharmatalks'>
+                            <div class='article-image_featured'>
+                                <figure>
+                                    <?php echo srcset_post_thumbnail($post_ID, 'image', '', '(min-width: 50em) 75vw,100vw'); ?>
+                                </figure>
+
+                                <section class='article-body'>
+                                    <p>
+                                        <?php
+                                        $authorname = getAuthorDetail($post_ID, 0, 0);
+                                        $country = get_post_meta($post_ID, 'country_meta_key', true);
+                                        ?>
+                                        Director: <?php echo $authorname; ?><br />
+                                        Country: <?php echo $country; ?><br />
+                                        Year: <?php echo get_the_date('Y', $post_ID); ?></p>
+                                    <?php echo $post_content; ?>
+
+                                </section>
+                            </div>  
+                        </main>
+                    </article>
+                </main>
+
+            <?php } ?>
+
+
+            <?php if ($post_type == EBOOKS_POST_TYPE) { ?>
+                <div class='landing-marquee ebooks'>
+                    <header class='rubric_top'>
+                        <h1><span class='icon icon-dept_ebooks'></span>E-Books</h1>
+                        <p>Tricycle wisdom in e-book format</p>
+                    </header>
+
+                    <main class='slider'>
+                        <div class='slider-next arrow-off'>
+                            <button class='icon' type='button' data-grunticon-embed></button>
+                        </div>
+                        <figure class='slider-cover'>
+
+                            <?php echo srcset_post_thumbnail($post_ID, 'image', '', '(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,75vw'); ?>
+                        </figure>
+                        <div class='slider-prev'>
+                            <button class='icon' type='button' data-grunticon-embed></button>
+                        </div>
+                        <header class='slider-date'>
+                            <h2 class='topic'><?php echo $topic_urls; ?></h2>
+                            <h1><?php echo $post_title; ?></h1>
+                        </header>
+                    </main>
+                </div>
+                <!-- end ebooks article marquee/slider -->
+                <main class='wrap_base'>
+                    <article class='article_ebooks ebooks'>
+                        <!-- start article body -->
+                        <main class='article-main_ebooks'>
+
+                            <div class='tools_top'>
+
+                            </div>
+
+                            <section class='article-body'>
+                                <?php echo $post_content; ?>
+                            </section>
+
+                            <?php
+                            $ebooksmeta = get_post_meta($post_ID);
+                            //pr($ebooksmeta);
+                            $metaData = array();
+                            $i = $j = 1;
+
+                            foreach ($ebooksmeta as $metakey => $value) {
+                                $metakey_titlekey = "";
+                                $metakey_bylinekey = "";
+
+                                if (strstr($metakey, "ebooks_toc_title_")) {
+                                    $metakey_title = explode("ebooks_toc_title_", $metakey);
+                                    $metakey_titlekey = $metakey_title[1];
+                                    $metaData[$i]['toc_title'] = $value[0];
+                                    $i++;
+                                }
+
+                                if (strstr($metakey, "ebooks_toc_byline_")) {
+                                    $metakey_byline = explode("ebooks_toc_byline_", $metakey);
+                                    $metakey_bylinekey = $metakey_byline[1];
+                                    $metaData[$j]['toc_byline'] = $value[0];
+                                    $j++;
+                                }
+                            }
+
+                            if (!empty($metaData)) {
+                                ?>
+                                <section class='article_ebooks-contents'>
+                                    <h1 class='h2'>Table of Contents</h1>
+                                    <ol>
+                                        <?php
+                                        foreach ($metaData as $metaDataContent) {
+
+                                            if ($metaDataContent['toc_title'] != "") {
+                                                ?>
+                                                <li>
+                                                    <h1><?php echo $metaDataContent['toc_title']; ?></h1><address><?php echo $metaDataContent['toc_byline']; ?></address>
+                                                </li>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                    </ol>
+                                    <div class='rule'></div>
+                                </section>
+
+                                <?php
+                            }
+                            ?>
+                            <section class='article-body article_ebooks-boilerplate'>
+                                <?php echo get_option("ebook_content_option_key"); ?> 
+                            </section>
+
+
+                        </main>
+                    </article>
+
+                </main>
+                <!-- end article wrap -->
+
+
+            <?php } ?>
+
+
+            <?php if ($post_type == "page") { ?>
+
+                <main class='wrap_base'>
+
+                    <!-- start Magazine Article -->
+                    <article class='article_dharmatalks dharmatalks'>
+                        <header class='article-header_video'>
+                            <h1><?php echo $post_title; ?></h1>
+                        </header>
+                        <!-- start article body -->
+                        <main class='article-main_film'>
+                            <section class='article-body'>
+                                <?php echo $post_content; ?>
+                            </section>
+                        </main>
+                    </article>
+                </main>
+
+            <?php } ?>
+
+
+                                                                                                                <!--        <script type="text/javascript">
+                                                                                                                                    window.print();
+                                                                                                                                    window.onfocus = function(){ window.close(); }
+                                                                                                                        </script>-->
+
+            <script src='<?php echo get_template_directory_uri(); ?>/js/jquery-2.1.4.min.js'></script>
+            <script src='<?php echo get_template_directory_uri(); ?>/js/jquery.matchHeight.js'></script>
+            <script src='<?php echo get_template_directory_uri(); ?>/js/main.js'></script>
+            <script src='<?php echo get_template_directory_uri(); ?>/js/common.js'></script>
+            <script type="text/javascript">
+                    window.print();
+                    window.onfocus = function () {
+                        window.close();
+                    }
+            </script>
+        <?php } //if condition  ?>
+
+    </body>
+
+</html>
+<?php
+if ($paywall_login == "0") {
+    ?>
+    <script lang="javascript" type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery('#non_logged_in').css("display", "block");
+        });
+    </script>
+<?php } ?>

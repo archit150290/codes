@@ -1,0 +1,23 @@
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ * Tick all film festival for paywall
+ */
+include_once 'wp-config.php';
+$args = array(
+    'post_type' => FILM_FESTIVAL_POST_TYPE,
+    'post_status' => array('publish', 'draft'),
+    'posts_per_page'=>-1,
+);
+$eq_query = new WP_Query($args);
+while($eq_query->have_posts()){
+    $eq_query->the_post();
+    update_post_meta(get_the_ID(), "behind_the_paywall", "1");
+}
+echo "All Film Festival Posts are now ticked for behind the paywall......Done";
+
+
+

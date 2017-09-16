@@ -1,0 +1,165 @@
+// daily dharma
+.home-dailydharma {
+  @include clearfix;
+  @include margin($base-spacing * 2 $small-spacing $base-spacing * 3);
+  @include padding(null $base-spacing);
+  border: 2px solid $clr-red;
+  clear: both;
+  text-align: center;
+
+  @include media($tablet-up) {
+    @include margin(null $base-spacing);
+  }
+
+  @include media($desktop-up) {
+    line-height: $base-line-height;
+  }
+
+  h2 {
+    @extend %h2-cond;
+    @include padding($small-spacing / 2 $base-spacing $small-spacing / 2 - em(2px));
+    background-color: $clr-red;
+    color: $clr-white;
+    display: inline-block;
+    letter-spacing: .1em;
+    margin: -$base-spacing auto;
+  }
+
+  a {
+    color: inherit;
+
+    p:hover,
+    &:hover {
+      color: shade($clr-red, 25%);
+    }
+  }
+
+  address {
+    clear: both;
+  }
+}
+
+.icon-quote {
+  margin: $base-spacing auto $small-spacing;
+
+  @include media($tablet-up) {
+    @include margin($base-spacing * 1.5 auto);
+  }
+}
+
+.dailydharma-quote {
+  @include transition($base-transition);
+  color: $clr-black;
+  font-family: $heading-font-family;
+  font-size: $heading-font-size;
+  line-height: $heading-line-height;
+
+  @include media($desktop-up) {
+    @include span-columns(10 of 12);
+    @include shift;
+  }
+
+  @include media($wide-up) {
+    font-size: 2.25em;
+    line-height: 1.33;
+  }
+}
+
+%tools {
+  @include clearfix;
+  display: inline-block;
+
+  li {
+    @include position;
+    @include size(2em);
+    float: left;
+    margin-right: $small-spacing;
+  }
+
+  a.icon {
+    svg {
+      @include svg-embed(2em);
+      fill: $clr-gray-off;
+    }
+
+    &:hover {
+      svg {
+        fill: $clr-red;
+      }
+    }
+  }
+}
+
+.dailydharma-social {
+  @extend %tools;
+  margin: $base-spacing auto 0;
+}
+
+form#dailydharma-enews {
+  margin: $base-spacing;
+
+  @include media($tablet-up) {
+    @include margin($base-spacing null);
+    @include span-columns(8 of 12);
+    @include shift(2);
+    @include omega;
+    position: relative;
+  }
+
+  @include media($desktop-up) {
+    @include span-columns(6 of 12);
+    @include shift(3);
+    @include omega;
+    font-size: 1.125em;
+  }
+
+  @include media($wide-up) {
+    @include span-columns(5 of 12);
+    @include shift(3.5);
+    @include omega;
+    font-size: 1.25em;
+  }
+}
+
+input#dailydharma-email {
+  text-align: center;
+
+  @include media($tablet-up) {
+    @include fill-parent;
+    text-align: left;
+  }
+}
+
+%dailydharma-button {
+  @extend %base-button;
+  @include padding($small-spacing $small-spacing $small-spacing - em(2px));
+}
+
+button#dailydharma-modal-trigger {
+  @extend %dailydharma-button;
+
+  @include media($tablet-up) {
+    @include position(absolute, 1px 1px null null);
+    background-color: transparent;
+    border: 0;
+    line-height: normal;
+    margin: 0;
+    outline: none;
+    padding-bottom: $small-spacing - em(2px);
+
+    &:hover {
+      background-color: $clr-red;
+    }
+  }
+}
+
+button#dailydharma-modal-submit {
+  @extend %dailydharma-button;
+  font-size: 1rem;
+  margin: $small-spacing 0;
+}
+
+.dailydharma-modal {
+  @extend %modal;
+  @extend %modal-button_float;
+}

@@ -1,0 +1,167 @@
+// cover slider
+////////////////////////
+%rule_below-rubric {
+  .rule {
+    @include padding(0 0 null);
+    height: $base-spacing * 1.5 + em(2px);
+  }
+}
+
+.slider {
+  @extend %rule_below-rubric;
+
+  .dropdown.ebooks {
+    @include margin($base-spacing null);
+    font-size: 1em;
+    letter-spacing: .1em;
+    line-height: 1;
+    text-align: center;
+    text-transform: uppercase;
+
+    .dropdown-menu {
+      border: 1px solid $clr-gray-lite;
+      height: auto;
+      overflow-y: inherit;
+      z-index: 9999;
+    }
+  }
+
+  p.dropdown-button {
+    @include transition($base-transition);
+    @include padding($small-spacing $base-spacing $small-spacing - em(2px));
+    background-color: $clr-ebooks;
+    border: 1px solid $clr-ebooks;
+    color: $clr-white;
+    display: inline-block;
+
+    &:hover {
+      background-color: $clr-white;
+      color: $clr-ebooks;
+    }
+  }
+}
+
+%slider-button {
+  @include span-columns(2 of 12);
+
+  @include media($mobile-up) {
+    @include span-columns(3 of 12);
+  }
+
+  button {
+    @include position;
+    @include size(2em $archive-image-height_mobile);
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    padding: 0;
+
+    @include media($tablet-up) {
+      @include size(2.5em $archive-image-height_tablet);
+    }
+
+    @include media($desktop-up) {
+      height: $archive-image-height_desktop;
+    }
+
+    svg {
+      @include svg-embed(2em);
+
+      @include media($tablet-up) {
+        @include svg-embed(2.5em);
+      }
+    }
+  }
+
+  &.arrow-off {
+    button {
+      cursor: auto;
+
+      path { fill: $clr-gray-lite; }
+
+      &:hover {
+        path { fill: $clr-gray-lite !important; }
+      }
+    }
+  }
+}
+
+.slider-next {
+  @extend %slider-button;
+
+  @include media($desktop-up) {
+    @include shift;
+  }
+}
+
+.slider-prev {
+  @extend %slider-button;
+  @include omega;
+}
+
+.slider-cover {
+  @include span-columns(8 of 12);
+
+  @include media($mobile-up) {
+    @include span-columns(6 of 12);
+  }
+
+  @include media($desktop-up) {
+    @include span-columns(4 of 12);
+  }
+
+  img {
+    box-shadow: $base-box-shadow;
+    margin: 0 auto;
+    max-height: inherit;
+    min-height: inherit;
+    width: $archive-image-width_mobile;
+
+    @include media($tablet-up) {
+      width: $archive-image-width_tablet;
+    }
+
+    @include media($desktop-up) {
+      width: $archive-image-width_desktop;
+    }
+  }
+
+  figcaption {
+    @include margin($small-spacing null null);
+    border-bottom: 0;
+    font-size: .75em;
+    font-style: italic;
+    text-align: center;
+
+    @include media($tablet-up) {
+      font-size: .875em;
+    }
+  }
+}
+
+.slider-date {
+  clear: both;
+  text-align: center;
+
+  h2 {
+    margin-bottom: $small-spacing;
+
+    a:hover {
+      color: $clr-ebooks;
+    }
+  }
+
+  time {
+    font-size: 2em;
+    margin: 0;
+  }
+
+  .vol-no {
+    color: $clr-gray-midhi;
+    display: block;
+    font-size: .4375em;
+    letter-spacing: .1em;
+  }
+}

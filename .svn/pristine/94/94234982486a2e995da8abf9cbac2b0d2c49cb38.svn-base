@@ -1,0 +1,553 @@
+<?php get_header(); ?>
+<!-- start content -->
+<?php
+if (isset($_REQUEST['NextValue'])) {
+    $count = $_REQUEST['nextvalue'];
+} else {
+    $count = 0;
+}
+?>
+<?php
+
+$topicsfinal=get_magazine_issue_terms();
+echo $topicsfinal[$count]->term_id;
+foreach ($topicsfinal as $topics) {
+    $topics->name;
+}
+?>
+<?php $nexturl=get_magazine_issue_terms();?>
+<div class='wrap'>
+    <!-- start magazine landing marquee -->
+    <div class='landing-marquee magazine'>
+        <header class='rubric_top'>
+            <h1><span class='icon icon-dept_magazine'></span>Magazine</h1>
+            <p>The Buddhist Review</p>
+            <a class='button' href='<?php echo bloginfo('url')."/magazine-archive"; ?>'>Back Issues</a>
+        </header>
+
+        <main class='slider'>
+            <div class='rule'></div>
+            <form method="post">
+                <input type="hidden" value="<?php echo $count - 1; ?>" name="nextvalue" >
+                <!-- arrow-off for arrow off -->
+                <?php if ($count == "0") { ?>
+                    <div class='slider-next arrow-off'>
+                      
+                        <button class='icon-arrow_left' type='submit' data-grunticon-embed></button>
+                        <a class='icon-arrow_left' href="asd"></a>
+                        <?php
+                    } else {
+                        echo "<div class='slider-next'>";
+                        echo "<button class='icon-arrow_left' type='submit' name='NextValue' data-grunticon-embed></button>";
+                    }
+                    ?>
+
+                </div>
+            </form>
+            <figure class='slider-cover'>
+                <?php
+                $t_id = $topicsfinal[$count]->term_id;
+                $term_meta = get_option("taxonomy_term_$t_id");
+                $magazine_issue_cover_image = $term_meta['cover_image'];
+                $upload_dir = wp_upload_dir();
+                $upload_baseurl = $upload_dir['baseurl'] . '/' . $magazine_issue_cover_image;
+                ?>
+
+               <?php echo getImagewithSrcset($upload_baseurl,'image','','(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,75vw'); ?>
+               
+                <figcaption>Illustration by <?php echo $term_meta['cover_image_credit']; ?></figcaption>
+            </figure>
+            <form method="post">
+                <input type="hidden" value="<?php echo $count + 1; ?>" name="nextvalue" >
+                <div class='slider-prev'>
+                    <button class='icon-arrow_right' type='submit' name="NextValue" data-grunticon-embed></button>
+                   
+                </div>
+            </form>
+            <header class='slider-date'>
+                <time class='h2'><?php echo $topicsfinal[$count]->name; ?><span class='vol-no'>Volume 24, Number 4</span></time>
+            </header>
+
+        </main>
+    </div>
+    <!-- end magazine landing marquee -->
+
+    <!-- start stack title -->
+    <div class='landing-stack-slug magazine'>
+        <h2 class='button'>In This Issue </h2>
+    </div>
+    <!-- end stack title -->
+
+    <!-- start magazine landing stack -->
+    <div class='landing-stack'>
+        <section class='magazine-section'>
+
+            <?php
+            $args = array(
+                'post_type' => array(ARTICLE_POST_TYPE),
+                'tax_query' => array(
+                    'relation' => 'AND',
+                    array(
+                        'taxonomy' => 'article-category',
+                        'field' => 'slug',
+                        'terms' => array('special-sections'),
+                        'operator' => 'IN',
+                    ),
+                    array(
+                        'taxonomy' => 'magazine-issue',
+                        'field' => 'slug',
+                        'terms' => $topicsfinal[$count]->name,
+                        'operator' => 'IN',
+                    ),
+                ),
+                'post_status' => 'publish',
+                'order' => 'DESC',
+                'orderby' => 'date',
+                'posts_per_page' => 6,
+            );
+            $eq_query = new WP_Query($args);
+            $count_number_post = $eq_query->post_count;
+
+            if ($count_number_post != "0") {
+                ?>
+                <header class = 'rubric_mid'>
+                    <h1>Special Sections</h1>
+                </header>
+                <?php
+                while ($eq_query->have_posts()): $eq_query->the_post();
+                    $byline = get_post_meta($post->ID, 'authors_select_metabox', true);
+                    $byauthor = get_post_meta($post->ID, 'authors_name_metabox', true);
+                    $topic = get_the_terms(get_the_ID(), "topic");
+                    $topicName = isset($topic[0]) ? $topic[0]->name : "";
+                    $topicSlug = isset($topic[0]) ? $topic[0]->slug : "";
+                    ?>
+                    <main>
+                        <article class='magazine'>
+                            <figure>
+                                <a href='<?php the_permalink();  ?>'>
+
+                                    <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 37.5em) 25vw,100vw'); ?>	
+                                </a>
+                            </figure>
+
+                            <section class='rubric magazine'>
+                                <h2 class='magazine'><a href='#'>Special Section</a><span class='topic'><a href='<?php getTopicUrl($topicSlug); ?>'><?php echo $topicName; ?></a></span></h2>
+                            </section>
+                            <section class='titles'>
+                                <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                <p><?php the_excerpt(); ?></p>
+                                <address><?php echo getAuthorDetail(get_the_ID(),1,0); ?></address>
+                            </section>
+                        </article>
+
+                        <?php
+                    // end of counter that is counting number of post
+
+
+                    endwhile;
+                }
+                wp_reset_query();
+                ?>
+
+            </main>
+        </section>
+
+
+        <section class='magazine-section'>
+            <?php
+            $args = array(
+                'post_type' => array(ARTICLE_POST_TYPE),
+                'tax_query' => array(
+                    'relation' => 'AND',
+                    array(
+                        'taxonomy' => 'article-category',
+                        'field' => 'slug',
+                        'terms' => array('features'),
+                        'operator' => 'IN',
+                    ),
+                    array(
+                        'taxonomy' => 'magazine-issue',
+                        'field' => 'slug',
+                        'terms' => $topicsfinal[$count]->name,
+                        'operator' => 'IN',
+                    ),
+                ),
+                'post_status' => 'publish',
+                'order' => 'DESC',
+                'orderby' => 'date',
+                'posts_per_page' => 6,
+            );
+            $eq_query = new WP_Query($args);
+            $count_number_post = $eq_query->post_count;
+
+            if ($count_number_post != "0") {
+                ?>
+                <header class='rubric_mid'>
+                    <h1>Features</h1>
+                </header>
+                <?php
+                while ($eq_query->have_posts()): $eq_query->the_post();
+                    $byline = get_post_meta($post->ID, 'authors_select_metabox', true);
+                    $byauthor = get_post_meta($post->ID, 'authors_name_metabox', true);
+                    $topic = get_the_terms(get_the_ID(), "topic");
+                    $topicName = isset($topic[0]) ? $topic[0]->name : "";
+                    $topicSlug = isset($topic[0]) ? $topic[0]->slug : "";
+                    ?>
+                    <main>
+                        <article class='magazine'>
+                            <figure>
+                                <a href='<?php the_permalink();  ?>'>
+                                    <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 37.5em) 25vw,100vw'); ?>	
+                                </a>
+                            </figure>
+                            <section class='rubric magazine'>
+                                <h2 class='magazine'><a href='#'>Feature</a><span class='topic'><a href='<?php getTopicUrl($topicSlug); ?>'><?php echo $topicName; ?></a></span></h2>
+                            </section>
+                            <section class='titles'>
+                                <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                <p><?php the_excerpt(); ?></p>
+                                <address><?php echo getAuthorDetail(get_the_ID(),1,0); ?></address>
+                            </section>
+                        </article>
+
+                        <?php
+                    // end of counter that is counting number of post
+
+
+                    endwhile;
+                }
+                wp_reset_query();
+                ?>
+
+            </main>
+        </section>
+
+
+        <section class='magazine-section'>
+            <?php
+            $args = array(
+                'post_type' => array(ARTICLE_POST_TYPE),
+                'tax_query' => array(
+                    'relation' => 'AND',
+                    array(
+                        'taxonomy' => 'article-category',
+                        'field' => 'slug',
+                        'terms' => array('departments'),
+                        'operator' => 'IN',
+                    ),
+                    array(
+                        'taxonomy' => 'magazine-issue',
+                        'field' => 'slug',
+                        'terms' => $topicsfinal[$count]->name,
+                        'operator' => 'IN',
+                    ),
+                ),
+                'post_status' => 'publish',
+                'order' => 'DESC',
+                'orderby' => 'date',
+                'posts_per_page' => 6,
+            );
+            $eq_query = new WP_Query($args);
+            $count_number_post = $eq_query->post_count;
+
+            if ($count_number_post != "0") {
+                ?>  
+                <header class='rubric_mid'>
+                    <h1>Departments</h1>
+                </header>
+                <?php
+                while ($eq_query->have_posts()): $eq_query->the_post();
+                    $byline = get_post_meta($post->ID, 'authors_select_metabox', true);
+                    $byauthor = get_post_meta($post->ID, 'authors_name_metabox', true);
+                    $topic = get_the_terms(get_the_ID(), "topic");
+                    $topicName = isset($topic[0]) ? $topic[0]->name : "";
+                    $topicSlug = isset($topic[0]) ? $topic[0]->slug : "";
+                    $subdepartment = get_the_terms($post->ID, "subdepartment");
+                    $subdepartmentName = isset($subdepartment[0]) ? $subdepartment[0]->name : "";
+                    $subdepartmentslug = isset($subdepartment[0]) ? $subdepartment[0]->slug : "";
+                    ?>
+                    <main>
+                        <article class='magazine'>
+                            <figure>
+                                <a href='<?php the_permalink();  ?>'>
+
+                                    <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 37.5em) 25vw,100vw'); ?>	
+                                </a>
+                            </figure>
+                            <section class='rubric magazine'>
+                                <h2 class='magazine'><a href='#'><?php echo $subdepartmentName; ?></a><span class='topic'><a href='<?php getTopicUrl($topicSlug); ?>'><?php echo $topicName; ?></a></span></h2>
+                            </section>
+                            <section class='titles'>
+                                <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                <p><?php the_excerpt(); ?></p>
+                                <address><?php echo getAuthorDetail(get_the_ID(),1,0); ?></address>
+                            </section>
+                        </article>
+
+                        <?php
+                    // end of counter that is counting number of post
+
+
+                    endwhile;
+                }
+                wp_reset_query();
+                ?>
+            </main>
+        </section>
+        <!-- </div> -->
+
+        <!-- start Call to Action module -->
+        <div class='CTA-module'>
+            <div class='rule'></div>
+            <div class='CTA-ad' style='
+                 background-color: #ddd;
+                 line-height: 1; padding: 2em;
+                 margin: 0 auto;
+                 width: 75%;
+                 height: 10em;
+                 text-align: center;
+                 '>
+                <p>Call-to-Action Module. Can be set in the CMS to any of the following: (1) Ad served via Google DFP Small Business (TBD), (2) Daily Dharma, (3) Subscribe CTA, (4) Newletter CTA</p>
+            </div>
+            <div class='rule'></div>
+        </div>
+        <!-- end Call to Action module -->
+
+        <!-- <div class='landing-stack'> -->
+
+        <section class='magazine-section'>
+            <?php
+            $args = array(
+                'post_type' => array(ARTICLE_POST_TYPE),
+                'tax_query' => array(
+                    'relation' => 'AND',
+                    array(
+                        'taxonomy' => 'article-category',
+                        'field' => 'slug',
+                        'terms' => array('columns'),
+                        'operator' => 'IN',
+                    ),
+                    array(
+                        'taxonomy' => 'magazine-issue',
+                        'field' => 'slug',
+                        'terms' => $topicsfinal[$count]->name,
+                        'operator' => 'IN',
+                    ),
+                ),
+                'post_status' => 'publish',
+                'order' => 'DESC',
+                'orderby' => 'date',
+                'posts_per_page' => 6,
+            );
+            $eq_query = new WP_Query($args);
+            $count_number_post = $eq_query->post_count;
+
+            if ($count_number_post != "0") {
+                ?>
+                <header class='rubric_mid'>
+                    <h1>Columns</h1>
+                </header>
+                <?php
+                while ($eq_query->have_posts()): $eq_query->the_post();
+                    $byline = get_post_meta($post->ID, 'authors_select_metabox', true);
+                    $byauthor = get_post_meta($post->ID, 'authors_name_metabox', true);
+                    $topic = get_the_terms(get_the_ID(), "topic");
+                    $topicName = isset($topic[0]) ? $topic[0]->name : "";
+                    $topicSlug = isset($topic[0]) ? $topic[0]->slug : "";
+                    $subdepartment = get_the_terms($post->ID, "subdepartment");
+                    $subdepartmentName = isset($subdepartment[0]) ? $subdepartment[0]->name : "";
+                    $subdepartmentslug = isset($subdepartment[0]) ? $subdepartment[0]->slug : "";
+                    ?>
+                    <main>
+                        <article class='magazine'>
+                            <figure>
+                               <a href='<?php the_permalink();  ?>'>
+
+                                    <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 37.5em) 25vw,100vw'); ?>	
+                                </a>
+                            </figure>
+                            <section class='rubric magazine'>
+                                <h2 class='magazine'><a href='#'><?php echo $subdepartmentName; ?></a><span class='topic'><a href='<?php getTopicUrl($topicSlug); ?>'><?php echo $topicName; ?></a></span></h2>
+                            </section>
+                            <section class='titles'>
+                                <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                <p><?php the_excerpt(); ?></p>
+                                <address><?php echo getAuthorDetail(get_the_ID(),1,0); ?></address>
+                            </section>
+                        </article>
+
+                        <?php
+                    // end of counter that is counting number of post
+
+
+                    endwhile;
+                }
+                wp_reset_query();
+                ?>
+
+            </main>
+        </section>
+
+        <div class='more magazine'>
+            <a class='button' href='<?php echo bloginfo('url')."/magazine-archive"; ?>'>Back Issues</a>
+        </div>
+    </div>
+    <!-- end landing stack -->
+    <div class='rule'></div>
+
+
+    <aside>
+        <div class='aside-depts'>
+            <!-- start aside trikedaily -->
+            <section class='aside-trikedaily'>
+                <header class='rubric_small'>
+                    <h1><a href='<?php echo get_site_url().'/blog' ?>'><span class='icon icon-dept_trikedaily'></span>Trike Daily</a></h1>
+                    <p>Daily wisdom, teachings &amp; critique</p>
+                </header>
+
+                <main>
+                    <?php
+                        $args = array(
+                            'posts_per_page' => 1,
+                            'orderby' => 'post_date',
+                            'order' => 'DESC',
+                            //'post_type' => 'post',
+                            'post_status' => 'publish',
+                            'suppress_filters' => true
+                        );
+                            
+                        $querymagazine = new WP_Query($args);
+                        query_posts($querymagazine);
+                        while ($querymagazine->have_posts()) : $querymagazine->the_post();
+                        
+                        $topicSet = get_the_terms(get_the_ID(), "topic");
+                        $topicName = isset($topicSet[0]) ? $topicSet[0]->name : "";
+                        $topicSlug = isset($topicSet[0]) ? $topicSet[0]->slug : "";
+
+                    ?>
+                        <article>
+                            <figure>
+                                <a href='<?php the_permalink(); ?>'>
+                                    <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 50em) 33vw,100vw'); ?>
+                                </a>
+                            </figure>
+                            <section>
+                                <h2 class='rubric trikedaily'><span class='topic'><a href='<?php getTopicUrl($topicSlug); ?>'><?php echo $topicName; ?></a></span></h2>
+                                <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                <p><?php the_excerpt(); ?></p>
+                                <address><?php echo getAuthorDetail(get_the_ID(),1,0); ?></address>
+                                <time><?php the_date('M d, Y'); ?></time>
+                            </section>
+                        </article>
+                    <?php
+                        endwhile;
+                        wp_reset_query();
+                    ?>
+                </main>
+                <div class='rule-responsive'></div>
+            </section>
+            <!-- end aside trikedaily -->
+
+            <!-- start aside ebooks -->
+            <section class = 'aside-ebooks'>
+                <header class = 'rubric_small'>
+                    <h1><a href = '<?php echo get_site_url() . '/' . EBOOKS_POST_TYPE; ?>'><span class = 'icon icon-dept_ebooks'></span>E-Books</a></h1>
+                    <p>Tricycle wisdom in e-book format</p>
+                </header>
+
+                <main>
+                    <?php
+                    $args = array(
+                        'posts_per_page' => 1,
+                        'orderby' => 'post_date',
+                        'order' => 'DESC',
+                        'post_type' => EBOOKS_POST_TYPE,
+                        'post_status' => 'publish',
+                        'suppress_filters' => true
+                    );
+
+                    $queryfirst = new WP_Query($args);
+                    query_posts($queryfirst);
+                    while ($queryfirst->have_posts()) : $queryfirst->the_post();
+                        $postId[] = $queryfirst->post->ID;
+
+                        $topicSet = get_the_terms(get_the_ID(), "topic");
+                        $topicName = isset($topicSet[0]) ? $topicSet[0]->name : "";
+                        $topicSlug = isset($topicSet[0]) ? $topicSet[0]->slug : "";
+                        ?>
+                        <article>
+                            <figure>
+                                <a href = '<?php the_permalink();?>'>
+                                    <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,75vw'); ?>	
+                                </a>
+                            </figure>
+                            <section>
+                                <h2 class = 'rubric ebooks'><span class = 'topic'><a href = '<?php getTopicUrl($topicSlug);?>'><?php echo $topicName; ?></a></span></h2>
+                                <h1><a href = '<?php the_permalink();?>'><?php the_title();?></a></h1>
+                                <p><?php the_excerpt(); ?></p>
+                            </section>
+                        </article>
+                        <?php
+                    endwhile;
+                    wp_reset_query();
+                    ?>
+
+                </main>
+                <div class='rule-responsive'></div>
+            </section>
+            <!-- end aside ebooks -->
+
+            <!-- start aside dharma talks -->
+            <section class='aside-dharmatalks'>
+                <header class='rubric_small'>
+                    <h1><a href='<?php echo bloginfo('url') . "/" . DHARMATALKS_POST_TYPE; ?>'><span class='icon icon-dept_dharmatalks'></span>Dharma Talks</a></h1>
+                    <p>Video teachings and discussions with contemporary Buddhist teachers</p>
+                </header>
+                <main>
+                    <?php
+                    $args = array(
+                        'posts_per_page' => 1,
+                        'orderby' => 'post_date',
+                        'order' => 'DESC',
+                        'post_type' => DHARMATALKS_POST_TYPE,
+                        'post_status' => 'publish',
+                        'suppress_filters' => true
+                    );
+
+                    $querydharma = new WP_Query($args);
+                    query_posts($querydharma);
+                    while ($querydharma->have_posts()) : $querydharma->the_post();
+
+                        $topicSet = get_the_terms(get_the_ID(), "topic");
+                        $topicName = isset($topicSet[0]) ? $topicSet[0]->name : "";
+                        $topicSlug = isset($topicSet[0]) ? $topicSet[0]->slug : "";
+                        ?>
+                        <article>
+                            <figure>
+                                <a href='<?php the_permalink(); ?>'>
+                                    <div class='icon-video_play' data-grunticon-embed></div>
+                                    <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 50em) 33vw,100vw'); ?>
+                                </a>
+                            </figure>
+                            <section>
+                                <h2 class='rubric dharmatalks'><span class='topic'><a href='<?php getTopicUrl($topicSlug); ?>'><?php echo $topicName; ?></a></span></h2>
+                                <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                <address><?php echo getAuthorDetail(get_the_ID(),0,0); ?></address>
+                                <time><?php the_date('M Y'); ?></time>
+                            </section>
+                        </article>
+                        <?php
+                    endwhile;
+                    wp_reset_query();
+                    ?>
+                </main>
+                <div class='rule-responsive'></div>
+            </section>  
+            <!-- end aside dharma talks -->
+        </div>
+
+        <div class='rule'></div>
+
+       
+
+<?php get_footer(); ?>

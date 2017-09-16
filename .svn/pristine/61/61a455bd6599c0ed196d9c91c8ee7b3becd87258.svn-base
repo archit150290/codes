@@ -1,0 +1,7 @@
+jQuery(function(){
+    //Only one topic can be selected at a time.
+    jQuery(document).on('click', 'div#taxonomy-topic input:checkbox', function(){
+        jQuery("div#taxonomy-topic input:checkbox").attr('checked', false);
+        jQuery(this).attr('checked', true);
+    })
+});

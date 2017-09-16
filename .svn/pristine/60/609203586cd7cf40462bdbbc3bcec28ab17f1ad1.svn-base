@@ -1,0 +1,41 @@
+// universal top rubric, from homepage modules originally
+.top-rubric {
+  @include position;
+  margin-bottom: $base-spacing;
+  text-align: center;
+
+  .icon {
+    @include position(relative, rem(2px) null null null);
+    @include size(2rem);
+    display: inline-block;
+    margin-right: .6rem;
+
+    @include media($mobile-up) {
+      @include size(2.25rem);
+    }
+
+    @include media($tablet-up) {
+      @include size(2.5rem);
+    }
+  }
+
+  h1 {
+    font-family: $brandon-grot;
+    font-size: 3em;
+    font-weight: normal;
+    letter-spacing: -.04em;
+    margin-bottom: 0;
+
+    @include media($mobile-up) {
+      font-size: 3.5em;
+    }
+
+    @include media($desktop-up) {
+      font-size: 4em;
+    }
+  }
+
+  p {
+    color: $clr-gray-mid;
+  }
+}

@@ -1,0 +1,133 @@
+// cover slider
+////////////////////////
+$slider-cover-width_mobile: 11.25em;
+$slider-cover-width_tablet: 15em;
+$slider-cover-width_desktop: 17.5em;
+$slider-cover-height_mobile: $slider-cover-width_mobile * 1.3175;
+$slider-cover-height_tablet: $slider-cover-width_tablet * 1.3175;
+$slider-cover-height_desktop: $slider-cover-width_desktop * 1.3175;
+
+.slider {
+
+  .rule {
+    height: $base-spacing * 1.5 + em(2px);
+    padding-top: 0;
+  }
+}
+
+%slider-button {
+  @include span-columns(2 of 12);
+
+  @include media($mobile-up) {
+    @include span-columns(3 of 12);
+  }
+
+  button {
+    @include position;
+    @include size(2em $slider-cover-height_mobile);
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    padding: 0;
+
+    @include media($tablet-up) {
+      @include size(2.5em $slider-cover-height_tablet);
+    }
+
+    @include media($desktop-up) {
+      height: $slider-cover-height_desktop;
+    }
+
+    svg {
+      @include svg-embed(2em);
+
+      @include media($tablet-up) {
+        @include svg-embed(2.5em);
+      }
+    }
+  }
+
+  &.arrow-off {
+    button {
+      cursor: auto;
+
+      path { fill: $clr-gray-lite; }
+
+      &:hover {
+        path { fill: $clr-gray-lite !important; }
+      }
+    }
+  }
+}
+
+.slider-next {
+  @extend %slider-button;
+
+  @include media($desktop-up) {
+    @include shift;
+  }
+}
+
+.slider-prev {
+  @extend %slider-button;
+  @include omega;
+}
+
+.slider-cover {
+  @include span-columns(8 of 12);
+
+  @include media($mobile-up) {
+    @include span-columns(6 of 12);
+  }
+
+  @include media($desktop-up) {
+    @include span-columns(4 of 12);
+  }
+
+  img {
+    box-shadow: $base-box-shadow;
+    margin: 0 auto;
+    max-height: inherit;
+    min-height: inherit;
+    width: $slider-cover-width_mobile;
+
+    @include media($tablet-up) {
+      width: $slider-cover-width_tablet;
+    }
+
+    @include media($desktop-up) {
+      width: $slider-cover-width_desktop;
+    }
+  }
+
+  figcaption {
+    @include margin($small-spacing null null);
+    border-bottom: 0;
+    font-size: .75em;
+    font-style: italic;
+    text-align: center;
+
+    @include media($tablet-up) {
+      font-size: .875em;
+    }
+  }
+}
+
+.slider-date {
+  clear: both;
+  text-align: center;
+
+  time {
+    font-size: 2em;
+    margin: 0;
+  }
+
+  .vol-no {
+    color: $clr-gray-midhi;
+    display: block;
+    font-size: .4375em;
+    letter-spacing: .1em;
+  }
+}

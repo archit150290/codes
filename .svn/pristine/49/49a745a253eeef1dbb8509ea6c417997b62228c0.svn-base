@@ -1,0 +1,206 @@
+.modal-state[type='checkbox'] {
+  display: none;
+}
+
+.modal-state:checked + .modal-fade-screen {
+  opacity: 1;
+  visibility: visible;
+
+  .modal-inner {
+    top: 0;
+  }
+}
+
+.modal-open {
+  overflow: hidden;
+}
+
+%modal {
+  $modal-background: $base-background-color;
+  $modal-close-color: $clr-gray-lite;
+
+  label {
+    cursor: pointer;
+    margin-bottom: 0;
+  }
+
+  .modal-fade-screen { // overlay
+    @include transition($base-transition);
+    @include position(fixed, 0);
+    background-color: rgba(#000, .85);
+    opacity: 0;
+    padding-top: $base-spacing;
+    text-align: left;
+    visibility: hidden;
+    z-index: 99999999999;
+
+    @include media($desktop-up) {
+      padding-top: 5em;
+    }
+
+    .modal-bg {
+      @include position(absolute, 0);
+      cursor: pointer;
+    }
+  }
+
+  .modal-close {
+    @include position(absolute, $small-spacing $small-spacing null null);
+    @include size(1.5em);
+    background: $modal-background;
+    cursor: pointer;
+
+    &:after,
+    &:before {
+      @include position(absolute, 3px 3px 0 50%);
+      @include transform(rotate(45deg));
+      @include size(.15em 1.5em);
+      background: $modal-close-color;
+      content: '';
+      display: block;
+      margin: -3px 0 0 -1px;
+    }
+
+    &:hover:after,
+    &:hover:before {
+      background: darken($modal-close-color, 10%);
+    }
+
+    &:before {
+      @include transform(rotate(-45deg));
+    }
+  }
+
+  .modal-inner {
+    @include transition(all .5s ease);
+    background: $modal-background;
+    border-radius: $base-border-radius;
+    margin-top: 0;
+    margin: auto;
+    max-height: 95%;
+    overflow: auto;
+    padding: $base-spacing;
+    position: relative;
+    top: -$small-spacing;
+    width: 95%;
+
+    @include media($tablet-up) {
+      max-height: 70%;
+      max-width: 30em;
+      padding: $base-spacing * 2;
+      width: 60%;
+    }
+
+    @include media($desktop-up) {
+      width: 50%;
+    }
+
+    .modal-intro {
+      margin-bottom: 1em;
+    }
+
+    form {
+      margin-bottom: $base-spacing;
+      position: relative;
+    }
+
+    input {
+      @include margin($small-spacing null);
+
+      &[type='checkbox'] {
+        margin-bottom: 0;
+      }
+    }
+
+    > a {
+      @include margin($small-spacing null);
+      display: block;
+    }
+
+    .enews-descrip {
+      font-size: .875em;
+      font-style: italic;
+      margin-left: $small-spacing * 3;
+    }
+  }
+
+  .modal-inner_video,
+  .modal-inner_paywall {
+    @include transition(all .5s ease);
+    background: transparent;
+    margin-top: 0;
+    margin: auto;
+    overflow: auto;
+    position: relative;
+    top: -$small-spacing;
+    width: 100%;
+
+    @include media($tablet-up) {
+      width: 95%;
+    }
+
+    @include media($desktop-up) {
+      width: 85%;
+      max-width: 64em;
+    }
+
+    .modal-close {
+      background: transparent;
+    }
+
+    .video-wrapper {
+      @extend %video-wrapper;
+      margin-top: 3em;
+    }
+
+    .paywall-wrapper {
+      @include margin(null auto);
+      margin-top: 3em;
+      max-width: 50em;
+    }
+  }
+}
+
+%modal-button_float {
+  .modal-inner button {
+    @include position(absolute, 1px 1px null null);
+    background-color: transparent;
+    border: 0;
+    line-height: 1.2;
+    margin: 0;
+    outline: none;
+  }
+}
+
+@mixin flash($color) {
+  background-color: lighten($color, 50%);
+  color: shade($color, 33%);
+  display: block;
+  margin-bottom: $small-spacing;
+  padding: $small-spacing;
+
+  a {
+    color: $color;
+
+    &:focus,
+    &:hover {
+      color: shade($color, 25%);
+    }
+  }
+}
+
+.flash-error {
+  @include flash($clr-red);
+}
+
+// Login Error Modal
+.login-modal {
+  @extend %modal;
+}
+
+// Video Modal
+.video-modal,
+.paywall-modal {
+  @extend %modal;
+  @extend %modal-button_float;
+}

@@ -1,0 +1,129 @@
+<?php
+get_header(); ?>
+       
+<!-- start content -->
+<div class='wrap'>
+    <!-- start landing marquee -->
+    <div class='landing-marquee_video filmfestival'>
+	<header class='rubric_top'>
+            <h1><span class='icon icon-dept_filmfestival'></span>Film Festival</h1>
+            <p>BuddhaFest Online</p>
+	</header>
+        <main>
+            <?php
+            $postId = array();
+            $recent_year ="";
+            $years_filmfestival = get_option("yearsfilmfestival",true);
+            $results = json_decode($years_filmfestival);
+            if (have_posts() && $results) {
+                while (have_posts()) {
+                    the_post();
+                    $post_date = get_the_date("Y");
+                    if(!in_array($post_date, $results))
+                    {
+                        continue;
+                    }
+                    $postId[] = get_the_ID();
+                    $topics = get_topics_by_post_id(get_the_ID());
+                    $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                    ?>
+                    <article class='filmfestival'>
+                        <section class='titles'>
+                            <time><?php the_date('M d, Y'); ?></time>
+                            <h2 class='filmfestival'><span class='subdept'><?php echo get_filmfest_department(get_the_ID(), "filmfestival-departments"); ?></span><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                            <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                            <address><?php echo getAuthorDetail(get_the_ID(),0,0); ?></address>
+                        </section>
+                        <figure>
+                            <a href='<?php the_permalink(); ?>'>
+                                <div class='icon-video_play' data-grunticon-embed></div>
+                                <?php echo get_image_with_srcset(array("post_id"=>get_the_ID(), "image_type"=>"thumbnail", "source_width"=>array(2000, 1000, 500), "size"=>"image-size-500", "attr_sizes"=>"(min-width: 60em) 75vw, 100vw")); ?>
+                                <?php //echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 60em) 75vw, 100vw'); ?>
+                            </a>
+                        </figure>
+                        <section class='synopsis'>
+                            <p><?php the_excerpt(); ?></p>
+                            <p class='h2'><a class='view-contents' href='<?php the_permalink(); ?>'>Watch Film</a></p>
+                        </section>
+                    </article>
+                    <?php
+                    break;
+                }
+            }
+            ?>
+        </main>
+    </div>
+                       
+    <div class='landing-stack_video'>
+        <?php
+        if (have_posts() && $results) {
+            $counter = 1;
+            while (have_posts()) {
+                the_post();
+                $post_date = get_the_date("Y");
+                if(!in_array($post_date, $results))
+                {
+                    continue;
+                }
+                $postId[] = get_the_ID();
+                $topics = get_topics_by_post_id(get_the_ID());
+                $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                ?>      
+                <article class='filmfestival'>
+                    <section class='titles'>
+                        <time><?php echo get_the_date('M d, Y'); ?></time>
+                        <h2 class='filmfestival'><span class='subdept'><?php get_filmfest_department(get_the_ID(), "filmfestival-departments" ); ?></span><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                        <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                        <address><?php echo getAuthorDetail(get_the_ID(),0,0); ?></address>
+                    </section>
+                    <figure>
+                        <a href='<?php the_permalink(); ?>'>
+                            <div class='icon-video_play' data-grunticon-embed></div>
+                            <?php echo get_image_with_srcset(array("post_id"=>get_the_ID(), "image_type"=>"thumbnail", "source_width"=>array(2000, 1000, 500), "size"=>"image-size-500", "attr_sizes"=>"(min-width: 50em) 25vw, 100vw")); ?>
+                            <?php //echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 50em) 33vw,100vw'); ?>
+                        </a>
+                    </figure>
+                    <section class='synopsis'>
+                        <p><?php the_excerpt(); ?></p>
+                        <p class='h2'><a class='view-contents' href='<?php the_permalink(); ?>'>Read More</a></p>
+                    </section>
+                </article>
+    </div>
+            <?php
+            if($counter == 2 || $counter == 5)
+            {
+                ?>
+                <div class='CTA-module'>
+                    <?php get_the_ad("filmfestival_archive_ad_");?>
+                </div>
+                <?php
+            }
+            $counter++;
+            ?>
+                        <div class="landing-stack_video"> 
+                                    <?php 
+                                    if($counter == 6){					
+                                        break;
+                                    }
+                                }
+                            }
+                            ?>  
+                        </div>
+                            
+			<aside>
+                            <div class='aside-depts'>
+                                    <!-- start aside dharma talks -->
+                                            <?php show_latest_dharma_talks(); ?>
+                                    <!-- end aside dharma talks -->
+
+                                    <!-- start aside trikedaily -->
+                                            <?php show_latest_trike_daily(); ?>
+                                    <!-- end aside trikedaily -->
+
+                                    <!-- start aside magazine -->
+                                            <?php show_latest_magazine_article(); ?>
+                                    <!-- end aside magazine -->
+                            </div>
+
+                            <div class='rule'></div>
+<?php get_footer(); ?>                

@@ -1,0 +1,383 @@
+<?php get_header(); ?>
+<div class='wrap_outer_base'>
+<?php 
+$video_name = get_query_var('dtv');
+if($video_name)
+{
+  $video_name;
+}
+
+if(have_posts())
+{
+    while(have_posts())
+    {
+        the_post();
+        $postId = get_the_ID();
+        $topics = get_topics_by_post_id($postId);
+        $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+        $upload_dir = wp_upload_dir();
+        $uploadDirectory = $upload_dir['basedir']."/";
+        $paywall_loginned = is_post_behind_paywall(get_the_ID()) ;
+        ?>
+        <script>
+            var downloadpdf = "<?php echo get_site_url(); ?>/download.php?file=";	
+        </script>
+        <main class='wrap_base'>
+            <!-- start article -->
+            <article class='article_dharmatalks dharmatalks'>
+                <header class='article-header_video'>
+                    <h2 class='rubric dharmatalks'>
+                        <a href='<?php echo get_post_type_archive_link(DHARMATALKS_POST_TYPE);  ?>' class='icon icon-dept_dharmatalks'></a>
+                        <span class='dept'><a href='<?php echo get_post_type_archive_link(DHARMATALKS_POST_TYPE);  ?>'>Dharma Talks</a></span>
+                        <span class='topic'><?php echo $topic_urls; ?></span>
+                    </h2>
+                    <time><?php echo get_the_date('M Y'); ?></time>
+                    <h1><?php the_title(); ?></h1>
+                    <address><a href=''><?php echo getAuthorDetail(get_the_ID(),0,0); ?></a></address>
+                </header>
+                <!-- start article body -->
+                <main class='article-main_dharmatalks'>
+                    <?php 
+                    $videos_dharmatalks = json_decode(get_post_meta($post->ID, "videos_dharmatalks", true),true);
+                    //pr($videos_dharmatalks);
+                    $total_videos = count($videos_dharmatalks["title"]);
+                    ?>
+                    <div class='article-video_featured dharmatalks'>
+                        <figure>
+                            <div class='icon-video_play' rel="<?php echo $videos_dharmatalks["url"][0] ?>" data-grunticon-embed></div>
+                            <?php echo get_image_with_srcset(array("post_id"=>get_the_ID(), "image_type"=>"thumbnail", "source_width"=>array(2000, 1000, 500), "size"=>"image-size-500", "attr_sizes"=>"(min-width: 50em) 75vw, 100vw")); ?>
+                            <?php //echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 50em) 75vw,100vw'); ?>
+                            <div class='video-wrapper'></div>
+                        </figure>
+                    </div>
+                    <div class='article_playlist'>
+                        <ol>
+                            <?php if(!empty($videos_dharmatalks["trailertitle"])){ ?>
+                            <li id="DharmaTalksTrailer">
+                                <a href='<?php echo get_permalink().'/'.$videos_dharmatalks["trailerslug"]; ?>' videonumber="1" class="js_playvideo" rel="<?php echo $videos_dharmatalks["trailerurl"] ?>" videotitle="<?php echo $videos_dharmatalks["trailertitle"]; ?>">
+                                    <h1><?php echo $videos_dharmatalks["trailertitle"]; ?><span class="duration h2"><?php echo $videos_dharmatalks["trailertl"]; ?></span></h1>
+                                </a>
+                            </li>    
+                            <?php }
+                            $videoList = 2;
+                            $counter = 0;
+                            for($i = 0; $i < $total_videos; $i++){
+                                $videoTitle = $videos_dharmatalks["title"][$i]; 
+                                    if(empty($videoTitle)){
+                                        continue;
+                                    }
+                                $relValue = $videos_dharmatalks["url"][$i];
+                                $video_duration = $videos_dharmatalks["tl"][$i];
+                                $linkpdf = ($videos_dharmatalks["pdfs"][$i])?$videos_dharmatalks["pdfs"][$i]:'';
+                                $slugs = $videos_dharmatalks["slugs"][$i];
+                                ?>
+
+                                <?php   if($videoList > 2 && empty($paywall_login) && $paywall_loginned==1){?>
+                                            <li>
+                                                <a href='javascript:void(0)' videonumber="<?php echo $videoList; ?>" linkpdf="<?php echo $linkpdf; ?>" class="js_video_paywall" rel="<?php echo $relValue; ?>" videotitle="<?php echo $videoTitle;?>">
+                                                <h1><?php echo $videoTitle; ?><span class='duration h2'><?php echo $video_duration; ?></span></h1>
+                                                </a>
+                                                <?php echo getpaywall_popup('dharmatalks','TK dharmatalk paywall copy!',$i);?>
+                                            </li>
+                                  <?php }else{?>
+                                            <li>
+                                                <a href='<?php echo get_permalink().$slugs."/"; ?>' videonumber="<?php echo $videoList; ?>" linkpdf="<?php echo $linkpdf; ?>" class="js_playvideo" rel="<?php echo $relValue; ?>" videotitle="<?php echo $videoTitle;?>">
+                                                <h1><?php echo $videoTitle; ?><span class='duration h2'><?php echo $video_duration; ?></span></h1>
+                                                </a>
+                                            </li> 
+                                        <?php } ?>
+                                            <?php 
+                                            $videoList++;
+                                            $counter++;
+                            }?>
+                        </ol>
+                    </div>
+                    
+                    <?php get_tool_tip_sharethis(get_the_title(), get_permalink(), get_the_ID()); 
+                    $downloadPDF  = $videos_dharmatalks["pdfs"][0] ;
+                    ?>
+                    <div class='article-dharmatalk-title'>
+                        <div class='queue'> 
+                            <p class='h2'>Playing <span class="videonum"><?php echo (isset($videos_dharmatalks["trailertitle"]))?2:($counter==0 ? 0:1) ; ?></span> of <?php echo (isset($videos_dharmatalks["trailertitle"])?$counter+1:$counter); ?></p>
+                        </div>
+                        <h1><?php echo $videos_dharmatalks["title"][0]; ?></h1>
+                        <?php 
+                        if(empty($downloadPDF) && empty($video_name)){?>
+                            <p class='transcript' style="display: none">
+                                <a class='h2' id="pdf_download" href='<?php echo get_site_url(); ?>/download.php?file=<?php echo urlencode(base64_encode($downloadPDF)); ?>'>Download Transcript</a>It has been edited for clarity.
+                            </p>
+                        <?php }else{?>
+                            <p class='transcript' style="">
+                                <a class='h2' id="pdf_download" href='<?php echo get_site_url(); ?>/download.php?file=<?php echo urlencode(base64_encode($downloadPDF)); ?>'>Download Transcript</a>It has been edited for clarity.
+                            </p>
+                        <?php }
+                        ?>
+                        
+                    </div>
+                    
+                    <div class="tools_top addtool">&nbsp;</div>
+                    <section class='article-body'>
+                            <?php the_content(); ?>
+                            <?php
+                            
+                            if(is_post_behind_paywall(get_the_ID()) && !$paywall_login)
+                            { 
+                                get_paywall_login('dharmatalks','TK dharmatalk paywall copy!'); 
+                            }
+                            ?> 
+                    </section>
+
+                    <div class='article-bottom-matter'>
+
+                        <?php
+                        $dharma_tags_array = wp_get_post_tags(get_the_ID());
+                        if(!empty($dharma_tags_array)){
+                            ?> 
+                            <section class='article-tags'>
+                                <ul>
+                                    <?php foreach($dharma_tags_array as $tags){ ?>
+                                            <li><p class='tag'><a href='<?php echo get_tag_link($tags->term_id); ?>'><?php echo ucfirst($tags->name); ?></a></p></li>
+                                    <?php } ?>
+                                </ul>
+                            </section>
+                        <?php } ?>
+
+                        <?php
+                        if ( comments_open() || get_comments_number() ) :
+                            ?>
+                            <div class='comments-toggle showcomments'>
+                                <a href='javascript:void(0);' id="commentlink_title">Ask the Teacher a Question</a>
+                            </div>
+                            <?php
+                            comments_template();
+                        endif;
+                        ?>
+                    </div>
+                </main>
+            </article>
+        </main>
+        <?php
+    }
+}
+?>
+        <aside>
+            <!-- start related -->
+            <!-- start most popular module 
+            below is the id sent to set a post view count on this ....
+            -->
+            <input type="hidden" id="postID" name="postID" value="<?php echo $postId; ?>" />
+            <?php $myrows = getMostPopular(DHARMATALKS_POST_TYPE); 
+            //$singleID = $myrows[0]->post_id;
+            //selection of most popular from database where interval is of 60 days as discussed in #59 of unfuddle 
+            if(!empty($myrows) && count($myrows > 1))
+            {
+                ?>
+                <div class='related-posts'>
+                    <header class='rubric_top'>
+                       <h1>Most Popular</h1>
+                    </header>
+                    <main>
+                        <?php
+                        $countviews = 0;
+                        foreach($myrows as $mostpopular)
+                        {
+                            if($countviews == 3)
+                            {
+                                break;
+                            }
+                            $postid = $mostpopular->post_id;
+                            $counter = $mostpopular->counter;
+                            $title = get_the_title($postid);
+                            $topics = get_topics_by_post_id($postid);
+                            $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                            $authordetail = getAuthorDetail($postid,0,0);
+                            $date = get_the_date("M Y",$postid );
+                            $permalink = get_permalink($postid);
+                            if($postid == $postId)
+                            {
+                                //to check if the above id is same as below id 
+                                continue;
+
+                            }
+                            $countviews++;
+                            ?>
+                            <article class='dharmatalks'>
+                                <figure>
+                                    <a href='<?php echo $permalink; ?>'>
+                                        <div class='icon-video_play' data-grunticon-embed></div>
+                                        <?php echo get_image_with_srcset(array("post_id"=>$postid, "image_type"=>"thumbnail", "source_width"=>array(2000, 1000, 500), "size"=>"image-size-500", "attr_sizes"=>"(min-width: 50em) 33vw, 100vw")); ?>
+                                        <?php //echo srcset_post_thumbnail($postid, 'image', '','(min-width: 50em) 33vw,100vw'); ?>
+                                    </a>
+                                </figure>
+                                <section>
+                                    <h2 class='rubric dharmatalks'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                                    <h1><a href='<?php echo $permalink; ?>'><?php echo $title; ?></a></h1>
+                                    <address><?php echo getAuthorDetail($postid,0,0); ?></address>
+                                    <time><?php echo $date; ?></time>
+                                </section>
+                            </article>
+                            <?php  
+                        }
+                        ?>
+                    </main>
+                </div>
+                <?php 
+            }
+            ?>     
+        <div class='rule'></div>
+        <script>
+            var trailertitle = jQuery('a[ videonumber="1"]').attr('videotitle');
+            jQuery('.article_playlist a[videonumber=2] h1').addClass('play');
+            var payWall = <?php echo $paywall_loginned;?>;
+            //for getting most popular
+            var postID = jQuery("#postID").val();
+            //alert(postID);
+            jQuery.ajax({
+                type: 'POST',
+                url: ajax_url,
+                data: {
+                     action: 'most_viewed_dharma_talks',
+                    postID: postID,
+                },
+                success: function (data) {
+                   //alert("most view counter set");
+                },
+                error: function (MLHttpRequest, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+            
+        </script>
+        <?php get_footer();?>
+        <?php 
+        $i = 1;
+        //pr($videos_dharmatalks);
+        $vnumber = "";
+        if(isset($videos_dharmatalks["trailerslug"])){
+            if($video_name == $videos_dharmatalks["trailerslug"]){
+                $vnumber = "1";
+            }
+        }
+        
+        foreach($videos_dharmatalks["slugs"] as $key=>$postmetavideo)
+        {
+            if(!empty($postmetavideo)){
+                $i++;
+                if($postmetavideo == $video_name)
+                {
+                    echo $vnumber = $i;
+                    break;
+                }
+            }
+        }
+        if($vnumber)
+        {?>
+        <script>
+            
+            jQuery( document ).ready(function() {
+               
+                var videonumber = <?php echo $vnumber; ?>;
+                var paywallLogin = <?php echo $paywall_login;?>;
+                var pdf_video = $('a[ videonumber="'+videonumber+'"]').attr('linkpdf');
+                var videoTitle = $('a[ videonumber="'+videonumber+'"]').attr('videotitle');
+                if(videonumber <= "2"){
+                    $('.article-dharmatalk-title h1').text(videoTitle);
+                    var dept = ".article-video_featured";
+                    $('.article_playlist h1').removeClass('play');
+                    $( 'a[ videonumber="'+videonumber+'"] h1' ).addClass( 'play' );    
+                    if(videonumber!="1"){
+                         jQuery(".transcript").show();
+                    }if(videonumber=="1" || pdf_video==""){
+                         jQuery(".transcript").hide();
+                    }
+                    if(typeof trailertitle === 'undefined'){
+                        jQuery(".videonum").text(videonumber-1);
+                    }else{
+                        jQuery(".videonum").text(videonumber);
+                    }
+                    if(pdf_video!=""){
+                        var downloadlink = downloadpdf+window.btoa(pdf_video);
+                        $("#pdf_download").attr("href",downloadlink);
+                    }
+                    var videosrc = $('a[videonumber="'+videonumber+'"]').attr('rel');
+                    if(!videosrc){
+                       alert("Video src is empty.");
+                       die;
+                    };
+                    jQuery('.icon-video_play').attr('rel',videosrc);
+//                    $(dept + ' main section').css('margin', '0 0 1.2em');
+//                    //$(dept + ' .icon-video_play').css('display', 'none');
+//                    $(dept + ' img').css('display', 'none');
+//                    $(dept + ' .video-wrapper').css('display', 'block');
+                    //$(dept + ' .video-wrapper').html('<iframe src="' + videosrc + '?autoplay=1&title=0&byline=0&portrait=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>');
+                }else if(videonumber > 2 && paywallLogin == "1" ){   
+                    $('.article-dharmatalk-title h1').text(videoTitle);
+                    var dept = ".article-video_featured";
+                    $('.article_playlist h1').removeClass('play');
+                    $( 'a[ videonumber="'+videonumber+'"] h1' ).addClass( 'play' );
+                    jQuery(".transcript").show();
+                    if(pdf_video==""){
+                         jQuery(".transcript").hide();
+                    }
+                    if(typeof trailertitle === 'undefined'){
+                        jQuery(".videonum").text(videonumber-1);
+                    }else{
+                        jQuery(".videonum").text(videonumber);
+                    }
+                    var pdf_video = $('a[ videonumber="'+videonumber+'"]').attr('linkpdf');
+                    if(pdf_video!=""){
+                        var downloadlink = downloadpdf+window.btoa(pdf_video);
+                        $("#pdf_download").attr("href",downloadlink);
+                    }
+                    var videosrc = $('a[videonumber="'+videonumber+'"]').attr('rel');
+                    if(!videosrc){
+                       alert("Video src is empty.");
+                       die;
+                    };
+                    jQuery('.icon-video_play').attr('rel',videosrc);
+//                    $(dept + ' main section').css('margin', '0 0 1.2em');
+//                   // $(dept + ' .icon-video_play').css('display', 'none');
+//                    $(dept + ' img').css('display', 'none');
+//                    $(dept + ' .video-wrapper').css('display', 'block');
+                    //$(dept + ' .video-wrapper').html('<iframe src="' + videosrc + '?autoplay=1&title=0&byline=0&portrait=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>');
+
+                } 
+                else if(videonumber > 2 && payWall == "0" ){   
+                    $('.article-dharmatalk-title h1').text(videoTitle);
+                    var dept = ".article-video_featured";
+                    $('.article_playlist h1').removeClass('play');
+                    $( 'a[ videonumber="'+videonumber+'"] h1' ).addClass( 'play' );
+                    jQuery(".transcript").show();
+                    if(pdf_video==""){
+                         jQuery(".transcript").hide();
+                    }
+                    if(typeof trailertitle === 'undefined'){
+                        jQuery(".videonum").text(videonumber-1);
+                    }else{
+                        jQuery(".videonum").text(videonumber);
+                    }
+                    var pdf_video = $('a[ videonumber="'+videonumber+'"]').attr('linkpdf');
+                    if(pdf_video!=""){
+                        var downloadlink = downloadpdf+window.btoa(pdf_video);
+                        $("#pdf_download").attr("href",downloadlink);
+                    }
+                    var videosrc = $('a[videonumber="'+videonumber+'"]').attr('rel');
+                    if(!videosrc){
+                       alert("Video src is empty.");
+                       die;
+                    };
+                    jQuery('.icon-video_play').attr('rel',videosrc);
+                    //$(dept + ' main section').css('margin', '0 0 1.2em');
+                    //$(dept + ' .icon-video_play').css('display', 'none');
+                    //$(dept + ' img').css('display', 'none');
+                    //$(dept + ' .video-wrapper').css('display', 'block');
+                   // $(dept + ' .video-wrapper').html('<iframe src="' + videosrc + '?autoplay=1&title=0&byline=0&portrait=0" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>');
+
+                } 
+                else if(payWall == 1){
+                    $('#paywall-modal-switch').prop('checked', true);
+                }
+             
+        });
+        </script>
+        <?php } ?>

@@ -1,0 +1,62 @@
+// e-books
+////////////////////////
+.home-ebooks {
+  @extend %stack;
+  @include clearfix;
+  @include dept-hover($clr-ebooks);
+
+  @include media($tablet-up) {
+    @include padding(null $base-spacing);
+  }
+
+  @include media($desktop-up) {
+    @include span-columns(5 of 12);
+  }
+
+  @include media($wide-up) {
+    @include span-columns(4 of 12);
+  }
+
+  main {
+    @include media($mobile-to-tablet) {
+      @include span-columns(8 of 12);
+      @include shift(2);
+    }
+
+    @include media($tablet-to-desktop) {
+      @include span-columns(6 of 12);
+      @include shift(3);
+    }
+  }
+
+  article img {
+    height: auto;
+  }
+
+  .h2 {
+    margin-bottom: 0;
+  }
+  
+  .view-contents {
+    @extend %view-contents;
+  }
+
+  .more {
+    @include dept-button($clr-ebooks);
+    clear: both;
+  }
+
+  // .rule {
+  //   @include media($desktop-up) {
+  //     display: none;
+  //   }
+  // }
+}
+
+.rule-responsive {
+  @extend %rule;
+
+  @include media($desktop-up) {
+    display: none;
+  }
+}

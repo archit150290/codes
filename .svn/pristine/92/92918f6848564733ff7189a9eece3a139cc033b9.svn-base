@@ -1,0 +1,74 @@
+ul,
+ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  &%default-ul {
+    list-style-type: disc;
+    margin-bottom: $small-spacing;
+    padding-left: $base-spacing;
+  }
+
+  &%default-ol {
+    list-style-type: decimal;
+    margin-bottom: $small-spacing;
+    padding-left: $base-spacing;
+  }
+}
+
+dl {
+  margin-bottom: $small-spacing;
+
+  dt {
+    font-weight: bold;
+    margin-top: $small-spacing;
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+.article-body {
+
+  %list {
+    @extend %article-p;
+    color: $clr-text;
+
+    li {
+      @include margin($article-font-size null null $article-font-size * 1.5);
+      @include padding(0 $small-spacing 0 0);
+
+      @include media($desktop-up) {
+        @include padding(null $article-font-size null null);
+      }
+    }
+
+    li:before {
+      float: left;
+      margin-left: $article-font-size * -1.5;
+      width: $article-font-size * 1.2;
+    }
+  }
+
+  ul {
+    @extend %list;
+    list-style-type: disc;
+
+    li {
+      @include margin(null null null $article-font-size);
+      @include padding(null null null $article-font-size / 2);
+    }
+  }
+
+  ol {
+    @extend %list;
+    counter-reset: li;
+
+    li:before {
+      content: counter(li) '.';
+      counter-increment: li;
+    }
+  }
+}

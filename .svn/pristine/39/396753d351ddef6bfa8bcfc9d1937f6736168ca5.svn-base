@@ -1,0 +1,32 @@
+.related-posts {
+  @extend %stack;
+  @include dept-hover-helper;
+
+  @include media($tablet-up) {
+    @include padding(null $base-spacing)
+  }
+
+  main {
+    @extend %posts_3x1;
+
+    h2 {
+      @include clearfix;
+      display: table;
+    }
+
+    .icon {
+      @extend %marquee-aside-icon;
+      display: block;
+    }
+
+    .dept {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    .topic {
+      display: block;
+    }
+
+  }
+}

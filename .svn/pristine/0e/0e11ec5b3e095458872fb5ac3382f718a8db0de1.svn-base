@@ -1,0 +1,531 @@
+<?php get_header(); ?>
+<!-- start content -->
+		<div class='wrap'>
+
+			<!-- start home-marquee -->
+			<div class='home-marquee'>
+				<main class='marquee-hero'>
+					
+					<?php
+						$allrecords = array();
+						$allrecordSet = array();
+						
+						$args = array(
+						    'post_type' => array('film-club', 'magazine', 'film-festival', 'ebooks', 'magazine', 'dharma-talks', 'post'),
+						    'meta_query' => array(
+							array(
+							    'key' => 'home_featured',
+							    'value' => '1',
+							    'compare' => 'IN',
+							),
+						    ),
+						    'post_per_page' => 4,
+						    'orderby' => 'menu_order',
+						    'order' => 'ASC'
+						);
+						
+						$querymagazine = new WP_Query($args);
+						query_posts($querymagazine);
+						while ($querymagazine->have_posts()) : $querymagazine->the_post();
+						
+						$topicSet = get_the_terms(get_the_ID(), "topic");
+						$topicName = isset($topicSet[0]) ? $topicSet[0]->name : "";
+						$topicSlug = isset($topicSet[0]) ? $topicSet[0]->slug : "";
+						
+						$allrecords['postId'] = get_the_ID();
+						$allrecords['postType'] = get_post_type();
+						$allrecords['title'] = get_the_title();
+						$allrecords['excerpt'] = get_the_excerpt();
+						$allrecords['permalink'] = get_the_permalink();
+						$allrecords['author_by_director'] = get_post_meta(get_the_ID(), 'authors_select_metabox', true);
+						$allrecords['author'] = get_post_meta(get_the_ID(), 'authors_name_metabox', true);
+						$allrecords['publish_date'] = get_the_date('M Y');
+						$allrecords['topicName'] = $topicName;
+						$allrecords['topicSlug'] = $topicSlug;
+						//$allrecords['featured_image'] = srcset_post_thumbnail( $related_post_query->post->ID,  'image', '' );
+						$allrecordsSet[] = $allrecords;
+		
+						endwhile;
+						wp_reset_query();
+						
+						//pr($allrecordsSet);
+					?>
+					<article class='trikedaily'>
+
+						<figure>
+							<a href='<?php echo $allrecordsSet[0]['permalink']; ?>'>
+								<?php /* ?>
+								<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-marquee_1x.jpg'
+									srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-marquee_4x.jpg 2000w,
+													<?php echo get_template_directory_uri(); ?>/images/jpg/home-marquee_2x.jpg 1000w,
+													<?php echo get_template_directory_uri(); ?>/images/jpg/home-marquee_1x.jpg 500w'
+									sizes= '(min-width: 50em) 75vw,
+													100vw'
+									alt='Temple' /> <?php */ ?>
+								<?php echo srcset_post_thumbnail($allrecordsSet[0]['postId'], 'image', '','(min-width: 50em) 75vw,100vw'); ?>
+							</a>
+						</figure>
+
+						<section>
+							<a class='icon icon-dept_trikedaily' href='#'></a>
+							<h2 class='rubric trikedaily'><a href='#'>Trike Daily</a><span class='topic'><a href='<?php echo $allrecordsSet[0]['topicSlug'];?>'><?php echo $allrecordsSet[0]['topicName']; ?></a></span></h2>
+							<h1><a href='<?php echo $allrecordsSet[0]['permalink']; ?>'><?php echo $allrecordsSet[0]['title'];?></a></h1>
+							<p><?php echo $allrecordsSet[0]['excerpt']; ?></p>
+							<address><?php echo $allrecordsSet[0]['author_by_director']; ?> &nbsp; <?php echo $allrecordsSet[0]['author']; ?></address>
+						</section>
+
+					</article>
+				</main>
+				<aside class='marquee'>
+					<?php for($i=1;$i<=3;$i++){ ?>
+					
+						<article class='magazine'>
+							<h2 class='rubric magazine'><a href='#' class='icon icon-dept_magazine'></a><span class='dept'><a href='#'>Magazine</a><span class='topic'><a href='<?php echo $allrecordsSet[$i]['topicSlug'];?>'><?php echo $allrecordsSet[$i]['topicName']; ?></a></span></span></h2>
+							<h1><a href='<?php echo $allrecordsSet[$i]['permalink']; ?>'><?php echo $allrecordsSet[$i]['title']; ?></a></h1>
+							<address><?php echo $allrecordsSet[$i]['author_by_director']; ?> &nbsp; <?php echo $allrecordsSet[$i]['author']; ?></address>
+						</article>
+					
+					<?php } ?>
+					
+				</aside>
+			</div>
+			<!-- end home-marquee -->
+
+			<div class='promo-module'>
+				<!-- start ad -->
+				<div class='rule'></div>
+				<div class='ad_banner'>
+					<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/ad-buddhanet.jpg' alt='buddhanet'/>
+				</div>
+				<div class='rule'></div>
+				<!-- end ad -->
+			</div>
+
+			<!-- start daily-dharma -->
+			<div class='home-dailydharma'>
+				<h2 class='button'>Daily Dharma</h2>
+				<div class='icon icon-quote'></div>
+				<a href='#'><p class='dailydharma-quote'>The stories that make sense of this world are part of this world. It is not by transcending the world that we are transformed but by storying it in a new way&#8230;</p></a>
+				<address><a href='#'>&ndash; David Loy, The World Is Made of Stories</a></address>
+				<div class='social-wrap'>
+					<ul class='dailydharma-social'>
+						<li><a class='icon icon-share_facebook' href='#' data-grunticon-embed></a></li>
+						<li><a class='icon icon-share_twitter' href='#' data-grunticon-embed></a></li>
+						<li><a class='icon icon-share_email' href='#' data-grunticon-embed></a></li>
+					</ul>
+				</div>
+				<form id='dailydharma-enews'>
+					<input class='email' id='dailydharma-email' placeholder='Your email here' type='email'>
+					<!-- start modal -->
+					<div class='dailydharma-modal'>
+						<label for='dailydharma-modal-switch'>
+							<button id='dailydharma-modal-trigger'>Sign Up</button>
+						</label>
+						<input class='modal-state' id='dailydharma-modal-switch' type='checkbox' />
+						<div class='modal-fade-screen'>
+							<div class='modal-inner'>
+								<div class='modal-close' for='dailydharma-modal-switch'></div>
+								<h1>Weekly Newsletter</h1>
+								<p>The latest from Tricycle to your inbox</p>
+								<form id='dailydharma-modal-enews'>
+									<input class='email' id='dailydharma-modal-email' placeholder='Your email here' type='email'>
+									<label><input type='checkbox' name='enews' value='enews-tricycle' checked>The Tricycle Newsletter</label>
+									<label><input type='checkbox' name='enews' value='enews-dailydharma' checked>Daily Dharma</label>
+									<label><input type='checkbox' name='enews' value='enews-promotions' checked>Learn More</label>
+									<button id='dailydharma-modal-submit' class='button'>Sign Up</button>
+								</form>
+							</div>
+						</div>
+					</div>
+					<!-- end modal -->
+				</form>
+			</div>
+			<!-- end daily-dharma -->
+
+			<!-- start home-trikedaily -->
+			<div class='home-trikedaily'>
+				<header class='rubric_top'>
+						<h1><a href='#'><span class='icon icon-dept_trikedaily'></span>Trike Daily</a></h1>
+						<p>Daily wisdom, teachings &amp; critique</p>
+				</header>
+
+				<article>
+					<figure>
+						<a href='#'>
+							<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-trikedaily_1x.jpg'
+								srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-trikedaily_2x.jpg 1000w,
+												<?php echo get_template_directory_uri(); ?>/images/jpg/home-trikedaily_1x.jpg 500w'
+								 sizes='(min-width: 37.5em) 25vw,
+												100vw'
+								alt='Temple' />
+						</a>
+					</figure>
+
+					<section class='rubric trikedaily'>
+						<h2 class='trikedaily'><a href='#'>Conference Notes</a><span class='topic'><a href='#'>Mediation &amp; Practice</a></span></h2>
+					</section>
+
+					<section class='titles'>
+						<h1><a href='#'>Talking About Mindfulness</a></h1>
+						<p>Amid puff pieces and “the backlash,” a new dialogue around mindfulness merges.</p>
+						<address>By David Alex Caring-Lobel</address>
+					</section>
+				</article>
+
+				<article>
+					<figure>
+						<a href='#'>
+							<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-trikedaily_1x.jpg'
+								srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-trikedaily_2x.jpg 1000w,
+												<?php echo get_template_directory_uri(); ?>/images/jpg/home-trikedaily_1x.jpg 500w'
+								 sizes='(min-width: 37.5em) 25vw,
+												100vw'
+								alt='Temple' />
+						</a>
+					</figure>
+
+					<section class='rubric trikedaily'>
+						<h2 class='trikedaily'><a href='#'>In Conversation</a><span class='topic'><a href='#'>Teachings</a></span></h2>
+					</section>
+
+					<section class='titles'>
+						<h1><a href='#'>No Teachers Come Here</a></h1>
+						<p>A Palestinian tells us what it’s like to be a Buddhist in the birthplace of Christ. </p>
+					</section>
+				</article>
+
+				<article>
+					<figure>
+						<a href='#'>
+							<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-trikedaily_1x.jpg'
+								srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-trikedaily_2x.jpg 1000w,
+												<?php echo get_template_directory_uri(); ?>/images/jpg/home-trikedaily_1x.jpg 500w'
+								 sizes='(min-width: 37.5em) 25vw,
+												100vw'
+								alt='Temple' />
+						</a>
+					</figure>
+
+					<section class='rubric trikedaily'>
+						<h2 class='trikedaily'><a href='#'>On Religion</a><span class='topic'><a href='#'>Body &amp; Mind</a></span></h2>
+					</section>
+
+					<section class='titles'>
+						<h1><a href='#'>It Needs Saying</a></h1>
+						<p>Buddhism is not a philosophy, science, psychotherapy, or culture. It is a religion.</p>
+						<address>By David Brazier</address>
+					</section>
+				</article>
+
+				<div class='more'>
+					<a href='#'>Read More</a>
+				</div>
+			</div>
+			<!-- end Trike Daily -->
+
+			<div class='promo-module'>
+				<!-- start house ad module -->
+				<div class='rule'></div>
+				<div class='house-ad' style='
+					background-color: #ddd;
+					line-height: 10em;
+					margin: 0 auto;
+					width: 75%;
+					height: 10em;
+					text-align: center;
+				'>
+				<p>House Ad Module</p>
+				</div>
+				<div class='rule'></div>
+				<!-- end house ad module -->
+			</div>
+
+			<!-- start home-magazine -->
+			<div class='home-magazine'>
+				<header class='rubric_top'>
+						<h1><a href='#'><span class='icon icon-dept_magazine'></span>Current Issue</a></h1>
+				</header>
+
+				<div class='current-issue'>
+					<figure class='issue-cover'>
+						<a href='#'><img src='<?php echo get_template_directory_uri(); ?>/images/jpg/cover-0215-summer_1x.jpg'
+							srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/cover-0215-summer_2x.jpg 560w,
+											<?php echo get_template_directory_uri(); ?>/images/jpg/cover-0215-summer_1x.jpg 280w'
+							 sizes='(min-width: 60em) 33vw,
+											(min-width: 37.5em) 50vw,
+											75vw'
+							alt='Tricycle: Summer 2015' /></a>
+					</figure>
+
+					<section class='issue-summary'>
+						<time class='h2'>Summer 2015<span class='vol-no'>Volume 24, Number 4</span></time>
+						<p>In our new issue, Buddhism transforms both familiar mundanities of everyday life as well as remote happenings worlds away. First learn how to drop digital distractions, wake up within the hustle and bustle of modern life, and discern what corporate executives mean when they talk about happiness. Then travel many miles to discover how one Buddhist helped save lives at an AIDS nonprofit in Cambodia while a desert retreat in Arizona cost a life. Plus, celebrate the Dalai Lama’s 80th birthday with well-wishes from Patti Smith, Martin Scorsese, Anne Waldman, and many more.</p>
+						<p class='h2'><a class='view-contents' href='#'>View Contents</a></p>
+					</section>
+				</div>
+
+				<div class='magazine-articles'>
+					<article>
+						<figure>
+							<a href='#'>
+								<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-magazine_1x.jpg'
+									srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-magazine_2x.jpg 1000w,
+													<?php echo get_template_directory_uri(); ?>/images/jpg/home-magazine_1x.jpg 500w'
+									 sizes='(min-width: 37.5em) 33vw,
+													100vw'
+									alt='Temple' />
+							</a>
+						</figure>
+						<section>
+							<h2 class='rubric magazine'><span class='dept'><a href='#'>Magazine Dept</a></span><span class='topic'><a href='#'>Meditation &amp; Practice</a></span></h2>
+							<h1><a href='#'>A Voice from the Outside</a></h1>
+							<p>In the shadow of Judevine Mountain, poet David Budbill teaches us what only a recluse can.</p>
+						</section>
+					</article>
+
+					<article>
+						<figure>
+							<a href='#'>
+								<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-magazine_1x.jpg'
+									srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-magazine_2x.jpg 1000w,
+													<?php echo get_template_directory_uri(); ?>/images/jpg/home-magazine_1x.jpg 500w'
+									 sizes='(min-width: 37.5em) 33vw,
+													100vw'
+									alt='Temple' />
+							</a>
+						</figure>
+						<section>
+							<h2 class='rubric magazine'><span class='dept'><a href='#'>Magazine Dept</a></span><span class='topic'><a href='#'>Body &amp; Mind</a></span></h2>
+							<h1><a href='#'>Expiration Date</a></h1>
+							<p>Every story ends with a death sentence. But the story doesn't end there.</p>
+							<address>By Shozan Jack Haubner</address>
+						</section>
+					</article>
+
+					<article>
+						<figure>
+							<a href='#'>
+								<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-magazine_1x.jpg'
+									srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-magazine_2x.jpg 1000w,
+													<?php echo get_template_directory_uri(); ?>/images/jpg/home-magazine_1x.jpg 500w'
+									 sizes='(min-width: 37.5em) 33vw,
+													100vw'
+									alt='Temple' />
+							</a>
+						</figure>
+						<section>
+							<h2 class='rubric magazine'><span class='dept'><a href='#'>Magazine Dept</a></span><span class='topic'><a href='#'>Society</a></span></h2>
+							<h1><a href='#'>Among the Children of Wat Opot</a></h1>
+							<p>A volunteer finds sectarian strife—and personal healing—at an AIDS nonprofit in Cambodia.</p>
+							<address>By Gail Gutradt</address>
+						</section>
+					</article>
+				</div>
+
+				<div class='more'>
+					<a href='#'>Read More</a>
+				</div>
+			</div>
+			<!-- end home-magazine -->
+
+			<div class='rule'></div>
+
+			<!-- start home-dharmatalks -->
+			<div class='home-dharmatalks'>
+				<header class='rubric_top'>
+						<h1><a href='#'><span class='icon icon-dept_dharmatalks'></span>Dharma Talks</h1>
+						<p>Video teachings and discussions with contemporary Buddhist teachers</a></p>
+				</header>
+
+				<main>
+					<article>
+
+						<figure>
+							<div class='icon-video_play' data-grunticon-embed></div>
+							<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg'
+								srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_4x.jpg 2000w,
+												<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_2x.jpg 1000w,
+												<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg 500w'
+								sizes= '(min-width: 50em) 75vw,
+												100vw'
+								alt='llama' />
+
+							<div class='video-wrapper'>
+							</div>
+						</figure>
+
+						<section>
+							<h2 class='rubric dharmatalks'><span class='topic'><a href='#'>Meditation &amp; Practice</a></span></h2>
+							<h1><a href='#'>Make Me One with Everything</a></h1>
+							<address>Lama Surya Das</address>
+							<p>What did the Buddhist say to the hot dog vendor? “Make me one with everything.” Sure, it’s a joke, but it also points to a real anxiety at the heart of modern-day Buddhism: How do I ensure that my personal commitment to practice extends beyond myself?</p>
+						</section>
+
+					</article>
+				</main>
+				<aside class='marquee'>
+
+					<article>
+							<h2 class='rubric'><span class='topic'><a href='#'>Meditation &amp; Practice</a></span></h2>
+							<h1><a href='#'>Overcoming Spiritual Bypassing</a></h1>
+							<address>Ethan Nichtern</address>
+					</article>
+
+					<article>
+							<h2 class='rubric'><span class='topic'><a href='#'>Arts &amp; Culture</a></span></h2>
+							<h1><a href='#'>Life Hurts: Responding with RAIN</a></h1>
+							<address>Teah Strozer</address>
+					</article>
+
+					<article>
+						<h2 class='rubric'><span class='topic'><a href='#'>Meditation &amp; Practice</a></span></h2>
+							<h1><a href='#'>Overcoming Spiritual Bypassing</a></h1>
+							<address>Ethan Nichtern</address>
+					</article>
+				</aside>
+
+				<div class='more'>
+					<a href='#'>View More</a>
+				</div>
+			</div>
+			<!-- end home-dharmatalks -->
+
+			<div class='rule'></div>
+
+			<!-- start home-ebooks -->
+			<div class='home-ebooks'>
+				<header class='rubric_top'>
+						<h1><a href='#'><span class='icon icon-dept_ebooks'></span>E-Books</a></h1>
+						<p>Tricycle wisdom in e-book format</p>
+				</header>
+
+				<main>
+					<article>
+
+						<figure>
+							<a href='#'>
+								<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-ebook_1x.gif'
+									srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-ebook_2x.gif 1000w,
+													<?php echo get_template_directory_uri(); ?>/images/jpg/home-ebook_1x.gif 500w'
+									sizes= '(min-width: 60em) 33vw,
+													(min-width: 50em) 40vw,
+													(min-width: 37.5em) 50vw,
+													(min-width: 25em) 75vw,
+													100vw'
+									alt='Tricycle E-Book: Fear' />
+							</a>
+						</figure>
+
+						<section>
+							<h2 class='rubric ebooks'><span class='topic'><a href='#'>Mind &amp; Body</a></span></h2>
+							<h1><a href='#'>Tricycle Teachings: Fear</a></h1>
+							<p>Do we really have nothing to fear but fear itself? In concert with the year's spookiest month, Tricycle offers a helpful new e-book, Tricycle Teachings: Fear, which tackles this tricky emotion from a Buddhist perspective.</p>
+							<p class='h2'><a class='view-contents' href='#'>View Contents</a></p>
+						</section>
+
+					</article>
+				</main>
+
+				<div class='more'>
+					<a href='#'>View More</a>
+				</div>
+			</div>
+			<!-- end home-ebooks -->
+
+			<div class='rule-responsive'></div>
+
+			<!-- start home-filmclub -->
+			<div class='home-filmclub'>
+				<header class='rubric_top'>
+						<h1><a href='#'><span class='icon icon-dept_filmclub'></span>Film Club</a></h1>
+						<p>Buddhist films and discussion for the Tricycle Community</p>
+				</header>
+
+				<main>
+					<article>
+
+						<figure>
+							<div class='icon-video_play' data-grunticon-embed></div>
+							<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg'
+								srcset='<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_4x.jpg 2000w,
+												<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_2x.jpg 1000w,
+												<?php echo get_template_directory_uri(); ?>/images/jpg/home-llama_1x.jpg 500w'
+								sizes= '(min-width: 50em) 75vw,
+												100vw'
+								alt='llama' />
+
+							<div class='video-wrapper'>
+							</div>
+						</figure>
+
+						<section>
+							<h2 class='rubric filmclub'><span class='topic'><a href='#'>Meditation &amp; Practice</a></span></h2>
+							<h1><a href='#'>The Wisdom To Survive</a></h1>
+							<p>THE WISDOM TO SURVIVE accepts the consensus of scientists that climate change has already arrived, and asks, what is keeping us from action? The film explores how unlimited growth and greed are destroying the life support system of the planet, the social fabric of the society, and the lives of billions of people.</p>
+							<address>Directed by John Ankele &amp; Anne Macksoud</address>
+						</section>
+
+					</article>
+				</main>
+
+				<div class='more'>
+					<a href='#'>View More</a>
+				</div>
+
+			</div>
+			<!-- end home-filmclub -->
+
+			<div class='rule'></div>
+
+			<!-- start calls to action -->
+			<div class='actions'>
+				<div class='action'>
+					<h2>Subscribe Today</h2>
+					<h1>Tricycle is more than a magazine</h1>
+					<p>Subscribe for access to video teachings, monthly films, e-books, and our 25-year archive. Plus: discounts on Tricycle online courses and events.</p>
+					<a class='button' href='#'>Subscribe</a>
+				</div>
+
+				<div class='action'>
+					<h2>Weekly Newsletter</h2>
+					<h1>The latest from Tricycle to your inbox</h1>
+					<form id='action-enews'>
+						<input class='email' id='action-email' placeholder='Your email here' type='email'>
+
+						<!-- enews modal -->
+						<div class='action-modal'>
+							<label for='action-modal-switch'>
+								<button id='action-modal-trigger'>Sign Up</button>
+							</label>
+							<input class='modal-state' id='action-modal-switch' type='checkbox' />
+						  <div class='modal-fade-screen'>
+						    <div class='modal-inner'>
+						      <div class='modal-close' for='action-modal-switch'></div>
+						      <h1>Weekly Newsletter</h1>
+						      <p>The latest from Tricycle to your inbox</p>
+									<form name='action-modal-enews'>
+										<input class='email' id='action-modal-email' placeholder='Your email here' type='email'>
+										<label><input type='checkbox' name='enews' value='enews-tricycle' checked>The Tricycle Newsletter</label>
+										<label><input type='checkbox' name='enews' value='enews-dailydharma' checked>Daily Dharma</label>
+										<label><input type='checkbox' name='enews' value='enews-promotions' checked>Learn More</label>
+										<button class='button'>Sign Up</button>
+									</form>
+						    </div>
+						  </div>
+						</div>
+						<!-- end enews modal -->
+
+					</form>
+				</div>
+
+				<div class='action'>
+					<h2>Donate Now</h2>
+					<p>Tricycle is a nonprofit organization that depends on reader support to make ends meet. Help us share Buddhist teachings and practices worldwide by donating now.</p>
+					<a class='button' href='#'>Donate</a>
+				</div>
+			</div>
+			<!-- end action -->
+
+		</div>
+		<!-- end div.wrapper -->
+                <?php get_footer(); ?>

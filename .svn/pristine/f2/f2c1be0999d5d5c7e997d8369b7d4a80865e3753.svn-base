@@ -1,0 +1,99 @@
+        <!-- start footer -->
+	<footer>
+            <nav class='nav-footer'>
+		<ul>
+                    <li class='logo'>
+                        <a class='icon-logo' href='<?php echo site_url("/"); ?>'></a>
+                    </li>
+                    <li class='nav-right footer-social'>
+			<a class='icon-facebook' href='#' data-grunticon-embed></a>
+			<a class='icon-twitter' href='#' data-grunticon-embed></a>
+                    </li>
+                    <li>
+			<ul class='footer-links'>
+                            <li class='footer-link'><a href='<?php echo get_page_link(get_page_id_by_slug(ABOUT_SLUG)); ?>'>About</a></li>
+                            <li class='footer-link'><a href='<?php echo get_page_link(get_page_id_by_slug(CONTACT_SLUG)); ?>'>Contact</a></li>
+                            <li class='footer-link'><a href='<?php echo get_page_link(get_page_id_by_slug(ADVERTISE_SLUG)); ?>'>Advertise</a></li>
+                            <li class='footer-link'><a href='<?php echo get_page_link(get_page_id_by_slug(TERMS_OF_SERVICE_SLUG)); ?>'>Terms Of Service</a></li>
+                            <li class='footer-link'><a href='<?php echo get_sitemap_url(); ?>'>Sitemap</a></li>
+                            <li class='footer-link'><a href='<?php echo get_page_link(get_page_id_by_slug(PRIVACY_POLICY_SLUG)); ?>'>Privacy Policy</a></li>
+                        </ul>
+                    </li>
+                    <li class='nav-right footer-fine-print'>
+                        <p>Copyright 2015. Tricycle. All rights reserved. Design by<a href='http://point5.com' target="_blank"> Point Five.&nbsp;</a>
+                    </li>
+		</ul>
+            </nav>
+	</footer>
+	<!-- end footer -->
+
+	<!-- start nav drawer -->
+	<div class='nav-drawer'>
+            <nav>
+                <header>
+                    <span class='icon-close'>&times;</span>
+                    <a class='icon-logo' href='<?php echo site_url("/"); ?>'></a>
+                </header>
+                <ul>
+                    <li class='depts'><a href='<?php echo get_trike_daily_url(); ?>'>Trike Daily</a></li>
+                    <li class='depts'><a href='<?php echo get_magazine_url(); ?>'>Magazine</a></li>
+                    <li class='depts'><a href='<?php echo get_dharma_talks_url(); ?>'>Dharma Talks</a></li>
+                    <li class='depts'><a href='<?php echo get_film_club_url(); ?>'>Film Club</a></li>
+                    <li class='depts'><a href='<?php echo get_e_books_url(); ?>'>E-Books</a></li>
+                    <li class='depts'><a href='<?php echo get_online_courses_url(); ?>'>Online Courses</a></li>
+                    <li class='nav-topics'>
+                        <h1 class='p'>Topics</h1>
+                        <ul>
+                            <?php 
+                            $topics = get_topic_terms();
+                            if($topics)
+                            {
+                                foreach($topics as $topic)
+                                {
+                                    ?>
+                                    <li><a href='<?php echo $topic->term_url; ?>'><?php echo $topic->name; ?></a></li>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </ul>
+                    </li>
+                    <li class='nav-subs'>
+                        <h1 class='p'>Login</h1>
+                        <ul>
+                            <li class='login'>
+                                <form name='login'>
+                                    <input class='email' placeholder='Your email here' type='email'>
+                                    <input class='pass' placeholder='password' type='password'>
+                                    <button class='button' type='submit'>Login</button>
+                                    <a class='link' href='#'>Need help with email or password?</a>
+                                </form>
+                            </li>
+                            <li><a class='link' href='#'>Link your subscription</a></li>
+                            <li>
+                                <p>A sentence selling the <cite>Tricycle</cite> subscriptions that briefly describes what a reader will get.</p>
+                                <a class='button' href='#'>Subscribe</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class='nav-donate'>
+                        <p>Making this happen takes resources, and for that we rely on you: our readers and supporters.</p>
+                        <a class='button' href='#'>Donate</a>
+                    </li>
+                    <li class='nav-social'>
+                        <a class='icon-facebook' href='#' data-grunticon-embed></a>
+                        <a class='icon-twitter' href='#' data-grunticon-embed></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class='nav-drawer-fade-screen'></div>
+        <!-- end nav drawer -->
+
+        <!-- javascript -->
+        <script src='<?php echo get_template_directory_uri(); ?>/js/jquery-2.1.4.min.js'></script>
+        <script src='<?php echo get_template_directory_uri(); ?>/js/jquery.matchHeight.js'></script>
+        <script src='<?php echo get_template_directory_uri(); ?>/js/main.js'></script>
+        <?php wp_footer(); ?>
+    </body>
+</html>

@@ -1,0 +1,156 @@
+<?php
+/*
+  Template Name: Filmclub Archive
+ */
+?>
+<?php get_header(); ?>
+
+<?php
+$post = get_post();
+$pageslug = $post->post_name;
+$pageUrl = get_site_url() . "/" . $pageslug . "/";
+?>
+<script>
+    var pageurl = '<?php echo $pageUrl; ?>';
+
+</script>
+<!-- start content -->
+<div class='wrap'>
+
+    <!-- start magazine rubric -->
+    <div class='rubric_top'>
+        <h1><span class='icon icon-dept_filmclub'></span>Film Club</h1>
+        <p>Buddhist films and discussion for the Tricycle Community</p>
+    </div>
+    <!-- end magazine rubric -->
+
+    <!-- start archive_ebooks grid -->
+    <div class='archive_filmclub'>
+        <div class='rule'></div>
+        <header class='rubric_mid filmclub'>
+            <h1>Archive</h1>
+            <?php
+            $currentYear = date('Y');
+            $getSearchArr = explode($pageslug, str_replace("/", "", $_SERVER['REQUEST_URI']));
+            $searchYear = isset($getSearchArr[1]) ? $getSearchArr[1] : $currentYear;
+            ?>
+            <div class='dropdown'>
+                <div class='dropdown-container'>
+                    <p class='button dropdown-button'>Browse By Year</p>
+                    <ul class='dropdown-menu dropdown-select'>
+                        <?php
+                        for ($i = $currentYear; $i >= 1991; $i--) {
+                            ?>
+                            <li class="yeardropdown" rel="<?php echo $i; ?>"><a href='javascript:void(0);'><?php echo $i; ?></a></li>
+                            <?php
+                        }
+                        ?>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <main id="moredata">
+            <?php
+            /* Get Post counts */
+            $posts = get_posts(array(
+                'numberposts' => -1, 'post_status' => 'publish', 'post_type' => FILM_CLUB_POST_TYPE, 'year' => $searchYear,
+            ));
+            $publishPosts = count($posts);
+            /* Get Post counts Ends */
+
+            $args = array(
+                'posts_per_page' => 12,
+                'orderby' => 'post_date',
+                'order' => 'DESC',
+                'year' => $searchYear,
+                'post_type' => FILM_CLUB_POST_TYPE,
+                'post_status' => 'publish',
+                'suppress_filters' => true
+            );
+
+            $queryfirst = new WP_Query($args);
+            query_posts($queryfirst);
+            $i = 1;
+            while ($queryfirst->have_posts()) : $queryfirst->the_post();
+                $postId[] = $queryfirst->post->ID;
+                $topics = get_topics_by_post_id(get_the_ID());
+                $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+
+                $publish_date = get_the_date('M Y');
+                ?>
+                <div class='archive-item'>
+                    <figure class='archive-cover_filmclub'>
+                        <a href='<?php the_permalink(); ?>'>
+                            <div class='icon-video_play' data-grunticon-embed></div>
+                            <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,100vw'); ?>
+                        </a>
+                    </figure>
+
+                    <header class='archive-titles'>
+                        <time><?php echo $publish_date; ?></time>
+                        <h2 class='topic filmclub'><?php echo $topic_urls; ?></h2>
+                        <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                        <address><?php echo getAuthorDetail(get_the_ID(), 0, 0); ?></address>
+                    </header>
+                </div>
+
+                <?php
+                if ($i == 12) {
+                    break;
+                }
+            endwhile;
+
+
+            wp_reset_query();
+            ?>
+
+        </main>
+
+        <?php if ($publishPosts > "12") { ?>
+            <div id="loadingimage" style="position:relative"></div>
+            <div class='more filmclub'>
+                <input type="hidden" name="postId" id="postId" value="<?php echo json_encode($postId); ?>" />
+                <input type="hidden" name="posttype" id="posttype" value="<?php echo FILM_CLUB_POST_TYPE; ?>" />
+                <input type="hidden" name="searchyear" id="searchyear" value="<?php echo $searchYear; ?>" />
+                <!-- tax name, post type, url, post id's -->
+                <a href='javascript:void(0)' id="archiveloadmore" onclick="loadmorearchive()">Load More</a>
+            </div>
+        <?php } ?>
+
+    </div>
+
+
+
+
+
+    <!-- end archive_magazine grid -->
+
+
+    <!-- start Call to Action module -->
+    <div class='CTA-module'>
+        <?php get_the_ad("filmclub_archive_ad_"); ?>
+    </div>
+    <!-- end Call to Action module -->
+
+
+    <aside>
+        <div class='aside-depts'>
+            <!-- start aside dharma talks -->
+            <?php show_latest_dharma_talks(); ?>
+            <!-- end aside dharma talks -->
+
+            <!-- start aside trikedaily -->
+            <?php show_latest_trike_daily(); ?>
+            <!-- end aside trikedaily -->
+
+            <!-- start aside magazine -->
+            <?php show_latest_magazine_article(); ?>
+            <!-- end aside magazine -->
+        </div>
+
+        <div class='rule'></div>
+
+
+
+        <?php get_footer(); ?>

@@ -1,0 +1,9 @@
+
+--This line, and those below, will be ignored--
+
+M    wp-content/themes/tricycle/archive-magazine.php
+D    wp-content/themes/tricycle/ebooks-data.php
+M    wp-content/themes/tricycle/index.php
+A  + wp-content/themes/tricycle/loadmore-film.php
+M    wp-content/themes/tricycle/magazine-archive.php
+A    wp-content/themes/tricycle/taxonomy-magazine-issue.php

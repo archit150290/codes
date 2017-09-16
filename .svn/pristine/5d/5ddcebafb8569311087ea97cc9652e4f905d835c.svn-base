@@ -1,0 +1,670 @@
+<?php get_header(); ?>
+<!-- start content -->
+<div class='wrap'>
+    <!-- start home-marquee -->
+    <div class='home-marquee'>        
+        <?php
+        $allrecords = array();
+        $allrecordSet = array();
+
+        $args = array(
+            'post_type' => array('post', EBOOKS_POST_TYPE, MAGAZINE_POST_TYPE, FILM_CLUB_POST_TYPE, DHARMATALKS_POST_TYPE),
+            'meta_query' => array(
+                array(
+                    'key' => 'home_featured',
+                    'value' => '1',
+                    'compare' => 'IN',
+                ),
+            ),
+            'posts_per_page' => 4,
+            'orderby' => 'menu_order',
+            'order' => 'ASC'
+        );
+
+        $querymagazine = new WP_Query($args);
+        if($querymagazine->have_posts())
+        {
+            $loop = 1;
+            while ($querymagazine->have_posts()): 
+                $querymagazine->the_post();
+                $topics = get_topics_by_post_id(get_the_ID());
+                $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+
+                $post_type = get_post_type();
+                $postValues = get_post_type_object($post_type);
+                $labels = $postValues->labels; //to fetch the menu name
+                $postMenuName = $labels->menu_name;
+                $postTypeLink = get_post_type_archive_link($post_type);
+                $post_link = get_post_type_archive_link($post_type);
+
+                if ($post_type == "post") {
+                    $post_type = "trikedaily";
+                    $postMenuName = "Trike Daily";
+                    $post_link = get_permalink(get_page_id_by_slug(TRIKE_DAILY_SLUG));
+                }
+
+                if($loop == 1)
+                {
+                    ?>
+                    <main class='marquee-hero'>
+                        <article class='<?php echo $post_type; ?>' >
+                            <figure>
+                                <a href='<?php the_permalink(); ?>'>
+                                    <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 50em) 75vw,100vw'); ?>
+                                </a>
+                            </figure>
+                            <section>
+                                <a class='icon icon-dept_<?php echo $post_type; ?>' href='<?php echo $post_link; ?>'></a>
+                                <h2 class='rubric <?php echo $post_type; ?>'><a href='<?php echo $post_link; ?>'><?php echo $postMenuName; ?></a><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                                <h1><a href='<?php the_permalink(); ?>'><?php echo the_title();?></a></h1>
+                                <p><?php the_excerpt(); ?></p>
+                                <address><?php echo getAuthorDetail(get_the_ID(),1,0); ?></address>
+                            </section>
+                        </article>
+                    </main>
+                    <?php
+                }
+                else if($loop == 2)
+                {
+                    ?>
+                    <aside class='marquee'>
+                        <article class='<?php echo $post_type; ?>'>
+                            <h2 class='rubric <?php echo $post_type; ?>'>
+                                <a href='<?php the_permalink(); ?>' class='icon icon-dept_<?php echo $post_type; ?>'></a>
+                                <span class='dept'><a href='<?php the_permalink(); ?>'><?php echo $postMenuName; ?></a>
+                                    <span class='topic'>
+                                        <?php echo $topic_urls; ?>
+                                    </span>
+                                </span>
+                            </h2>
+                            <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                            <address><?php echo getAuthorDetail(get_the_ID(),1,0); ?></address>
+                        </article>
+                    <?php
+                }
+                else
+                {
+                    ?>
+                    <article class='<?php echo $post_type; ?>'>
+                        <h2 class='rubric <?php echo $post_type; ?>'>
+                            <a href='<?php the_permalink(); ?>' class='icon icon-dept_<?php echo $post_type; ?>'></a>
+                            <span class='dept'><a href='<?php the_permalink(); ?>'><?php echo $postMenuName; ?></a>
+                                <span class='topic'>
+                                    <?php echo $topic_urls; ?>
+                                </span>
+                            </span>
+                        </h2>
+                        <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                        <address><?php echo getAuthorDetail(get_the_ID(),1,0); ?></address>
+                    </article>
+                    <?php
+                }
+                $loop++;
+            endwhile;
+            if($loop > 2)
+            {
+                ?>
+                </aside>        
+                <?php
+            }
+        }
+        wp_reset_query();
+        ?>
+    </div>
+    <!-- end home-marquee -->				
+    
+    <div class='promo-module'>
+        <?php get_the_ad("homepage_ad1_");?>
+        
+        
+        <!-- start ad -->
+<!--        <div class='rule'></div>
+        <div class='ad_banner'>
+            <img src='<?php //echo get_template_directory_uri(); ?>/images/jpg/ad-buddhanet.jpg' alt='buddhanet'/>
+        </div>-->
+<!--        <div class='rule'></div>-->
+        <!-- end ad -->
+    </div>
+
+    <!-- start daily-dharma -->
+    <div class='home-dailydharma'>
+	<?php
+        $args = array(
+            'posts_per_page' => 1,
+            'orderby' => 'post_date',
+            'order' => 'DESC',
+            'post_type' => 'dailydharma',
+            'post_status' => 'publish',
+            'suppress_filters' => true
+        );
+
+        $querydharma = new WP_Query($args);
+        if($querydharma->have_posts())
+        {
+            while ($querydharma->have_posts()): 
+                $querydharma->the_post();
+                $dailydharma_authorname = get_post_meta(get_the_ID(), DAILYDHARMA_AUTHORS_NAME_METABOX, true);
+
+                if($dailydharma_authorname)
+                {
+                    $dailydharma_authorname = "&ndash; ".$dailydharma_authorname;
+                }
+
+                $dailydharma_url = get_post_meta(get_the_ID(), DAILYDHARMA_URL_METABOX, true);
+                ?>
+                <h2 class='button'>Daily Dharma</h2>
+                <div class='icon icon-quote'></div>
+                <?php 
+                if (empty($dailydharma_url)) 
+                { 
+                    ?>
+                    <a href="<?php the_permalink(); ?>">
+                        <p class='dailydharma-quote'><?php the_content(); ?></p>
+                    </a>
+                    <?php 
+                } 
+                else 
+                {
+                    ?>
+                    <a href="<?php echo $dailydharma_url; ?>" target="_blank">
+                        <p class='dailydharma-quote'><?php the_content(); ?></p>
+                    </a>
+                    <?php 
+                } 
+                ?>
+                <address>
+                    <?php 
+                    if (empty($dailydharma_url)) 
+                    { 
+                        ?>
+                        <a href="<?php the_permalink(); ?>">
+                            <?php echo $dailydharma_authorname; ?>
+                            <?php echo the_title(); ?>
+                        </a>
+                        <?php 
+                    } 
+                    else 
+                    {
+                        ?>
+                        <a href="<?php echo $dailydharma_url; ?>" target="_blank"> 
+                            <?php echo $dailydharma_authorname; ?>
+                            <?php echo the_title(); ?>
+                        </a>
+                        <?php 
+                    } 
+                    ?>
+                </address>
+                <div class='social-wrap'>
+                    <ul class='dailydharma-social'>
+                        <li class="st_facebook_custom" st_title='<?php the_content(); ?>' st_url='<?php if (empty($dailydharma_url)) { the_permalink(); } else { echo $dailydharma_url; } ?>'><a class='icon icon-share_facebook' href='javascript:void(0)' data-grunticon-embed></a></li>
+                        <li class="st_twitter_custom" st_title='<?php the_content(); ?>' st_url='<?php if (empty($dailydharma_url)) { the_permalink(); } else { echo $dailydharma_url; } ?>'><a class='icon icon-share_twitter' href='javascript:void(0)' data-grunticon-embed></a></li>
+                        <li class="st_email_custom" st_title='<?php the_content(); ?>' st_url='<?php if (empty($dailydharma_url)) { the_permalink(); } else { echo $dailydharma_url; } ?>'><a class='icon icon-share_email' href='javascript:void(0)' data-grunticon-embed></a></li>
+                    </ul>
+                </div>
+                <?php
+            endwhile;
+        }
+        ?>        
+        <form id='dailydharma-enews'>
+            <input class='email' id='dailydharma-email' placeholder='Your email here' type='email'>
+            <!-- start modal -->
+            <div class='dailydharma-modal'>
+                <label for='dailydharma-modal-switch'>
+                    <button id='dailydharma-modal-trigger'>Sign Up</button>
+                </label>
+                <input class='modal-state' id='dailydharma-modal-switch' type='checkbox' />
+                <div class='modal-fade-screen'>
+                    <div class='modal-inner'>
+                        <div class='modal-close' for='dailydharma-modal-switch'></div>
+                        <h1>Weekly Newsletter</h1>
+                        <p>The latest from Tricycle to your inbox</p>
+                        <div id='dailydharma-modal-enews'>
+                            <input class='email' id='dailydharma-modal-email' placeholder='Your email here' type='email'>
+                            <label><input type='checkbox' name='enews' value='enews-tricycle' checked>The Tricycle Newsletter</label>
+                            <label><input type='checkbox' name='enews' value='enews-dailydharma' checked>Daily Dharma</label>
+                            <label><input type='checkbox' name='enews' value='enews-promotions' checked>Learn More</label>
+                            <button id='dailydharma-modal-submit' class='button'>Sign Up</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end modal -->
+        </form>
+    </div>
+    <!-- end daily-dharma -->
+
+    <!-- start home-trikedaily -->
+    <div class='home-trikedaily'>
+        <header class='rubric_top'>
+            <h1><a href='<?php echo get_permalink(get_page_id_by_slug(TRIKE_DAILY_SLUG)); ?>'><span class='icon icon-dept_trikedaily'></span>Trike Daily</a></h1>
+            <p>Daily wisdom, teachings &amp; critique</p>
+        </header>
+        <?php
+        $args = array(
+            'posts_per_page' => 3,
+            'orderby' => 'post_date',
+            'order' => 'DESC',
+            'post_status' => 'publish',
+            'suppress_filters' => true
+        );
+
+        $querymagazine = new WP_Query($args);
+        if($querymagazine->have_posts())
+        {
+            while ($querymagazine->have_posts()): 
+                $querymagazine->the_post();
+
+                $topics = get_topics_by_post_id(get_the_ID());
+                $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                ?>
+                <article>
+                    <figure>
+                        <a href='<?php the_permalink(); ?>'>
+                            <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 37.5em) 25vw,100vw'); ?>
+                        </a>
+                    </figure>
+
+                    <section class='rubric trikedaily'>
+                        <h2 class='trikedaily'><?php get_trikedaily_department(get_the_ID()); ?>
+                            <span class='topic'><?php echo $topic_urls; ?></span>
+                        </h2>
+                    </section>
+
+                    <section class='titles'>
+                        <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                        <p><?php the_excerpt(); ?></p>
+                        <address><?php echo getAuthorDetail(get_the_ID(),1,0); ?></address>
+                    </section>
+                </article>
+                <?php
+            endwhile;
+            ?>
+            <div class='more'>
+                <a href='<?php echo get_permalink(get_page_id_by_slug(TRIKE_DAILY_SLUG)); ?>'>Read More</a>
+            </div>
+            <?php
+        }
+        wp_reset_query();
+        ?>        
+    </div>
+    <!-- end Trike Daily -->
+
+    <div class='promo-module'>
+        <!-- start house ad module -->
+              <?php get_the_ad("homepage_ad2_"); ?> 
+        <!-- end house ad module -->
+    </div>
+
+    <!-- start home-magazine -->
+    <div class='home-magazine'>
+        <header class='rubric_top'>
+            <h1><a href='<?php echo get_post_type_archive_link(MAGAZINE_POST_TYPE); ?>'><span class='icon icon-dept_magazine'></span>Current Issue</a></h1>
+        </header>
+
+        <div class='current-issue'>
+            <?php
+            $recentissue = get_magazine_issue_terms();
+            if($recentissue)
+            {
+                $recentissueName = isset($recentissue[0]) ? $recentissue[0]->name : '';
+                $recentissueId = isset($recentissue[0]) ? $recentissue[0]->term_id : '';
+                $termDescription=term_description($recentissueId,'magazine-issue');
+                $term_meta = get_option("taxonomy_term_$recentissueId");
+                $magazine_issue_cover_image = $term_meta['cover_image'];
+                ?>
+                <figure class='issue-cover'>
+                    <a href='<?php echo get_post_type_archive_link(MAGAZINE_POST_TYPE); ?>'>
+                        <?php echo getImagewithSrcset($magazine_issue_cover_image,'image','','(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,75vw'); ?>
+                    </a>
+                </figure>
+
+                <section class='issue-summary'>
+                    <time class='h2'><?php echo $recentissueName; ?><span class='vol-no'><?php if (!empty($term_meta['volume'])) { echo "Volume ".$term_meta['volume'].","; } ?><?php if (!empty($term_meta['number'])) { echo " Number ".$term_meta['number']; } ?></span></time>
+                    <p><?php echo $termDescription; ?></p>
+                    <p class='h2'><a class='view-contents' href='<?php echo get_post_type_archive_link(MAGAZINE_POST_TYPE); ?>'>View Contents</a></p>
+                </section>
+                <?php
+            }
+            ?>
+        </div>
+
+        <div class='magazine-articles'>
+            <?php 
+            if($recentissue)
+            {
+                add_filter('pre_get_posts', 'change_order');
+
+                function change_order($wp_query) {
+                    $wp_query->set('meta_key', 'menu_order');
+                    $wp_query->set('orderby', 'meta_value');
+                    $wp_query->set('order', 'ASC');
+                }
+
+                $argscissue = array(
+                    'post_type' => array(MAGAZINE_POST_TYPE),
+                    'post_status' => 'publish',
+                    'tax_query' => array(
+                        'relation' => 'AND',
+                        array(
+                            'taxonomy' => 'magazine-issue',
+                            'field' => 'slug',
+                            'terms' => array($recentissueName),
+                            'operator' => 'IN',
+                        ),
+                    ),
+                    'meta_query' => array(
+                        array(
+                            'key' => 'current_issue_meta_key',
+                            'value' => '1',
+                            'compare' => 'IN',
+                        ),
+                    ),
+                    'showposts' => '3',
+                );
+                $eq_query = new WP_Query($argscissue);
+                remove_filter( 'pre_get_posts', 'change_order');
+                if($eq_query->have_posts())
+                {
+                    while ($eq_query->have_posts()): $eq_query->the_post();
+                        $topics = get_topics_by_post_id(get_the_ID());
+                        $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                        ?>
+                        <article>
+                            <figure>
+                                <a href='<?php the_permalink();  ?>'>
+                                    <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 37.5em) 33vw,100vw'); ?>
+                                </a>
+                            </figure>
+                            <section>
+                                <h2 class='rubric magazine'><span class='dept'><?php get_the_sub_department(get_the_ID(),'magazine-department'); ?></span>
+                                    <span class='topic'><?php echo $topic_urls; ?></span>
+                                </h2>
+                                <h1><a href='<?php echo get_permalink(get_the_ID())  ?>'><?php the_title(); ?></a></h1>
+                                <p><?php the_excerpt(); ?></p>
+                            </section>
+                        </article>
+                        <?php 
+                    endwhile;
+                    ?>
+                    <div class='more'>
+                        <a href='<?php echo get_post_type_archive_link(MAGAZINE_POST_TYPE); ?>'>Read More</a>
+                    </div>
+                    <?php
+                }
+                wp_reset_query();
+            }
+            ?>  
+        </div>
+        
+    </div>
+    <!-- end home-magazine -->
+
+    <div class='rule'></div>
+
+    <!-- start home-dharmatalks -->
+    <div class='home-dharmatalks'>
+        <header class='rubric_top'>
+            <h1><a href='<?php echo get_post_type_archive_link(DHARMATALKS_POST_TYPE); ?>'><span class='icon icon-dept_dharmatalks'></span>Dharma Talks</h1>
+            <p>Video teachings and discussions with contemporary Buddhist teachers</a></p>
+        </header>
+        
+        <?php
+        $alldharmarecords = array();
+        $alldharmarecordsSet = array();
+
+        $args = array(
+                'posts_per_page' => 4,
+                'orderby' => 'post_date',
+                'order' => 'DESC',
+                'post_type' => DHARMATALKS_POST_TYPE,
+                'post_status' => 'publish',
+                'suppress_filters' => true
+        );
+
+        $querydharma = new WP_Query($args);
+        if($querydharma->have_posts())
+        {
+            $loop = 1;
+            while ($querydharma->have_posts()): 
+                $querydharma->the_post();
+
+                $topics = get_topics_by_post_id(get_the_ID());
+                $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+
+                if($loop == 1)
+                {
+                    ?>
+                    <main>
+                        <article>
+                            <figure>
+                                <div class='icon-video_play' rel='<?php echo get_post_meta(get_the_ID() ,'dharma_talks_trailer_url',true); ?>' data-grunticon-embed></div>
+                                <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 50em) 75vw,100vw'); ?>
+                                <div class='video-wrapper'></div>
+                            </figure>
+
+                            <section>
+                                <h2 class='rubric dharmatalks'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                                <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                <address><?php echo getAuthorDetail(get_the_ID(),0,0); ?></address>
+                                <p><?php the_excerpt(); ?></p>
+                            </section>
+                        </article>
+                    </main>
+                    <?php
+                }
+                else if($loop == 2)
+                {
+                    ?>
+                    <aside class='marquee'>
+                        <article>
+                            <h2 class='rubric'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                            <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                            <address><?php echo getAuthorDetail(get_the_ID(),0,0); ?></address>
+                        </article>
+                    <?php
+                }
+                else
+                {
+                    ?>
+                    <article>
+                        <h2 class='rubric'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                        <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                        <address><?php echo getAuthorDetail(get_the_ID(),0,0); ?></address>
+                    </article>
+                    <?php
+                }
+                $loop++;
+            endwhile;
+            if($loop > 2)
+            {
+                ?>
+                </aside>      
+                <?php
+            }
+            ?>
+            <div class='more'>
+                <a href='<?php echo get_post_type_archive_link(DHARMATALKS_POST_TYPE); ?>'>View More</a>
+            </div>
+            <?php
+        }
+        wp_reset_query();
+        ?>
+    </div>
+    <!-- end home-dharmatalks -->
+
+    <div class='rule'></div>
+
+    <!-- start home-ebooks -->
+    <div class='home-ebooks'>
+        <header class='rubric_top'>
+            <h1><a href='<?php echo get_post_type_archive_link(EBOOKS_POST_TYPE); ?>'><span class='icon icon-dept_ebooks'></span>E-Books</a></h1>
+            <p>Tricycle wisdom in e-book format</p>
+        </header>
+
+        <main>
+            <?php
+            $args = array(
+            'posts_per_page' => 1,
+            'orderby' => 'post_date',
+            'order' => 'DESC',
+            'post_type' => EBOOKS_POST_TYPE,
+            'post_status' => 'publish',
+            'suppress_filters' => true
+            );
+
+            $queryfirst = new WP_Query($args);
+            
+            $i = 1;
+            if($queryfirst->have_posts())
+            {
+                while ( $queryfirst->have_posts() ): 
+                    $queryfirst->the_post();
+                    $topics = get_topics_by_post_id(get_the_ID());
+                    $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                    ?>
+                    <article>
+                        <figure>
+                            <a href='<?php the_permalink(); ?>'>
+                                <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 60em) 33vw,(min-width: 50em) 40vw,(min-width: 37.5em) 50vw,(min-width: 25em) 75vw,100vw'); ?>					
+                            </a>
+                        </figure>
+
+                        <section>
+                            <h2 class='rubric ebooks'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                            <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                            <p><?php the_excerpt(); ?></p>
+                            <p class='h2'><a class='view-contents' href='<?php the_permalink(); ?>'>View Contents</a></p>
+                        </section>
+                    </article>
+                    <?php
+                endwhile;
+                ?>
+                <div class='more'>
+                    <a href='<?php echo get_post_type_archive_link(EBOOKS_POST_TYPE); ?>'>View More</a>
+                </div>
+                <?php
+            }
+            wp_reset_query();
+            ?>
+        </main>        
+    </div>
+    <!-- end home-ebooks -->
+
+    <div class='rule-responsive'></div>
+       <?php $film_regulator = get_option("film_regulator");
+            if($film_regulator == "1"){
+        ?>
+        <div class='home-filmfestival'>
+        <header class='rubric_top'>
+            <h1><a href='<?php echo get_post_type_archive_link(FILM_FESTIVAL_POST_TYPE); ?>'><span class='icon icon-dept_filmfestival'></span>Film Festival</a></h1>
+            <p>BuddhaFest Online</p>
+        </header>
+
+        <main>
+            <?php
+            $args = array(
+            'posts_per_page' => 1,
+            'orderby' => 'post_date',
+            'order' => 'DESC',
+            'post_type' => FILM_FESTIVAL_POST_TYPE,
+            'post_status' => 'publish',
+            'suppress_filters' => true
+            );
+
+            $querydharma = new WP_Query($args);
+            if($querydharma->have_posts())
+            {
+                while ( $querydharma->have_posts() ): 
+                    $querydharma->the_post();
+                    $topics = get_topics_by_post_id(get_the_ID());
+                    $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                    ?>
+                    <article>
+                        <figure>
+                           <a href='<?php the_permalink(); ?>'>
+                           <div class='icon-video_play' style="height:432px" data-grunticon-embed></div>
+                           <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 60em) 75vw, 100vw'); ?>
+                           </a>
+                        </figure>
+                        <section>
+                            <h2 class='rubric filmfestival'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                            <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                            <p><?php the_excerpt(); ?></p>
+                            <address><?php echo getAuthorDetail(get_the_ID(),1,0); ?></address>
+                        </section>
+                    </article>
+                    <?php
+                endwhile;
+                ?>
+                <div class='more'>
+                    <a href='<?php echo get_post_type_archive_link(FILM_FESTIVAL_POST_TYPE); ?>'>View More</a>
+                </div>
+                <?php
+            }
+            wp_reset_query();
+            ?>
+        </main>        
+    </div>
+            <?php } else { ?>
+    
+    <!-- start home-filmclub -->
+    <div class='home-filmclub'>
+        <header class='rubric_top'>
+            <h1><a href='<?php echo get_post_type_archive_link(FILM_CLUB_POST_TYPE); ?>'><span class='icon icon-dept_filmclub'></span>Film Club</a></h1>
+            <p>Buddhist films and discussion for the Tricycle Community</p>
+        </header>
+
+        <main>
+            <?php
+            $args = array(
+            'posts_per_page' => 1,
+            'orderby' => 'post_date',
+            'order' => 'DESC',
+            'post_type' => FILM_CLUB_POST_TYPE,
+            'post_status' => 'publish',
+            'suppress_filters' => true
+            );
+
+            $querydharma = new WP_Query($args);
+            if($querydharma->have_posts())
+            {
+                while ( $querydharma->have_posts() ): 
+                    $querydharma->the_post();
+                    $topics = get_topics_by_post_id(get_the_ID());
+                    $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                    ?>
+                    <article>
+                        <figure>
+                            <div class='icon-video_play' rel='<?php echo get_post_meta(get_the_ID() ,'meta_type_filmclub_video',true); ?>' data-grunticon-embed></div>
+                            <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 50em) 75vw,100vw'); ?>
+                            <div class='video-wrapper'>
+                            </div>
+                        </figure>
+                        <section>
+                            <h2 class='rubric filmclub'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                            <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                            <p><?php the_excerpt(); ?></p>
+                            <address><?php echo getAuthorDetail(get_the_ID(),1,0); ?></address>
+                        </section>
+                    </article>
+                    <?php
+                endwhile;
+                ?>
+                <div class='more'>
+                    <a href='<?php echo get_post_type_archive_link(FILM_CLUB_POST_TYPE); ?>'>View More</a>
+                </div>
+                <?php
+            }
+            wp_reset_query();
+            ?>
+        </main>        
+    </div>
+            <?php } ?>
+    
+    
+    
+    <!-- end home-filmclub -->
+    <div class='rule'></div>
+    <!-- start calls to action -->
+    <!-- end div.wrapper -->
+    <?php get_footer(); ?>

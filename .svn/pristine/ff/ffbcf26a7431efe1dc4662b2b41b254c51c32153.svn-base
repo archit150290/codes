@@ -1,0 +1,200 @@
+// video article page
+////////////////////////
+.article_dharmatalks,
+.article_ebooks {
+  @extend %article;
+
+  .tools_top {
+    @include media($wide-up) {
+      @include span-columns(1 of 12);
+      clear:left;
+      height: 12em;
+    }
+  }
+
+  .article-body {
+    @include media($wide-up) {
+      @include span-columns(10 of 12);
+    }
+  }
+
+  .article-bottom-matter {
+    @include media($wide-up) {
+      @include span-columns(10 of 12);
+      @include shift;
+    }
+  }
+
+  .article-tags {
+    margin-bottom: $base-spacing * 3;
+  }
+
+  .comments-toggle {
+    @include media($wide-up) {
+      @include span-columns(6 of 10);
+      @include shift(2);
+    }
+  }
+}
+
+.article-header_video {
+  @extend %article-header;
+  margin-bottom: $base-spacing;
+
+  .subdept + .topic {
+    @include media($tablet-up) {
+      @include topic-1line;
+    }
+  }
+
+  h1 {
+    margin-bottom: 0;
+
+  }
+
+  address {
+    @extend %dharmatalks-speaker;
+    font-size: $heading-font-size;
+
+    @include media($tablet-up) {
+      font-size: 2.5em;
+    }
+
+    @include media($desktop-up) {
+      font-size: 3em;
+      line-height: 1;
+    }
+
+    @include media($wide-up) {
+      font-size: 4em;
+      letter-spacing: -.01em;
+    }
+  }
+}
+
+.article-main_dharmatalks,
+.article-main_ebooks {
+  @extend %article-column;
+  @include fill-parent;
+  margin-top: $small-spacing;
+  padding-top: 0;
+
+  .article-video_featured,
+  .article-video_paywall {
+    @include media($wide-up) {
+      @include span-columns(8.5 of 12);
+      margin-left: 0;
+    }
+  }
+}
+
+.article-main_film {
+  @extend %article-main;
+  margin-top: $small-spacing;
+}
+
+//////////////////
+%article-video_featured,
+.article-video_paywall {
+  @extend %video;
+  @include clearfix;
+}
+
+.article-video_featured,
+.article-video_paywall {
+  @extend %article-video_featured;
+  @include clearfix;
+
+  figure {
+    @include video-hover($clr-red);
+  }
+
+  img {
+    width: 100%;
+    object-fit: cover;
+  }
+}
+
+.article_playlist {
+  @include margin($base-spacing null);
+
+  @include media($wide-up) {
+    @include span-columns(3.5 of 12);
+    @include omega;
+    margin-top: 0;
+  }
+
+  li {
+    border-bottom: 2px solid $clr-rule;
+    margin-bottom: $small-spacing;
+
+    @include media($wide-up) {
+      margin-top: $small-spacing;
+    }
+
+    @include media($max) {
+      margin-bottom: $base-spacing;
+    }
+  }
+
+  h1 {
+    font-size: 1.25em;
+  }
+
+  a h1:hover {
+    color: $clr-red;
+  }
+
+  .duration {
+    color: $clr-gray-midhi;
+    margin-left: $small-spacing;
+  }
+
+  .play {
+    color: $clr-gray-midhi;
+  }
+}
+
+
+.article-dharmatalk-title {
+  margin-bottom: $base-spacing;
+
+  @include media($wide-up) {
+    @include span-columns(11 of 12);
+    @include omega;
+    border-bottom: 1px solid $clr-gray-lite;
+    padding-bottom: 3em;
+  }
+
+  h1 {
+    font-size: 2em;
+
+    @include media($wide-up) {
+      @include span-columns(7.5 of 11);
+    }
+  }
+
+  a {
+    color: $clr-black;
+    display: block;
+    margin: 0;
+  }
+}
+
+.queue {
+  @include media($wide-up) {
+    @include fill-parent;
+  }
+
+  p {
+    @include padding($base-spacing $base-spacing * 2 null null);
+    border-top: 2px solid $clr-dharmatalks;
+    display: inline-block;
+  }
+}
+
+.transcript {
+  @include media($wide-up) {
+    @include span-columns(3.5 of 11);
+  }
+}

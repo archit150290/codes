@@ -1,0 +1,9 @@
+jQuery(function(){
+    jQuery("div#topic-adder, div#magazine-department-adder").remove(); //Removed add topic section, add department section
+    
+    //Only one topic can be selected at a time.
+    jQuery(document).on('click', 'div#taxonomy-topic input:checkbox', function(){
+        jQuery("div#taxonomy-topic input:checkbox").attr('checked', false);
+        jQuery(this).attr('checked', true);
+    })
+});

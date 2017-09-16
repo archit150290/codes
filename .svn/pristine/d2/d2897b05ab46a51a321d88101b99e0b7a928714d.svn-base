@@ -1,0 +1,232 @@
+// archive
+////////////////////////
+%archive {
+  @extend %base-module;
+  @extend %rule_below-rubric;
+
+  .rubric_mid {
+    margin-bottom: $base-spacing * 2;
+
+    h1 {
+      @include media($mobile-to-tablet) {
+        text-align: center;
+        margin-left: 0;
+      }
+    }
+  }
+
+  img {
+    box-shadow: $base-box-shadow;
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+%archive-cell-widths {
+  width: $archive-image-width_mobile;
+
+  @include media($mobile-up) {
+    width: $archive-image-width_tablet;
+  }
+
+  @include media($desktop-up) {
+    width: $archive-image-width_desktop;
+  }
+}
+
+%archive-titles {
+  @include margin($small-spacing auto $base-spacing * 2);
+  text-align: center;
+
+  a {
+    color: inherit;
+  }
+
+  .topic {
+    color: $clr-gray-midhi;
+    display: block;
+    margin-bottom: $small-spacing;
+  }
+
+  .vol-no {
+    color: $clr-gray-midhi;
+    display: block;
+    font-size: .7em;
+    letter-spacing: .1em;
+  }
+}
+
+%archive-item {
+  .archive-item {
+    @include media($tablet-to-wide) {
+      @include span-columns(3 of 6);
+      @include omega(2n);
+    }
+
+    @include media($wide-up) {
+      @include span-columns(1 of 3);
+      @include omega(3n);
+    }
+  }
+}
+
+%archive-item_video {
+  .archive-item {
+    @include media($tablet-to-wide) {
+      @include span-columns(4 of 8);
+      @include omega(2n);
+    }
+
+    @include media($wide-up) {
+      @include span-columns(2 of 6);
+      @include omega(3n);
+    }
+
+
+
+    img, .icon-video_play {
+      display: block;
+      height: 12em;
+      object-fit: cover;
+      width: 100%;
+
+      @include media($mobile-to-tablet) {
+        height: 16em;
+      }
+
+      @include media($desktop-to-wide) {
+        height: 16em;
+       }
+    }
+  }
+}
+
+.archive_magazine {
+  @extend %archive;
+  @extend %archive-item;
+
+  a:hover {
+    time { color: $clr-magazine; }
+  }
+
+  img {
+    @extend %archive-cell-widths;
+  }
+
+  .archive-titles {
+    @extend %archive-titles;
+    @extend %archive-cell-widths;
+  }
+
+  time {
+    font-size: 1.25em;
+    margin: 0;
+  }
+
+  .more {
+    @include dept-button($clr-magazine);
+  }
+}
+
+.archive_ebooks {
+  @extend %archive;
+  @extend %archive-item;
+
+  a:hover {
+    color: $clr-ebooks;
+  }
+
+  img {
+    @extend %archive-cell-widths;
+  }
+
+  .archive-titles {
+    @extend %archive-titles;
+    @extend %archive-cell-widths;
+    @include margin(null auto);
+
+    @include media($tablet-up) {
+      text-align: left;
+    }
+  }
+
+  .more {
+    @include dept-button($clr-ebooks);
+  }
+}
+
+%archive_video {
+  @extend %archive;
+  @extend %archive-item_video;
+
+  main {
+    @include clearfix;
+  }
+
+  figure {
+    @extend %video-figure_small;
+  }
+
+  .archive-titles {
+    @extend %archive-titles;
+    @include margin($small-spacing $small-spacing null);
+    text-align: left;
+
+    @include media($tablet-up) {
+      @include margin(null 0);
+    }
+  }
+
+  h2 {
+    margin-top: 0;
+  }
+
+  // h1 {
+  //   margin-bottom: $small-spacing / 2;
+  // }
+
+  address {
+    font-size: 1.5em;
+    line-height: 1.3;
+  }
+}
+
+.archive_dharmatalks {
+  @extend %archive_video;
+
+  a:hover {
+    color: $clr-dharmatalks;
+  }
+
+  figure {
+    @include video-hover($clr-dharmatalks);
+  }
+
+  address {
+    @extend %dharmatalks-speaker;
+  }
+
+  .more {
+    @include dept-button($clr-dharmatalks);
+  }
+}
+
+.archive_filmclub {
+  @extend %archive_video;
+
+  a:hover {
+    color: $clr-filmclub;
+  }
+
+  figure {
+    @include video-hover($clr-filmclub);
+  }
+
+  address {
+    @extend %filmclub-speaker;
+  }
+
+  .more {
+    @include dept-button($clr-filmclub);
+  }
+}

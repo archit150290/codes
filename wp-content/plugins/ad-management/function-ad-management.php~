@@ -1,0 +1,91 @@
+asdf
+include_once '../../../wp-config.php';
+
+echo $_REQUEST['action'];
+function loadAdvOptions() {
+
+        $Ad = "";
+        $location = $_POST['location'];
+        if (!empty($_REQUEST['location'])) {
+            $location = $_REQUEST['location'];
+            $home_ad_details = get_option($location . "option_key");
+            $home_ad_details;
+            $home_ad_data = json_decode($home_ad_details);
+            //pr($home_ad_data);
+            if (!empty($home_ad_data)) {
+                $ad_type = $home_ad_data->ad_type;
+            } else {
+                $ad_type = "";
+            }
+        }
+        //$ad_type = $_POST['ad_type'];
+        //keeping common for all the values that dont have daily dharma 
+        $radiooption['homepage_ad1_'] = array(
+            array("key" => "home_page_ad_type", "value" => "google_dfp", "label" => "Paid/House Ad from Google DFP"),
+            array("key" => "home_page_ad_type", "value" => "newsletter_signup", "label" => "Enews Signup"),
+            array("key" => "home_page_ad_type", "value" => "tricycle_subscribe_module", "label" => "Subscribe Module"),
+            array("key" => "home_page_ad_type", "value" => "display_nothing", "label" => "Displaying nothing")
+        );
+        $radiooption['homepage_ad2_'] = $radiooption['homepage_ad1_'];
+
+        //keeping common for all the values that has daily dharma 
+        $radiooption['topics_ad1_'] = array(
+            array("key" => "home_page_ad_type", "value" => "google_dfp", "label" => "Paid Ad / House ad"),
+            array("key" => "home_page_ad_type", "value" => "newsletter_signup", "label" => "Enews Signup"),
+            array("key" => "home_page_ad_type", "value" => "tricycle_subscribe_module", "label" => "Subscribe Module"),
+            array("key" => "home_page_ad_type", "value" => "display_nothing", "label" => "Displaying nothing"),
+            array("key" => "home_page_ad_type", "value" => "daily_dharma", "label" => "Daily Dharma")
+        );
+        $radiooption['topics_ad2_'] = $radiooption['topics_ad1_'];
+        $radiooption['magazine_ad_'] = $radiooption['topics_ad1_'];
+        $radiooption['magazine_archive_ad_'] = $radiooption['topics_ad1_'];
+        $radiooption['trikedaily_ad1_'] = $radiooption['topics_ad1_'];
+        $radiooption['trikedaily_ad2_'] = $radiooption['topics_ad1_'];
+        $radiooption['ebooks_ad1_'] = $radiooption['topics_ad1_'];
+        $radiooption['ebooks_ad2_'] = $radiooption['topics_ad1_'];
+        $radiooption['dharmatalks_ad1_'] = $radiooption['topics_ad1_'];
+        $radiooption['dharmatalks_ad2_'] = $radiooption['topics_ad1_'];
+        $radiooption['dharmatalks_archive_ad_'] = $radiooption['topics_ad1_'];
+        $radiooption['filmclub_ad1_'] = $radiooption['topics_ad1_'];
+        $radiooption['filmclub_ad2_'] = $radiooption['topics_ad1_'];
+        $radiooption['filmclub_archive_ad_'] = $radiooption['topics_ad1_'];
+        $radiooption['filmfestival_ad1_'] = $radiooption['topics_ad1_'];
+        $radiooption['filmfestival_ad2_'] = $radiooption['topics_ad1_'];
+        $radiooption['filmfestival_archive_ad_'] = $radiooption['topics_ad1_'];
+        $radiooption['tags_ad1_'] = $radiooption['topics_ad1_'];
+        $radiooption['tags_ad2_'] = $radiooption['topics_ad1_'];
+        $radiooption['authors_ad1_'] = $radiooption['topics_ad1_'];
+        $radiooption['authors_ad2_'] = $radiooption['topics_ad1_'];
+        $radiooption['departments_ad1_'] = $radiooption['topics_ad1_'];
+        $radiooption['departments_ad2_'] = $radiooption['topics_ad1_'];
+        $radiooption['pages_'] = $radiooption['topics_ad1_'];
+        $radiooption['search_'] = $radiooption['topics_ad1_'];
+        $radiooption['square_ad_'] = array(
+            array("key" => "home_page_ad_type", "value" => "google_dfp", "label" => "Paid Ad / House ad"));
+        
+        if (!empty($radiooption[$location])) {
+            foreach ($radiooption[$location] as $data) {
+                $key = $data['key'];
+                $value = $data['value'];
+                $label = $data['label'];
+                $ad_type;
+                $flag = ($ad_type == $value) ? "checked" : "ch";
+                $Ad .='<label><input type="radio" ' . $flag . ' value = "' . $value . '" name="' . $key . '" class="advertisement"/> ' . $label . '</label><div class="clear"></div>';
+                ?>
+
+
+            <?php
+            }
+        }
+
+        if (!empty($_REQUEST['location'])) {
+            $location = $_REQUEST['location'];
+        }
+        $home_ad_details = get_option($location . "option_key");
+        $result = array("html" => $Ad, "addetail" => json_decode($home_ad_details));
+        echo json_encode($result);
+        die();
+    }
+
+    add_action('wp_ajax_nopriv_loadAdvOptions', 'loadAdvOptions');
+    add_action('wp_ajax_loadAdvOptions', 'loadAdvOptions');

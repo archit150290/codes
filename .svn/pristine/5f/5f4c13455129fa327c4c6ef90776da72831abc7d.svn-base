@@ -1,0 +1,296 @@
+<?php get_header(); ?>
+
+<?php
+$postId = get_the_ID();
+$topicSet = get_the_terms( $postId, "topic" );
+$topicName = $topicSet[0]->name;
+$topicSlug = $topicSet[0]->slug;
+$objPost = get_post($postId);
+
+/* call setPostView() function for increasing view counter of the post */
+setPostViews($postId);
+
+?>
+        <!-- start content -->
+		<div class='wrap_outer_base'>
+
+			<!-- start ebooks article marquee/slider -->
+			<div class='landing-marquee ebooks'>
+				<header class='rubric_top'>
+						<h1><span class='icon icon-dept_ebooks'></span>E-Books</h1>
+						<p>Tricycle wisdom in e-book format</p>
+						<a class='button' href='#'>E-Library</a>
+				</header>
+
+				<main class='slider'>
+					<div class='rule'></div>
+
+					<div class='slider-next arrow-off'>
+						<button class='icon-arrow_left' type='button' data-grunticon-embed></button>
+					</div>
+
+					<figure class='slider-cover'>
+						<?php echo srcset_post_thumbnail(get_the_ID(), 'image', ''); ?>
+					</figure>
+
+					<div class='slider-prev'>
+						<button class='icon-arrow_right' type='button' data-grunticon-embed></button>
+					</div>
+
+					<header class='slider-date'>
+						<h2 class='topic'><a href='<?php getTopicUrl($topicSlug); ?>'><?php echo $topicName; ?></a></h2>
+						<h1><?php the_title(); ?></h1>
+					</header>
+
+					<!-- <div class='more ebooks'>
+						<a class='button' href='#'>Download</a>
+					</div> -->
+
+					<div class='dropdown more ebooks'>
+					  <div class='dropdown-container'>
+					    <p class='button dropdown-button'>Download</p>
+					    <ul class='dropdown-menu dropdown-select'>
+					      <li><a href=''>epub</a></li>
+					      <li><a href=''>mobi</a></li>
+					      <li><a href=''>pdf</a></li>
+					    </ul>
+					  </div>
+					</div>
+
+				</main>
+			</div>
+			<!-- end ebooks article marquee/slider -->
+
+			<main class='wrap_base'>
+
+				<!-- start article -->
+				<article class='article_ebooks ebooks'>
+					<!-- start article body -->
+					<main class='article-main_ebooks'>
+
+						<div class='tools_top'>
+							<ul>
+								<li><a class='icon icon-tools_facebook' href='#' data-grunticon-embed></a></li>
+								<li><a class='icon icon-tools_twitter' href='#' data-grunticon-embed></a></li>
+								<li><a class='icon icon-tools_email' href='#' data-grunticon-embed></a></li>
+								<li><a class='icon icon-tools_print' href='#' data-grunticon-embed></a></li>
+							</ul>
+						</div>
+
+						<section class='article-body'>
+							<?php echo $objPost->post_content; ?>
+						</section>
+
+						<section class='article_ebooks-contents'>
+							<h1 class='h2'>Table of Contents</h1>
+							<ol>
+								<li>
+									<h1>Facing Fear</h1><address>by Lama Tsony</address>
+								</li>
+								<li>
+									<h1>Trying to Speak: A Personal History of Stage Fright</h1><address>by David Guy</address>
+								</li>
+								<li>
+									<h1>The Price of Fear</h1><address>by Joel Agee</address>
+								</li>
+								<li>
+									<h1>As the Clouds Vanish</h1><address>an interview with Tsoknyi Rinpoche</address>
+								</li>
+								<li>
+									<h1>Inviting Fear</h1><address>by Ajahn Amaro</address>
+								</li>
+								<li>
+									<h1>It’s Only Natural</h1><address>by Wes Nisker</address>
+								</li>
+								<li>
+									<h1>Taking Fear Apart</h1><address>by Ken McLeod</address>
+								</li>
+								<li>
+									<h1>Between Two Mountains</h1><address>by John Daido Loori Roshi</address>
+								</li>
+							</ol>
+
+							<div class='rule'></div>
+						</section>
+
+						<section class='article-body article_ebooks-boilerplate'>
+							<p>If you are having trouble downloading the e-book, please contact our support services at <a href='mailto:support@tricycle.com'>support@tricycle.com</a> or 1-800-873-9871. Please note that the support line is only open from 8:30am to 4:30pm EST. Please download this e-book on Safari or Firefox.</p>
+							<p>If you are using an iPad, make sure you have downloaded iBooks. If you are using an Android device, please download an e-reader of your choice.</p>
+						</section>
+
+						
+							<?php
+								$ebooks_tags_array = wp_get_post_tags(get_the_ID());
+								if(!empty($ebooks_tags_array)){
+							?>
+                                                        <div class='article-bottom-matter'>
+                                                            <section class='article-tags'>
+                                                                    <ul>
+                                                                            <?php foreach($ebooks_tags_array as $tags){ ?>
+                                                                                    <li><p class='tag'><a href='<?php echo $tags->slug; ?>'><?php echo ucfirst($tags->name); ?></a></p></li>
+                                                                            <?php } ?>
+                                                                            
+                                                                    </ul>
+                                                            </section>
+                                                        </div>
+							
+							<?php } ?>
+						
+					</main>
+				</article>
+
+			</main>
+			<!-- end article wrap -->
+
+			<aside>
+				<div class='aside-depts'>
+					<!-- start aside Film Club -->
+					<section class='aside-filmclub'>
+						<header class='rubric_small'>
+								<h1><a href='#'><span class='icon icon-dept_filmclub'></span>Film Club</a></h1>
+								<p>Buddhist films and discussion for the Tricycle Community</p>
+						</header>
+
+						<main>
+							<article>
+								<figure>
+									<a href='#'>
+										<div class='icon-video_play' data-grunticon-embed></div>
+										<img src='images/jpg/home-llama_1x.jpg'
+											srcset='images/jpg/home-llama_2x.jpg 1000w,
+															images/jpg/home-llama_1x.jpg 500w'
+											sizes= '(min-width: 50em) 33vw,
+															100vw'
+											alt='The Film Title' />
+									</a>
+								</figure>
+								<section>
+									<h2 class='rubric filmclub'><span class='topic'><a href='#'>Society</a></span></h2>
+									<h1><a href='#'>The Wisdom To Survive</a></h1>
+									<p>The consensus of scientists that climate change has already arrived, and asks, what is keeping us from action? The film explores how unlimited growth and greed are destroying the life support system of the planet, the social fabric of the society, and the lives of billions of people.</p>
+									<address>Directed by John Ankele &amp; Anne Macksoud</address>
+								</section>
+							</article>
+						</main>
+						<div class='rule-responsive'></div>
+					</section>
+					<!-- end aside Film Club -->
+
+					<!-- start aside dharma talks -->
+					<section class='aside-dharmatalks'>
+						<header class='rubric_small'>
+								<h1><a href='#'><span class='icon icon-dept_dharmatalks'></span>Dharma Talks</a></h1>
+								<p>Video teachings and discussions with contemporary Buddhist teachers</p>
+						</header>
+
+						<main>
+							<article>
+								<figure>
+									<a href='#'>
+										<div class='icon-video_play' data-grunticon-embed></div>
+										<img src='images/jpg/home-llama_1x.jpg'
+											srcset='images/jpg/home-llama_2x.jpg 1000w,
+															images/jpg/home-llama_1x.jpg 500w'
+											sizes= '(min-width: 50em) 33vw,
+															100vw'
+											alt='The Film Title' />
+									</a>
+								</figure>
+								<section>
+									<h2 class='rubric dharmatalks'><span class='topic'><a href='#'>Meditation &amp; Practice</a></span></h2>
+									<h1><a href='#'>Venture kindling the energy hidden in matter</a></h1>
+									<address>Priam Ely</address>
+									<time>Oct 2015</time>
+								</section>
+							</article>
+						</main>
+						<div class='rule-responsive'></div>
+					</section>
+					<!-- end aside dharma talks -->
+
+					<!-- start aside magazine -->
+					<section class='aside-magazine'>
+						<header class='rubric_small'>
+								<h1><a href='#'><span class='icon icon-dept_magazine'></span>Magazine</a></h1>
+								<p>The Buddhist Review</p>
+						</header>
+
+						<main>
+							<article>
+								<figure>
+									<a href='#'>
+										<img src='images/jpg/home-magazine_1x.jpg'
+											srcset='images/jpg/home-magazine_2x.jpg 1000w,
+															images/jpg/home-magazine_1x.jpg 500w'
+							 sizes= '(min-width: 50em) 33vw,
+															100vw'
+											alt='A man' />
+									</a>
+								</figure>
+								<section>
+									<h2 class='rubric magazine'><span class='topic'><a href='#'>Meditation &amp; Practice</a></span></h2>
+									<h1><a href='#'>The ash of stellar alchemy</a></h1>
+									<p>Jean-François Champollion ship of the imagination, muse about something incredible is waiting to be known.</p>
+									<address>By Romulus Jocelyne</address>
+									<time>Winter 2015</time>
+								</section>
+							</article>
+						</main>
+					</section>
+					<!-- end aside magazine -->
+				</div>
+
+				<div class='rule'></div>
+
+				<!-- start actions -->
+				<div class='actions'>
+					<div class='action'>
+						<h2>Subscribe Today</h2>
+						<h1>Tricycle is more than a magazine</h1>
+						<p>Subscribe for access to video teachings, monthly films, e-books, and our 25-year archive. Plus: discounts on Tricycle online courses and events.</p>
+						<a class='button' href='#'>Subscribe</a>
+					</div>
+
+					<div class='action'>
+						<h2>Weekly Newsletter</h2>
+						<h1>The latest from Tricycle to your inbox</h1>
+						<form id='action-enews'>
+							<input class='email' id='action-email' placeholder='Your email here' type='email'>
+
+							<!-- enews modal -->
+							<div class='action-modal'>
+								<label for='action-modal-switch'>
+									<button id='action-modal-trigger'>Sign Up</button>
+								</label>
+								<input class='modal-state' id='action-modal-switch' type='checkbox' />
+							  <div class='modal-fade-screen'>
+							    <div class='modal-inner'>
+							      <div class='modal-close' for='action-modal-switch'></div>
+							      <h1>Weekly Newsletter</h1>
+							      <p>The latest from Tricycle to your inbox</p>
+										<form name='action-modal-enews'>
+											<input class='email' id='action-modal-email' placeholder='Your email here' type='email'>
+											<label><input type='checkbox' name='enews' value='enews-tricycle' checked>The Tricycle Newsletter</label>
+											<label><input type='checkbox' name='enews' value='enews-dailydharma' checked>Daily Dharma</label>
+											<label><input type='checkbox' name='enews' value='enews-promotions' checked>Learn More</label>
+											<button class='button'>Sign Up</button>
+										</form>
+							    </div>
+							  </div>
+							</div>
+							<!-- end enews modal -->
+
+						</form>
+					</div>
+
+					<div class='action'>
+						<h2>Donate Now</h2>
+						<p>Tricycle is a nonprofit organization that depends on reader support to make ends meet. Help us share Buddhist teachings and practices worldwide by donating now.</p>
+						<a class='button' href='#'>Donate</a>
+					</div>
+				</div>
+				<!-- end actions -->
+			</aside>
+		</div>
+		<!-- end wrap_outer -->
+<?php get_footer(); ?>

@@ -1,0 +1,238 @@
+<?php
+/*
+Plugin Name: Tricycle Co-Authors
+Description: Allows multiple authors to be assigned to a magazine article.
+Author: Purushottam
+*/
+class TricycleCoAuthors 
+{
+    var $default_authors_meta_box_name = 'authordiv';
+    var $custom_authors_meta_box_name = 'coauthorsdiv';
+    var $custom_authors_meta_key = "tricycle_co_authors";
+    
+    function __construct() 
+    {
+        // Handle the custom author meta box
+        add_action('add_meta_boxes', array($this, 'remove_authors_box'));
+        add_action('add_meta_boxes', array($this, 'add_coauthors_box'));
+        
+        // Action to set users when a post is saved
+        add_action('save_post', array( $this, 'tricycle_coauthors_update_post_meta' ), 10, 2);
+    }
+    
+    /**
+     * Removes the standard WordPress Author box.
+     * We don't need it because the Tricycle Co-Authors one is way cooler.
+     */
+    public function remove_authors_box() 
+    {
+        remove_meta_box($this->default_authors_meta_box_name, "magazine", 'normal');
+    }
+
+    /**
+     * Adds a custom Authors box
+     */
+    public function add_coauthors_box($postType) 
+    {
+        $types = array('post', ARTICLE_POST_TYPE, DHARMATALKS_POST_TYPE, FILM_CLUB_POST_TYPE, EBOOKS_POST_TYPE, FILM_FESTIVAL_POST_TYPE);
+	if(in_array($postType, $types))
+        {
+            add_meta_box($this->custom_authors_meta_box_name, __('Authors', 'tricycle-co-authors'), array($this, 'tricycle_coauthors_meta_box'), $postType, 'normal', 'high');
+	}
+    }
+    
+    function get_author_data()
+    {
+        $wp_user_query = new WP_User_Query(array('orderby' => 'display_name', 'order' => 'ASC'));
+        $user_results = $wp_user_query->get_results();
+        $author_list = array();
+        if($user_results)
+        {
+            foreach($user_results as $user_result)
+            {
+                if(in_array("subscriber", $user_result->roles))
+                {
+                    
+                }
+                else
+                {
+                    $author_list[] = array("id"=>$user_result->data->ID, "display_name"=>$user_result->data->display_name);
+                }
+            }
+        }
+        return $author_list;
+    }
+    
+    function get_author_dropdown_selected($author_list, $selected_id=false)
+    {
+        $options = "";
+        
+        if($author_list)
+        {
+            foreach($author_list as $author)
+            {
+                if($selected_id == $author['id'])
+                {
+                    $options .= "<option value='".$author['id']."' selected>".$author['display_name']."</option>";
+                }
+                else
+                {
+                    $options .= "<option value='".$author['id']."'>".$author['display_name']."</option>";
+                }
+            }
+        }
+        $select = "<select name='tricycle_author[]'>".$options."</select>";
+        return $select;
+    }
+    
+    /**
+     * Adds the co authors fields on the form.
+     * @param Object $post
+     */
+    function tricycle_coauthors_meta_box($post)
+    {
+        $post_id = $post->ID;
+        wp_nonce_field('tricycle-coauthors-edit', 'tricycle-coauthors-nonce');
+        $author_list = $this->get_author_data();
+        $tricycle_authors = $this->get_tricycle_authors_data($post_id);
+        ?>
+        <table id="tricycle_co_authors_table">
+            <thead>
+                <tr>
+                    <th style="text-align: left;">Byline</th>
+                    <th style="text-align: left; padding-left: 10px;">Author</th>
+                    <th style="text-align: left; padding-left: 10px;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if($tricycle_authors)
+                {
+                    foreach($tricycle_authors as $key => $tricycle_author)
+                    {
+                        if($key == 0)
+                        {
+                            ?>
+                            <tr id="default_author">
+                                <td><input type="text" name="tricycle_author_byline[]" value="<?php echo $tricycle_author->byline; ?>" /></td>
+                                <td style="padding-left: 10px;"><?php echo $this->get_author_dropdown_selected($author_list, $tricycle_author->author_id); ?></td>
+                                <td style="padding-left: 10px;" class="tricycle_author"><a href="javascript:void(0);" id="add_co_author">Add Co-author</a></td>                        
+                            </tr>
+                            <?php
+                        }
+                        else
+                        {
+                            ?>
+                            <tr id="author_<?php echo $key; ?>">
+                                <td><input type="text" name="tricycle_author_byline[]" value="<?php echo $tricycle_author->byline; ?>" /></td>
+                                <td style="padding-left: 10px;"><?php echo $this->get_author_dropdown_selected($author_list, $tricycle_author->author_id); ?></td>
+                                <td style="padding-left: 10px;" class="tricycle_author"><a href="javascript:void(0);" id="" class="tricycle_remove_author">Remove</a></td>                        
+                            </tr>
+                            <?php
+                        }
+                    }
+                }
+                else
+                {
+                    ?>
+                    <tr id="default_author">
+                        <td><input type="text" name="tricycle_author_byline[]" /></td>
+                        <td style="padding-left: 10px;"><?php echo $this->get_author_dropdown_selected($author_list); ?></td>
+                        <td style="padding-left: 10px;" class="tricycle_author"><a href="javascript:void(0);" id="add_co_author">Add Co-author</a></td>                        
+                    </tr>
+                    <?php
+                }
+                ?>
+            </tbody>
+        </table>
+        <script type="text/javascript">
+            jQuery(function(){
+                jQuery("#add_co_author").click(function(){
+                    jQuery("#default_author").clone().appendTo("#tricycle_co_authors_table tbody");
+                    reset_tricycle_row();
+                });
+
+                jQuery(".tricycle_remove_author").live("click", function(){
+                    jQuery(this).closest("tr").remove();
+                });
+            })
+
+            function reset_tricycle_row()
+            {
+                jQuery("#tricycle_co_authors_table tbody tr").each(function(index, el){
+                    if(index != 0)
+                    {
+                        jQuery(this).attr("id", "author_"+index);
+                        jQuery(this).find(".tricycle_author a").attr({"id": "", "class": "tricycle_remove_author"}).html("Remove");
+                    }
+                });
+            }
+        </script>
+        <?php
+    }
+    
+    /**
+     * Adds/updates the author data.
+     * @param integer $post_id
+     * @return type
+     */
+    function tricycle_coauthors_update_post_meta($post_id)
+    {
+        // Check if our nonce is set.
+        if (!isset($_POST['tricycle-coauthors-nonce'])) {
+            return;
+        }
+
+        // Verify that the nonce is valid.
+        if (!wp_verify_nonce($_POST['tricycle-coauthors-nonce'], 'tricycle-coauthors-edit')) {
+            return;
+        }
+
+        // If this is an autosave, our form has not been submitted, so we don't want to do anything.
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
+
+        // Check the user's permissions.
+        if (!current_user_can('edit_post', $post_id)) {
+            return;
+        }
+
+        /* OK, it's safe for us to save the data now. */
+
+        //
+        $tricycle_authors_meta_data = array();
+        foreach($_POST['tricycle_author'] as $key => $tricycle_author)
+        {
+            $temp = array();
+            $temp['byline'] = $_POST['tricycle_author_byline'][$key];
+            $temp['author_id'] = $tricycle_author;
+            
+            $tricycle_authors_meta_data[] = $temp;
+        }
+        
+        update_post_meta($post_id, $this->custom_authors_meta_key, json_encode($tricycle_authors_meta_data));
+        
+        $default_post = array(
+            'ID'            => $post_id,
+            'post_author'   => $tricycle_authors_meta_data[0]['author_id']
+        );
+
+        // update the post, which calls save_post again
+        global $wpdb;
+        $wpdb->query("UPDATE $wpdb->posts SET post_author = ".$tricycle_authors_meta_data[0]['author_id']." WHERE ID = ".$post_id);
+    }
+    
+    /**
+     * This function returns the tricycle custom authors data.
+     * @param integer $post_id
+     * @return array
+     */
+    function get_tricycle_authors_data($post_id)
+    {
+        $tricycle_authors_meta_data = json_decode(get_post_meta($post_id, $this->custom_authors_meta_key, true));
+        return $tricycle_authors_meta_data;
+    }
+}
+
+$objTricycleCoAuthors = new TricycleCoAuthors();

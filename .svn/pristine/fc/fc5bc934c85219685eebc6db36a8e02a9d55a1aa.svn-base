@@ -1,0 +1,119 @@
+<?php get_header(); ?>
+
+
+<!-- start content -->
+<div class='wrap'>
+
+    <!-- start magazine rubric -->
+    <div class='rubric_top'>
+        <h1><span class='icon icon-dept_ebooks'></span>E-books</h1>
+        <p>Tricycle wisdom in e-book format</p>
+    </div>
+    <!-- end magazine rubric -->
+
+    <!-- start archive_ebooks grid -->
+    <div class='archive_ebooks'>
+        <div class='rule'></div>
+
+        <main id="moredata">
+            <?php
+            /* Get Post counts */
+            $posts = get_posts(array(
+                'numberposts' => -1, 'post_status' => 'publish', 'post_type' => EBOOKS_POST_TYPE,
+            ));
+            $publishPosts = count($posts);
+
+            /* Get Post counts Ends */
+
+            $args = array(
+                'posts_per_page' => 3,
+                'orderby' => 'post_date',
+                'order' => 'DESC',
+                'post_type' => EBOOKS_POST_TYPE,
+                'post_status' => 'publish',
+                'suppress_filters' => true
+            );
+
+            $queryfirst = new WP_Query($args);
+            query_posts($queryfirst);
+            $i = 1;
+            while ($queryfirst->have_posts()) : $queryfirst->the_post();
+                $postId[] = $queryfirst->post->ID;
+                $topics = get_topics_by_post_id(get_the_ID());
+                $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                ?>
+                <div class='archive-item'>
+                    <figure class='archive-cover_ebooks'>
+                        <a href='<?php the_permalink(); ?>'>
+                            <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,75vw'); ?>	
+                        </a>
+                    </figure>
+
+                    <header class='archive-titles'>
+                        <h2 class='topic ebooks'><?php echo $topic_urls; ?></span></h2>
+                        <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                    </header>
+                </div>
+
+
+
+                <?php
+                if ($i == 3) {
+                    break;
+                }
+            endwhile;
+            wp_reset_query();
+            ?>
+        </main>
+        <div style="clear:both"></div>
+        <?php if ($publishPosts > 3) { ?>
+            <div id="loadingimage" style="display:none"><img src="<?php echo get_template_directory_uri() . '/loading_spinner.gif'; ?>" style="width:auto; height:auto; border:none; box-shadow: none; background:none;"></div>    
+            <div class='more ebooks'>
+                <input type="hidden" name="postId" id="postId" value="<?php echo json_encode($postId); ?>" />
+                <input type="hidden" name="posttype" id="posttype" value="<?php echo EBOOKS_POST_TYPE; ?>" />
+                <input type="hidden" name="searchyear" id="searchyear" value="<?php echo ""; ?>" />
+                <!-- tax name, post type, url, post id's -->
+                <a href='javascript:void(0)' id="archiveloadmore" onclick="loadmorearchive()">Load More</a>
+            </div>
+        <?php } ?>
+    </div>
+    <!-- end archive_magazine grid -->
+
+    <!-- start Call to Action module -->
+    <div class='CTA-module'>
+        <div class='rule'></div>
+        <div class='CTA-ad' style='
+             background-color: #ddd;
+             line-height: 1; padding: 2em;
+             margin: 0 auto;
+             width: 75%;
+             height: 10em;
+             text-align: center;
+             '>
+            <p>Call-to-Action Module. Can be set in the CMS to any of the following: (1) Ad served via Google DFP Small Business (TBD), (2) Daily Dharma, (3) Subscribe CTA, (4) Newletter CTA</p>
+        </div>
+        <div class='rule'></div>
+    </div>
+    <!-- end Call to Action module -->
+
+    <aside>
+        <div class='aside-depts'>
+            <!-- start aside Film Club -->
+            <?php show_latest_filmclub(); ?>
+            <!-- end aside Film Club -->
+
+            <!-- start aside dharma talks -->
+            <?php show_latest_dharma_talks(); ?>
+            <!-- end aside dharma talks -->
+
+            <!-- start aside magazine -->
+            <?php show_latest_magazine_article(); ?>
+            <!-- end aside magazine -->
+        </div>
+
+        <div class='rule'></div>
+
+
+
+
+        <?php get_footer(); ?>                

@@ -1,0 +1,209 @@
+<?php get_header(); ?>
+<?php
+
+$postId = get_the_ID();
+$topics = get_topics_by_post_id($postId);
+$topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+$objPost = get_post($postId);
+
+/* call setPostView() function for increasing view counter of the post */
+setPostViews($postId);
+
+?>
+	<!-- start content -->
+		<div class='wrap_outer_base'>
+			<main class='wrap_base'>
+		<?php
+			// Start the loop.
+			while ( have_posts() ) : the_post();
+		?>
+				<!-- start article -->
+				<article class='article_base filmfestival'>
+					<header class='article-header_video'>
+						<h2 class='rubric filmfestival'>
+							<a href='<?php echo get_post_type_archive_link(FILM_FESTIVAL_POST_TYPE);  ?>' class='icon icon-dept_filmfestival'></a>
+							<span class='dept'><a href='<?php echo get_post_type_archive_link(FILM_FESTIVAL_POST_TYPE);  ?>'>Film Festival</a></span><span class='subdept'><?php get_filmfest_department(get_the_ID(), "filmfestival-departments" ); ?></span>
+							<span class='topic'><?php echo $topic_urls; ?></span>
+						</h2>
+						<time><?php echo get_the_date('M d, Y'); ?></time>
+						<h1><?php the_title(); ?></h1>
+					</header>
+
+					<!-- start article body -->
+					<main class='article-main_film'>
+						<div class='article-video_featured filmfestival'>
+							<figure>
+								<?php
+									if(is_post_behind_paywall(get_the_ID()))
+									{
+										if($paywall_login)
+										{ 
+											$relValue = get_post_meta($postId ,'meta_type_filmfest_shorttrailer',true);
+										}else{										
+											$relValue = "";	
+										}
+									}else{
+										$relValue = get_post_meta($postId ,'meta_type_filmfest_shorttrailer',true);
+									}
+								?>
+								<div class='icon-video_play' rel="<?php echo $relValue; ?>" data-grunticon-embed></div>
+								<?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 50em) 75vw,100vw'); ?>
+								
+								<div class='video-wrapper'>
+								</div>
+							</figure>
+						</div>
+
+						<?php get_tool_tip_sharethis(get_the_title(), get_permalink()); ?>
+
+						<section class='article-body'>
+							<p>
+								<?php
+								$authorname =  getAuthorDetail(get_the_ID(),0,0);
+								if($authorname!=""){
+							?>
+							
+							Director: <?php echo $authorname; ?><br />
+							<?php } ?>
+							Country: Canada<br />
+							Year: <?php echo get_the_date('Y'); ?></p>
+							<p><a href=''>View Trailer</a></p>
+							<?php the_content(); ?>
+						</section>
+
+						<div class='article-bottom-matter'>
+							<?php 
+								$tags_array = wp_get_post_tags($postId);
+								if(!empty($tags_array)){
+							?> 
+							<section class='article-tags'>
+								<ul>
+									<?php foreach($tags_array as $tags){ ?>
+										<li><p class='tag'><a href='<?php echo get_tag_link($tags->term_id); ?>'><?php echo ucfirst($tags->name); ?></a></p></li>
+									<?php } ?>
+									
+								</ul>
+							</section>
+							<?php } ?>
+
+							<?php get_tool_tip_sharethis_wrap(get_the_title(), get_permalink()) ?>
+
+							<?php
+							if ( comments_open() || get_comments_number() ) :
+							?>
+							    <div class='comments-toggle showcomments'>
+								<a href='javascript:void(0);' id="commentlink_title">View Comments</a>
+							    </div>
+							<?php
+								    comments_template();
+							    endif;
+							?>
+						</div>
+			<?php
+				// End the loop.
+				endwhile;
+			?>
+					</main>
+
+					<aside>
+						<div class='ad_square'>
+							<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/ad-shinyocenter'>
+						</div>
+
+						<?php
+							$mostpopularpost = getMostViewPosts(FILM_FESTIVAL_POST_TYPE,$postId,5);
+							if(!empty($mostpopularpost)){
+						?>
+							<div class='popular-posts'>
+								<header>
+									<h1>Most Popular</h1>
+								</header>
+								
+								<main>
+									<ol>
+								<?php
+									
+									$viewedposts= "";
+									foreach($mostpopularpost as $mostpopular)
+									{
+										$viewedposts .= '<li><h1><a href="'.$mostpopular["permalink"].'">'.$mostpopular["title"].'</a></h1></li>';
+									}
+									echo $viewedposts;
+									
+								?>
+									</ol>
+								</main>
+									
+							</div>
+						<?php } ?>
+					</aside>
+
+				</article>
+
+			</main>
+			<!-- end article wrap -->
+
+			<aside>
+				<!-- start related -->
+				<?php
+				
+				$relatedposts =  getRelatedPosts($postId);
+				if(!empty($relatedposts)){
+				
+				?>
+				
+					<div class='related-posts'>
+						<header class='rubric_top'>
+								<h1>Related</h1>
+						</header>
+	
+						<main>
+							<?php foreach($relatedposts as $relposts){
+								
+								$post_type = $relposts['postType'];
+								$postValues = get_post_type_object($post_type);
+								$labels = $postValues->labels; //to fetch the menu name
+								$postMenuName = $labels->menu_name;
+								$post_link = get_post_type_archive_link($post_type);
+								
+								if ($post_type == "post") {
+								    $post_type = "trikedaily";
+								    $postMenuName = "Trike Daily";
+								    $post_link = get_permalink(get_page_id_by_slug(TRIKE_DAILY_SLUG));
+								}
+								   
+								$topics = get_topics_by_post_id($relposts['postId']);
+								$topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";							
+							?>
+							
+							<article class='<?php echo $post_type ?>'>
+								<figure>
+									<a href='<?php echo $relposts['permalink']; ?>'>
+										<?php if ($post_type == DHARMATALKS_POST_TYPE || $post_type == FILM_CLUB_POST_TYPE || $post_type == FILM_FESTIVAL_POST_TYPE ) { ?>
+											<div class='icon-video_play' data-grunticon-embed></div>
+										<?php } ?>
+										
+										<?php echo srcset_post_thumbnail($relposts['postId'], 'image', '','(min-width: 37.5em) 33vw,100vw'); ?>
+									</a>
+								</figure>
+								<section>
+									<h2 class='rubric <?php echo $post_type ?>'>
+									<a href='<?php echo $post_link; ?>' class='icon icon-dept_<?php echo $post_type ?>'></a>
+									<span class='dept'><a href='<?php echo $post_link; ?>'><?php echo ucfirst($postMenuName); ?></a>
+									<span class='topic'><?php echo $topic_urls; ?></span></span></h2>
+									<h1><a href='<?php echo $relposts['permalink']; ?>'><?php echo $relposts['title']; ?></a></h1>
+									<address><?php echo getAuthorDetail($relposts['postId'],1,0); ?></address>
+								</section>
+							</article>
+						<?php } ?>
+							
+						</main>
+					</div>
+				
+				<?php } ?>
+				<!-- end related -->
+
+				<div class='rule'></div>
+
+				
+<?php get_footer(); ?>

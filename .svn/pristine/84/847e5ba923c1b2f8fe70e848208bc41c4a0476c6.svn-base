@@ -1,0 +1,305 @@
+<?php get_header();?>
+<?php
+global $wp_query;
+if(isset($wp_query->query_vars['dtv']))
+{
+    
+}
+?>
+<?php
+
+$postId = get_the_ID();
+$topics = get_topics_by_post_id($postId);
+$topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+$objPost = get_post($postId);
+
+/* call setPostView() function for increasing view counter of the post */
+setPostViews($postId);
+$upload_dir = wp_upload_dir();
+$uploadDirectory = $upload_dir['basedir']."/";
+?>
+<script>
+var downloadpdf = "<?php echo get_site_url(); ?>/download.php?file=<?php echo $uploadDirectory ?>";	
+</script>
+<!-- start content -->
+		<div class='wrap_outer_base'>
+
+			<!-- <header class='rubric_top dharmatalks'>
+					<h1><span class='icon icon-dept_dharmatalks'></span>Dharma Talks</h1>
+					<p>Video teachings and discussions with contemporary Buddhist teachers</p>
+					<a class='button' href='#'>Dharma Talks Archive</a>
+			</header> -->
+
+			<main class='wrap_base'>
+			<?php
+				// Start the loop.
+				while ( have_posts() ) : the_post();
+			?>
+				<!-- start article -->
+				<article class='article_dharmatalks dharmatalks'>
+					<header class='article-header_video'>
+						<h2 class='rubric dharmatalks'>
+							<a href='<?php echo get_post_type_archive_link(DHARMATALKS_POST_TYPE);  ?>' class='icon icon-dept_dharmatalks'></a>
+							<span class='dept'><a href='<?php echo get_post_type_archive_link(DHARMATALKS_POST_TYPE);  ?>'>Dharma Talks</a></span>
+							<span class='topic'><?php echo $topic_urls; ?></span>
+						</h2>
+						<time><?php echo get_the_date('M Y'); ?></time>
+						<h1><?php the_title(); ?></h1>
+						<address><a href=''><?php echo getAuthorDetail(get_the_ID(),0,0); ?></a></address>
+					</header>
+					<!-- start article body -->
+					<main class='article-main_dharmatalks'>
+						<div class='article-video_featured dharmatalks'>
+							<figure>
+								<div class='icon-video_play' rel="<?php echo get_post_meta($postId ,'dharma_talks_trailer_url',true); ?>" data-grunticon-embed></div>
+								<?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 50em) 75vw,100vw'); ?>
+								
+								<div class='video-wrapper'>
+								</div>
+							</figure>
+						</div>
+						
+						
+						<?php
+								
+							$metavideo = array();
+							$metavideosSet = array();
+							
+							$postmetavideo =  get_post_meta(get_the_ID());
+							//pr($postmetavideo);
+							$i=$j=$k = 1;
+							foreach($postmetavideo as $metakey=>$value)
+							{ 		//echo $metakey."<hr>"."dharma_talks_video".$i."_title"."<hr>";
+								if($metakey == "dharma_talks_video".$i."_title"){
+									
+									$metavideo[$i]['video_title'] = $value[0];
+									$i++;
+								}
+								
+								if(strstr($metakey,"dharma_talks_video".$j."_url")){
+									$metavideo[$j]['video_url'] = $value[0];
+									$j++;
+								}
+								
+								if(strstr($metakey,"dharma_talks_video".$k."_time_length")){
+									$metavideo[$k]['video_duration'] = $value[0];
+									$k++;
+								}
+								
+							}
+								
+						?>
+						
+						<?php if(!empty($metavideo)){ ?>
+							<div class='article_playlist'>
+								<ol>
+									<?php 	$totalvideo = 0;
+										$trailertitle = get_post_meta(get_the_ID(),'dharma_talks_trailer_url',true);
+										if($trailertitle!=""){
+										$totalvideo = 1;
+											
+									?>
+									<li>
+										<a href="javascript:void(0);" videonumber="1" class="js_playvideo" linkpdf="<?php echo get_post_meta(get_the_ID() ,DHARMA_TALKS_TRAILER_TRANSCRIPTS_PDF_URL_META_KEY,true); ?>" rel="<?php echo get_post_meta(get_the_ID(),'dharma_talks_trailer_url',true); ?>" videotitle="<?php echo get_post_meta(get_the_ID(),'dharma_talks_trailer_title', true); ?>">
+											<h1 class="play"><?php echo get_post_meta(get_the_ID(),'dharma_talks_trailer_title',true); ?><span class="duration h2"><?php echo get_post_meta(get_the_ID(),'dharma_talks_trailer_time_length',true); ?></span></h1>
+										</a>
+									</li>
+									<?php } ?>
+									<?php	
+										$videoList = 2;
+										$pdfdownload =1;
+										//$totalvideo = 0;
+										foreach($metavideo as $postmetavideo){
+											if($postmetavideo['video_title']!=""){
+												if(is_post_behind_paywall($postId)){												
+													if($videoList >= 3 && $paywall_login==0){
+														$relValue = "";
+														$linkpdf = "";
+													}else{
+														$relValue = $postmetavideo['video_url'];
+														$metapdf = "dharma_talks_video".$pdfdownload."_transcripts_pdf_url";
+														if($metapdf!=""){
+															$linkpdf = get_post_meta(get_the_ID() ,$metapdf,true);
+														}
+													}
+												}else{
+													$relValue = $postmetavideo['video_url'];
+													$metapdf = "dharma_talks_video".$pdfdownload."_transcripts_pdf_url";
+													if($metapdf!=""){
+														$linkpdf = get_post_meta(get_the_ID() ,$metapdf,true);
+													}
+												}
+											?>
+										<li>
+											<?php if($relValue!=""){ ?>
+												<a href='javascript:void(0)' videonumber="<?php echo $videoList; ?>" linkpdf="<?php echo $linkpdf; ?>" class="js_playvideo" rel="<?php echo $relValue; ?>" videotitle="<?php echo $postmetavideo['video_title']; ?>">
+													<h1><?php echo $postmetavideo['video_title']; ?><span class='duration h2'><?php echo $postmetavideo['video_duration']; ?></span></h1>
+												</a>
+											<?php }else{ ?>
+												<a href='javascript:void(0)' videonumber="<?php echo $videoList; ?>"  class="js_video_paywall"  videotitle="<?php echo $postmetavideo['video_title']; ?>">
+													<h1><?php echo $postmetavideo['video_title']; ?><span class='duration h2'><?php echo $postmetavideo['video_duration']; ?></span></h1>
+												</a>
+											<?php
+													echo getpaywall_popup('dharmatalks','TK dharmatalk paywall copy!');
+												}
+											?>
+										</li>
+									<?php
+										$totalvideo++;
+										$videoList++;
+										$pdfdownload++;
+											}
+										}
+									?>									
+								</ol>
+							</div>
+						<?php } ?>
+						
+						<?php get_tool_tip_sharethis(get_the_title(), get_permalink()); ?>
+
+						<div class='article-dharmatalk-title'>
+							<div class='queue'>
+								<p class='h2'>Playing <span class="videonum">1</span> of <?php echo $totalvideo; ?></p>
+							</div>
+								<h1 class="js_videoTitle"><?php echo get_post_meta(get_the_ID(),'dharma_talks_trailer_title', true); ?></h1>
+							<p class='transcript'>
+								<?php
+									$downloadPDF  =  get_post_meta(get_the_ID() ,DHARMA_TALKS_TRAILER_TRANSCRIPTS_PDF_URL_META_KEY,true);
+									// get_post_meta(get_the_ID() ,DHARMA_TALKS_VIDEO1_TRANSCRIPTS_PDF_URL_META_KEY,true);									
+								?>
+								<a class='h2' id="pdf_download" href='<?php echo get_site_url(); ?>/download.php?file=<?php echo urlencode($uploadDirectory.$downloadPDF); ?>'>Download Transcript</a>It has been edited for clarity.</p>
+						</div>
+
+						<section class='article-body'>
+							<?php the_content(); ?>
+							
+							<?php
+								if(!$paywall_login)
+								{ 
+									get_paywall_login('dharmatalks','TK dharmatalk paywall copy!'); 
+								}
+							?> 
+						</section>
+
+						<div class='article-bottom-matter'>
+							
+							<?php
+								$dharma_tags_array = wp_get_post_tags(get_the_ID());
+								if(!empty($dharma_tags_array)){
+							?> 
+							<section class='article-tags'>
+								<ul>
+									<?php foreach($dharma_tags_array as $tags){ ?>
+										<li><p class='tag'><a href='<?php echo get_tag_link($tags->term_id); ?>'><?php echo ucfirst($tags->name); ?></a></p></li>
+									<?php } ?>
+									
+								</ul>
+							</section>
+							
+							<?php } ?>
+							
+							<?php
+							if ( comments_open() || get_comments_number() ) :
+							?>
+							    <div class='comments-toggle showcomments'>
+								<a href='javascript:void(0);' id="commentlink_title">Ask the Teacher a Question</a>
+							    </div>
+							<?php
+								    comments_template();
+							    endif;
+							?>
+							
+							
+						</div>
+					</main>
+				</article>
+		<?php
+			// End the loop.
+			endwhile;
+		?>
+			</main>
+			<!-- end article wrap -->
+
+			<aside>
+				<!-- start related -->
+				<!-- start most popular module 
+                                below is the id sent to set a post view count on this ....
+                                -->
+                                    <input type="hidden" id="postID" name="postID" value="<?php echo $postId; ?>" />
+                                    <?php $myrows = $wpdb->get_results( "SELECT post_id,count(*) as counter FROM try_postview"
+                                            . " where date_format(date,'%Y-%m-%d')"
+                                            . " BETWEEN date_sub(date_format(NOW(),'%Y-%m-%d'), INTERVAL 60 DAY) AND NOW()"
+                                            . " GROUP BY post_id ORDER BY counter DESC LIMIT 3" ); 
+                                    //selection of most popular from database where interval is of 60 days as discussed in #59 of unfuddle 
+                                    if(!empty($myrows))
+                                    {?>
+                                        <div class='related-posts'>
+                                        <header class='rubric_top'>
+                                           <h1>Most Popular</h1>
+                                        </header>
+                                       <main>
+
+                                       <?php
+                                       foreach($myrows as $mostpopular)
+                                        {
+                                            $postid = $mostpopular->post_id;
+                                            $counter = $mostpopular->counter;
+                                            $title = get_the_title($postid);
+                                            $topics = get_topics_by_post_id($postid);
+                                            $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                                            $authordetail = getAuthorDetail($postid,0,0);
+                                            $date = get_the_date("M Y",$postid );
+                                            $permalink = get_permalink($postid);
+                                            if($postid == $postId)
+                                            {
+                                                //to check if the above id is same as below id 
+                                                continue;
+                                            }
+                                            ?>
+
+                                            <article class='dharmatalks'>
+                                                <figure>
+                                                        <a href='<?php echo $permalink; ?>'>
+                                                                        <div class='icon-video_play' data-grunticon-embed></div>
+                                                                        <?php echo srcset_post_thumbnail($postid, 'image', '','(min-width: 50em) 33vw,100vw'); ?>
+                                                        </a>
+                                                </figure>
+                                                <section>
+                                                        <h2 class='rubric dharmatalks'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                                                        <h1><a href='<?php echo $permalink; ?>'><?php echo $title; ?></a></h1>
+                                                        <address><?php echo getAuthorDetail($postid,0,0); ?></address>
+                                                        <time><?php echo $date; ?></time>
+                                                </section>
+                                            </article>
+
+                                       <?php  }
+                                        ?>
+                                            </main>
+                                                                    </div>
+                                    <?php }
+                                    ?>     
+                                
+			       <div class='rule'></div>
+                        <script>
+                         /*script is called to take single post id and set it as a post view*/
+                         jQuery( document ).ready(function() {
+                         var postID = jQuery("#postID").val();
+                         //alert(postID);
+                         jQuery.ajax({
+                            type: 'POST',
+                            url: ajax_url,
+                            data: {
+                                action: 'most_viewed_dharma_talks',
+                                postID: postID,
+                            },
+                            success: function (data) {
+                               //alert("most view counter set");
+                            },
+                            error: function (MLHttpRequest, textStatus, errorThrown) {
+                                alert(errorThrown);
+                            }
+                         });
+
+                        });
+                        </script>                                    
+<?php get_footer(); ?>

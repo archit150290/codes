@@ -1,0 +1,674 @@
+<?php
+/**
+ * Template Name: Import Live Data
+ */
+?>
+
+<?php
+global $wpdb;
+
+//DAILY-DHARMA IMPORT POSTS STARTS HERE.....  
+/*$dailydharma = $wpdb->get_results("SELECT * FROM node WHERE type='daily_dharma' ORDER BY created ASC");
+if($dailydharma)
+{
+    foreach($dailydharma as $dailydharmas)
+    {
+        $dailydharma_content = $wpdb->get_results("SELECT * FROM node_revisions WHERE nid = ".$dailydharmas->nid." ORDER BY timestamp DESC LIMIT 1");
+        $dailydharma_node = $wpdb->get_results("SELECT * FROM nodehierarchy WHERE nid = ".$dailydharmas->nid."");
+        $dailydharma_author = $wpdb->get_results("SELECT * FROM content_field_author WHERE nid = ".$dailydharma_node[0]->nid."");
+        $authorName = $dailydharma_author[0]->field_author_value;
+        
+        $pub_date = date("Y-m-d H:i:s", $dailydharmas->created);
+        $post_dharma = array(
+            'post_title'    => wp_strip_all_tags($dailydharmas->title),
+            'post_date'  => $pub_date,
+            'post_content' => $dailydharma_content[0]->body,
+            'post_excerpt' => "",
+            'post_type' => "dailydharma",
+            'post_status' => 'publish'
+        );
+        
+        $postId = wp_insert_post($post_dharma);
+        if($postId)
+        {
+            update_post_meta($postId, "dailydharma_authors_name_metabox", $authorName);                
+        }
+    }
+}
+//  DAILY-DHARMA IMPORT POSTS ENDS HERE.....  
+die;   
+*/
+
+//FILMFESTIVAL IMPORT POSTS AND COMMENTS ENDS HERE.....  
+/*
+$filmfestival = $wpdb->get_results("SELECT * FROM node WHERE type='film_festival' ORDER BY created ASC");
+if($filmfestival)
+{
+    foreach($filmfestival as $filmfestivals)
+    {
+        $filmfestival_content = $wpdb->get_results("SELECT * FROM node_revisions WHERE nid = ".$filmfestivals->nid." ORDER BY timestamp DESC LIMIT 1");
+        $filmfestival_video = $wpdb->get_results("SELECT * FROM content_field_ff_field_video_embed WHERE nid = ".$filmfestivals->nid."");
+        $filmfestival_trailer = $wpdb->get_results("SELECT * FROM content_field_ff_field_video_teaser WHERE nid = ".$filmfestivals->nid."");
+        $filmfestival_trailer = $filmfestival_trailer[0]->field_ff_field_video_teaser_value;
+        $filmfestival_video   = $filmfestival_video[0]->field_ff_field_video_embed_value;
+        
+        
+        $pub_date = date("Y-m-d H:i:s", $filmfestivals->created);
+        $post_content = array(
+            'post_title'    => wp_strip_all_tags($filmfestivals->title),
+            'post_date'  => $pub_date,
+            'post_content' => $filmfestival_content[0]->body,
+            'post_excerpt' => strip_tags($filmfestival_content[0]->teaser),
+            'post_type' => "filmfestival",
+            'post_status' => 'publish'
+        );
+        
+        $postId = wp_insert_post($post_content);
+        if($postId)
+        {
+            update_post_meta($postId, "meta_type_filmfest_video1", $filmfestival_video);
+            update_post_meta($postId, "meta_type_filmfest_shorttrailer", $filmfestival_trailer);
+
+            echo "<strong>Title: ".$filmfestivals->title."</strong><br/>";
+            $comments = $wpdb->get_results("SELECT * FROM comments where nid = ".$filmfestivals->nid. " ORDER BY timestamp ASC");
+            $existing_comment_ids = array();
+            $new_comment_ids = array();
+            foreach($comments as $comment)
+            {
+                if($comment->pid == 0)
+                {
+                    $commentdata = array(
+                        'comment_post_ID' => $postId, 
+                        'comment_author' => $comment->name, 
+                        'comment_author_email' => $comment->mail, 
+                        'comment_author_IP' => $comment->hostname,
+                        'comment_content' => $comment->comment, 
+                        'comment_parent' => 0, 
+                        'user_id' => '', 
+                        'comment_date' => date("Y-m-d H:i:s", $comment->timestamp),
+                        'comment_approved' => 1,
+                    );
+
+                    $new_comment_id = wp_insert_comment($commentdata);
+                    $existing_comment_ids[$comment->cid] = $new_comment_id;
+                }                
+            }
+
+            foreach($comments as $comment)
+            {
+                if($comment->pid != 0)
+                {
+                    if(array_key_exists($comment->pid, $existing_comment_ids))
+                    {
+                        $parent_id = $existing_comment_ids[$comment->pid];
+                        $commentdata = array(
+                            'comment_post_ID' => $postId, 
+                            'comment_author' => $comment->name, 
+                            'comment_author_email' => $comment->mail, 
+                            'comment_author_IP' => $comment->hostname,
+                            'comment_content' => $comment->comment, 
+                            'comment_parent' => $parent_id,
+                            'user_id' => '', 
+                            'comment_date' => date("Y-m-d H:i:s", $comment->timestamp),
+                            'comment_approved' => 1,
+                        );
+                        $new_comment_id = wp_insert_comment($commentdata);
+                        $existing_comment_ids[$comment->cid] = $new_comment_id;
+                    }
+                }                
+            }
+        }
+    }
+}
+//FILMFESTIVAL IMPORT POSTS AND COMMENTS STARTS HERE..... 
+die;
+*/
+
+
+//FILMCLUB IMPORT POSTS AND COMMENTS STARTS HERE..... 
+/*   
+$filmclub = $wpdb->get_results("SELECT * FROM node WHERE type='filmclub' ORDER BY created ASC");
+if($filmclub)
+{
+    foreach($filmclub as $filmclubs)
+    {
+        $filmclub_content = $wpdb->get_results("SELECT * FROM node_revisions WHERE nid = ".$filmclubs->nid." ORDER BY timestamp DESC LIMIT 1");
+        $filmclucb_video = $wpdb->get_results("SELECT * FROM content_field_discussion_video_embed WHERE nid = ".$filmclubs->nid."");
+        $filmclucb_trailer = $wpdb->get_results("SELECT * FROM content_field_discussion_video_embed_pre WHERE nid = ".$filmclubs->nid."");
+        
+        $filmclub_trailer = $filmclucb_trailer[0]->field_discussion_video_embed_pre_value;
+        $filmclub_video   = $filmclucb_video[0]->field_discussion_video_embed_value;
+        
+        $pub_date = date("Y-m-d H:i:s", $filmclubs->created);
+        $post_content = array(
+            'post_title'    => wp_strip_all_tags($filmclubs->title),
+            'post_date'  => $pub_date,
+            'post_content' => $filmclub_content[0]->body,
+            'post_excerpt' => strip_tags($filmclub_content[0]->teaser),
+            'post_type' => "filmclub",
+            'post_status' => 'publish'
+        );
+        $postId = wp_insert_post($post_content);
+        if($postId)
+        {
+            update_post_meta($postId, "meta_type_filmclub_video", $filmclub_video);
+            update_post_meta($postId, "meta_type_filmclub_shorttrailer", $filmclub_trailer);
+
+            echo "<strong>Title: ".$filmclubs->title."</strong><br/>";
+            $comments = $wpdb->get_results("SELECT * FROM comments where nid = ".$filmclubs->nid. " ORDER BY timestamp ASC");
+            $existing_comment_ids = array();
+            $new_comment_ids = array();
+            foreach($comments as $comment)
+            {
+                if($comment->pid == 0)
+                {
+                    $commentdata = array(
+                        'comment_post_ID' => $postId, 
+                        'comment_author' => $comment->name, 
+                        'comment_author_email' => $comment->mail, 
+                        'comment_author_IP' => $comment->hostname,
+                        'comment_content' => $comment->comment, 
+                        'comment_parent' => 0, 
+                        'user_id' => '', 
+                        'comment_date' => date("Y-m-d H:i:s", $comment->timestamp),
+                        'comment_approved' => 1,
+                    );
+
+                    $new_comment_id = wp_insert_comment($commentdata);
+                    $existing_comment_ids[$comment->cid] = $new_comment_id;
+                }                
+            }
+
+            foreach($comments as $comment)
+            {
+                if($comment->pid != 0)
+                {
+                    if(array_key_exists($comment->pid, $existing_comment_ids))
+                    {
+                        $parent_id = $existing_comment_ids[$comment->pid];
+                        $commentdata = array(
+                            'comment_post_ID' => $postId, 
+                            'comment_author' => $comment->name, 
+                            'comment_author_email' => $comment->mail, 
+                            'comment_author_IP' => $comment->hostname,
+                            'comment_content' => $comment->comment, 
+                            'comment_parent' => $parent_id,
+                            'user_id' => '', 
+                            'comment_date' => date("Y-m-d H:i:s", $comment->timestamp),
+                            'comment_approved' => 1,
+                        );
+                        $new_comment_id = wp_insert_comment($commentdata);
+                        $existing_comment_ids[$comment->cid] = $new_comment_id;
+                    }
+                }                
+            }
+        }        
+    }
+}
+//FILMCLUB IMPORT POSTS AND COMMENTS ENDS HERE..... 
+die;
+*/
+
+
+/*$stories = $wpdb->get_results("SELECT * FROM node "
+        . "JOIN node_revisions AS n_revisions ON node.nid = n_revisions.nid "
+        . "JOIN content_field_author AS cf_author ON node.nid = cf_author.nid "
+        . "JOIN content_field_subtitle AS cf_subtitle ON node.nid = cf_subtitle.nid "
+        . "WHERE node.type='blog_post' AND node.nid = 47023"); //ORDER BY node.created ASC LIMIT 50 */
+
+
+
+//Magazine article comment Import Process - Starts here//
+$issues = $wpdb->get_results("SELECT * FROM node WHERE type='issue' ORDER BY created ASC");
+if($issues)
+{
+    $live_magazine_issues = array();
+    foreach($issues as $issue)
+    {
+        $live_magazine_issues[$issue->vid] = $issue->title;
+    }
+}
+
+$magazine_issues = get_magazine_issue_terms();
+if($magazine_issues)
+{
+    foreach($magazine_issues as $magazine_issue)
+    {
+        $records = new WP_Query(
+                    array(
+                        "post_type"=>MAGAZINE_POST_TYPE, 
+                        "posts_per_page"=>-1, 
+                        'tax_query' => array(
+                            array(
+                                'taxonomy' => MAGAZINE_POST_ISSUE_TAXONOMY,
+                                'field' => 'slug',
+                                'terms' => $magazine_issue->slug
+                            )
+                        )
+                    )
+                );
+        
+        if($records->have_posts())
+        {
+            $loop = 1;
+            $record_array = array();
+            while($records->have_posts())
+            {
+                $records->the_post();
+                $record_array[get_the_ID()] = trim(get_the_title());
+            }
+        }
+        
+        echo "<strong>Issue: ".$magazine_issue->name."</strong><br/>";
+        $issue_id = array_search($magazine_issue->name, $live_magazine_issues);
+        
+        $issue_articles = $wpdb->get_results("SELECT * FROM nodehierarchy where parent = ".$issue_id);
+        if($issue_articles)
+        {
+            $temp_article_ids = array();
+            foreach($issue_articles as $issue_article)
+            {
+                $temp_article_ids[] = $issue_article->nid;
+            }
+            
+            $stories = $wpdb->get_results("SELECT * FROM node where nid IN (".implode(", ", $temp_article_ids).") ORDER BY created");
+            if($stories)
+            {
+                foreach($stories as $story)
+                {
+                    $postId = array_search(trim($story->title), $record_array);
+                    
+                    if($postId)
+                    {
+                        echo "<strong>Title: ".$story->title."</strong><br/>";
+                        $comments = $wpdb->get_results("SELECT * FROM comments where nid = ".$story->nid. " ORDER BY timestamp ASC");
+                        $existing_comment_ids = array();
+                        $new_comment_ids = array();
+                        foreach($comments as $comment)
+                        {
+                            if($comment->pid == 0)
+                            {
+                                $commentdata = array(
+                                    'comment_post_ID' => $postId, 
+                                    'comment_author' => $comment->name, 
+                                    'comment_author_email' => $comment->mail, 
+                                    'comment_author_IP' => $comment->hostname,
+                                    'comment_content' => $comment->comment, 
+                                    'comment_parent' => 0, 
+                                    'user_id' => '', 
+                                    'comment_date' => date("Y-m-d H:i:s", $comment->timestamp),
+                                    'comment_approved' => 1,
+                                );
+
+                                $new_comment_id = wp_insert_comment($commentdata);
+                                $existing_comment_ids[$comment->cid] = $new_comment_id;
+                            }                
+                        }
+
+                        foreach($comments as $comment)
+                        {
+                            if($comment->pid != 0)
+                            {
+                                if(array_key_exists($comment->pid, $existing_comment_ids))
+                                {
+                                    $parent_id = $existing_comment_ids[$comment->pid];
+                                    $commentdata = array(
+                                        'comment_post_ID' => $postId, 
+                                        'comment_author' => $comment->name, 
+                                        'comment_author_email' => $comment->mail, 
+                                        'comment_author_IP' => $comment->hostname,
+                                        'comment_content' => $comment->comment, 
+                                        'comment_parent' => $parent_id,
+                                        'user_id' => '', 
+                                        'comment_date' => date("Y-m-d H:i:s", $comment->timestamp),
+                                        'comment_approved' => 1,
+                                    );
+                                    $new_comment_id = wp_insert_comment($commentdata);
+                                    $existing_comment_ids[$comment->cid] = $new_comment_id;
+                                }
+                            }                
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+//Magazine article comment Import Process - Ends here//
+die;
+
+
+//Blog Import Process - Starts here//
+/*$stories = $wpdb->get_results("SELECT * FROM node WHERE node.type='blog_post' ORDER BY node.created DESC LIMIT 50"); //ORDER BY node.created ASC LIMIT 50 
+if($stories)
+{
+    foreach($stories as $story)
+    {
+        $pub_date = date("Y-m-d H:i:s", $story->created);
+        $subtitles = $wpdb->get_results("SELECT * FROM content_field_subtitle WHERE nid = ".$story->nid." ORDER BY vid DESC LIMIT 1");
+        $content = $wpdb->get_results("SELECT * FROM node_revisions WHERE nid = ".$story->nid." ORDER BY timestamp DESC LIMIT 1");
+        
+        $my_post = array(
+                'post_title'    => wp_strip_all_tags($story->title),
+                'post_date'  => $pub_date,
+                'post_content' => $content[0]->body,
+                'post_excerpt' => strip_tags($subtitles[0]->field_subtitle_value),
+                'post_type' => "post",
+                'post_status' => 'publish'
+            );
+        $postId = wp_insert_post($my_post);
+        $comments = $wpdb->get_results("SELECT * FROM comments where nid = ".$story->nid. " ORDER BY timestamp ASC");
+        if($comments)
+        {
+            $existing_comment_ids = array();
+            $new_comment_ids = array();
+            foreach($comments as $comment)
+            {
+                if($comment->pid == 0)
+                {
+                    $commentdata = array(
+                        'comment_post_ID' => $postId, 
+                        'comment_author' => $comment->name, 
+                        'comment_author_email' => $comment->mail, 
+                        'comment_author_IP' => $comment->hostname,
+                        'comment_content' => $comment->comment, 
+                        'comment_parent' => 0, 
+                        'user_id' => '', 
+                        'comment_date' => date("Y-m-d H:i:s", $comment->timestamp),
+                        'comment_approved' => 1,
+                    );
+                    
+                    $new_comment_id = wp_insert_comment($commentdata);
+                    $existing_comment_ids[$comment->cid] = $new_comment_id;
+                }                
+            }
+            
+            foreach($comments as $comment)
+            {
+                if($comment->pid != 0)
+                {
+                    if(array_key_exists($comment->pid, $existing_comment_ids))
+                    {
+                        $parent_id = $existing_comment_ids[$comment->pid];
+                        $commentdata = array(
+                            'comment_post_ID' => $postId, 
+                            'comment_author' => $comment->name, 
+                            'comment_author_email' => $comment->mail, 
+                            'comment_author_IP' => $comment->hostname,
+                            'comment_content' => $comment->comment, 
+                            'comment_parent' => $parent_id,
+                            'user_id' => '', 
+                            'comment_date' => date("Y-m-d H:i:s", $comment->timestamp),
+                            'comment_approved' => 1,
+                        );
+                        $new_comment_id = wp_insert_comment($commentdata);
+                        $existing_comment_ids[$comment->cid] = $new_comment_id;
+                    }
+                }                
+            }
+        }        
+    }
+}
+//Blog Import Process - Ends here//
+die;
+*/
+
+/*$records = new WP_Query(
+                    array(
+                        "post_type"=>"post", 
+                        "posts_per_page"=>-1, 
+                        'tax' => MAGAZINE_ISSUE_TAXONOMY
+                    )
+                );
+if($records->have_posts())
+{
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename=data.csv');
+
+    $output = fopen('php://output', 'w');
+
+    fputcsv($output, array('Sequence Number', 'ID', 'Title', 'Magazine Issue', 'URL'));
+
+    $count = 1;
+    while($records->have_posts())
+    {
+        $records->the_post();
+        $temp = array();        
+        
+        $terms = wp_get_post_terms(get_the_ID(), MAGAZINE_ISSUE_TAXONOMY);
+        if($terms)
+        {
+            $temp[] = $count++;
+            $temp[] = get_the_ID();
+            $temp[] = get_the_title();
+            $temp[] = $terms[0]->name;
+            $temp[] = get_the_permalink();
+            fputcsv($output, $temp);
+        }
+    }
+}
+die;*/
+
+/*$records = new WP_Query(array("post_type"=>"post", "category__not_in"=>array(1), "posts_per_page"=>-1));
+
+if($records->have_posts())
+{
+    while($records->have_posts())
+    {
+        $records->the_post();
+        $post_ID = get_the_ID();
+        echo "Post ID: ".$post_ID.", Post Title: ";
+        the_title();
+        echo "<br/>";
+        
+        $cats = get_the_category($post_ID);
+        $temp_cats = array();
+        if($cats)
+        {
+            foreach($cats as $cat)
+            {
+                if($cat->parent)
+                {
+                    $temp_cats[] = $cat->parent;
+                   
+                }
+            }
+        }
+        if($temp_cats)
+        {
+            $new_cats = wp_set_post_categories($post_ID, $temp_cats, true);
+        }
+    }
+}
+
+die;*/
+
+/*
+require ( ABSPATH . 'wp-admin/includes/image.php' );
+$feed = file_get_contents('http://www.pcma.org/feeds/Convene.ashx');
+$xml = simplexml_load_string($feed);
+
+$content_array = array();
+$upload_dir = wp_upload_dir(); 
+$uploads = $upload_dir['path'];
+
+$date_july = date('Y-m');
+$date_june = date('Y-m', strtotime($date_july.' - 1 month'));
+    
+$dom = new DOMDocument;
+ 
+ $i=1;
+foreach ($xml->channel->item as $entry) :
+  
+    $pubDate = (string)$entry->pubDate;
+    $checkDate = date('Y-m' , strtotime($pubDate));
+    
+ if($checkDate == $date_july || $checkDate == $date_june)
+ {
+    $urls = array();
+    $temp = array();
+    
+    $temp['link'] = (string)$entry->link;
+    $temp['category'] = (string)$entry->category;
+    $temp['title'] = (string)$entry->title;
+    $temp['description'] = (string)$entry->description;
+    
+    $pagess = get_page_by_title($temp['title'], OBJECT, "post");
+    if(!$pagess)
+    {
+        $article_category = get_magazine_issue_details(trim($temp['category']));
+        $catID = $article_category['term_id'];
+
+        $description = (string)$entry->description;
+        $description = str_replace('&gt;','>',$description);
+        $description = str_replace('&lt;','<',$description);
+
+        $namespaces = $entry->getNameSpaces(true);
+        $author = $entry->children($namespaces['a10']);
+        $temp['author_name'] = (string)$author->author->name;
+
+        
+        $addSec = strtotime($pubDate) + $i;
+        
+        $temp['pubDate'] = date("Y-m-d H:i:s", $addSec);
+
+       // $temp['pubDate'] = date("Y-m-d H:i:s", strtotime($pubDate));
+       
+        $year= date("Y",strtotime($pubDate));
+        $month= date("m",strtotime($pubDate));
+ 
+        $user_dirname = $upload_dir['basedir'].'/'.$year."/".$month;
+        
+        if( ! file_exists( $user_dirname ) )
+        {
+            wp_mkdir_p( $user_dirname );
+        }
+
+        $dom->loadHTML($description);
+
+        $attachment_array = array();
+        foreach($dom->getElementsByTagName('img') as $link)
+        {
+            $path = pathinfo($link->getAttribute('src'));
+            $path = explode('?',$path['basename']);
+
+            //save image to the folder
+            $content = file_get_contents($link->getAttribute('src'));
+
+            $img_filename = upload_filename($upload_dir['basedir'].'/'.$year."/".$month.'/', $path[0]);
+            $img = $upload_dir['basedir'].'/'.$year."/".$month.'/'.$img_filename;
+          
+            file_put_contents($img, $content);
+
+            // Check the type of file. We'll use this as the 'post_mime_type'.
+            $filetype = wp_check_filetype($img_filename, null);
+
+            // Prepare an array of post data for the attachment.
+            $attachment = array(
+                'guid'           => $upload_dir['baseurl'].'/'.$year.'/'.$month.'/'.$img_filename, 
+                'post_mime_type' => $filetype['type'],
+                'post_title'     => preg_replace( '/\.[^.]+$/', '', $img_filename ),
+                'post_content'   => '',
+                'post_status'    => 'inherit',
+                'post_date'      => $temp['pubDate']
+            );
+
+            $attachment_temp = array();
+            $attachment_temp['attachment'] = $attachment;
+            $attachment_temp['absolute_path'] = $img;
+            $attachment_array[] = $attachment_temp;
+
+            $temp['description']= str_replace($link->getAttribute('src'),$upload_dir['baseurl'].'/'.$year."/".$month.'/'.$path[0],$temp['description']);
+            $urls[] = $upload_dir['baseurl'].'/'.$year."/".$month.'/'.$path[0];
+        } 
+        $temp['images'] = $urls;
+   
+*/
+        /** fetch the <h2> tag content **/
+/*        $Tag ='';
+        foreach($dom->getElementsByTagName('h2') as $tags)
+        {
+            $Tag = $tags->nodeValue;
+        }
+    
+        $temp['post_excerpt'] = $Tag;
+        $search_string = $temp['post_excerpt'];
+        $temp['description'] = str_replace($search_string, "", $temp['description']); //Delete the excerpt from the description section.
+        $temp['description'] = preg_replace_callback('~<h2>(.*?)</h2>~i', function($m){ return ucfirst(strtolower(trim($m[1])));}, $temp['description'], 1);
+        
+        //Create the author
+        if($temp['author_name'])
+        {
+            $user_name = str_replace("-", "_", sanitize_title(str_ireplace("by ", "", str_ireplace("as told to ", "", $temp['author_name']))));
+            $user_email = $user_name."@example.com";
+            $user_id = username_exists($user_name);
+            if(!$user_id and email_exists($user_email) == false) 
+            {
+                $random_password = wp_generate_password($length=12, $include_standard_special_chars=false);
+                $user_id = wp_create_user($user_name, $random_password, $user_email);
+            }
+            
+            $my_post = array(
+                'post_title'    => wp_strip_all_tags($temp['title'] ),
+                'post_date'  => $temp['pubDate'] ,
+                'post_content' => $temp['description'],
+                'post_excerpt' => $temp['post_excerpt'],
+                'post_type' => "post",
+                'post_status' => 'publish',
+                'post_author' => $user_id
+            );
+        }
+        else
+        {
+            $my_post = array(
+                'post_title'    => wp_strip_all_tags($temp['title'] ),
+                'post_date'  => $temp['pubDate'] ,
+                'post_content' => $temp['description'],
+                'post_excerpt' => $temp['post_excerpt'],
+                'post_type' => "post",
+                'post_status' => 'publish'
+            );
+        }
+*/
+        /*$my_post = array(
+            'post_title'    => wp_strip_all_tags($temp['title'] ),
+            'post_date'  => $temp['pubDate'] ,
+            'post_excerpt' => $temp['post_excerpt'],
+            'post_content' => $temp['description'],
+            'post_type' => "post",
+            'post_status' => 'publish'
+        );*/
+
+/*        // Insert the post into the database
+        $postId = wp_insert_post($my_post);
+
+        // An array of IDs of categories we want this post to have.
+        $cat_ids = array($catID);
+
+        // If this was coming from the database or another source, we would need to make sure 
+        // these where integers: //
+
+        $cat_ids = array_map( 'intval', $cat_ids );
+
+        $term_taxonomy_ids = wp_set_object_terms($postId, $cat_ids, MAGAZINE_ISSUE_TAXONOMY, true);
+
+        update_post_meta($postId, "article_custom_author", $temp['author_name']);
+        
+        if($attachment_array)
+        {
+            foreach($attachment_array as $attachment_val)
+            {
+                // Insert the attachment.
+                $attach_id = wp_insert_attachment($attachment_val['attachment'], $attachment_val['absolute_path'], $postId);
+                $attach_data = wp_generate_attachment_metadata($attach_id, $attachment_val['absolute_path']);
+                wp_update_attachment_metadata( $attach_id, $attach_data );
+            }
+        }
+        echo("Post ID:".$postId."<br/>");
+    }
+ }
+
+$i++;
+endforeach;
+*/
+?>

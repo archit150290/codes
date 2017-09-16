@@ -1,0 +1,186 @@
+<?php
+/*
+  Template Name: magazine archive
+ */
+//pr($_REQUEST);
+?>
+<?php
+$post = get_post();
+$pageslug = $post->post_name;
+$pageUrl = get_site_url() . "/" . $pageslug . "/";
+?>
+<script>
+    var pageurl = '<?php echo $pageUrl; ?>';
+</script>
+<?php echo get_header(); ?>
+
+<!-- start content -->
+<div class='wrap'>
+
+    <!-- start magazine rubric -->
+    <div class='rubric_top'>
+        <h1><span class='icon icon-dept_magazine'></span>Magazine</h1>
+        <p>The Buddhist Review</p>
+    </div>
+    <!-- end magazine rubric -->
+
+    <!-- start archive_magazine grid -->
+    <div class='archive_magazine'>
+        <div class='rule'></div>
+
+        <header class='rubric_mid magazine'>
+            <h1>Back Issues</h1>
+            <!-- <a class='button' href='#'>Browse By Year</a> -->
+            <?php
+            $currentYear = date('Y');
+            $getSearchArr = explode($pageslug, str_replace("/", "", $_SERVER['REQUEST_URI']));
+            // pr($getSearchArr);
+            $searchYear = isset($getSearchArr[1]) ? $getSearchArr[1] : $currentYear;
+            ?>
+            <div class='dropdown'>
+                <div class='dropdown-container'>
+                    <p class='button dropdown-button'>Browse By Year</p>
+                    <ul class='dropdown-menu dropdown-select'>
+
+                        <?php
+                        for ($i = $currentYear; $i >= 1991; $i--) {
+                            ?>
+                            <li class="yeardropdown" rel="<?php echo $i; ?>"><a href='javascript:void(0);'><?php echo $i; ?></a></li>
+                            <?php
+                        }
+                        ?>                                                
+                    </ul>
+                </div>
+            </div>
+
+        </header>
+
+        <main id="moredata">
+            <?php
+            $topicsfinal = get_magazine_issue_terms();
+            $count = 0;
+            $topicsTermId = array();
+            foreach ($topicsfinal as $topics) {
+                $count;
+                if ($count == "12") {
+                    break;
+                }
+                $t_id = $topics->term_id;
+                $term_meta = get_option("taxonomy_term_$t_id");
+                $magazine_issue_cover_image = $term_meta['cover_image'];
+                $upload_dir = wp_upload_dir();
+                $upload_baseurl = $upload_dir['baseurl'] . '/' . $magazine_issue_cover_image;
+                /* year is used here to break the year from the name to get the browsing values */
+                $year = preg_replace("/[^0-9]/", '', $topics->name);
+                if ($year == $searchYear) {
+                    ?>
+                    <div class='archive-item'>
+                        <?php $term_link = get_term_link($topics); ?>
+                        <a href='<?php echo $term_link; ?>'>
+                            <figure class='archive-cover_magazine'>
+                                <?php echo getImagewithSrcset($upload_baseurl, 'image', '', '(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,75vw'); ?>
+                            </figure>
+                            <header class='archive-titles'>
+                                <time class='h2'><?php echo $topics->name; ?>
+                                    <span class='vol-no'><?php
+                                        if (!empty($term_meta['volume'])) {
+                                            echo "Volume " . $term_meta['volume'] . ",";
+                                        }
+                                        ?><?php
+                                        if (!empty($term_meta['number'])) {
+                                            echo " Number " . $term_meta['number'];
+                                        }
+                                        ?></span>
+                                </time>
+                            </header>
+                        </a>
+                    </div>
+                    <?php
+                }
+
+                if (empty($searchYear)) {  //if no search year is there access all the values
+                    ?>
+                    <div class='archive-item'>
+                        <?php
+                        $term_link = get_term_link($topics);
+                        $topics_termid[] = intval($topics->term_id);
+                        ?>
+                        <a href='<?php echo $term_link; ?>'>
+                            <figure class='archive-cover_magazine'>
+                                <?php echo getImagewithSrcset($upload_baseurl, 'image', '', '(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,75vw'); ?>
+                            </figure>
+
+                            <header class='archive-titles'>
+                                <?php $topicsTermId[] = $topics->term_id; ?>
+                                <time class='h2'><?php echo $topics->name; ?>
+                                    <span class='vol-no'>
+                                        <?php
+                                        if (!empty($term_meta['volume'])) {
+                                            echo "Volume " . $term_meta['volume'] . ", ";
+                                        }
+                                        ?>
+                                        <?php
+                                        if (!empty($term_meta['number'])) {
+                                            echo "Number " . $term_meta['number'] . ", ";
+                                        } else {
+                                            echo "<br>";
+                                        }
+                                        ?> 
+                                    </span></time>
+                            </header>
+                        </a>
+                    </div>
+
+                    <?php
+                    $count++;
+                }
+            } //end of for each loop
+            ?>
+        </main>
+        <?php if ($searchYear == "") {
+            ?>
+            <div class='more magazine'>
+                <input type="hidden" name="TopicstermId" id="TopicstermId" value='<?php echo json_encode($topics_termid); ?>' />
+                <a class='button' href='javascript:void(0)' id="loadmoremagazine" onclick='LoadMoreMagazine()'>Load More</a>
+            </div>
+        <?php } ?>
+
+    </div>
+
+    <!-- end archive_magazine grid -->
+
+    <!-- start Call to Action module -->
+    <div class='CTA-module'>
+        <div class='rule'></div>
+        <div class='CTA-ad' style='
+             background-color: #ddd;
+             line-height: 1; padding: 2em;
+             margin: 0 auto;
+             width: 75%;
+             height: 10em;
+             text-align: center;
+             '>
+            <p>Call-to-Action Module. Can be set in the CMS to any of the following: (1) Ad served via Google DFP Small Business (TBD), (2) Daily Dharma, (3) Subscribe CTA, (4) Newletter CTA</p>
+        </div>
+        <div class='rule'></div>
+    </div>
+    <!-- end Call to Action module -->
+
+    <aside>
+        <div class='aside-depts'>
+            <!-- start aside trikedaily -->
+            <?php show_latest_trike_daily(); ?>
+            <!-- end aside trikedaily -->
+
+            <!-- start aside ebooks -->
+            <?php show_latest_ebooks(); ?>
+            <!-- end aside ebooks -->
+
+            <!-- start aside dharma talks -->
+            <?php show_latest_dharma_talks(); ?>
+            <!-- end aside dharma talks -->
+        </div>
+
+        <div class='rule'></div>
+
+        <?php echo get_footer(); ?>

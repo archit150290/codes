@@ -1,0 +1,1941 @@
+<?php
+
+/**
+ * This function sets up the required structure in tricycle theme.
+ */
+function tricycle_setup() {
+// Add default posts and comments RSS feed links to head.
+    add_theme_support('automatic-feed-links');
+
+    /*
+     * Let WordPress manage the document title.
+     * By adding theme support, we declare that this theme does not use a
+     * hard-coded <title> tag in the document head, and expect WordPress to provide it for us.
+     */
+    add_theme_support('title-tag');
+
+    /*
+     * Enable support for Post Thumbnails on posts and pages.
+     */
+    add_theme_support('post-thumbnails');
+    set_post_thumbnail_size(500, 250); // 500 pixels wide by 250 pixels tall, resize mode
+//add_image_size( 'custom-size', 220, 180 );
+//add_image_size( 'custom-size', 220, 180 );
+
+    /*
+     * Switch default core markup for search form, comment form, and comments to output valid HTML5.
+     */
+    add_theme_support('html5', array(
+        'search-form', 'comment-form', 'comment-list', 'gallery', 'caption'
+    ));
+
+
+    /*
+     * This theme styles the visual editor to resemble the theme style, specifically font, colors, icons, and column width.
+     */
+    add_editor_style(array('editor-style.css'));
+
+    add_post_type_support('post', array('excerpt'));
+}
+
+/**
+ * This action hook is used to call the function tricycle_setup().
+ */
+add_action('after_setup_theme', 'tricycle_setup');
+
+
+include_once 'functions-magazine.php';
+include_once 'functions-filmclub.php';
+include_once 'functions-dharmatalks.php';
+include_once 'functions-ebooks.php';
+include_once 'functions-filmfestivals.php';
+include_once 'functions-dailydharma.php';
+include_once 'functions-tricycle-settings.php';
+
+if (!function_exists("pr")) {
+
+    /**
+     * This function prints the data in formatted way.
+     * @param Integer/String/Array $data
+     * @return null
+     */
+    function pr($data) {
+        echo "<pre>";
+        print_r($data);
+        echo "</pre>";
+        return;
+    }
+
+}
+
+/**
+ * This function returns the category id by slug.
+ * @param String $category_slug
+ * @return Integer
+ */
+function get_category_id_by_slug($category_slug) {
+    $idObj = get_category_by_slug($category_slug); //It return category data object
+    if ($idObj) {
+        $id = $idObj->term_id;
+        return $id;
+    } else {
+        return null;
+    }
+}
+
+/**
+ * This function returns the page id by slug.
+ * @param String $page_slug
+ * @return Integer
+ */
+function get_page_id_by_slug($page_slug) {
+    $page = get_page_by_path($page_slug);
+    if ($page) {
+        return $page->ID;
+    } else {
+        return null;
+    }
+}
+
+/**
+ * This function returns the slug(name) of a post by id;
+ * @param Integer $id
+ * @return String
+ */
+function get_slug_by_id($id) {
+    $obj = get_post($id);
+    return $obj->post_name;
+}
+
+define("TRIKE_DAILY_SLUG", "trikedaily");
+define("ABOUT_SLUG", "about");
+define("CONTACT_SLUG", "contact");
+define("ADVERTISE_SLUG", "advertise");
+define("TERMS_OF_SERVICE_SLUG", "terms-of-service");
+define("PRIVACY_POLICY_SLUG", "privacy-policy");
+
+/**
+ * This function returns the sitemap url.
+ * @return string
+ */
+function get_sitemap_url() {
+    return;
+}
+
+/* * ***************************************Custom Meta Boxes - Starts here******************************************** */
+
+/**
+ * This function is used to create metaboxes for "post" post type. 
+ */
+function add_post_meta_boxes() {
+    add_meta_box('trikedaily_Byline_authors', 'Byline/Authors', 'add_trikedaily_authors_metabox', 'post', 'normal', 'high');
+    add_meta_box('post_home_featured_articles_metabox_id', __('Set Home Page Marquee'), 'add_post_home_featured_articles_meta_box', "post", 'normal', 'default');
+    add_meta_box('post_layout_metabox_id', 'Layout', 'add_post_layout_meta_box', "post", 'normal', 'default');
+    add_meta_box('article_template_featured_image', 'Article Featured Image', 'add_article_template_featured_metabox', "post", 'side', 'default');
+    add_meta_box('trikedaily_audio_1', 'Audio', 'add_trikedaily_audio', 'post', 'normal', 'default');
+  }
+
+define("TOPIC_TAXONOMY", "topic");
+define("DEK_META_KEY", "dek");
+
+define("FIGCAPTION_META_KEY", "figurecaption");
+define("RELATED_ARTICLES_META_KEY", "related_articles");
+define("HOME_FEATURED_META_KEY", "home_featured");
+define("LAYOUT_META_KEY", "layout");
+define("PROFILE_PHOTO_META_KEY", "profile_photo");
+define("TRIKEDAILY_AUTHORS_NAME_METABOX", "authors_name_metabox");
+
+/**
+ * This action hook is used to call the function add_post_meta_boxes().
+ */
+add_action('add_meta_boxes', 'add_post_meta_boxes');
+
+function add_trikedaily_authors_metabox($post) {
+    wp_nonce_field('post_save_meta_box_data', 'post_meta_box_nonce');
+    $trikedaily_authorname = get_post_meta($post->ID, TRIKEDAILY_AUTHORS_NAME_METABOX, true);
+    ?>
+    <input type="text" placeholder="Add First Name and Last Name separated by Commas , or Slashe / " style="width: 85%" name="trikedaily_authors_name_metabox" value="<?php echo $trikedaily_authorname; ?>">
+        <br/>
+        <label>(Please add by line like: By/Directed By/ Edited By  [author1] [author2] ) </label>
+        <?php
+    }
+
+    /**
+     * This function is used to show featured articles meta box.
+     * @param type $post
+     */
+    function add_post_home_featured_articles_meta_box($post) {
+        $home_featured = get_post_meta($post->ID, HOME_FEATURED_META_KEY, true);
+        ?>
+        <label><input type="checkbox" value="1" name="home_featured" id="home_featured" <?php echo ($home_featured) ? "checked='checked'" : ''; ?> /> Set Home Featured</label>
+        <?php
+    }
+
+    /**
+     * This function is used to show layout meta box.
+     * @param type $post
+     */
+    function add_post_layout_meta_box($post) {
+        $layout = get_post_meta($post->ID, LAYOUT_META_KEY, true);
+        ?>
+        <label style="display: inline-block;">
+            <span style="float: left; padding: 10px;"><input type="radio" value="base" name="layout" <?php echo ($layout == "base") ? "checked='checked'" : ''; ?> /> Base</span>
+            <img style="width: 100px;" src="<?php echo get_template_directory_uri() . "/images/base_layout.jpg" ?>" />
+        </label>
+        <label style="display: inline-block;">
+            <span style="float: left; padding: 10px;"><input type="radio" value="hero" name="layout" <?php echo ($layout == "hero") ? "checked='checked'" : ''; ?> /> Hero</span>
+            <img style="width: 100px;" src="<?php echo get_template_directory_uri() . "/images/hero_layout.jpg" ?>" />
+        </label>
+        <?php
+    }
+    
+    function add_trikedaily_audio($post)
+    {
+       $upload_dir = wp_upload_dir();?>
+        <script type="text/javascript">
+        function upload_meta_image(title,textboxinput)
+         {
+             var meta_image_frame;
+             meta_image_frame = wp.media.frames.meta_image_frame = wp.media({
+             title: title,
+             button: { text:  title },
+             multiple: false
+             }) 
+             .on('select',function(){
+             var attachment = meta_image_frame.state().get('selection').first().toJSON();
+             jQuery("#"+textboxinput).val(attachment.url); 
+             })
+             meta_image_frame.open();
+         }
+        </script>
+
+        <?php 
+        
+        $tridedaily_author1 = get_post_meta($post->ID, "trikdedaily_meta_audio1", true);
+        if (!empty($tridedaily_author1)) {
+        $upload_baseurl = $upload_dir['baseurl'] . '/' . $tridedaily_author1;
+        } else {
+            $upload_baseurl = "";
+        }
+        $htmlaudio1 = '<p>';
+        $htmlaudio1 .= 'Audio 1';
+        $htmlaudio1 .= '</p>';
+        $htmlaudio1 .= '<input id="upload_file" type="hidden" size="36" name="upload_file" value="" />';
+        $htmlaudio1 .= '<input readonly id="upload_file_audio1" type="text" size="90%" name="upload_file_audio1" value = "'.$upload_baseurl.'"  />';
+        $htmlaudio1 .='<input type="button" onclick = upload_meta_image("upload-Audio1-file","upload_file_audio1") id="upload_file_button_audio1" value="Upload Audio 1" />';
+        echo $htmlaudio1 . "<br>";?>
+        
+        
+        <?php
+        $tridedaily_author2 = get_post_meta($post->ID, "trikdedaily_meta_audio2", true);
+        if (!empty($tridedaily_author2)) {
+        $upload_baseurl = $upload_dir['baseurl'] . '/' . $tridedaily_author2;
+        } else {
+            $upload_baseurl = "";
+        }
+        $htmlaudio2 = '<p>';
+        $htmlaudio2 .= 'Audio 2';
+        $htmlaudio2 .= '</p>';
+        $htmlaudio2 .= '<input id="upload_file" type="hidden" size="36" name="upload_file" value="" />';
+        $htmlaudio2 .= '<input id="upload_file_audio2" readonly type="text" size="90%" name="upload_file_audio2" value = "'.$upload_baseurl.'"  />';
+        $htmlaudio2 .='<input type="button" onclick = upload_meta_image("upload-Audio2-file","upload_file_audio2") id="upload_file_button_audio2" value="Upload Audio 2" />';
+        echo $htmlaudio2 . "<br>";
+    }
+    
+   
+    /**
+     * When the post is saved, saves our custom data.
+     *
+     * @param int $post_id The ID of the post being saved.
+     */
+    function save_post_meta_box_data($post_id) {
+        /*
+         * We need to verify this came from our screen and with proper authorization,
+         * because the save_post action can be triggered at other times.
+         */
+
+        // Check if our nonce is set.
+        if (!isset($_POST['post_meta_box_nonce'])) {
+            return;
+        }
+
+
+        // Verify that the nonce is valid.
+        if (!wp_verify_nonce($_POST['post_meta_box_nonce'], 'post_save_meta_box_data')) {
+            return;
+        }
+
+        // If this is an autosave, our form has not been submitted, so we don't want to do anything.
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
+
+        // Check the user's permissions.
+        if (isset($_POST['post_type']) && 'page' == $_POST['post_type']) {
+            if (!current_user_can('edit_page', $post_id)) {
+                return;
+            }
+        } else {
+            if (!current_user_can('edit_post', $post_id)) {
+                return;
+            }
+        }
+
+        /* OK, it's safe for us to save the data now. */
+        $home_featured_post = isset($_POST['home_featured']) ? $_POST['home_featured'] : "";
+        update_post_meta($post_id, HOME_FEATURED_META_KEY, $home_featured_post);
+
+        $layout = isset($_POST['layout']) ? $_POST['layout'] : "base";
+        update_post_meta($post_id, LAYOUT_META_KEY, $layout);
+
+        $trikedailyauthorname = sanitize_text_field($_POST['trikedaily_authors_name_metabox']);
+        update_post_meta($post_id, TRIKEDAILY_AUTHORS_NAME_METABOX, $trikedailyauthorname);
+        
+        if (isset($_POST['upload_file_audio1'])) {
+            $upload_dir = wp_upload_dir();
+            $upload_baseurl = $upload_dir['baseurl'];
+            $background_file_url = $_POST['upload_file_audio1'];
+            $file_array = explode($upload_baseurl, $background_file_url);
+            $fileaudio1 = substr($file_array[1], 1);
+            update_post_meta($post_id, 'trikdedaily_meta_audio1', $fileaudio1);
+        }
+        
+         if (isset($_POST['upload_file_audio2'])) {
+            $upload_dir = wp_upload_dir();
+            $upload_baseurl = $upload_dir['baseurl'];
+            $background_file_url = $_POST['upload_file_audio2'];
+            $file_array = explode($upload_baseurl, $background_file_url);
+            $fileaudio2 = substr($file_array[1], 1);
+            update_post_meta($post_id, 'trikdedaily_meta_audio2', $fileaudio2);
+        }
+       
+        $upload_dir = wp_upload_dir();
+        $upload_baseurl = $upload_dir['baseurl'];
+        $photo_url = $_POST["base_hero_template_featured_image_url"];
+        if ($photo_url) {
+            $photo_array = explode($upload_baseurl, $photo_url);
+            $photo = substr($photo_array[1], 1);
+            $photo_id = $_POST["base_hero_template_featured_image_id"];
+
+            update_post_meta($post_id, BASE_HERO_TEMPLATE_FEATURED_IMAGE, array("attachment_image" => $photo, "attachment_id" => $photo_id));
+        } else {
+            update_post_meta($post_id, BASE_HERO_TEMPLATE_FEATURED_IMAGE, "");
+        }
+
+        if (isset($_POST['featured_image_as_base_hero_template_featured_image'])) {
+            update_post_meta($post_id, FEATURED_IMAGE_AS_BASE_HERO_TEMPLATE_FEATURED_IMAGE, 1);
+        } else {
+            update_post_meta($post_id, FEATURED_IMAGE_AS_BASE_HERO_TEMPLATE_FEATURED_IMAGE, 0);
+        }
+    }
+
+    /**
+     * This action hook is called to call "save_meta_box_data".
+     */
+    add_action('save_post', 'save_post_meta_box_data');
+
+    /**
+     * This function returns the post related articles ids in array.
+     * @param integer $post_id
+     * @return array/null
+     */
+    function get_post_related_articles($post_id) {
+        return get_post_meta($post_id, RELATED_ARTICLES_META_KEY, true);
+    }
+
+    /**
+     * This function is used to add custom rewrite rule.
+     */
+    function custom_rewrite_rule() {
+        add_rewrite_rule('^' . DHARMATALKS_POST_TYPE . '/([^/]*)/([^/]*)/?', 'index.php?' . DHARMATALKS_POST_TYPE . '=$matches[1]&dtv=$matches[2]', 'top');
+        add_rewrite_tag('%dtv%', '([^&]+)'); //dharma(d) talks(t) video(v)
+    }
+
+    /**
+     * This action hook is used to call "custom_rewrite_rule" function.
+     */
+    add_action('init', 'custom_rewrite_rule', 10, 0);
+
+//flush_rewrite_rules(true);
+
+
+    function srcset_post_thumbnail($post_id, $size = 'image', $class = '', $srcset_sizes, $template_type = "hero") {
+
+        $thumbnail = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), $size); // desktop
+        $thumbnail_2x = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), $size . '-2x'); // android
+        $thumbnail_3x = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), $size . '-3x'); // I-pad
+
+        if ($thumbnail) {
+            $thumbnail = $thumbnail[0];
+            $thumbnail_2x = $thumbnail_2x[0];
+            $thumbnail_3x = $thumbnail_3x[0];
+        } else {
+            if (is_single($post_id) && $template_type != "hero") {
+                return;
+            }
+
+            $thumbnail = get_template_directory_uri() . '/images/image_blank_post.gif';
+            $thumbnail_2x = get_template_directory_uri() . '/images/image_blank_post.gif';
+            $thumbnail_3x = get_template_directory_uri() . '/images/image_blank_post.gif';
+        }
+
+        $image = '<img src="' . $thumbnail . '"';
+        $image .= ( $thumbnail_2x && $thumbnail_3x ? ' srcset="' : '' ); // open srcset
+        $image .= ( $thumbnail ? $thumbnail . ' 500w ' : '' );
+        $image .= ( $thumbnail && $thumbnail_2x ? ', ' : '' );
+        $image .= ( $thumbnail_2x ? $thumbnail_2x . ' 1000w' : '' );
+        $image .= ( $thumbnail_2x && $thumbnail_3x ? ', ' : '' );
+        $image .= ( $thumbnail_3x ? $thumbnail_3x . ' 2000w' : '' );
+        $image .= ( $thumbnail_2x && $thumbnail_3x ? '"' : '' );
+        $image .= ( $class ? ' class="' . esc_attr($class) . '"' : '' );
+        $image .= ' sizes="' . $srcset_sizes . '">';
+        return $image;
+    }
+
+    function getPostViews($postID) {
+        $count_key = 'post_views_count';
+        $count = get_post_meta($postID, $count_key, true);
+        if ($count == '') {
+            delete_post_meta($postID, $count_key);
+            add_post_meta($postID, $count_key, '0');
+            return "0 View";
+        }
+        return $count . ' Views';
+    }
+
+    function setPostViews($postID) {
+        $count_key = 'post_views_count';
+        $count = get_post_meta($postID, $count_key, true);
+        if ($count == '') {
+            delete_post_meta($postID, $count_key);
+            add_post_meta($postID, $count_key, 1);
+        } else {
+            $count++;
+            update_post_meta($postID, $count_key, $count);
+        }
+    }
+
+    function most_viewed_dharma_talks() {
+        //function to set post views of dharmatalks in dtalks page
+        if (!empty($_REQUEST['postID'])) {
+            $postID = $_REQUEST['postID'];
+            setpopularpostviews($postID);
+        }
+        die();
+    }
+
+    add_action('wp_ajax_nopriv_most_viewed_dharma_talks', 'most_viewed_dharma_talks');
+    add_action('wp_ajax_most_viewed_dharma_talks', 'most_viewed_dharma_talks');
+
+    function setpopularpostviews($postID) {
+        /* Declare it at the top of single pages so that it will automatically set the post as popular */
+        global $wpdb;
+        $table = "" . $wpdb->prefix . "postview";
+        $ID = $postID;
+        $Ipv4 = $_SERVER['REMOTE_ADDR'];
+        $Date = date("Y-m-d h:i:s");
+        $wpdb->insert($table, array('post_id' => $ID, 'ipv4_hit' => $Ipv4, 'date' => $Date)
+        );
+        //echo $wpdb->last_query;
+    }
+
+    function getMostPopular($postType) {
+        global $wpdb;
+        if (!empty($postType)) {
+            /* get the most popular for magazine, single pages trikedaily and others according to post types . */
+
+            $myrows = $wpdb->get_results("select post_id, count(*) as counter from " . $wpdb->prefix . "postview  "
+                    . "INNER JOIN " . $wpdb->prefix . "posts on " . $wpdb->prefix . "postview.post_id  = " . $wpdb->prefix . "posts.ID  and  " . $wpdb->prefix . "posts.post_type = '" . $postType . "' "
+                    . "where date_format(date,'%Y-%m-%d')"
+                    . " BETWEEN date_sub(date_format(NOW(),'%Y-%m-%d'), INTERVAL 60 DAY) AND NOW()"
+                    . " group by " . $wpdb->prefix . "postview.post_id order by counter DESC ");
+            return $myrows;
+        } else {
+
+            $myrows = $wpdb->get_results("select post_id, count(*) as counter from " . $wpdb->prefix . "postview  "
+                    . "where date_format(date,'%Y-%m-%d')"
+                    . " BETWEEN date_sub(date_format(NOW(),'%Y-%m-%d'), INTERVAL 60 DAY) AND NOW()"
+                    . " group by " . $wpdb->prefix . "postview.post_id order by counter DESC ");
+            return $myrows;
+            
+        }
+    }
+
+    function getMostViewPosts($postType, $postId, $postperPage) {
+
+        if ($postType != "") {
+            $postType = $postType;
+        } else {
+            $postType = array('post', MAGAZINE_POST_TYPE, DHARMATALKS_POST_TYPE, FILM_CLUB_POST_TYPE, EBOOKS_POST_TYPE, FILM_FESTIVAL_POST_TYPE);
+        }
+
+        $viewedposts = array();
+        $viewedpostsSet = array();
+        $popularpost = new WP_Query(
+                array(
+            'posts_per_page' => $postperPage,
+            'post_type' => $postType,
+            'post_status' => 'publish',
+            'post__not_in' => array($postId),
+            'meta_key' => 'post_views_count',
+            'orderby' => 'meta_value',
+            'order' => 'DESC'
+                )
+        );
+        while ($popularpost->have_posts()) : $popularpost->the_post();
+            //$viewedposts .= '<li><h1><a href="'.get_the_permalink().'">'.get_the_title().'</a></h1></li>';
+            $topicSet = get_the_terms($postId, "topic");
+            $topicName = isset($topicSet[0]) ? $topicSet[0]->name : "";
+            $topicSlug = isset($topicSet[0]) ? $topicSet[0]->slug : "";
+
+            $viewedposts['postId'] = get_the_ID();
+            $viewedposts['postType'] = get_post_type();
+            $viewedposts['title'] = get_the_title();
+            $viewedposts['excerpt'] = get_the_excerpt();
+            $viewedposts['permalink'] = get_the_permalink();
+            $viewedposts['author_by_director'] = get_post_meta($postId, 'authors_select_metabox', true);
+            $viewedposts['author'] = get_post_meta($postId, 'authors_name_metabox', true);
+            $viewedposts['publish_date'] = get_the_date('M Y');
+            $viewedposts['topicName'] = $topicName;
+            $viewedposts['topicSlug'] = $topicSlug;
+            //$viewedposts['featured_image'] = srcset_post_thumbnail( $related_post_query->post->ID,  'image', '' );
+
+            $viewedpostsSet[] = $viewedposts;
+        endwhile;
+
+        return $viewedpostsSet;
+    }
+
+    function getRelatedPosts($postId) {
+        $allrecords = array();
+        $allrecordsSet = array();
+        $tags = wp_get_post_tags($postId);
+        if ($tags) {
+
+            $tag_ids = array();
+            foreach ($tags as $individual_tag)
+                $tag_ids[] = $individual_tag->term_id;
+            $args = array(
+                'post_type' => array('post', MAGAZINE_POST_TYPE, DHARMATALKS_POST_TYPE, FILM_CLUB_POST_TYPE, EBOOKS_POST_TYPE, FILM_FESTIVAL_POST_TYPE),
+                'tag__in' => $tag_ids,
+                'post__not_in' => array($postId),
+                'posts_per_page' => 3
+            );
+            $related_post_query = new WP_Query($args);
+
+            if ($related_post_query->have_posts()) {
+                while ($related_post_query->have_posts()) : $related_post_query->the_post();
+
+                    $topicSet = get_the_terms($postId, "topic");
+                    $topicName = isset($topicSet[0]) ? $topicSet[0]->name : "";
+                    $topicSlug = isset($topicSet[0]) ? $topicSet[0]->slug : "";
+
+                    $allrecords['postId'] = get_the_ID();
+                    $allrecords['postType'] = get_post_type();
+                    $allrecords['title'] = get_the_title();
+                    $allrecords['excerpt'] = get_the_excerpt();
+                    $allrecords['permalink'] = get_the_permalink();
+                    $allrecords['author_by_director'] = get_post_meta(get_the_ID(), 'authors_select_metabox', true);
+                    $allrecords['author'] = get_post_meta(get_the_ID(), 'authors_name_metabox', true);
+                    $allrecords['publish_date'] = get_the_date('M Y');
+                    $allrecords['topicName'] = $topicName;
+                    $allrecords['topicSlug'] = $topicSlug;
+                    //$allrecords['featured_image'] = srcset_post_thumbnail( $related_post_query->post->ID,  'image', '' );
+                    $allrecordsSet[] = $allrecords;
+                endwhile;
+
+                return $allrecordsSet;
+            }
+
+            wp_reset_query();
+        }
+    }
+
+    function revcon_change_post_label() {
+        global $menu;
+        global $submenu;
+        $menu[5][0] = 'Trike Daily';
+        $submenu['edit.php'][5][0] = 'Trike Daily';
+        $submenu['edit.php'][10][0] = 'Add Trike Daily';
+        $submenu['edit.php'][16][0] = 'Trike Daily Tags';
+        echo '';
+    }
+
+    function revcon_change_post_object() {
+        global $wp_post_types;
+        $labels = &$wp_post_types['post']->labels;
+        $labels->name = 'Trike Daily';
+        $labels->singular_name = 'Trike Daily';
+        $labels->add_new = 'Add Trike Daily';
+        $labels->add_new_item = 'Add Trike Daily';
+        $labels->edit_item = 'Edit Trike Daily';
+        $labels->new_item = 'Trike Daily';
+        $labels->view_item = 'View Trike Daily';
+        $labels->search_items = 'Search Trike Daily';
+        $labels->not_found = 'No Trike Daily found';
+        $labels->not_found_in_trash = 'No Trike Daily found in Trash';
+        $labels->all_items = 'All Trike Daily';
+        $labels->menu_name = 'Trike Daily';
+        $labels->name_admin_bar = 'Trike Daily';
+    }
+
+    add_action('admin_menu', 'revcon_change_post_label');
+    add_action('init', 'revcon_change_post_object');
+
+//limit excert length
+
+    function excerpt($limit) {
+        $excerpt = explode(' ', get_the_excerpt(), $limit);
+        if (count($excerpt) >= $limit) {
+            array_pop($excerpt);
+            $excerpt = implode(" ", $excerpt) . '.';
+        } else {
+            $excerpt = implode(" ", $excerpt);
+        }
+        return $excerpt;
+    }
+
+    function getTopicUrl($slug) {
+        echo bloginfo('url') . "/topic/" . $slug;
+    }
+
+    function getDeaprtmentUrl($slug) {
+        echo bloginfo('url') . "/department/" . $slug;
+    }
+
+    function getImagewithSrcset($imageurl, $size = 'image', $class = '', $srcset_sizes) {
+        $upload_dir = wp_upload_dir();
+        if ($imageurl) {
+            $thumbnail = $upload_dir['baseurl'] . '/' . $imageurl;
+            $thumbnail_2x = $upload_dir['baseurl'] . '/' . $imageurl;
+        } else {
+            $thumbnail = get_template_directory_uri() . '/images/img_blank.gif';
+            $thumbnail_2x = get_template_directory_uri() . '/images/img_blank.gif';
+        }
+        $image = '<img src="' . $thumbnail . '"';
+        $image .= ( $thumbnail && $thumbnail_2x ? ' srcset="' : '' ); // open srcset
+        $image .= ( $thumbnail ? $thumbnail . ' 400w' : '' );
+        $image .= ( $thumbnail && $thumbnail_2x ? ', ' : '' );
+        $image .= ( $thumbnail_2x ? $thumbnail_2x . ' 800w' : '' );
+        $image .= ( $thumbnail && $thumbnail_2x ? '"' : '' );
+        $image .= ( $class ? ' class="' . esc_attr($class) . '"' : '' );
+        $image .= ' sizes="' . $srcset_sizes . '">';
+        return $image;
+    }
+
+    function getAuthorDetail($postId, $byline, $anchor, $bio = 0) {
+        $anchor = 1;
+        if (!function_exists("get_coauthors")) {
+            return;
+        }
+
+        $coauthors = get_coauthors($postId);
+        $byauthor = get_post_meta($postId, 'authors_name_metabox', true);
+
+        $co_authors = array();
+
+        foreach ($coauthors as $authorData) {
+            if ($anchor) {
+                $authorData->data->url = get_author_posts_url($authorData->data->ID);
+            }
+            $co_authors[] = $authorData->data;
+        }
+
+        if ($byline && $byauthor) {
+            $count = count($co_authors);
+            foreach ($co_authors as $key => $co_author) {
+                $pos = strpos($byauthor, "[author");
+
+                if ($pos === false) {
+                    if (isset($co_author->url)) {
+                        $byauthor .= " <a href='" . $co_author->url . "'>" . $co_author->display_name . "</a>";
+                    } else {
+                        $byauthor .= " " . $co_author->display_name;
+                    }
+                } else {
+                    if (isset($co_author->url)) {
+                        $byauthor = str_replace("[author" . ($key + 1) . "]", "<a href='" . $co_author->url . "'>" . $co_author->display_name . "</a>", $byauthor);
+                    } else {
+                        $byauthor = str_replace("[author" . ($key + 1) . "]", $co_author->display_name, $byauthor);
+                    }
+                }
+            }
+            return $byauthor;
+        } else if ($byline) {
+            $temp = array();
+            foreach ($co_authors as $co_author) {
+                if (isset($co_author->url)) {
+                    $temp[] = "<a href='" . $co_author->url . "'>" . $co_author->display_name . "</a>";
+                } else {
+                    $temp[] = $co_author->display_name;
+                }
+            }
+            $return_author = "By " . implode(", ", $temp);
+            return $return_author;
+        } elseif ($bio) {
+            $temp = array();
+            $bio = "";
+            foreach ($co_authors as $co_author) {
+                if (isset($co_author->url)) {
+
+                    $bio = get_the_author_meta('description', $co_author->ID);
+                    if ($bio != "") {
+                        $temp[] = "<span class='author-name'><a href='" . $co_author->url . "'>" . $co_author->display_name . "</a></span>&nbsp;" . $bio;
+                    }
+                } else {
+                    $temp[] = "<span class='author-name'>" . $co_author->display_name . "</span>&nbsp;" . $bio;
+                }
+            }
+            $return_author = implode("<br/> ", $temp);
+            return $return_author;
+        } else {
+            $temp = array();
+            foreach ($co_authors as $co_author) {
+                if (isset($co_author->url)) {
+                    $temp[] = "<a href='" . $co_author->url . "'>" . $co_author->display_name . "</a>";
+                } else {
+                    $temp[] = $co_author->display_name;
+                }
+            }
+            $return_author = implode(", ", $temp);
+            return $return_author;
+        }
+    }
+    ?>
+
+    <?php
+
+    function loadAdvOptions() {
+        $Ad = "";
+        $location = $_POST['location'];
+        if (!empty($_REQUEST['location'])) {
+            $location = $_REQUEST['location'];
+            $home_ad_details = get_option($location . "option_key");
+            $home_ad_details;
+            $home_ad_data = json_decode($home_ad_details);
+            //pr($home_ad_data);
+            if (!empty($home_ad_data)) {
+                $ad_type = $home_ad_data->ad_type;
+            } else {
+                $ad_type = "";
+            }
+        }
+        //$ad_type = $_POST['ad_type'];
+        //keeping common for all the values that dont have daily dharma 
+        $radiooption['homepage_ad1_'] = array(
+            array("key" => "home_page_ad_type", "value" => "google_dfp", "label" => "Paid Ad / House ad"),
+            array("key" => "home_page_ad_type", "value" => "newsletter_signup", "label" => "Newsletter Signup"),
+            array("key" => "home_page_ad_type", "value" => "tricycle_subscribe_module", "label" => "Tricycle Subscribe module"),
+            array("key" => "home_page_ad_type", "value" => "display_nothing", "label" => "Displaying nothing")
+        );
+        $radiooption['homepage_ad2_'] = $radiooption['homepage_ad1_'];
+
+        //keeping common for all the values that has daily dharma 
+        $radiooption['topics_ad1_'] = array(
+            array("key" => "home_page_ad_type", "value" => "google_dfp", "label" => "Paid Ad / House ad"),
+            array("key" => "home_page_ad_type", "value" => "newsletter_signup", "label" => "Newsletter Signup"),
+            array("key" => "home_page_ad_type", "value" => "tricycle_subscribe_module", "label" => "Tricycle Subscribe module"),
+            array("key" => "home_page_ad_type", "value" => "display_nothing", "label" => "Displaying nothing"),
+            array("key" => "home_page_ad_type", "value" => "daily_dharma", "label" => "Daily Dharma")
+        );
+        $radiooption['topics_ad2_'] = $radiooption['topics_ad1_'];
+        $radiooption['magazine_ad_'] = $radiooption['topics_ad1_'];
+        $radiooption['magazine_archive_ad_'] = $radiooption['topics_ad1_'];
+        $radiooption['trikedaily_ad1_'] = $radiooption['topics_ad1_'];
+        $radiooption['trikedaily_ad2_'] = $radiooption['topics_ad1_'];
+        $radiooption['ebooks_ad1_'] = $radiooption['topics_ad1_'];
+        $radiooption['ebooks_ad2_'] = $radiooption['topics_ad1_'];
+        $radiooption['dharmatalks_ad1_'] = $radiooption['topics_ad1_'];
+        $radiooption['dharmatalks_ad2_'] = $radiooption['topics_ad1_'];
+        $radiooption['dharmatalks_archive_ad_'] = $radiooption['topics_ad1_'];
+        $radiooption['filmclub_ad1_'] = $radiooption['topics_ad1_'];
+        $radiooption['filmclub_ad2_'] = $radiooption['topics_ad1_'];
+        $radiooption['filmclub_archive_ad_'] = $radiooption['topics_ad1_'];
+        $radiooption['tags_ad1_'] = $radiooption['topics_ad1_'];
+        $radiooption['tags_ad2_'] = $radiooption['topics_ad1_'];
+        $radiooption['authors_ad1_'] = $radiooption['topics_ad1_'];
+        $radiooption['authors_ad2_'] = $radiooption['topics_ad1_'];
+        $radiooption['departments_ad1_'] = $radiooption['topics_ad1_'];
+        $radiooption['departments_ad2_'] = $radiooption['topics_ad1_'];
+        $radiooption['pages_'] = $radiooption['topics_ad1_'];
+        $radiooption['square_ad_'] = array(
+            array("key" => "home_page_ad_type", "value" => "google_dfp", "label" => "Paid Ad / House ad"));
+        
+        if (!empty($radiooption[$location])) {
+            foreach ($radiooption[$location] as $data) {
+                $key = $data['key'];
+                $value = $data['value'];
+                $label = $data['label'];
+                $ad_type;
+                $flag = ($ad_type == $value) ? "checked" : "ch";
+                $Ad .='<label><input type="radio" ' . $flag . ' value = "' . $value . '" name="' . $key . '" class="advertisement"/> ' . $label . '</label><div class="clear"></div>';
+                ?>
+
+
+            <?php
+            }
+        }
+
+        if (!empty($_REQUEST['location'])) {
+            $location = $_REQUEST['location'];
+        }
+        $home_ad_details = get_option($location . "option_key");
+        $result = array("html" => $Ad, "addetail" => json_decode($home_ad_details));
+        echo json_encode($result);
+        die();
+    }
+
+    add_action('wp_ajax_nopriv_loadAdvOptions', 'loadAdvOptions');
+    add_action('wp_ajax_loadAdvOptions', 'loadAdvOptions');
+
+// function for load more for taxonomy tag categories in wordpress
+    function loadmoreajax() {
+        echo '<div class = "Load-More">';
+        global $post;
+        //get the data from ajax() call
+        $postId = json_decode($_POST['postId']);
+        $tax_name = $_POST['taxname'];
+        $taxonomy = $_POST['taxonomy'];
+        $args = array(
+            'post_type' => array('post', MAGAZINE_POST_TYPE, DHARMATALKS_POST_TYPE, FILM_CLUB_POST_TYPE, EBOOKS_POST_TYPE, FILM_FESTIVAL_POST_TYPE),
+            'tax_query' => array(
+                'relation' => 'AND',
+                array(
+                    'taxonomy' => $taxonomy,
+                    'field' => 'slug',
+                    'terms' => $tax_name,
+                    'operator' => 'IN',
+                ),
+            ),
+            'post_status' => 'publish',
+            'post__not_in' => $postId,
+            'order' => 'DESC',
+            'orderby' => 'date',
+            'posts_per_page' => 12,
+        );
+        $eq_query = new WP_Query($args);
+        $eq_count_post = $eq_query->found_posts; //TO CALCULATE THE TOTAL POST AVAILABLE
+        //echo "<div class = 'landing-stack'>";
+        while ($eq_query->have_posts()): $eq_query->the_post();
+            $post_type = get_post_type();
+            $topics = get_topics_by_post_id(get_the_ID());
+            $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+            $issues = get_issues_by_post_id($post->ID);
+            $issues_names_without_urls = $issues && isset($issues['names_without_urls']) ? implode(", ", $issues['names_without_urls']) : "";
+            $postValues = get_post_type_object($post_type);
+            $labels = $postValues->labels; //to fetch the menu name
+            $postMenuName = $labels->menu_name;
+            $postTypeLink = get_post_type_archive_link($post_type);
+            if ($post_type == "post") {
+                $post_type = "trikedaily";
+                $postMenuName = "Trike Daily";
+                $postTypeLink = get_permalink(get_page_id_by_slug(TRIKE_DAILY_SLUG));
+            }
+            $postId[] = get_the_ID();
+            ?>
+            <article class='<?php echo $post_type; ?>'>
+                <section class = 'rubric <?php echo $post_type; ?>'>
+                    <a class = 'icon icon-dept_<?php echo $post_type; ?>' href = '<?php echo $postTypeLink; ?>'></a>
+                    <h2 class = '<?php echo $post_type; ?>'><a href = '<?php echo $postTypeLink ?>'>
+            <?php echo $postMenuName; ?></a><span class = 'topic'><?php echo $topic_urls; ?></span></h2>
+                </section>
+                <figure>
+                    <a href='<?php the_permalink(); ?>'>
+            <?php if ($post_type == FILM_CLUB_POST_TYPE || $post_type == DHARMATALKS_POST_TYPE || $post_type == FILM_FESTIVAL_POST_TYPE) {
+                ?>
+                    <div class='icon-video_play' data-grunticon-embed></div>
+                    
+            <?php } ?>
+
+            <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 37.5em) 25vw, 100vw'); ?>
+                    </a>
+                </figure>
+                <section class = 'titles'>
+                    <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                    <p><?php echo excerpt(35); ?></p>
+        <?php if ($post_type != EBOOKS_POST_TYPE) { // as we dont need author and time for ebooks
+            ?>
+                        <address><?php echo getAuthorDetail(get_the_ID(), 1, 0); ?></address><time><?php echo ($post_type == MAGAZINE_POST_TYPE) ? $issues_names_without_urls : (($post_type == "trikedaily") ? get_the_date('M d, Y') : get_the_date('M Y')); ?></time>
+                        <?php } ?>
+                </section>
+            </article>
+                        <?php
+                        $eq_count_post--;
+                    endwhile;
+                    wp_reset_query();
+                    ?>
+
+                <?php if ($eq_count_post > "0") {
+                    ?>
+            <div class='more'>
+                <div id="loadingimage" style="position:relative"></div>
+                <input type="hidden" name="postId" id="postId" value="<?php echo json_encode($postId); ?>" />
+                <input type="hidden" name="taxonomy" id="taxonomy" value="<?php echo $taxonomy ?>" />
+                <input type="hidden" name="taxname" id="taxname" value="<?php echo $tax_name; ?>" />
+                <a href='javascript:void(0)' id="PleaseLoadMore" onclick="loadmoretopic()">Load More</a>
+            </div>
+            <?php
+        }
+        die();
+        echo "</div>";
+    }
+
+// creating Ajax call for WordPress
+    add_action('wp_ajax_nopriv_loadmoreajax', 'loadmoreajax');
+    add_action('wp_ajax_loadmoreajax', 'loadmoreajax');
+
+    /* load more functionality in archive pages ebooks dharmatalks and filmclub */
+
+    function archiveloadmore() {
+        $postId = json_decode($_POST['postId']);
+        $posttype = $_POST['posttype'];
+        $searchYear = $_POST['searchyear'];
+        $args = array(
+            'posts_per_page' => 12,
+            'orderby' => 'post_date',
+            'order' => 'DESC',
+            'year' => $searchYear,
+            'post_type' => $posttype,
+            'post_status' => 'publish',
+            'suppress_filters' => true,
+            'post__not_in' => $postId,
+        );
+
+        $queryfirst = new WP_Query($args);
+        ?>
+        <?php
+        $childitemStr = "";
+        $eq_total_posts = $queryfirst->found_posts;
+        while ($queryfirst->have_posts()) : $queryfirst->the_post();
+            $postId[] = $queryfirst->post->ID;
+            $publish_date = get_the_date('M Y');
+            $topics = get_topics_by_post_id(get_the_ID());
+            $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+
+            $childitemStr .= "<div class='archive-item'>";
+            $childitemStr .="<figure class='archive-cover_" . $posttype . "'>";
+            $childitemStr .='<a href="' . get_the_permalink() . '">';
+            if ($posttype == FILM_CLUB_POST_TYPE || $posttype == DHARMATALKS_POST_TYPE || $posttype == FILM_FESTIVAL_POST_TYPE) {
+                $childitemStr .='<div class="icon-video_play" style="background-image: none; height: 200px;"><svg viewBox="400.5 30.5 60 60" height="60" width="60" xmlns="http://www.w3.org/2000/svg" id="Layer_1"><style> .st0{fill:#129488;} .st1{fill:#FFFFFF;} .st2{fill:#00214A;} .st3{fill:#006D44;} .st4{fill:#6F133B;} .st5{fill:#400F61;}</style><path d="M430.5 89.5c16.02 0 29-12.98 29-29s-12.98-29-29-29-29 12.98-29 29 12.98 29 29 29" id="video-fill"/><path d="M421.83 75.83l24.96-15.33-24.96-15.33z" class="st1" id="video-play"/><path id="video-outline" d="M430.5 90.5c-16.54 0-30-13.46-30-30s13.46-30 30-30 30 13.46 30 30-13.46 30-30 30zm0-57.01c-14.89 0-27.01 12.12-27.01 27.01s12.12 27.01 27.01 27.01 27.01-12.12 27.01-27.01-12.12-27.01-27.01-27.01z" class="st1"/></svg></div>';
+            }
+            $childitemStr .= srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,100vw');
+            $childitemStr .='</a>';
+            $childitemStr .='</figure>';
+
+            $childitemStr .= "<header class='archive-titles'>";
+            if ($posttype != "ebooks") {
+                $childitemStr .= "<time>" . $publish_date . "</time>";
+            }
+            $childitemStr .= "<h2 class='topic " . $posttype . "'>" . $topic_urls . "</h2>";
+            $childitemStr .="<h1><a href='" . get_the_permalink() . "'>" . the_title("", "", false) . "</a></h1>";
+            if ($posttype != "ebooks") {
+                $childitemStr .="<address>" . getAuthorDetail(get_the_ID(), 0, 0) . "</address>";
+            }
+            $childitemStr .="</header>";
+            $childitemStr .="</div>";
+
+            $eq_total_posts--;
+        endwhile;
+        wp_reset_query();
+        ?>
+
+        <?php
+        $pagingStr = '';
+        if ($eq_total_posts > "1") {
+            /* condition to check if it still has post */
+            $pagingStr .="<div class='more " . $posttype . "'>";
+            $pagingStr .="<input type='hidden' name='postId' id='postId' value='" . json_encode($postId) . "' />";
+            $pagingStr .="<input type='hidden' name='posttype' id='posttype' value='" . $posttype . "' />";
+            $pagingStr .="<input type='hidden' name='searchyear' id='searchyear' value='" . $searchYear . "' />";
+            $pagingStr .="<a href='javascript:void(0)' id='archiveloadmore' onclick='loadmorearchive()'>Load More</a>";
+            $pagingStr .="</div>";
+        }
+
+        header('Content-Type: application/json');
+        $resp = array('html' => trim($childitemStr), 'pager' => trim($pagingStr));
+        echo trim(json_encode($resp));
+        die();
+    }
+
+    add_action('wp_ajax_nopriv_archiveloadmore', 'archiveloadmore');
+    add_action('wp_ajax_archiveloadmore', 'archiveloadmore');
+
+    function MagazineLoadMore() {
+        $topics_termid = json_decode($_POST['Topicstermid']);
+        $oldyear = $_REQUEST['oldyear'];
+        $topicsfinal = get_magazine_issue_terms();
+        $count = 0;
+        $childStr = "";
+        $pageHtml = "";
+        foreach ($topicsfinal as $topics) {
+            $t_id = $topics->term_id;
+            $year = preg_replace("/[^0-9]/", '', $topics->name);
+            if (!empty($oldyear)) { //condition to check whene browsing year is there ........
+                if ($year > $oldyear) {
+                    continue;
+                }
+            }
+            $term_meta = get_option("taxonomy_term_$t_id");
+            $magazine_issue_cover_image = $term_meta['cover_image'];
+            /* to escape the id's that are already present above */
+            if (in_array($topics->term_id, $topics_termid)) {
+                continue;
+            } else {
+                if ($count == '12') {
+                    break;
+                }
+                $pageHtml .="<div class='archive-item'>";
+                $term_link = get_term_link($topics);
+                $topics_termid[] = intval($topics->term_id);
+                $pageHtml .="<a href='" . $term_link . "'>";
+                $pageHtml .="<figure class='archive-cover_magazine'>";
+                $pageHtml .=getImagewithSrcset($magazine_issue_cover_image, 'image', '', '(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,75vw');
+                $pageHtml .="</figure>";
+                $pageHtml .="<header class='archive-titles'>";
+                $topicsTermId[] = $topics->term_id;
+                $pageHtml .="<time class='h2'>" . $topics->name . "<span class='vol-no'>";
+                if (!empty($term_meta['volume'])) {
+                    $pageHtml .="Volume " . $term_meta['volume'] . ", ";
+                }
+                if (!empty($term_meta['number'])) {
+                    $pageHtml .="Number " . $term_meta['number'] . ", ";
+                } else {
+                    $pageHtml .="<br>";
+                }
+                $pageHtml .="</span></time>";
+                $pageHtml .="</header>";
+                $pageHtml .="</a>";
+                $pageHtml .="</div>";
+                $count++;
+            }
+        }
+        $pagingHtml = "";
+        //$imageloader = get_template_directory_uri() . '/loading_spinner.gif';
+        if ($count == "12") {
+            $pagingHtml .="<div id='loadingimage' style='position:relative'></div>";
+            $pagingHtml .="<div class='more magazine'>";
+            $pagingHtml .="<input type='hidden' name='TopicstermId' id='TopicstermId' value='" . json_encode($topics_termid) . "' />";
+            $pagingHtml .="<input type='hidden' name='oldyear' id='oldyear' value='" . $oldyear . "' />";
+            $pagingHtml .="<a class='button' href='javascript:void(0)' id='loadmoremagazine' onclick='LoadMoreMagazine()'>Load More</a>";
+            $pagingHtml .="</div>";
+        }
+        header('Content-Type: application/json');
+        $respnew = array('html' => trim($pageHtml), 'pager' => trim($pagingHtml));
+        echo trim(json_encode($respnew));
+        die();
+    }
+
+    add_action('wp_ajax_nopriv_MagazineLoadMore', 'MagazineLoadMore');
+    add_action('wp_ajax_MagazineLoadMore', 'MagazineLoadMore');
+
+    function TrikeDailyLoadMore() {
+        $postId = json_decode($_POST['postId']);
+        //pr($postId);
+        $args = array(
+            'post_type' => array('post'),
+            'post__not_in' => $postId,
+            'post_status' => 'publish',
+            'order' => 'DESC',
+            'orderby' => 'date',
+            'posts_per_page' => 12,
+        );
+        $eq_query = new WP_Query($args);
+        $eq_count = $eq_query->found_posts;
+        while ($eq_query->have_posts()): $eq_query->the_post();
+            $topics = get_topics_by_post_id(get_the_ID());
+            $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+            $postId[] = get_the_ID();
+            ?>
+            <article class = 'trikedaily'>
+                <section class = 'rubric trikedaily'>
+                    <h2 class = 'trikedaily'>
+                    <?php
+                    get_trikedaily_department(get_the_ID());
+                    ?>
+                        <span class = 'topic'><?php echo $topic_urls; ?></span></h2>
+                </section>
+                <figure>
+                    <a href = '<?php the_permalink(); ?>'>
+                     <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 37.5em) 25vw,100vw'); ?>
+                    </a>
+                </figure>
+                <section class = 'titles'>
+                    <h1><a href = '<?php the_permalink(); ?>'><?php echo get_the_title();
+                     ?></a></h1>
+                    <p><?php the_excerpt(); ?></p>
+                    <address><?php echo getAuthorDetail(get_the_ID(), 1, 0); ?></address><time><?php echo get_the_date('M d, Y'); ?></time>
+                </section>
+            </article>
+
+        <?php
+        $eq_count--;
+    endwhile;
+    wp_reset_query();
+    ?>
+    <?php if ($eq_count > 0) { ?>
+            <div class = 'more trikedaily'>
+                <div id="loadingimage" style="position:relative"></div>
+                <input type="hidden" name="postId" id="postId" value="<?php echo json_encode($postId); ?>">
+                    <a href='javascript:void(0)' id="trikedailyloadmore" onclick="LoadMoreTrikedaily()">Load More</a>
+            </div>
+        <?php
+    }
+    die();
+}
+
+add_action('wp_ajax_nopriv_TrikeDailyLoadMore', 'TrikeDailyLoadMore');
+add_action('wp_ajax_TrikeDailyLoadMore', 'TrikeDailyLoadMore');
+
+/* load more author function */
+
+function LoadMoreAuthor() {
+    global $post;
+    $postId = json_decode($_POST['postId']);
+    $authorId = $_POST['authorId'];
+    $args = array(
+        'post_type' => array('post'),
+        'author' => $authorId,
+        'post_status' => 'publish',
+        'order' => 'ASC',
+        'orderby' => 'date',
+        'posts_per_page' => 12,
+        'post__not_in' => $postId,
+    );
+    $eq_query = new WP_Query($args);
+    $eq_count = $eq_query->found_posts;
+    while ($eq_query->have_posts()): $eq_query->the_post();
+        $post_type = get_post_type();
+        $postValues = get_post_type_object($post_type);
+        $labels = $postValues->labels; //to fetch the menu name
+        $postMenuName = $labels->menu_name;
+        $post_link = get_post_type_archive_link($post_type);
+
+        if ($post_type == "post") {
+            $post_type = "trikedaily";
+            $postMenuName = "Trike Daily";
+            $post_link = get_permalink(get_page_id_by_slug(TRIKE_DAILY_SLUG));
+        }
+        $topics = get_topics_by_post_id(get_the_ID());
+        $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+        $postId[] = $post->ID;
+        ?>
+
+            <article class = '<?php echo $post_type; ?>' >
+                <section class = 'rubric <?php echo $post_type; ?>'>
+                    <a class = 'icon icon-dept_<?php echo $post_type; ?>' href = '<?php echo $post_link; ?>'></a>
+                    <h2 class = '<?php echo $post_type; ?>'><a href = '<?php echo $post_link; ?>'><?php echo $postMenuName; ?></a>
+                        <span class = 'topic'><?php echo $topic_urls; ?></span></h2>
+                </section>
+                <figure>
+                    <a href = '<?php the_permalink(); ?>'>
+                    <?php if ($post_type == DHARMATALKS_POST_TYPE || $post_type == FILM_CLUB_POST_TYPE || $post_type == FILM_FESTIVAL_POST_TYPE) { ?>
+                                    <div class="icon-video_play" style="background-image: none; height: 160px;"><svg viewBox="400.5 30.5 60 60" height="60" width="60" xmlns="http://www.w3.org/2000/svg" id="Layer_1"><style> .st0{fill:#129488;} .st1{fill:#FFFFFF;} .st2{fill:#00214A;} .st3{fill:#006D44;} .st4{fill:#6F133B;} .st5{fill:#400F61;}</style><path d="M430.5 89.5c16.02 0 29-12.98 29-29s-12.98-29-29-29-29 12.98-29 29 12.98 29 29 29" id="video-fill"/><path d="M421.83 75.83l24.96-15.33-24.96-15.33z" class="st1" id="video-play"/><path id="video-outline" d="M430.5 90.5c-16.54 0-30-13.46-30-30s13.46-30 30-30 30 13.46 30 30-13.46 30-30 30zm0-57.01c-14.89 0-27.01 12.12-27.01 27.01s12.12 27.01 27.01 27.01 27.01-12.12 27.01-27.01-12.12-27.01-27.01-27.01z" class="st1"/></svg></div>
+                    <?php }
+                    echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 50em) 33vw,100vw'); ?>
+                    </a>
+                </figure>
+                <section class = 'titles'>
+                    <h1><a href = '<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                    <p><?php
+                if ($post_type != 'dharmatalks') {
+                    if ($post_type == "filmclub") {
+                        echo "";
+                    } else {
+                        the_excerpt();
+                    }
+                }
+                ?></p>
+                <?php if ($post_type != EBOOKS_POST_TYPE) { // as we dont need author and time for ebooks
+                    ?>
+                <address><?php echo getAuthorDetail(get_the_ID(), 1, 0); ?></address><time><?php echo ($post_type == MAGAZINE_POST_TYPE) ? $issues_names_without_urls : (($post_type == "trikedaily") ? get_the_date('M d, Y') : get_the_date('M Y')); ?></time>
+                <?php } ?>
+                </section>
+            </article>
+            <?php
+            $eq_count--;
+            endwhile;
+            wp_reset_query();
+
+            if ($eq_count > 0) {
+            ?>
+            <div class='more'>
+            <?php $postId = json_encode($postId); ?>
+            <!-- tax name, post type, url, post id's -->
+            <div id="loadingimage" style="position:relative"></div>
+            <input type="hidden" name="postId" id="postId" value="<?php echo $postId; ?>" > 
+            <input type="hidden" name="authorId" id="authorId" value="<?php echo $authorId; ?>" >
+            <a href='javascript:void(0)' id="LoadMore" onclick='LoadMoreAuthor()'>Load More</a>
+            </div>
+            <?php
+        }
+
+        die();
+    }
+
+    add_action('wp_ajax_nopriv_LoadMoreAuthor', 'LoadMoreAuthor');
+    add_action('wp_ajax_LoadMoreAuthor', 'LoadMoreAuthor');
+
+    function custom_post_author_archive($query) {
+        if ($query->is_author() && $query->is_main_query()) {
+            $query->set('post_type', array('post', MAGAZINE_POST_TYPE, DHARMATALKS_POST_TYPE, FILM_CLUB_POST_TYPE, EBOOKS_POST_TYPE, FILM_FESTIVAL_POST_TYPE));
+            $author = get_user_by('slug', get_query_var('author_name'));
+//$query->set("meta_query", array( array("key"=>"custom_authors_id_meta_key", "value"=>$author->ID)));
+//$query->set("meta_key", "custom_authors_id_meta_key");
+//$query->set("meta_value", $author->ID);
+        } else if ($query->is_tag() && $query->is_main_query()) {
+            $query->set('post_type', array('post', MAGAZINE_POST_TYPE, DHARMATALKS_POST_TYPE, FILM_CLUB_POST_TYPE, EBOOKS_POST_TYPE, FILM_FESTIVAL_POST_TYPE));
+        }
+    }
+
+    add_action('pre_get_posts', 'custom_post_author_archive');
+
+    /**
+     * This function returns the topics details of a post.
+     * @param Integer $post_id
+     * @return Array
+     */
+    function get_topics_by_post_id($post_id) {
+        $topics = get_the_terms($post_id, TOPIC_TAXONOMY);
+        $topic_urls = array();
+        $topic_without_urls = array();
+        $topic_details = array();
+        $return_topic_detail = array();
+        if ($topics) {
+            if ($topics && !is_wp_error($topics)):
+                foreach ($topics as $key => $topic) {
+                    $term_url = get_term_link($topic);
+                    $topic_details[$key]['term_id'] = $topic->term_id;
+                    $topic_details[$key]['name'] = $topic->name;
+                    $topic_details[$key]['url'] = $term_url;
+                    $topic_urls[] = "<a href='" . $term_url . "'>" . $topic->name . "</a>";
+                    $topic_without_urls[] = $topic->name;
+                }
+                $return_topic_detail['details'] = $topic_details;
+                $return_topic_detail['names_with_urls'] = $topic_urls;
+                $return_topic_detail['names_without_urls'] = $topic_without_urls;
+            endif;
+        }
+        return $return_topic_detail;
+    }
+
+    /**
+     * This function returns the issues details of a post.
+     * @param Integer $post_id
+     * @return Array
+     */
+    function get_issues_by_post_id($post_id) {
+        $issues = get_the_terms($post_id, MAGAZINE_POST_ISSUE_TAXONOMY);
+        $issue_urls = array();
+        $issues_without_urls = array();
+        $issue_details = array();
+        $return_issue_detail = array();
+        if ($issues) {
+            if ($issues && !is_wp_error($issues)):
+                foreach ($issues as $key => $issue) {
+                    $term_url = get_term_link($issue);
+                    $issue_details[$key]['term_id'] = $issue->term_id;
+                    $issue_details[$key]['name'] = $issue->name;
+                    $issue_details[$key]['url'] = $term_url;
+                    $issue_urls[] = "<a href='" . $term_url . "'>" . $issue->name . "</a>";
+                    $issues_without_urls[] = $issue->name;
+                }
+                $return_issue_detail['details'] = $issue_details;
+                $return_issue_detail['names_with_urls'] = $issue_urls;
+                $return_issue_detail['names_without_urls'] = $issues_without_urls;
+            endif;
+        }
+        return $return_issue_detail;
+    }
+
+    /* to get the subdepartment in magazine post */
+
+    function get_the_sub_department($postId, $department) {
+        $Department = get_the_terms($postId, $department);
+        $dept = array();
+        if (!empty($Department)) {
+            foreach ($Department as $department) {
+                if ($department->parent != 0) {
+                    $dept[] = '<a href="' . get_term_link($department) . '">' . $department->name . '</a>';
+                }
+            }
+            echo implode(", ", $dept);
+        }
+    }
+
+    function get_filmfest_department($postId, $department) {
+        $Department = get_the_terms($postId, $department);
+        $dept = array();
+        if (!empty($Department)) {
+            foreach ($Department as $filmfestdepartment) {
+                $dept[] = $filmfestdepartment->name;
+            }
+        }
+        echo implode(", ", $dept);
+    }
+
+    /* to get the department in trike daily */
+
+    function get_trikedaily_department($postId) {
+        $Category = get_the_category($postId);
+        $dept = array();
+        if (!empty($Category)) {
+            foreach ($Category as $category) {
+                $categoryLink = get_term_link($category);
+                $dept[] = '<a href="' . $categoryLink . '">' . $category->name . '</a>';
+            }
+            echo implode(", ", $dept);
+        }
+    }
+
+    define("DHARMA_TALKS_ARCHIVE_PAGE_SLUG", "dharmatalks-archive");
+
+    /**
+     * This function shows the latest blog/trike daily post.
+     * @param integer $number_of_posts
+     */
+    function show_latest_trike_daily($number_of_posts = 1) {
+        ?>
+                    <section class='aside-trikedaily'>
+                        <header class='rubric_small'>
+                            <h1><a href='<?php echo get_permalink(get_page_id_by_slug(TRIKE_DAILY_SLUG)); ?>'><span class='icon icon-dept_trikedaily'></span>Trike Daily</a></h1>
+                            <p>Daily wisdom, teachings &amp; critique</p>
+                        </header>
+                        <main>
+                    <?php
+                    $results = new WP_Query(array("post_type" => "post", "posts_per_page" => $number_of_posts));
+                    while ($results->have_posts()) : $results->the_post();
+                        $topics = get_topics_by_post_id(get_the_ID());
+                        $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                        ?>
+                                <article>
+                                    <figure>
+                                        <a href='<?php the_permalink(); ?>'>										
+                        <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 50em) 33vw,100vw'); ?>
+                                        </a>
+                                    </figure>
+                                    <section>
+                                        <h2 class='rubric trikedaily'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                                        <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                        <p><?php the_excerpt() ?></p>
+                                        <address><?php echo getAuthorDetail(get_the_ID(), 1, 0); ?></address>
+                                        <time><?php the_date('M d, Y'); ?></time>
+                                    </section>
+                                </article>
+                                <?php
+                            endwhile;
+                            wp_reset_query();
+                            wp_reset_postdata();
+                            ?>
+                        </main>
+                        <div class='rule-responsive'></div>
+                    </section>
+    <?php
+}
+
+/**
+ * This function shows the latest magazine issue article
+ * @param integer $number_of_posts
+ */
+function show_latest_magazine_article($number_of_posts = 1) {
+    ?>
+                    <section class='aside-magazine'>
+                        <header class='rubric_small'>
+                            <h1><a href='<?php echo get_post_type_archive_link(MAGAZINE_POST_TYPE); ?>'><span class='icon icon-dept_magazine'></span>Magazine</a></h1>
+                            <p>The Buddhist Review</p>
+                        </header>
+                        <main>
+                    <?php
+                    $results = new WP_Query(array("post_type" => MAGAZINE_POST_TYPE, "posts_per_page" => $number_of_posts));
+                    while ($results->have_posts()) : $results->the_post();
+                        $topics = get_topics_by_post_id(get_the_ID());
+                        $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+
+                        $issues = get_issues_by_post_id(get_the_ID());
+                        $issues_names_without_urls = $issues && isset($issues['names_without_urls']) ? implode(", ", $issues['names_without_urls']) : "";
+                        ?>
+                                <article>
+                                    <figure>
+                                        <a href='<?php the_permalink(); ?> '>
+                        <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 50em) 33vw,100vw'); ?>
+                                        </a>
+                                    </figure>
+                                    <section>
+                                        <h2 class='rubric magazine'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                                        <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                        <p><?php the_excerpt(); ?></p>
+                                        <address><?php echo getAuthorDetail(get_the_ID(), 1, 0); ?></address>
+                                        <time><?php echo $issues_names_without_urls; ?></time>
+                                    </section>
+                                </article>
+                                <?php
+                            endwhile;
+                            wp_reset_query();
+                            wp_reset_postdata();
+                            ?>
+                        </main>
+                        <div class='rule-responsive'></div>
+                    </section>
+    <?php
+}
+
+/**
+ * This function shows the latest dharma talk.
+ * @param integer $number_of_posts
+ */
+        function show_latest_dharma_talks($number_of_posts = 1) {
+        ?>
+                    <section class='aside-dharmatalks'>
+                        <header class='rubric_small'>
+                            <h1><a href='<?php echo get_post_type_archive_link(DHARMATALKS_POST_TYPE); ?>'><span class='icon icon-dept_dharmatalks'></span>Dharma Talks</a></h1>
+                            <p>Video teachings and discussions with contemporary Buddhist teachers</p>
+                        </header>
+                    <main>
+                    <?php
+                    $results = new WP_Query(array("post_type" => DHARMATALKS_POST_TYPE, "posts_per_page" => $number_of_posts));
+                    while ($results->have_posts()) : $results->the_post();
+                        $topics = get_topics_by_post_id(get_the_ID());
+                        $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                        ?>
+                            <article>
+                                <figure>
+                                    <a href='<?php the_permalink(); ?>'>
+                                    <div class='icon-video_play' data-grunticon-embed></div>
+                                    <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 50em) 33vw,100vw'); ?>
+                                    </a>
+                                </figure>
+                                <section>
+                                    <h2 class='rubric dharmatalks'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                                    <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                    <address><?php echo getAuthorDetail(get_the_ID(), 0, 0); ?></address>
+                                    <time><?php echo get_the_time('M Y'); ?></time>
+                                </section>
+                            </article>
+                                <?php
+                            endwhile;
+                            wp_reset_query();
+                            wp_reset_postdata();
+                            ?>
+                    </main>
+                        <div class='rule-responsive'></div>
+                    </section>
+                <?php
+            }
+
+/**
+ * This function shows the latest e-books.
+ * @param integer $number_of_posts
+ */
+function show_latest_ebooks($number_of_posts = 1) {
+    ?>
+                    <section class = 'aside-ebooks'>
+                        <header class = 'rubric_small'>
+                            <h1><a href ='<?php echo get_post_type_archive_link(EBOOKS_POST_TYPE); ?>'><span class = 'icon icon-dept_ebooks'></span>E-Books</a></h1>
+                            <p>Tricycle wisdom in e-book format</p>
+                        </header>
+
+                        <main>
+                    <?php
+                    $results = new WP_Query(array("post_type" => EBOOKS_POST_TYPE, "posts_per_page" => $number_of_posts));
+                    while ($results->have_posts()) : $results->the_post();
+                        $topics = get_topics_by_post_id(get_the_ID());
+                        $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                        ?>
+                                <article>
+                                    <figure>
+                                        <a href='<?php the_permalink(); ?>'>
+        <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,75vw'); ?>	
+                                        </a>
+                                    </figure>
+                                    <section>
+                                        <h2 class='rubric ebooks'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                                        <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                        <p><?php the_excerpt(); ?></p>
+                                    </section>
+                                </article>
+                                <?php
+                            endwhile;
+                            wp_reset_query();
+                            wp_reset_postdata();
+                            ?>
+                        </main>
+                        <div class='rule-responsive'></div>
+                    </section>
+    <?php
+}
+
+/**
+ * This function shows the latest film-club.
+ * @param integer $number_of_posts
+ */
+function show_latest_filmclub($number_of_posts = 1) {
+    ?>
+                    <section class='aside-filmclub'>
+                        <header class='rubric_small'>
+                            <h1><a href='<?php echo get_post_type_archive_link(FILM_CLUB_POST_TYPE); ?>'><span class='icon icon-dept_filmclub'></span>Film Club</a></h1>
+                            <p>Buddhist films and discussion for the Tricycle Community</p>
+                        </header>
+                        <main>
+                    <?php
+                    $results = new WP_Query(array("post_type" => FILM_CLUB_POST_TYPE, "posts_per_page" => $number_of_posts));
+                    while ($results->have_posts()) : $results->the_post();
+                        $topics = get_topics_by_post_id(get_the_ID());
+                        $topic_urls = $topics && isset($topics['names_with_urls']) ? implode(", ", $topics['names_with_urls']) : "";
+                        ?>
+                                <article>
+                                    <figure>
+                                        <a href='<?php the_permalink(); ?>'>
+                                            <div class='icon-video_play' data-grunticon-embed></div>
+        <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 50em) 33vw,100vw'); ?>
+                                        </a>
+                                    </figure>
+                                    <section>
+                                        <h2 class='rubric filmclub'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+                                        <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                        <p><?php the_excerpt(); ?></p>
+                                        <address><?php echo getAuthorDetail(get_the_ID(), 1, 0); ?></address>
+                                    </section>
+                                </article>
+                                <?php
+                            endwhile;
+                            wp_reset_query();
+                            wp_reset_postdata();
+                            ?>
+                        </main>
+                        <div class='rule-responsive'></div>
+                    </section>
+    <?php
+}
+
+define("BEHIND_THE_PAYWALL_META_KEY", "behind_the_paywall");
+
+function add_paywall_meta_box($postType) {
+    $types = array('post', MAGAZINE_POST_TYPE, DHARMATALKS_POST_TYPE, FILM_CLUB_POST_TYPE, EBOOKS_POST_TYPE, FILM_FESTIVAL_POST_TYPE);
+    if (in_array($postType, $types)) {
+        add_meta_box("paywall_meta_box_" . $postType, 'Paywall', 'tricycle_paywall_meta_box', $postType, 'normal', 'high');
+    }
+}
+
+add_action('add_meta_boxes', 'add_paywall_meta_box');
+
+function tricycle_paywall_meta_box($post) {
+    $value = get_post_meta($post->ID, BEHIND_THE_PAYWALL_META_KEY, true);
+    wp_nonce_field('paywall_save_meta_box_data', 'paywall_meta_box_nonce');
+    ?>
+                    <label><input type="checkbox" value="1" name="behind_the_paywall" <?php echo ($value == 1) ? "checked" : ""; ?> />Behind the Paywall</label>
+                    <?php
+                }
+
+                function save_tricycle_paywall_meta_box_data($post_id) {
+// Check if our nonce is set.
+                    if (!isset($_POST['paywall_meta_box_nonce'])) {
+                        return;
+                    }
+
+// Verify that the nonce is valid.
+                    if (!wp_verify_nonce($_POST['paywall_meta_box_nonce'], 'paywall_save_meta_box_data')) {
+                        return;
+                    }
+
+// If this is an autosave, our form has not been submitted, so we don't want to do anything.
+                    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+                        return;
+                    }
+
+// Check the user's permissions.
+                    if (isset($_POST['post_type']) && 'page' == $_POST['post_type']) {
+                        if (!current_user_can('edit_page', $post_id)) {
+                            return;
+                        }
+                    } else {
+                        if (!current_user_can('edit_post', $post_id)) {
+                            return;
+                        }
+                    }
+
+// Sanitize user input.
+                    $behind_the_paywall_data = sanitize_text_field($_POST['behind_the_paywall']);
+
+// Update the meta field in the database.
+                    update_post_meta($post_id, BEHIND_THE_PAYWALL_META_KEY, $behind_the_paywall_data);
+                }
+
+                add_action('save_post', 'save_tricycle_paywall_meta_box_data');
+
+                function is_post_behind_paywall($post_id) {
+                    $value = get_post_meta($post_id, BEHIND_THE_PAYWALL_META_KEY, true);
+                    if ($value == 1) {
+                        return $value;
+                    } else {
+                        return 0;
+                    }
+                }
+                ?>
+                <?php
+                /* Function that will call sharethis for single pages */
+
+                function get_tool_tip_sharethis($title, $url, $post_ID) {
+                    ?>
+                    <div class = 'tools_top'>
+                        <ul>
+                            <li class="st_facebook_custom" st_title='<?php echo $title; ?>' st_url='<?php echo $url; ?>'><a class='icon icon-tools_facebook' href='javascript:void(0)' data-grunticon-embed></a></li>
+                            <li class="st_twitter_custom" st_title='<?php echo $title; ?>' st_url='<?php echo $url; ?>'><a class='icon icon-tools_twitter' href='javascript:void(0)' data-grunticon-embed></a></li>
+                            <li class="st_email_custom" st_title='<?php echo $title; ?>' st_url='<?php echo $url; ?>'><a class = 'icon icon-tools_email' href = '#' data-grunticon-embed></a></li>
+                            <li><a class ='icon icon-tools_print' onclick="window.open('<?php echo add_query_arg("pid", $post_ID, get_permalink(get_page_by_path("print"))); ?>', '', 'width=900, height=500, scrollbars=yes')"  data-grunticon-embed></a></li>
+                        </ul>
+                    </div>
+                    <?php
+                }
+
+                /* Function that will call sharethis for single pages wrap  */
+
+                function get_tool_tip_sharethis_wrap($title, $url, $post_ID) {
+                    ?>
+                    <div class = 'tools-wrap_bottom'>
+                        <ul>
+                            <li class="st_facebook_custom" st_title='<?php echo $title; ?>' st_url='<?php echo $url; ?>'><a class='icon icon-tools_facebook' href='javascript:void(0)' data-grunticon-embed></a></li>
+                            <li class="st_twitter_custom" st_title='<?php echo $title; ?>' st_url='<?php echo $url; ?>'><a class='icon icon-tools_twitter' href='javascript:void(0)' data-grunticon-embed></a></li>
+                            <li class="st_email_custom" st_title='<?php echo $title; ?>' st_url='<?php echo $url; ?>'><a class = 'icon icon-tools_email' href = '#' data-grunticon-embed></a></li>
+                            <li><a class ='icon icon-tools_print' onclick="window.open('<?php echo add_query_arg("pid", $post_ID, get_permalink(get_page_by_path("print"))); ?>', '', 'width=900, height=500, scrollbars=yes')"  data-grunticon-embed></a></li>
+                        </ul>
+                    </div>
+                    <?php
+                }
+
+                function get_paywall_login($pageclass, $title) {
+                    ?>
+                    <div class='paywall'>
+                        <div class='paywall-body <?php echo $pageclass; ?>'>
+                            <span class='icon icon-paywall_print'></span>
+                            <h1 class='p'><?php echo $title; ?></h1>
+                            <p>This article is available to subscribers only. Subscribe now for immediate access to the magazine plus video teachings, films, e-books, and more.</p>
+                            <a class='button' href='https://subscribe.tricycle.com/TRI/?f=join' target='_blank'>Subscribe Now</a>
+                            <p>Already a subscriber? Log in.</p>
+                            <form class='login-form' name='login' id="login_paywall" ref="<?php echo get_template_directory_uri(); ?>">
+                                <input class='email' placeholder='Your email here' type='email' name="l_email" id="l__paywall_email">
+                                <input class='pass' placeholder='Password' type='password' name="l_pass" id="l_paywall_pass">
+                                <button class='button' type='button' id="login-paywall-button">Login</button>
+                                <a class='link' href='#'>Need help with email or password?</a>
+                            </form>
+                        </div>
+                    </div>            
+                    <?php
+                }
+
+                function get_paywall_content($content) {
+                    //$content = get_post_field('post_content', $post_id);
+                    $content = apply_filters('the_content', $content);
+                    $content = str_replace(']]>', ']]&gt;', $content);
+
+                    //$explode_p_content = explode("<p>", $content);
+                    //pr($explode_p_content); exit;
+
+                    remove_filter('the_content', $content);
+                    preg_match_all('/(<p(>|\s+[^>]*>).*?<\/p>)/i', $content, $regs);
+                    $topcontent = $regs[1];
+                    //pr($topcontent); exit;
+                    $i = 1;
+                    $top_three_paragraph = "";
+                    $top_paragraph = "";
+
+                    foreach ($topcontent as $top_three_paragraph) { //echo $top_three_paragraph."========";  
+                        $top_paragraph .= $top_three_paragraph;
+                        if ($i == 3) {
+                            break;
+                        }
+                        //echo $top_three_paragraph."<hr>".$i;
+                        $i++;
+                    }
+
+                    /* if (!empty($explode_p_content)) {
+                      echo $explode_p_content[1] . $top_paragraph;
+                      } else { */
+                    echo $top_paragraph;
+                    //}
+                }
+
+                /* functions for ad management */
+
+    function get_newsletter_signup_module() {
+        $upload_dir = wp_upload_dir();
+        $upload_url = $upload_dir['baseurl'];
+        $enewsimage = get_option("settings-enewsimage");
+        $enewsheadline = get_option("settings-enewsheadline");
+        $enewstext = get_option("settings-enewstext");
+        if($enewsimage)
+        {
+           $enews_image = $upload_url.'/'.$enewsimage;
+        }
+        ?>
+            <div class="CTA-module_enews">
+                <figure>
+                    <img alt="Temple" sizes="(min-width: 37.5em) 33vw,
+                         (min-width: 25em) 75vw,
+                         100vw" srcset="<?php echo $enews_image; ?> 400w,
+                <?php echo $enews_image; ?> 200w" src="<?php echo $enews_image; ?>">
+                </figure>
+                <h1 class="p"><?php echo $enewsheadline;?></h1>
+                <p><?php echo $enewstext; ?></p>
+                <form id="CTA-enews">
+                    <input type="email" placeholder="Your email here" id="action-email" class="email">
+                        <button id="CTA-modal-trigger">Sign Up</button>
+                </form>
+            </div>
+        <?php
+        }
+
+    function get_subscribe_module() {
+        $upload_dir = wp_upload_dir();
+        $upload_url = $upload_dir['baseurl'];
+        $subscribeimage = get_option("settings-subscribeimage");
+        $subscribeheadline = get_option("settings-subscribeheadline");
+        $subscribetext = get_option("settings-subscribetext");
+        if($subscribeimage)
+        {
+           $subscriber_image = $upload_url.'/'.$subscribeimage;
+        }
+        ?>
+        <div class="CTA-module_subscribe">
+            <figure>
+                    <img alt="Temple" sizes="(min-width: 37.5em) 33vw,
+                    (min-width: 25em) 75vw,
+                    100vw" srcset="<?php echo $subscriber_image ?> 400w,
+            <?php echo $subscriber_image; ?> 200w" src="<?php echo $subscriber_image; ?>">
+            </figure>
+            <h1 class="p"><?php echo $subscribeheadline;?></h1>
+            <p><?php echo $subscribetext; ?></p>
+            <a href='https://subscribe.tricycle.com/TRI/?f=join' target="_blank" class="button">Subscribe now</a>
+        </div>
+        <?php
+        }
+
+    function get_dailydharma() {
+        ?>
+
+        <!-- start daily-dharma -->
+        <div class='home-dailydharma'>
+        <?php
+        $args = array(
+            'posts_per_page' => 1,
+            'orderby' => 'post_date',
+            'order' => 'DESC',
+            'post_type' => 'dailydharma',
+            'post_status' => 'publish',
+            'suppress_filters' => true
+        );
+
+        $querydharma = new WP_Query($args);
+        if ($querydharma->have_posts()) {
+        while ($querydharma->have_posts()):
+            $querydharma->the_post();
+            $dailydharma_authorname = get_post_meta(get_the_ID(), DAILYDHARMA_AUTHORS_NAME_METABOX, true);
+
+            if ($dailydharma_authorname) {
+                $dailydharma_authorname = "&ndash; " . $dailydharma_authorname;
+            }
+
+            $dailydharma_url = get_post_meta(get_the_ID(), DAILYDHARMA_URL_METABOX, true);
+            ?>
+            <h2 class='button'>Daily Dharma</h2>
+            <div class='icon icon-quote'></div>
+            <?php
+            if (empty($dailydharma_url)) {
+                ?>
+                <a href="<?php the_permalink(); ?>">
+                    <div class='dailydharma-quote'><?php the_content(); ?></div>
+                </a>
+                <?php
+            } else {
+                ?>
+                <a href="http://<?php echo $dailydharma_url; ?>" target="_blank">
+                    <div class='dailydharma-quote'><?php the_content(); ?></div>
+                </a>
+                <?php
+            }
+            ?>
+            <address>
+            <?php
+            if (empty($dailydharma_url)) {
+                ?>
+                    <a href="<?php the_permalink(); ?>">
+                <?php echo $dailydharma_authorname; ?>
+                <?php echo the_title(); ?>
+                    </a>
+                    <?php
+                } else {
+                    ?>
+                    <a href="http://<?php echo $dailydharma_url; ?>" target="_blank"> 
+                <?php echo $dailydharma_authorname; ?>
+                <?php echo the_title(); ?>
+                    </a>
+                <?php
+            }
+            ?>
+            </address>
+            <div class='social-wrap'>
+                <ul class='dailydharma-social'>
+                    <li class="st_facebook_custom" st_title='<?php the_content(); ?>' st_url='<?php if (empty($dailydharma_url)) {
+            the_permalink();
+            } else {
+                echo $dailydharma_url;
+            } ?>'><a class='icon icon-share_facebook' href='javascript:void(0)' data-grunticon-embed></a></li>
+                                <li class="st_twitter_custom" st_title='<?php the_content(); ?>' st_url='<?php if (empty($dailydharma_url)) {
+                    the_permalink();
+                } else {
+                    echo $dailydharma_url;
+                } ?>'><a class='icon icon-share_twitter' href='javascript:void(0)' data-grunticon-embed></a></li>
+                                <li class="st_email_custom" st_title='<?php the_content(); ?>' st_url='<?php if (empty($dailydharma_url)) {
+                    the_permalink();
+                } else {
+                    echo $dailydharma_url;
+                } ?>'><a class='icon icon-share_email' href='javascript:void(0)' data-grunticon-embed></a></li>
+                </ul>
+            </div>
+                    <?php
+                endwhile;
+            }
+            ?>        
+        <form id='dailydharma-enews'>
+            <input class='email' id='dailydharma-email' placeholder='Your email here' type='text'>
+                <button id='dailydharma-modal-trigger'>Sign Up</button>
+        </form>
+
+    </div>
+<!-- end daily-dharma -->
+
+<?php
+}
+
+// end of daily dhamra function 
+
+    function get_the_ad($adlocation) {
+
+        if (class_exists("TricycleAdManagement")) {
+            global $objTricycleAdManagement;
+            $ads = $objTricycleAdManagement->get_ad_management_data($adlocation);
+            //pr($ads);
+            if ($ads) {
+                $ad_type = $ads[$adlocation . 'option_key']->ad_type;
+                if ($ad_type == "display_nothing") {
+                    echo '<div style="margin: 0 0 25px 0"></div>';
+                } else {
+                if($adlocation!= "square_ad_") {?>
+                <div class="rule"></div>
+                <?php } ?>
+                <?php
+                $ad_type = $ads[$adlocation . 'option_key']->ad_type;
+                if ($ad_type == "google_dfp") {
+                    ?>
+                    <div class='ad_banner'>
+                    <?php echo $ad_content = $ads[$adlocation . 'option_key']->ad_content; ?>
+                    </div>
+                <?php
+                }
+                if ($ad_type == "newsletter_signup") {
+                    get_newsletter_signup_module();
+                }
+                if ($ad_type == "tricycle_subscribe_module") {
+                    get_subscribe_module();
+                }
+
+                if ($ad_type == "daily_dharma") {
+                    get_dailydharma();
+                }
+                if($adlocation!= "square_ad_") {?>
+                <div class="rule"></div>
+                <?php } ?>
+                <?php
+                }
+            }
+        }
+    }
+
+    /* End Of functions for ad management */
+
+
+        function srcset_post_base_hero_template($imagePath, $size = 'image', $class = '', $srcset_sizes, $template_type = "hero") {
+
+            if ($imagePath) {
+                $thumbnail = $imagePath; // desktop
+                $thumbnail_2x = $imagePath; // android
+                $thumbnail_3x = $imagePath; // I-pad
+            } else {
+                if (is_single() && $template_type != "hero") {
+                    return;
+                }
+
+                $thumbnail = get_template_directory_uri() . '/images/image_blank_post.gif';
+                $thumbnail_2x = get_template_directory_uri() . '/images/image_blank_post.gif';
+                $thumbnail_3x = get_template_directory_uri() . '/images/image_blank_post.gif';
+            }
+
+            if ($thumbnail) {
+
+                $image = '<img src="' . $thumbnail . '"';
+                $image .= ( $thumbnail_2x && $thumbnail_3x ? ' srcset="' : '' ); // open srcset
+                $image .= ( $thumbnail ? $thumbnail . ' 500w ' : '' );
+                $image .= ( $thumbnail && $thumbnail_2x ? ', ' : '' );
+                $image .= ( $thumbnail_2x ? $thumbnail_2x . ' 1000w' : '' );
+                $image .= ( $thumbnail_2x && $thumbnail_3x ? ', ' : '' );
+                $image .= ( $thumbnail_3x ? $thumbnail_3x . ' 2000w' : '' );
+                $image .= ( $thumbnail_2x && $thumbnail_3x ? '"' : '' );
+                $image .= ( $class ? ' class="' . esc_attr($class) . '"' : '' );
+                $image .= ' sizes="' . $srcset_sizes . '">';
+                return $image;
+            }
+        }
+
+        function getpaywall_popup($classname, $title) {
+            ?>
+            <div class='paywall-modal'>
+                <input class='modal-state' id='paywall-modal-switch' type='checkbox'/>
+                <div class='modal-fade-screen'>
+                    <div class='modal-inner_paywall'>
+                        <div class='modal-close' for='paywall-modal-switch'></div>
+                        <!-- start article paywall -->
+                        <div class='paywall-wrapper'>
+                            <div class='paywall-body <?php echo $classname; ?>'>
+                                <span class='icon icon-paywall_print'></span>
+                                <h1 class='p'><?php echo $title; ?></h1>
+                                <p>This article is available to subscribers only. Subscribe now for immediate access to the magazine plus video teachings, films, e-books, and more.</p>
+                                <a class='button' href='https://subscribe.tricycle.com/TRI/?f=join' target='_blank'>Subscribe Now</a>
+                                <p>Already a subscriber? Log in.</p>
+                                <form class='login-form' name='login' id="login_paywall_popup" ref="<?php echo get_template_directory_uri(); ?>">
+                                    <input class='email l__paywall_email' placeholder='Your email here' type='email' name="l_email" id="l__paywall_email">
+                                    <input class='pass l_paywall_pass' placeholder='Password' type='password' name="l_pass" id="l_paywall_pass">
+                                    <button class='button login-paywall-button' type='button' id="login-paywall-popup-button">Login</button>
+                                    <a class='link' href='#'>Need help with email or password?</a>
+                                </form>
+                            </div>
+                        </div>
+                                            <!-- end article paywall -->
+                        </div>
+                    </div>
+            </div>
+                <?php
+            }
+
+        function is_latest_post($post_id, $query_args = array(), $post_type) {
+            static $latest_post_id = false;
+            $post_id = empty($post_id) ? get_the_ID() : $post_id;
+
+            if (!$latest_post_id) {
+                $query_args['numberposts'] = 1;
+                $query_args['post_type'] = $post_type;
+                $query_args['post_status'] = 'publish';
+                $last = wp_get_recent_posts($query_args);
+                $latest_post_id = $last['0']['ID'];
+                if ($latest_post_id == $post_id) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        ?>
+        
+        <?php  /*To remove top space when logged in */ 
+        add_filter('show_admin_bar', '__return_false');
+        ?>
+                

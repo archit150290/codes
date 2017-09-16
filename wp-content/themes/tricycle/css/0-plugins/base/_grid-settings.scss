@@ -1,0 +1,31 @@
+@import '../neat/neat-helpers'; // or "../neat/neat-helpers" when not in Rails
+
+// Neat Overrides
+$column: 3;
+$gutter: 1;
+$grid-columns: 12;
+$max-width: 75em;
+
+// Neat Breakpoints
+$width-mobile:  em(400px);
+$width-tablet: em(600px);
+$width-desktop:  em(800px);
+$width-wide: em(960px);
+$width-article: em(1080px);
+$width-max: em(1200px);
+
+$mobile-down: new-breakpoint(max-width $width-mobile - em(1px));
+$mobile-up: new-breakpoint(min-width $width-mobile);
+$mobile-to-tablet: new-breakpoint(min-width $width-mobile max-width $width-tablet - em(1px));
+$mobile-to-desktop: new-breakpoint(min-width $width-mobile max-width $width-desktop - em(1px));
+$tablet-down: new-breakpoint(max-width $width-tablet - em(1px));
+$tablet-up: new-breakpoint(min-width $width-tablet);
+$tablet-to-desktop: new-breakpoint(min-width $width-tablet max-width $width-desktop - em(1px));
+$tablet-to-wide: new-breakpoint(min-width $width-tablet max-width $width-wide - em(1px));
+$desktop-down: new-breakpoint(max-width $width-desktop - em(1px));
+$desktop-up: new-breakpoint(min-width $width-desktop);
+$desktop-to-wide: new-breakpoint(min-width $width-desktop max-width $width-wide - em(1px));
+$wide-down: new-breakpoint(max-width $width-wide - em(1px));
+$wide-up: new-breakpoint(min-width $width-wide);
+$article-up: new-breakpoint(min-width $width-article);
+$max: new-breakpoint(min-width $width-max);

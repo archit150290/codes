@@ -1,0 +1,375 @@
+<?php
+/*
+Template Name: searchpage
+*/
+?>
+<?php get_header(); ?>
+
+
+
+
+<div class='wrap_outer_base'>
+
+			<!-- start search main -->
+			<main class='wrap_search'>
+
+				<!-- start search rubric -->
+				<header class='rubric_top'>
+						<h1>Search</h1>
+						<div class='rule'></div>
+				</header>
+				<!-- end static page rubric -->
+
+				<main class='search-main'>
+					<!-- start search form -->
+					<div class='search-field'>
+						<form class='search-form' name='search'>
+							<input placeholder='Search' type='search' value='sample search terms'>
+							<button class='icon-search' type='submit' data-grunticon-embed></button>
+						</form>
+						<p class='search-count'>About 2,300 results</p>
+					</div>
+					<!-- end search form -->
+
+					<!-- start sort dropdown -->
+					<div class='search-sort dropdown'>
+						<div class='dropdown-container'>
+							<p class='button dropdown-button'>Relevance<span class='icon-arrow_dropdown' data-grunticon-embed></span></p>
+							<ul class='dropdown-menu dropdown-select'>
+								<li><a href=''>Date</a></li>
+							</ul>
+						</div>
+					</div>
+					<!-- end sort dropdown -->
+                                        
+                                        <script>
+  (function() {
+    var cx = '008847118166813289495:8murikwnff4';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script><br />
+<gcse:search></gcse:search>
+
+<?php /*
+					<!-- start search stack -->
+					<div class='search-stack'>
+
+						<article class='trikedaily'>
+							<figure>
+								<a href='4-article_hero.html'>
+									<img src='images/jpg/home-trikedaily_1x.jpg'
+										srcset='images/jpg/home-trikedaily_2x.jpg 1000w,
+														images/jpg/home-trikedaily_1x.jpg 500w'
+										 sizes='(min-width: 37.5em) 25vw,
+														100vw'
+										alt='Temple' />
+								</a>
+							</figure>
+							<section class='titles'>
+								<a class='icon icon-dept_trikedaily' href='2-landing_trikedaily.html'></a>
+								<h2 class='trikedaily'><a href='2-landing_trikedaily.html'>Trike Daily</a><span class='topic'><a href='2-landing_base.html'>Arts &amp; Culture</a></span></h2>
+								<h1><a href='4-article_hero.html'>The sky calls to us, another world</a></h1>
+								<p>Rich in mystery take root and flourish a still more glorious dawn awaits intelligent beings science.</p>
+								<address>By Taiki Ryan</address>
+								<time>Oct 22, 2015</time>
+							</section>
+						</article>
+
+						<div class='rule'></div>
+
+						<article class='magazine'>
+							<figure>
+								<a href='4-article_base.html'>
+									<img src='images/jpg/home-magazine_1x.jpg'
+										srcset='images/jpg/home-magazine_2x.jpg 1000w,
+														images/jpg/home-magazine_1x.jpg 500w'
+										 sizes='(min-width: 37.5em) 25vw,
+														100vw'
+										alt='Temple' />
+								</a>
+							</figure>
+							<section class='titles'>
+								<a class='icon icon-dept_magazine' href='3-landing_magazine.html'></a>
+								<h2 class='magazine'><a href='3-landing_magazine.html'>magazine</a><span class='topic'><a href='2-landing_base.html'>Arts &amp; Culture</a></span></h2>
+								<h1><a href='4-article_base.html'>A mote of dust suspended in a sunbeam</a></h1>
+								<p>As a patch of light take root and flourish hearts of the stars Flatland.</p>
+								<address>By Naveed Oliversson</address>
+								<time>Fall 2015</time>
+							</section>
+						</article>
+
+						<div class='rule'></div>
+
+						<article class='filmfestival'>
+							<figure>
+								<a href='6-article_filmfestival.html'>
+									<!-- <div class='icon-video_play' data-grunticon-embed></div> -->
+									<img src='images/jpg/home-llama_1x.jpg'
+										srcset='images/jpg/home-llama_2x.jpg 1000w,
+														images/jpg/home-llama_1x.jpg 500w'
+										 sizes='(min-width: 37.5em) 25vw,
+														100vw'
+										alt='Temple' />
+								</a>
+							</figure>
+							<section class='titles'>
+								<a class='icon icon-dept_filmfestival' href='5-landing_filmfestival.html'></a>
+								<h2 class='filmfestival'><a href='5-landing_filmfestival.html'>Film Club</a><span class='topic'><a href='2-landing_base.html'>Arts &amp; Culture</a></span></h2>
+								<h1><a href='6-article_filmfestival.html'>Orion's sword paroxysm</a></h1>
+								<p>Bits of moving fluff the carbon in our apple pies Orion's sword.</p>
+								<address>Directed by Mael Dougherty</address>
+								<time>Oct 2015</time>
+							</section>
+						</article>
+
+						<div class='rule'></div>
+
+						<article class='filmclub'>
+							<figure>
+								<a href='6-article_filmclub.html'>
+									<!-- <div class='icon-video_play' data-grunticon-embed></div> -->
+									<img src='images/jpg/home-llama_1x.jpg'
+										srcset='images/jpg/home-llama_2x.jpg 1000w,
+														images/jpg/home-llama_1x.jpg 500w'
+										 sizes='(min-width: 37.5em) 25vw,
+														100vw'
+										alt='Temple' />
+								</a>
+							</figure>
+							<section class='titles'>
+								<a class='icon icon-dept_filmclub' href='5-landing_filmclub.html'></a>
+								<h2 class='filmclub'><a href='5-landing_filmclub.html'>Film Club</a><span class='topic'><a href='2-landing_base.html'>Arts &amp; Culture</a></span></h2>
+								<h1><a href='6-article_filmclub.html'>Orion's sword paroxysm</a></h1>
+								<p>Bits of moving fluff the carbon in our apple pies Orion's sword.</p>
+								<address>Directed by Mael Dougherty</address>
+								<time>Oct 2015</time>
+							</section>
+						</article>
+
+						<div class='rule'></div>
+
+						<article class='dharmatalks'>
+							<figure>
+								<a href='6-article_dharmatalks.html'>
+									<!-- <div class='icon-video_play' data-grunticon-embed></div> -->
+									<img src='images/jpg/home-llama_1x.jpg'
+										srcset='images/jpg/home-llama_2x.jpg 1000w,
+														images/jpg/home-llama_1x.jpg 500w'
+										 sizes='(min-width: 37.5em) 25vw,
+														100vw'
+										alt='Temple' />
+								</a>
+							</figure>
+							<section class='titles'>
+								<a class='icon icon-dept_dharmatalks' href='5-landing_dharmatalks.html'></a>
+								<h2 class='dharmatalks'><a href='5-landing_dharmatalks.html'>Dharma Talks</a><span class='topic'><a href='2-landing_base.html'>Arts &amp; Culture</a></span></h2>
+								<h1><a href='6-article_dharmatalks.html'>Orion's sword paroxysm</a></h1>
+								<p>Bits of moving fluff the carbon in our apple pies Orion's sword.</p>
+								<address>Directed by Mael Dougherty</address>
+								<time>Oct 2015</time>
+							</section>
+						</article>
+
+						<div class='rule'></div>
+
+						<article class='trikedaily'>
+							<figure>
+								<a href='4-article_hero.html'>
+									<img src='images/jpg/home-trikedaily_1x.jpg'
+										srcset='images/jpg/home-trikedaily_2x.jpg 1000w,
+														images/jpg/home-trikedaily_1x.jpg 500w'
+										 sizes='(min-width: 37.5em) 25vw,
+														100vw'
+										alt='Temple' />
+								</a>
+							</figure>
+							<section class='titles'>
+								<a class='icon icon-dept_trikedaily' href='2-landing_trikedaily.html'></a>
+								<h2 class='trikedaily'><a href='2-landing_trikedaily.html'>Trike Daily</a><span class='topic'><a href='2-landing_base.html'>Arts &amp; Culture</a></span></h2>
+								<h1><a href='4-article_hero.html'>The sky calls to us, another world</a></h1>
+								<p>Rich in mystery take root and flourish a still more glorious dawn awaits intelligent beings science.</p>
+								<address>By Taiki Ryan</address>
+								<time>Oct 28, 2015</time>
+							</section>
+						</article>
+
+						<div class='rule'></div>
+
+						<article class='trikedaily'>
+							<figure>
+								<a href='4-article_base.html'>
+									<img src='images/jpg/home-trikedaily_1x.jpg'
+										srcset='images/jpg/home-trikedaily_2x.jpg 1000w,
+														images/jpg/home-trikedaily_1x.jpg 500w'
+										 sizes='(min-width: 37.5em) 25vw,
+														100vw'
+										alt='Temple' />
+								</a>
+							</figure>
+							<section class='titles'>
+								<a class='icon icon-dept_trikedaily' href='2-landing_trikedaily.html'></a>
+								<h2 class='trikedaily'><a href='2-landing_trikedaily.html'>Trike Daily</a><span class='topic'><a href='2-landing_base.html'>Arts &amp; Culture</a></span></h2>
+								<h1><a href='4-article_base.html'>A mote of dust suspended in a sunbeam</a></h1>
+								<p>As a patch of light take root and flourish hearts of the stars Flatland.</p>
+								<time>Oct 20, 2015</time>
+							</section>
+						</article>
+
+						<div class='rule'></div>
+
+						<article class='ebooks'>
+							<figure>
+								<a href='7-article_ebooks.html'>
+									<img src='images/jpg/home-ebook_1x.gif'
+										srcset='images/jpg/home-ebook_2x.gif 1000w,
+														images/jpg/home-ebook_1x.gif 500w'
+										 sizes='(min-width: 37.5em) 25vw,
+														100vw'
+										alt='Tricycle E-Book: Fear' />
+								</a>
+							</figure>
+							<section class='titles'>
+								<a class='icon icon-dept_ebooks' href='9-archive_ebooks.html'></a>
+								<h2 class='ebooks'><a href='9-archive_ebooks.html'>E-Books</a><span class='topic'><a href='2-landing_base.html'>Arts &amp; Culture</a></span></h2>
+								<h1><a href='7-article_ebooks.html'>Tricycle Teachings: Fear</a></h1>
+								<p>Do we really have nothing to fear but fear itself? In concert with the year's spookiest month, Tricycle offers a helpful new e-book, Tricycle Teachings: Fear, which tackles this tricky emotion from a Buddhist perspective.</p>
+							</section>
+						</article>
+
+						<div class='rule'></div>
+
+						<article class='trikedaily'>
+							<section class='titles'>
+								<a class='icon icon-dept_trikedaily' href='2-landing_trikedaily.html'></a>
+								<h2 class='trikedaily'><a href='2-landing_trikedaily.html'>Trike Daily</a><span class='topic'><a href='2-landing_base.html'>Arts &amp; Culture</a></span></h2>
+								<h1><a href='4-article_hero.html'>The sky calls to us, another world</a></h1>
+								<p>Rich in mystery take root and flourish a still more glorious dawn awaits intelligent beings science.</p>
+								<address>By Taiki Ryan</address>
+								<time>Oct 22, 2015</time>
+							</section>
+						</article>
+
+						<div class='rule'></div>
+
+						<article class='magazine'>
+							<figure>
+								<a href='4-article_base.html'>
+									<img src='images/jpg/home-magazine_1x.jpg'
+										srcset='images/jpg/home-magazine_2x.jpg 1000w,
+														images/jpg/home-magazine_1x.jpg 500w'
+										 sizes='(min-width: 37.5em) 25vw,
+														100vw'
+										alt='Temple' />
+								</a>
+							</figure>
+							<section class='titles'>
+								<a class='icon icon-dept_magazine' href='3-landing_magazine.html'></a>
+								<h2 class='magazine'><a href='3-landing_magazine.html'>magazine</a><span class='topic'><a href='2-landing_base.html'>Arts &amp; Culture</a></span></h2>
+								<h1><a href='4-article_base.html'>A mote of dust suspended in a sunbeam</a></h1>
+								<p>As a patch of light take root and flourish hearts of the stars Flatland.</p>
+								<address>By Naveed Oliversson</address>
+								<time>Fall 2015</time>
+							</section>
+						</article>
+
+					</div>
+					<!-- end search stack -->
+
+					<!-- start pagination -->
+					<div class='search-pagination'>
+						<ol>
+							<li><p class='current-page'>1</p></li>
+							<li><p><a href='#'>2</a></p></li>
+							<li><p><a href='#'>3</a></p></li>
+							<li><p><a href='#'>4</a></p></li>
+						</ol>
+						<div class='rule'></div>
+					</div>
+					<!-- end pagination -->
+<?php */ ?>
+				</main>
+
+				<!-- start search sidebar -->
+				<aside class='search-aside'>
+					<div class='ad_square'>
+						<img src='<?php echo get_template_directory_uri(); ?>/images/jpg/ad-shinyocenter'>
+					</div>
+                                            
+                                <?php
+                                    $mostpopularpost  = getMostViewPosts("","",5);
+                                    
+                                    if(!empty($mostpopularpost))
+                                    {
+				
+				?>    
+					<div class='popular-posts'>
+						<header>
+							<h1>Most Popular</h1>
+						</header>
+						<main>
+							<ol>
+                                                        <?php
+						
+							   $viewedposts= "";
+                                                            foreach($mostpopularpost as $mostpopular)
+                                                            {
+                                                                    $viewedposts .= '<li><h1><a href="'.$mostpopular["permalink"].'">'.$mostpopular["title"].'</a></h1></li>';
+                                                            }
+                                                            echo $viewedposts;
+                                                        
+                                                        ?>
+							</ol>
+						</main>
+					</div>
+                                <?php
+                                    
+                                    }
+                                ?>
+				</aside>
+				<!-- end search sidebar -->
+			</main>
+			<!-- end search main -->
+
+			<aside>
+				<!-- start Call to Action module -->
+				<div class='CTA-module'>
+					<div class='rule'></div>
+					<div class='CTA-ad' style='
+						background-color: #ddd;
+						line-height: 1; padding: 2em;
+						margin: 0 auto;
+						width: 75%;
+						height: 10em;
+						text-align: center;
+					'>
+					<p>Call-to-Action Module. Can be set in the CMS to any of the following: (1) Ad served via Google DFP Small Business (TBD), (2) Daily Dharma, (3) Subscribe CTA, (4) Newletter CTA</p>
+					</div>
+					<div class='rule'></div>
+				</div>
+				<!-- end Call to Action module -->
+
+				<div class='aside-depts'>
+					<!-- start aside dharma talks -->
+                                            <?php show_latest_dharma_talks(); ?>
+					<!-- end aside dharma talks -->
+
+					<!-- start aside Film Club -->
+                                            <?php show_latest_filmclub(); ?>
+					<!-- end aside Film Club -->
+
+					<!-- start aside ebooks -->
+                                            <?php show_latest_ebooks(); ?>
+					<!-- end aside ebooks -->
+				</div>
+
+				<div class='rule'></div>
+
+				
+
+<?php get_footer(); ?>

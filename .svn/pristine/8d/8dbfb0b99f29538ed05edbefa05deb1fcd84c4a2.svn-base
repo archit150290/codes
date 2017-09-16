@@ -1,0 +1,73 @@
+jQuery(function(){
+    //Login
+    jQuery("form#login #login-button").click(function(){
+        if(jQuery.trim(jQuery("#l_email").val()) && jQuery.trim(jQuery("#l_pass").val()))
+        {
+            jQuery.post(jQuery("form#login").attr("ref")+"/cambey-login.php", jQuery("form#login").serialize())
+            .done(function(data) {
+                var objData = JSON.parse(data);
+                if(objData.status == "success")
+                {
+                    location.reload();
+                }
+            })
+            .fail(function() {
+               alert("Error!");
+            });
+        }
+        else
+        {
+            alert("E-mail or Password can not be empty.");
+        }
+    });
+    
+    //Logout
+    jQuery(".logout-link").click(function(){
+        jQuery.post(jQuery("form#login").attr("ref")+"/cambey-login.php", {action: "logout"})
+        .done(function(data) {
+            var objData = JSON.parse(data);
+            if(objData.status == "success")
+            {
+                location.reload();
+            }
+        })
+        .fail(function() {
+            alert("Error!");
+        });
+    });
+    
+    jQuery(".showcomments").click(function(){        
+        if($('#comments').is(':visible'))
+        { 
+            $("#comments").delay(500).fadeOut();
+            $("#commentlink_title").html("View Comments");
+        }else{  
+            $("#comments").delay(500).fadeIn();
+            $("#commentlink_title").html("Hide Comments");
+        }                
+    });
+    
+    if ($('#back-to-top').length) {
+    var scrollTrigger = 100, // px
+        backToTop = function () {
+            var scrollTop = $(window).scrollTop();
+            if (scrollTop > scrollTrigger) {
+                $('#back-to-top').addClass('show');
+            } else {
+                $('#back-to-top').removeClass('show');                
+            }
+            
+        };
+    backToTop();
+    $(window).on('scroll', function () {
+        backToTop();
+    });
+    $('#back-to-top').on('click', function (e) {
+        e.preventDefault();
+        $('html,body').animate({
+            scrollTop: 0
+        }, 700);
+        $('.header-desktop .login-link').click();
+    });
+}
+});

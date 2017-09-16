@@ -1,0 +1,75 @@
+// interstitial ad
+////////////////////////
+.interstitial-ad-modal .modal-inner {
+  background-color: transparent;
+
+  .modal-close {
+    background-color: transparent;
+  }
+}
+
+%interstitial-ad {
+  @include margin(null $small-spacing);
+  background-color: $clr-red;
+  position: relative;
+  text-align: center;
+
+  @include media($mobile-up) {
+    @include margin(null auto);
+    max-width: 22em;
+  }
+
+  img {
+    border-bottom-right-radius: $base-spacing * 2;
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 1.25em;
+    margin: $small-spacing;
+  }
+
+  p {
+    @include margin(null $small-spacing $small-spacing);
+    font-size: 1em;
+    line-height: 1.3;
+  }
+}
+
+.interstitial-ad_enews {
+  @extend %interstitial-ad;
+  @extend %CTA-type;
+
+  form#interstitial-ad-enews {
+    @include margin(null $small-spacing);
+    position: relative;
+    top: $small-spacing;
+
+    @include media($mobile-up) {
+      @include margin(null $base-spacing)
+    }
+  }
+
+  input#interstitial-ad-email {
+    margin-bottom: 0;
+  }
+
+  button#interstitial-ad-modal-trigger {
+    @include padding(null $small-spacing);
+    @include position(absolute, 1px 1px null null);
+    background-color: transparent;
+    border: 0;
+    letter-spacing: .1em;
+    line-height: 1.2;
+    margin: 0;
+    outline: none;
+    text-transform: uppercase;
+
+    &:hover {
+      background-color: $clr-red;
+      border: 1px solid $clr-red;
+      right: 0;
+      top: 0;
+    }
+  }
+}

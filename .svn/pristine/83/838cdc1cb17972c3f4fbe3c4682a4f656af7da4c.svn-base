@@ -1,0 +1,151 @@
+// home magazine
+////////////////////////
+.home-magazine {
+  // $home-magazine-cover-width: 10.5em;
+
+  @extend %stack;
+  @include dept-hover($clr-magazine);
+
+  @include media($tablet-up) {
+    @include padding(null $base-spacing)
+  }
+
+  .current-issue {
+    @include clearfix;
+  }
+
+  .issue-cover {
+    @include margin(null auto);
+    width: $archive-image-width_mobile;
+
+    img {
+      @include card;
+      display: block;
+      height: inherit;
+      width: $archive-image-width_mobile;
+    }
+  }
+
+  .issue-summary {
+    @include padding(null $base-spacing 0);
+  }
+
+  // for 600px, ganged up all styles under this media query
+  @include media($tablet-up, 8) {
+
+    .issue-cover {
+      @include span-columns(2 of 8);
+
+      img {
+        margin-left: auto;
+      }
+    }
+
+    .issue-summary {
+      @include padding(0);
+      @include span-columns(6 of 8);
+      @include omega;
+    }
+  }
+
+  // for 800px, all styles under this media query
+  @include media($desktop-up) {
+
+    .issue-cover {
+      @include span-columns(3 of 12);
+      @include shift;
+    }
+
+    .issue-summary {
+      @include span-columns(7 of 12);
+    }
+  }
+
+  // for 960px, all styles under this media query
+  @include media($wide-up) {
+
+    .issue-cover {
+      @include span-columns(2 of 12);
+      @include shift(2);
+    }
+
+    .issue-summary {
+      @include span-columns(6 of 12);
+    }
+  }
+
+  time {
+    @include margin(null null $small-spacing);
+    color: $clr-gray-midhi;
+  }
+
+  .vol-no {
+    display: block;
+
+    @include media($mobile-up) {
+      @include topic-1line;
+      display: inline-block;
+    }
+  }
+
+  // 'view contents' text-only link below issue summary
+  .view-contents {
+    @extend %view-contents;
+  }
+
+   .buy-issue {
+    @extend %view-contents;
+    color: $clr-red;
+  }
+
+
+  .h2 {
+    @include media($tablet-up) {
+      margin-top: 0;
+    }
+  }
+
+  // read more button at bottom of module
+  .more {
+    @include dept-button($clr-magazine);
+    clear: both;
+  }
+}
+
+%posts_3x1 {
+  @include media($desktop-up) {
+    margin-top: $base-spacing;
+  }
+
+  article {
+    @include media($desktop-up) {
+      @include span-columns(4 of 12);
+      @include omega(3n);
+      margin-bottom: $base-spacing * 1.5;
+    }
+  }
+
+  h1 {
+    @include media($wide-up) {
+      font-size: 2em;
+    }
+  }
+
+  p {
+    @include media($wide-up) {
+      font-size: 1.25em;
+    }
+  }
+
+  article img {
+    height: 12em;
+
+    @include media($tablet-up) {
+      height: 15em;
+    }
+  }
+}
+
+.magazine-articles {
+  @extend %posts_3x1;
+}

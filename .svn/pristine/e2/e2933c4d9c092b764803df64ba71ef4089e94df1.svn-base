@@ -1,0 +1,42 @@
+<?php
+$postId = get_the_ID();
+global $post;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+?>
+<?php get_header(); ?>
+<div class='wrap'>
+    <!-- start daily-dharma -->
+    <div class='home-dailydharma'>
+        <?php
+        $dailydharma_authorname = get_post_meta($postId, DAILYDHARMA_AUTHORS_NAME_METABOX, true);
+        $dailydharma_url = get_post_meta($postId, DAILYDHARMA_URL_METABOX, true);
+        ?>
+        <h2 class='button'>Daily Dharma</h2>
+        <div class='icon icon-quote'></div>
+        <?php if (empty($dailydharma_url)) { ?>
+            <a href="<?php the_permalink(); ?>">
+            <?php } else {
+                ?>
+                <a href="http://<?php echo $dailydharma_url; ?>" target="_blank"> <?php } ?>
+                <p class='dailydharma-quote'><?php echo $post->post_content; ?></p></a>
+            <address>    <?php if (empty($dailydharma_url)) { ?>
+                    <a href="<?php the_permalink(); ?>">
+                    <?php } else {
+                        ?>
+                        <a href="http://<?php echo $dailydharma_url; ?>" target="_blank"> <?php } ?>
+                        &ndash; <?php
+                        if (!empty($dailydharma_authorname)) {
+                            echo $dailydharma_authorname . ",";
+                        }
+                        ?> <?php echo the_title(); ?></a></address>
+            <div class='social-wrap'> <ul class='dailydharma-social'></ul></div>
+    </div>
+    <!-- end daily-dharma -->
+</div>
+<?php get_footer(); ?>
+
+

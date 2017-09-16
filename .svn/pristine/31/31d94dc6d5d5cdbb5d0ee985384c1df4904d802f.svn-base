@@ -1,0 +1,115 @@
+<?php
+define("DAILYDHARMA_POST_TYPE", "dailydharma");
+define("DAILYDHARMA_AUTHORS_NAME_METABOX", "dailydharma_authors_name_metabox");
+define("DAILYDHARMA_URL_METABOX", "dailydharma_url_metabox");
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+function custom_post_type_dailydharma() {
+    $labels = array(
+        'name' => _x('Daily Dharma', 'post type general name', 'your-plugin-textdomain'),
+        'singular_name' => _x('Daily Dharma', 'post type singular name', 'your-plugin-textdomain'),
+        'menu_name' => _x('Daily Dharma', 'admin menu', 'your-plugin-textdomain'),
+        'name_admin_bar' => _x('Daily Dharma', 'add new on admin bar', 'your-plugin-textdomain'),
+        'add_new' => _x('Add New', 'ebooks', 'your-plugin-textdomain'),
+        'add_new_item' => __('Add New', 'your-plugin-textdomain'),
+        'new_item' => __('New Daily Dharma', 'your-plugin-textdomain'),
+        'edit_item' => __('Edit Daily Dharma', 'your-plugin-textdomain'),
+        'view_item' => __('View Daily Dharma', 'your-plugin-textdomain'),
+        'all_items' => __('All Daily Dharma', 'your-plugin-textdomain'),
+        'search_items' => __('Search Daily Dharma', 'your-plugin-textdomain'),
+        'parent_item_colon' => __('Parent Daily Dharma:', 'your-plugin-textdomain'),
+        'not_found' => __('No Daily Dharma found.', 'your-plugin-textdomain'),
+        'not_found_in_trash' => __('No Daily Dharma found in Trash.', 'your-plugin-textdomain')
+    );
+
+    $args = array(
+        'labels' => $labels,
+        'public' => true,
+        'publicly_queryable' => true,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'rewrite' => array('slug' => DAILYDHARMA_POST_TYPE, 'with_front' => false),
+        'capability_type' => 'post',
+        'has_archive' => true,
+        'hierarchical' => false,
+        'menu_position' => null,
+        'supports' => array('title', 'editor'),
+            //'register_meta_box_cb' => 'add_ebooks_meta_boxes'
+    );
+    register_post_type(DAILYDHARMA_POST_TYPE, $args);
+}
+
+add_action('init', 'custom_post_type_dailydharma');
+
+add_action('add_meta_boxes', 'dailydharma_meta_boxes');
+
+function dailydharma_meta_boxes() {
+    add_meta_box('dailydharma_authors', 'Author', 'add_dailydharma_authors_metabox', DAILYDHARMA_POST_TYPE, 'normal', 'high');
+    add_meta_box('dailydharma_url', 'URL', 'add_dailydharma_url_metabox', DAILYDHARMA_POST_TYPE, 'normal', 'high');
+}
+
+function add_dailydharma_url_metabox($post) {
+    $dailydharma_url=  get_post_meta($post->ID,DAILYDHARMA_URL_METABOX,true);
+    ?>
+    <input type = "text" placeholder = "Add URL" style = "width: 85%" name = "dailydharma_url_metabox" value = "<?php echo $dailydharma_url; ?>">
+<?php }
+
+function add_dailydharma_authors_metabox($post) {
+    wp_nonce_field('dailydharma_save_meta_box_data', 'dailydharma_meta_box_nonce');
+    $dailydharma_authorname = get_post_meta($post->ID, DAILYDHARMA_AUTHORS_NAME_METABOX, true);
+    ?>
+    <input type="text" placeholder="Add Author Name" style="width: 85%" name="dailydharma_author_name_metabox" value="<?php echo $dailydharma_authorname; ?>">
+<?php
+}
+
+function save_dailydharma_meta_box_data($post_id) {
+    /*
+     * We need to verify this came from our screen and with proper authorization,
+     * because the save_post action can be triggered at other times.
+     */
+
+    // Check if our nonce is set.
+    if (!isset($_POST['dailydharma_meta_box_nonce'])) {
+        return;
+    }
+
+    // Verify that the nonce is valid.
+    if (!wp_verify_nonce($_POST['dailydharma_meta_box_nonce'], 'dailydharma_save_meta_box_data')) {
+        return;
+    }
+
+    // If this is an autosave, our form has not been submitted, so we don't want to do anything.
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    // Check the user's permissions.
+    if (isset($_POST['post_type']) && 'page' == $_POST['post_type']) {
+        if (!current_user_can('edit_page', $post_id)) {
+            return;
+        }
+    } else {
+        if (!current_user_can('edit_post', $post_id)) {
+            return;
+        }
+    }
+
+    /* OK, it's safe for us to save the data now. */
+    $dailydharmaauthorname = sanitize_text_field($_POST['dailydharma_author_name_metabox']);
+
+    update_post_meta($post_id, DAILYDHARMA_AUTHORS_NAME_METABOX, $dailydharmaauthorname);
+    
+    $dailydharmaurl = sanitize_text_field($_POST['dailydharma_url_metabox']);
+
+    update_post_meta($post_id, DAILYDHARMA_URL_METABOX, $dailydharmaurl);
+}
+
+/**
+ * This action hook is called to call "save_film_club_meta_box_data".
+ */
+add_action('save_post', 'save_dailydharma_meta_box_data');

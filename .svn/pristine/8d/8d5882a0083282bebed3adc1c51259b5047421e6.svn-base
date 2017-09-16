@@ -1,0 +1,21 @@
+.ad_banner {
+  @include span-columns(10 of 12);
+  @include shift(1);
+  @include omega;
+  object-fit: contain;
+  	@include margin(null auto null);
+    float:none;
+    width:auto;
+    display:table;
+
+  @include media($desktop-up) {
+    @include span-columns(8 of 12);
+    @include shift(2);
+    @include omega;
+    @include margin(null auto null);
+    float:none;
+    width:auto;
+    display:table;
+  }
+
+}

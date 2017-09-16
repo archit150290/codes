@@ -1,0 +1,208 @@
+        <div class='actions'>
+            <div class='action'>
+                <?php 
+                $footersubscribeheadline = get_option("settings-footersubscribeheadline");
+                $footersubscribetext = get_option("settings-footersubscribetext");
+                $footerdonatetext = get_option("settings-footerdonatetext");
+                ?>
+                <h2>Subscribe Today</h2>
+                <h1><?php echo $footersubscribeheadline;?></h1>
+                <p><?php echo $footersubscribetext; ?></p>
+                <a class='button' href='https://subscribe.tricycle.com/TRI/?f=join' target="blank">Subscribe</a>
+            </div>
+
+            <div class='action'>
+                <?php $footernewsletter = get_option("settings-footernewslettertext");?>
+                <h2>Weekly Newsletter</h2>
+                <h1><?php echo $footernewsletter; ?></h1>
+                <form id='action-enews'>
+                    <input class='email' id='action-email' placeholder='Your email here' type='email'>
+                    <label for='action-modal-switch'>
+                        <button id='action-modal-trigger'>Sign Up</button>
+                    </label>
+		</form>
+                <!-- enews modal -->
+                <div class='action-modal'>
+                    <input class='modal-state' id='action-modal-switch' type='checkbox' />
+                    <div class='modal-fade-screen'>
+                        <div class='modal-inner'>
+                            <div class='modal-close' for='action-modal-switch'></div>
+                            <h1>Weekly Newsletter</h1>
+                            <p><?php echo $footernewsletter; ?></p>
+                            <div id="mc_embed_signup">
+                                <form action="//arcgate.us5.list-manage.com/subscribe/post?u=548cfafe7e9f932243898cc8f&amp;id=805f5846a8" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                                    <div id="mc_embed_signup_scroll">
+                                        <div class="mc-field-group">
+                                            <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL">
+                                        </div>
+                                        <div class="mc-field-group input-group">
+                                            <ul>
+                                                <li><input type="checkbox" value="1" name="group[17409][1]" id="mce-group[17409]-17409-0"><label for="mce-group[17409]-17409-0">Daily Dharma</label></li>
+                                                <li><input type="checkbox" value="2" name="group[17409][2]" id="mce-group[17409]-17409-1"><label for="mce-group[17409]-17409-1">Trike Daily</label></li>
+                                                <li><input type="checkbox" value="4" name="group[17409][4]" id="mce-group[17409]-17409-2"><label for="mce-group[17409]-17409-2">Film Club</label></li>
+                                            </ul>
+                                        </div>
+                                        <div id="mce-responses" class="clear">
+                                            <div class="response" id="mce-error-response" style="display:none"></div>
+                                            <div class="response" id="mce-success-response" style="display:none"></div>
+                                        </div>
+                                        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_548cfafe7e9f932243898cc8f_805f5846a8" tabindex="-1" value=""></div>
+                                        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+                                    </div>
+                                </form>
+                            </div>
+                            <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+                        </div>
+                    </div>
+                </div>
+                <!-- end enews modal -->
+            </div>
+
+            <div class='action'>
+                <h2>Donate Now</h2>
+                <p><?php echo $footerdonatetext; ?></p>
+                <a class='button' href='https://subscribe.tricycle.com/TRI/?f=donate' target="blank">Donate</a>
+            </div>
+        </div>
+        <!-- end action -->    
+    </div>
+
+    <!-- start footer -->
+    <footer>           
+        <nav class='nav-footer'>
+            <ul>
+                <li class='logo'>
+                    <a class='icon-logo' href='<?php echo site_url("/"); ?>'></a>
+                </li>
+                <li class='nav-right footer-social'>
+                    <a class='icon-facebook' href='https://www.facebook.com/tricyclemag' target="_blank" data-grunticon-embed></a>
+                    <a class='icon-twitter' href='https://twitter.com/tricyclemag' target="_blank" data-grunticon-embed></a>
+                </li>
+                <li>
+                    <ul class='footer-links'>
+                        <li class='footer-link'><a href='<?php echo get_page_link(get_page_id_by_slug(ABOUT_SLUG)); ?>'>About</a></li>
+                        <li class='footer-link'><a href='<?php echo get_page_link(get_page_id_by_slug(CONTACT_SLUG)); ?>'>Contact</a></li>
+                        <li class='footer-link'><a href='<?php echo get_page_link(get_page_id_by_slug(ADVERTISE_SLUG)); ?>'>Advertise</a></li>
+                        <li class='footer-link'><a href='<?php echo get_page_link(get_page_id_by_slug(TERMS_OF_SERVICE_SLUG)); ?>'>Terms Of Service</a></li>
+                        <li class='footer-link'><a href='<?php echo get_sitemap_url(); ?>'>Sitemap</a></li>
+                        <li class='footer-link'><a href='<?php echo get_page_link(get_page_id_by_slug(PRIVACY_POLICY_SLUG)); ?>'>Privacy Policy</a></li>
+                    </ul>
+                </li>
+                <li class='nav-right footer-fine-print'>
+                    <p>Copyright 2015. Tricycle. All rights reserved. Design by<a href='http://point5.com' target="_blank"> Point Five.&nbsp;</a>
+                </li>
+            </ul>
+        </nav>
+    </footer>
+    <!-- end footer -->
+
+    <!-- start nav drawer -->
+    <div class='nav-drawer'>
+        <?php
+        if(isset($_SESSION['Cambey_Login']))
+        {
+            $paywall_login = 1;
+            $paywall_login_name = $_SESSION['Cambey_Login'];
+        }
+        else
+        {
+            $paywall_login = 0;
+        }
+        ?>
+        <nav>
+            <header>
+                <span class='icon-close'>&times;</span>
+                <a class='icon-logo' href='<?php echo site_url("/"); ?>'></a>
+            </header>
+            <ul>
+                <li class='depts'><a href='<?php echo get_permalink(get_page_id_by_slug(TRIKE_DAILY_SLUG)); ?>'>Trike Daily</a></li>
+                <li class='depts'><a href='<?php echo get_post_type_archive_link(MAGAZINE_POST_TYPE); ?>'>Magazine</a></li>
+                <li class='depts'><a href='<?php echo get_post_type_archive_link(DHARMATALKS_POST_TYPE); ?>'>Dharma Talks</a></li>
+                <?php 
+                $film_regulator = get_option("film_regulator");
+                if($film_regulator == "1")
+                {
+                    ?>
+                    <li class='depts'><a href='<?php echo get_post_type_archive_link(FILM_FESTIVAL_POST_TYPE); ?>'>Film Festival</a></li>
+                    <?php 
+                } 
+                ?>
+                <li class='depts'><a href='<?php echo get_post_type_archive_link(FILM_CLUB_POST_TYPE); ?>'>Film Club</a></li>
+                <li class='depts'><a href='<?php echo get_post_type_archive_link(EBOOKS_POST_TYPE); ?>'>E-Books</a></li>
+                <li class='depts'><a href='https://learn.tricycle.com' target="_blank">Online Courses</a></li>
+                <li class='nav-topics'>
+                    <h1 class='p'>Topics</h1>
+                    <ul>
+                        <?php
+                        $topics = get_topic_terms();
+                        if ($topics) 
+                        {
+                            foreach ($topics as $topic) 
+                            {
+                                ?>
+                                <li><a href='<?php echo $topic->term_url; ?>'><?php echo $topic->name; ?></a></li>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </ul>
+                </li>
+                <li class='nav-subs'>
+                    <?php 
+                    if(!$paywall_login)
+                    {
+                        echo "<h1 class='p'>Login</h1>";
+                    } 
+                    ?>
+                    <ul>
+                        <li class='login'>
+                            <form class='login-form' name='login' id='login-side-form' ref="<?php echo get_template_directory_uri(); ?>">
+                                <input class='email l_email' placeholder='Your email here' type='email' name="l_email" id="l__paywall_email">
+                                <input class='pass l_pass' placeholder='Password' type='password' name="l_pass" id="l_paywall_pass">
+                                <button class='button' type='submit' id='side-login-submit'>Login</button>
+                                <a class='link' href='#'>Need help with email or password?</a>
+                            </form>			
+                        </li>
+                        <?php 
+                        if(!$paywall_login) 
+                        { 
+                            ?>
+                            <li><a class='link' href='https://subscribe.tricycle.com/TRI/?f=join' target="_blank">Link your subscription</a></li>
+                            <?php 
+                        }
+                        else 
+                        {
+                            ?>
+                            <li><a class='link logout-link'>Logout</a></li>
+                            <li><a class='link'target="blank"><?php echo $paywall_login_name; ?></a></li>
+                            <?php 
+                        }
+                        ?>
+                        <li>
+                            <p>A sentence selling the <cite>Tricycle</cite> subscriptions that briefly describes what a reader will get.</p>
+                            <a class='button' href='https://subscribe.tricycle.com/TRI/?f=join' target="blank">Subscribe</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class='nav-donate'>
+                    <p>Making this happen takes resources, and for that we rely on you: our readers and supporters.</p>
+                    <a class='button' href='https://subscribe.tricycle.com/TRI/?f=donate' target="blank">Donate</a>
+                </li>
+                <li class='nav-social'>
+                    <a class='icon-facebook' href='https://www.facebook.com/tricyclemag' target="_blank" data-grunticon-embed></a>
+                    <a class='icon-twitter' href='https://twitter.com/tricyclemag' target="_blank" data-grunticon-embed></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class='nav-drawer-fade-screen'></div>
+    <!-- end nav drawer -->
+
+    <!-- javascript -->
+    <script src='<?php echo get_template_directory_uri(); ?>/js/jquery-2.1.4.min.js'></script>
+    <script src='<?php echo get_template_directory_uri(); ?>/js/jquery.matchHeight.js'></script>
+    <script src='<?php echo get_template_directory_uri(); ?>/js/main.js'></script>
+    <script src='<?php echo get_template_directory_uri(); ?>/js/common.js'></script>
+    <?php wp_footer(); ?>
+</body>
+</html>

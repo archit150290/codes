@@ -1,0 +1,200 @@
+<?php get_header(); ?>
+<?php
+global $wp_query;
+if(isset($wp_query->query_vars['dtv']))
+{
+    
+}
+?>
+<?php
+
+$postId = get_the_ID();
+$topics = get_topics_by_post_id($post->ID);
+$topic_urls = $topics && isset($topics['urls']) ? implode(", ", $topics['urls']) : "";
+$objPost = get_post($postId);
+
+/* call setPostView() function for increasing view counter of the post */
+setPostViews($postId);
+
+?>
+<!-- start content -->
+		<div class='wrap_outer_base'>
+
+			<!-- <header class='rubric_top dharmatalks'>
+					<h1><span class='icon icon-dept_dharmatalks'></span>Dharma Talks</h1>
+					<p>Video teachings and discussions with contemporary Buddhist teachers</p>
+					<a class='button' href='#'>Dharma Talks Archive</a>
+			</header> -->
+
+			<main class='wrap_base'>
+
+				<!-- start article -->
+				<article class='article_dharmatalks dharmatalks'>
+					<header class='article-header_video'>
+						<h2 class='rubric dharmatalks'>
+							<a href='<?php echo bloginfo('url')."/".DHARMATALKS_POST_TYPE ?>' class='icon icon-dept_dharmatalks'></a>
+							<span class='dept'><a href='<?php echo bloginfo('url')."/".DHARMATALKS_POST_TYPE ?>'>Dharma Talks</a></span><span class='topic'><?php echo $topic_urls; ?></span>
+						</h2>
+						<time><?php echo get_the_date('M Y'); ?></time>
+						<h1><?php the_title(); ?></h1>
+						<address><a href=''><?php echo getAuthorDetail(get_the_ID(),0,0); ?></a></address>
+					</header>
+<?php //pr(get_post_meta(get_the_ID())); ?>
+					<!-- start article body -->
+					<main class='article-main_dharmatalks'>
+						<div class='article-video_featured dharmatalks'>
+							<figure>
+								<div class='icon-video_play' rel="<?php echo get_post_meta($postId ,'dharma_talks_trailer_url',true); ?>" data-grunticon-embed></div>
+								<?php echo srcset_post_thumbnail(get_the_ID(), 'image', '','(min-width: 50em) 75vw,100vw'); ?>
+								
+								<div class='video-wrapper'>
+								</div>
+							</figure>
+						</div>
+						
+						
+						<?php
+								
+							$metavideo = array();
+							$metavideosSet = array();
+							
+							$postmetavideo =  get_post_meta(get_the_ID());
+							$i=$j=$k = 1;
+							foreach($postmetavideo as $metakey=>$value)
+							{ 		//echo $metakey."<hr>"."dharma_talks_video".$i."_title"."<hr>";
+								if($metakey == "dharma_talks_video".$i."_title"){
+									
+									$metavideo[$i]['video_title'] = $value[0];
+									$i++;
+								}
+								
+								if(strstr($metakey,"dharma_talks_video".$j."_url")){
+									$metavideo[$j]['video_url'] = $value[0];
+									$j++;
+								}
+								
+								if(strstr($metakey,"dharma_talks_video".$k."_time_length")){
+									$metavideo[$k]['video_duration'] = $value[0];
+									$k++;
+								}
+								
+							}
+								
+						?>
+						
+						<?php if(!empty($metavideo)){ ?>
+							<div class='article_playlist'>
+								<ol>
+									<!--<li><a href=""><h1>Trailer<span class="duration h2">2:05</span></h1></a></li>--->
+									<?php foreach($metavideo as $postmetavideo){ ?>
+										<li><a href='javascript:void(0)' class="js_playvideo" rel="<?php echo $postmetavideo['video_url']; ?>"><h1><?php echo $postmetavideo['video_title']; ?><span class='duration h2'><?php echo $postmetavideo['video_duration']; ?></span></h1></a></li>
+									<?php } ?>
+									<!--
+										<li><h1 class='play'>Shores of the cosmic ocean finite<span class='duration h2'>19:32</span></h1></li>
+										<li><a href=''><h1>Hydrogen atoms quasar white dwarf<span class='duration h2'>19:19</span></h1></a></li>
+										<li><a href=''><h1>Not a sunrise but a galaxyrise corpus callosum<span class='duration h2'>17:27</span></h1></a></li>
+										<li><a href=''><h1>At the edge of forever made in the interiors of<span class='duration h2'>19:84</span></h1></a></li>
+									-->
+								</ol>
+							</div>
+						<?php } ?>
+						
+
+						<div class='tools_top'>
+							<ul>
+								<li><a class='icon icon-tools_facebook' href='#' data-grunticon-embed></a></li>
+								<li><a class='icon icon-tools_twitter' href='#' data-grunticon-embed></a></li>
+								<li><a class='icon icon-tools_email' href='#' data-grunticon-embed></a></li>
+								<li><a class='icon icon-tools_print' href='#' data-grunticon-embed></a></li>
+							</ul>
+						</div>
+
+						<div class='article-dharmatalk-title'>
+							<div class='queue'>
+								<p class='h2'>Playing 2 of 5</p>
+							</div>
+								<h1>Shores of the cosmic ocean finite</h1>
+							<p class='transcript'><a class='h2' href=''>Download Transcript</a>It has been edited for clarity.</p>
+						</div>
+
+						<section class='article-body'>
+							<p><?php echo $objPost->post_content; ?></p>
+						</section>
+
+						<div class='article-bottom-matter'>
+							
+							<?php
+								$dharma_tags_array = wp_get_post_tags(get_the_ID());
+								if(!empty($dharma_tags_array)){
+							?> 
+							<section class='article-tags'>
+								<ul>
+									<?php foreach($dharma_tags_array as $tags){ ?>
+										<li><p class='tag'><a href='<?php echo get_tag_link($tags->term_id); ?>'><?php echo ucfirst($tags->name); ?></a></p></li>
+									<?php } ?>
+									
+								</ul>
+							</section>
+							
+							<?php } ?>
+							
+
+							<div class='comments-toggle'>
+								<a href='#'>Ask the Teacher a Question</a>
+							</div>
+						</div>
+					</main>
+				</article>
+
+			</main>
+			<!-- end article wrap -->
+
+			<aside>
+				<!-- start related -->
+				<!-- start most popular module -->
+				<?php
+				$mostpopularpost  = getMostViewPosts(DHARMATALKS_POST_TYPE,$postId,3);
+				
+				if(!empty($mostpopularpost))
+				{
+				
+				?>
+				<div class='related-posts'>
+					<header class='rubric_top'>
+							<h1>Most Popular</h1>
+					</header>
+
+					<main>
+						<?php
+						
+							foreach($mostpopularpost as $mostpopular)
+							{
+                                                             $topics = get_topics_by_post_id($post->ID);
+                                                             $topic_urls = $topics && isset($topics['urls']) ? implode(", ", $topics['urls']) : "";
+						?>
+					
+						<article class='dharmatalks'>
+							<figure>
+								<a href='<?php echo $mostpopular['permalink']; ?>'>
+										<div class='icon-video_play' data-grunticon-embed></div>
+										<?php echo srcset_post_thumbnail($mostpopular['postId'], 'image', '','(min-width: 50em) 33vw,100vw'); ?>
+								</a>
+							</figure>
+							<section>
+								<h2 class='rubric dharmatalks'><span class='topic'><?php echo $topic_urls; ?></span></h2>
+								<h1><a href='<?php echo $mostpopular['permalink']; ?>'><?php echo $mostpopular['title']; ?></a></h1>
+								<address><?php echo getAuthorDetail($mostpopular['postId'],0,0); ?></address>
+								<time><?php echo $mostpopular['publish_date']; ?></time>
+							</section>
+						</article>
+						
+						<?php  }  ?>
+					</main>
+				</div>
+
+				<?php } ?>
+
+				<div class='rule'></div>
+
+				
+<?php get_footer(); ?>

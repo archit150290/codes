@@ -1,0 +1,269 @@
+// landing for video (dharmatalks, film club)
+////////////////////////
+%landing-video {
+  @extend %stack;
+  @extend %marquee-image;
+  @include margin($base-spacing null null);
+
+  &.dharmatalks .button {
+    &:hover {
+      background-color: $clr-dharmatalks;
+    }
+  }
+
+  &.filmclub .button {
+    &:hover {
+      background-color: $clr-filmclub;
+    }
+  }
+
+  &.filmfestival .button {
+    &:hover {
+      background-color: $clr-filmfestival;
+    }
+  }
+
+  article {
+    @include clearfix;
+
+    &.dharmatalks {
+      @include dept-hover($clr-dharmatalks);
+
+      address {
+        @extend %dharmatalks-speaker;
+      }
+
+      figure {
+        @include video-hover($clr-dharmatalks);
+      }
+    }
+
+    &.filmclub {
+      @include dept-hover($clr-filmclub);
+
+      address {
+        @extend %filmclub-speaker;
+      }
+
+      figure {
+        @include video-hover($clr-filmclub);
+      }
+    }
+
+    &.filmfestival {
+      @include dept-hover($clr-filmfestival);
+
+      address {
+        @extend %filmfestival-speaker;
+      }
+
+      figure {
+        @include video-hover($clr-filmfestival);
+      }
+    }
+
+    p {
+      color: $clr-gray-mid;
+
+      @include media($tablet-to-desktop) {
+        font-size: 1.125em;
+        line-height: 1.3;
+      }
+    }
+  }
+
+  section {
+    @include padding($base-spacing null);
+  }
+
+  time,
+  h2 {
+    margin-top: 0;
+  }
+
+  .subdept {
+    color: $clr-gray-midhi;
+    display: inline-block;
+
+    + .topic {
+      @include media($mobile-up) {
+        @include topic-1line;
+      }
+    }
+  }
+
+
+  figure {
+    @extend %video-figure_small;
+  }
+
+  h1 {
+    margin-bottom: 0;
+  }
+
+  .synopsis {
+    padding-bottom: 0;
+  }
+
+  .h2 {
+    margin-bottom: 0;
+  }
+
+  .view-contents {
+    @extend %view-contents;
+  }
+}
+
+// video landing marquee
+.landing-marquee_video {
+  @extend %landing-video;
+
+  @include media($max) {
+    @include position;
+  }
+
+  article {
+    @include media($wide-up) {
+      @include padding(null $base-spacing);
+    }
+
+    @include media($desktop-up) {
+      margin-bottom: 0;
+    }
+
+
+    img {
+      @include media($desktop-up) {
+        height: 24em;
+      }
+
+      @include media($wide-up) {
+        height: 27em;
+      }
+    }
+  }
+
+  section {
+    @include media($wide-up) {
+      @include padding(null 0);
+    }
+  }
+
+  time,
+  h2 {
+    margin-top: 0;
+  }
+
+  figure {
+    @include media($wide-up) {
+      @include span-columns(8 of 12);
+    }
+  }
+
+  main h1,
+  address {
+    font-size: $heading-font-size;
+
+    @include media($desktop-up) {
+      font-size: 2.5em;
+    }
+
+    @include media($wide-up) {
+      font-size: 4em;
+    }
+  }
+
+  address {
+    @include media($desktop-up) {
+      line-height: 1;
+    }
+  }
+
+  .synopsis {
+    @include media($wide-up) {
+      @include span-columns(4 of 12);
+      padding-top: 0;
+    }
+  }
+}
+
+// video landing stack
+.landing-stack_video {
+  @extend %landing-video;
+  @extend %landing-more;
+
+  article {
+    @include media($desktop-up) {
+      @include padding(null $base-spacing);
+    }
+
+    img {
+      @include media($desktop-up) {
+        height: 12em;
+        min-height: inherit;
+      }
+
+      @include media($wide-up) {
+        height: 15em;
+      }
+    }
+  }
+
+  section {
+    @include media($desktop-up) {
+      @include padding(null 0);
+    }
+  }
+
+  address {
+    font-size: 1.5em;
+    line-height: 1.5;
+
+    @include media($desktop-up) {
+      line-height: 1.3;
+    }
+  }
+
+  h1,
+  address {
+
+    @include media($desktop-up) {
+      font-size: $heading-font-size;
+    }
+
+    @include media($wide-up) {
+      font-size: 2.5em;
+    }
+  }
+
+
+  figure {
+    @include media($desktop-up) {
+      @include span-columns(4 of 12);
+    }
+  }
+
+  .synopsis {
+    @include media($desktop-up) {
+      @include span-columns(8 of 12);
+      padding-top: 0;
+    }
+  }
+
+  .more {
+    text-align: center;
+
+    &.filmclub {
+      @include dept-button($clr-filmclub);
+    }
+
+    &.dharmatalks {
+      @include dept-button($clr-dharmatalks);
+    }
+
+    &.filmfestival {
+      @include dept-button($clr-filmfestival);
+    }
+
+  }
+}

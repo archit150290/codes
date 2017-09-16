@@ -1,0 +1,50 @@
+/**
+ * 8.0 Alignments
+ */
+
+.alignleft {
+    display: inline;
+    float: left;
+}
+
+.alignright {
+    display: inline;
+    float: right;
+}
+
+.aligncenter {
+    display: block;
+    margin-right: auto !important;
+    margin-left: auto !important;
+}
+
+blockquote.alignleft, .wp-caption.alignleft/*, img.alignleft*/ {
+    margin: 0.4em 1.6em 1.6em 0;
+}
+
+blockquote.alignright, .wp-caption.alignright/*, img.alignright*/ {
+    margin: 0.4em 0 1.6em 1.6em;
+}
+
+blockquote.aligncenter, .wp-caption.aligncenter, /*img.aligncenter*/ {
+    clear: both;
+    margin-top: 0.4em;
+    margin-bottom: 1.6em;
+}
+
+.wp-caption.alignleft, .wp-caption.alignright, .wp-caption.aligncenter {
+    margin-bottom: 1.2em;
+}
+
+.article-main_base .article-body blockquote p, 
+.article-main_base .article-body blockquote p:first-of-type::first-letter, 
+.article-main_base .article-body blockquote p:first-of-type::first-line,
+.article-main_hero .article-body blockquote p, 
+.article-main_hero .article-body blockquote p:first-of-type::first-letter, 
+.article-main_hero .article-body blockquote p:first-of-type::first-line {
+    color: #666666 !important;
+    font-size: 1em  !important;
+    font-weight: normal  !important;
+    margin: 0 !important;
+    padding: 7px 0 !important;
+}

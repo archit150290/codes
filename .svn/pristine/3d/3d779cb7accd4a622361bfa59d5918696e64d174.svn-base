@@ -1,0 +1,288 @@
+<?php
+/**
+ * This function sets up the required structure in tricycle theme.
+ */
+function tricycle_setup() 
+{
+    // Add default posts and comments RSS feed links to head.
+    add_theme_support( 'automatic-feed-links' );
+
+    /*
+     * Let WordPress manage the document title.
+     * By adding theme support, we declare that this theme does not use a
+     * hard-coded <title> tag in the document head, and expect WordPress to provide it for us.
+     */
+    add_theme_support( 'title-tag' );
+
+    /*
+     * Enable support for Post Thumbnails on posts and pages.
+     */
+    add_theme_support( 'post-thumbnails' );
+    set_post_thumbnail_size( 500, 250 ); // 500 pixels wide by 250 pixels tall, resize mode
+    //add_image_size( 'custom-size', 220, 180 );
+    //add_image_size( 'custom-size', 220, 180 );
+
+    /*
+     * Switch default core markup for search form, comment form, and comments to output valid HTML5.
+     */
+    add_theme_support( 'html5', array(
+            'search-form', 'comment-form', 'comment-list', 'gallery', 'caption'
+    ) );
+
+
+    /*
+     * This theme styles the visual editor to resemble the theme style, specifically font, colors, icons, and column width.
+     */
+    add_editor_style( array( 'editor-style.css') );
+    
+    add_post_type_support( 'post', array('excerpt') );
+}
+
+/**
+ * This action hook is used to call the function tricycle_setup().
+ */
+add_action( 'after_setup_theme', 'tricycle_setup' );
+
+
+include_once 'functions-magazine.php';
+
+if(!function_exists("pr"))
+{
+    /**
+     * This function prints the data in formatted way.
+     * @param Integer/String/Array $data
+     * @return null
+     */
+    function pr($data)
+    {
+        echo "<pre>";
+        print_r($data);
+        echo "</pre>";
+        return;
+    }
+}
+
+/**
+ * This function returns the category id by slug.
+ * @param String $category_slug
+ * @return Integer
+ */
+function get_category_id_by_slug($category_slug)
+{
+    $idObj = get_category_by_slug($category_slug); //It return category data object
+    if($idObj)
+    {
+        $id = $idObj->term_id;
+        return $id;
+    }
+    else
+    {
+        return null;
+    }
+}
+
+/**
+ * This function returns the page id by slug.
+ * @param String $page_slug
+ * @return Integer
+ */
+function get_page_id_by_slug($page_slug)
+{
+    $page = get_page_by_path($page_slug);
+    if ($page)
+    {
+        return $page->ID;
+    }
+    else
+    {
+        return null;
+    }
+}
+
+/**
+ * This function returns the slug(name) of a post by id;
+ * @param Integer $id
+ * @return String
+ */
+function get_slug_by_id($id) 
+{
+    $obj = get_post($id);
+    return $obj->post_name;
+}
+
+define("TRIKE_DAILY_SLUG", "blog");
+
+/**
+ * This function return the url of trike daily.
+ * @return String
+ */
+function get_trike_daily_url()
+{
+    return get_category_link(get_category_id_by_slug(TRIKE_DAILY_SLUG));
+}
+
+define("MAGAZINE_SLUG", "magazine");
+
+/**
+ * This function return the url of magazine.
+ * @return String
+ */
+function get_magazine_url()
+{
+    return get_category_link(get_category_id_by_slug(MAGAZINE_SLUG));
+}
+
+define("DHARMA_TALKS_SLUG", "dharma-talks");
+
+/**
+ * This function return the url of dharma talks.
+ * @return String
+ */
+function get_dharma_talks_url()
+{
+    return get_category_link(get_category_id_by_slug(DHARMA_TALKS_SLUG));
+}
+
+define("FILM_CLUB_SLUG", "film-club");
+
+/**
+ * This function return the url of film club.
+ * @return String
+ */
+function get_film_club_url()
+{
+    return get_category_link(get_category_id_by_slug(FILM_CLUB_SLUG));
+}
+
+define("E_BOOKS_SLUG", "e-books");
+
+/**
+ * This function return the url of e books.
+ * @return String
+ */
+function get_e_books_url()
+{
+    return get_category_link(get_category_id_by_slug(E_BOOKS_SLUG));
+}
+
+define("ONLINE_COURSES_SLUG", "online-courses");
+
+/**
+ * This function return the url of dharma talks.
+ * @return String
+ */
+function get_online_courses_url()
+{
+    return;
+    //return get_category_link(get_category_id_by_slug(ONLINE_COURSES_SLUG));
+}
+
+define("ABOUT_SLUG", "about");
+define("CONTACT_SLUG", "contact");
+define("ADVERTISE_SLUG", "advertise");
+define("TERMS_OF_SERVICE_SLUG", "terms-of-service");
+define("PRIVACY_POLICY_SLUG", "privacy-policy");
+
+/**
+ * This function returns the sitemap url.
+ * @return string
+ */
+function get_sitemap_url()
+{
+    return;
+}
+
+/*****************************************Custom Meta Boxes - Starts here*********************************************/
+/**
+ * This function is used to create metaboxes for "post" post type. 
+ */
+function add_post_meta_boxes()
+{
+    add_meta_box('post_dek_metabox_id', 'Dek', 'add_post_dek_meta_box', "post", 'normal', 'default');
+    //add_meta_box('related_articles_metabox_id', 'Related Articles', 'add_related_articles_meta_box', ARTICLE_POST_TYPE, 'normal', 'default');
+    //add_meta_box('home_featured_articles_metabox_id', __('Home Featured Article'), 'add_home_featured_articles_meta_box', ARTICLE_POST_TYPE, 'normal', 'default');
+    //add_meta_box('article_layout_metabox_id', 'Layout', 'add_layout_meta_box', ARTICLE_POST_TYPE, 'normal', 'default');
+}
+
+define("POST_DEK_META_KEY", "post_dek");
+
+/**
+ * This action hook is used to call the function add_post_meta_boxes().
+ */
+add_action('add_meta_boxes', 'add_post_meta_boxes');
+
+/**
+ * This function adds a meta box of "Dek" and called from "add_post_meta_boxes".
+ * @param Object $post
+ */
+function add_post_dek_meta_box($post)
+{
+    wp_nonce_field('post_save_meta_box_data', 'post_meta_box_nonce');
+    
+    $post_dek = get_post_meta($post->ID, POST_DEK_META_KEY, true);
+    ?>
+    <input type="text" name="post_dek" style="width: 100%;" value="<?php echo esc_attr($post_dek); ?>" />
+    <?php
+}
+
+/**
+ * When the post is saved, saves our custom data.
+ *
+ * @param int $post_id The ID of the post being saved.
+ */
+function save_post_meta_box_data( $post_id ) 
+{
+    /*
+     * We need to verify this came from our screen and with proper authorization,
+     * because the save_post action can be triggered at other times.
+     */
+
+    // Check if our nonce is set.
+    if ( ! isset( $_POST['post_meta_box_nonce'] ) ) 
+    {
+        return;
+    }
+
+    // Verify that the nonce is valid.
+    if ( ! wp_verify_nonce( $_POST['post_meta_box_nonce'], 'post_save_meta_box_data' ) ) 
+    {
+        return;
+    }
+
+    // If this is an autosave, our form has not been submitted, so we don't want to do anything.
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
+    {
+        return;
+    }
+
+    // Check the user's permissions.
+    if ( isset( $_POST['post_type'] ) && 'page' == $_POST['post_type'] ) 
+    {
+        if ( ! current_user_can( 'edit_page', $post_id ) ) 
+        {
+            return;
+        }
+
+    } 
+    else 
+    {
+        if ( ! current_user_can( 'edit_post', $post_id ) ) 
+        {
+            return;
+        }
+    }
+
+    /* OK, it's safe for us to save the data now. */
+
+    // Sanitize user input.
+    $post_dek_data = sanitize_text_field( $_POST['post_dek'] );
+
+    // Update the meta field in the database.
+    update_post_meta($post_id, POST_DEK_META_KEY, $post_dek_data);
+}
+
+/**
+ * This action hook is called to call "save_meta_box_data".
+ */
+add_action('save_post', 'save_post_meta_box_data');
+/*****************************************Custom Meta Boxes - Ends here*********************************************/

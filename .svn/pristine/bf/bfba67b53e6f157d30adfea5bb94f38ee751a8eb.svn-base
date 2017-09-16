@@ -1,0 +1,348 @@
+<?php
+define("DHARMATALKS_POST_TYPE", "dharmatalks");
+
+function custom_post_type_and_taxonomy_init_dharmatalks() {
+    $labels = array(
+        'name' => _x('Dharma Talks', 'post type general name', 'your-plugin-textdomain'),
+        'singular_name' => _x('Dharma-Talk', 'post type singular name', 'your-plugin-textdomain'),
+        'menu_name' => _x('Dharma Talks', 'admin menu', 'your-plugin-textdomain'),
+        'name_admin_bar' => _x('Dharma-Talk', 'add new on admin bar', 'your-plugin-textdomain'),
+        'add_new' => _x('Add New', 'article', 'your-plugin-textdomain'),
+        'add_new_item' => __('Add New Talk', 'your-plugin-textdomain'),
+        'new_item' => __('New Talk', 'your-plugin-textdomain'),
+        'edit_item' => __('Edit Talk', 'your-plugin-textdomain'),
+        'view_item' => __('View Talk', 'your-plugin-textdomain'),
+        'all_items' => __('All Talks', 'your-plugin-textdomain'),
+        'search_items' => __('Search Articles', 'your-plugin-textdomain'),
+        'parent_item_colon' => __('Parent Articles:', 'your-plugin-textdomain'),
+        'not_found' => __('No articles found.', 'your-plugin-textdomain'),
+        'not_found_in_trash' => __('No articles found in Trash.', 'your-plugin-textdomain')
+    );
+
+    $args = array(
+        'labels' => $labels,
+        'public' => true,
+        'publicly_queryable' => true,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'rewrite' => array('slug' => DHARMATALKS_POST_TYPE, 'with_front' => true),
+        'capability_type' => 'post',
+        'has_archive' => true,
+        'hierarchical' => true,
+        'menu_position' => null,
+        'supports' => array('title', 'editor', 'author', 'thumbnail', 'comments', 'excerpt'),
+        'taxonomies' => array('post_tag'),
+        'register_meta_box_cb' => 'add_dharma_talks_meta_boxes'
+    );
+
+    register_post_type(DHARMATALKS_POST_TYPE, $args);
+}
+
+add_action('init', 'custom_post_type_and_taxonomy_init_dharmatalks');
+
+function add_dharma_talks_meta_boxes() {
+    add_meta_box('dharmatalks_shorttrailer_metabox_id', 'Trailer', 'add_dharmatalks_shorttrailer_metabox', DHARMATALKS_POST_TYPE, 'normal', 'default');
+    for($av = 1; $av < 5; $av++){
+        add_meta_box('dharmatalks_video'.$av.'_metabox_id', 'Video '.$av, 'add_dharmatalks_videos_metabox', DHARMATALKS_POST_TYPE, 'normal', 'default',$av);
+    }
+    add_meta_box('dharmatalks_videos_metabox_id', 'Add More Videos', 'add_morevideos_dharmatalks', DHARMATALKS_POST_TYPE, 'normal', 'default');
+    add_meta_box('dharmatalks_home_featured_articles_metabox_id', __('Set Home Page Marquee'), 'add_dharma_talks_home_featured_articles_meta_box', DHARMATALKS_POST_TYPE, 'normal', 'default');
+}
+
+define("DHARMA_TALKS_TRAILER_TITLE_META_KEY", "dharma_talks_trailer_title");
+define("DHARMA_TALKS_TRAILER_TITLE_URL_FORMAT_META_KEY", "dharma_talks_trailer_title_url_format");
+define("DHARMA_TALKS_TRAILER_URL_META_KEY", "dharma_talks_trailer_url");
+define("DHARMA_TALKS_TRAILER_TIME_LENGTH_META_KEY", "dharma_talks_trailer_time_length");
+define("DHARMA_TALKS_TRAILER_TRANSCRIPTS_PDF_URL_META_KEY", "dharma_talks_trailer_transcripts_pdf_url");
+define("DHARMA_TALKS_VIDEO1_TITLE_META_KEY", "dharma_talks_video1_title");
+define("DHARMA_TALKS_VIDEO1_TITLE_SLUG_META_KEY", "dharma_talks_video1_slug_title");
+define("DHARMA_TALKS_VIDEO1_URL_META_KEY", "dharma_talks_video1_url");
+define("DHARMA_TALKS_VIDEO1_TIME_LENGTH_META_KEY", "dharma_talks_video1_time_length");
+define("DHARMA_TALKS_VIDEO1_TRANSCRIPTS_PDF_URL_META_KEY", "dharma_talks_video1_transcripts_pdf_url");
+define("DHARMA_TALKS_VIDEO2_TITLE_META_KEY", "dharma_talks_video2_title");
+define("DHARMA_TALKS_VIDEO2_TITLE_SLUG_META_KEY", "dharma_talks_video2_slug_title");
+define("DHARMA_TALKS_VIDEO2_URL_META_KEY", "dharma_talks_video2_url");
+define("DHARMA_TALKS_VIDEO2_TIME_LENGTH_META_KEY", "dharma_talks_video2_time_length");
+define("DHARMA_TALKS_VIDEO2_TRANSCRIPTS_PDF_URL_META_KEY", "dharma_talks_video2_transcripts_pdf_url");
+define("DHARMA_TALKS_VIDEO3_TITLE_META_KEY", "dharma_talks_video3_title");
+define("DHARMA_TALKS_VIDEO3_TITLE_SLUG_META_KEY", "dharma_talks_video3_slug_title");
+define("DHARMA_TALKS_VIDEO3_URL_META_KEY", "dharma_talks_video3_url");
+define("DHARMA_TALKS_VIDEO3_TIME_LENGTH_META_KEY", "dharma_talks_video3_time_length");
+define("DHARMA_TALKS_VIDEO3_TRANSCRIPTS_PDF_URL_META_KEY", "dharma_talks_video3_transcripts_pdf_url");
+define("DHARMA_TALKS_VIDEO4_TITLE_META_KEY", "dharma_talks_video4_title");
+define("DHARMA_TALKS_VIDEO4_TITLE_SLUG_META_KEY", "dharma_talks_video4_slug_title");
+define("DHARMA_TALKS_VIDEO4_URL_META_KEY", "dharma_talks_video4_url");
+define("DHARMA_TALKS_VIDEO4_TIME_LENGTH_META_KEY", "dharma_talks_video4_time_length");
+define("DHARMA_TALKS_VIDEO4_TRANSCRIPTS_PDF_URL_META_KEY", "dharma_talks_video4_transcripts_pdf_url");
+define("DHARMA_TALKS_AUTHORS_NAME_METABOX", "authors_name_metabox");
+define("DHARMA_TALKS_AUTHORS_SELECT_METABOX", "authors_select_metabox");
+
+function add_dharmatalks_authors_metabox($post) {
+    $dharma_talks_authorname = get_post_meta($post->ID, DHARMA_TALKS_AUTHORS_NAME_METABOX, true);
+    ?>
+    <input type="text" placeholder="Add First Name and Last Name separated by Commas , or Slashe / " style="width: 85%" name="dharmatalks_authors_name_metabox" value="<?php echo $dharma_talks_authorname; ?>">
+    <br/>
+    <label>(Please add by line like: By/Directed By/ Edited By  [author1] [author2]) </label>
+    <?php
+}
+ 
+function add_dharmatalks_shorttrailer_metabox($post) {
+    $upload_dir = wp_upload_dir();
+    $videos_values = json_decode(get_post_meta($post->ID, "results_more_videos_metakey", true),true);
+    $videos_dharmatalks = json_decode(get_post_meta($post->ID, "videos_dharmatalks", true),true);
+    //pr($videos_dharmatalks);
+    $counter_dtalks = count($videos_dharmatalks["title"]);
+    $trailertitle = !empty($videos_dharmatalks["trailertitle"])?$videos_dharmatalks["trailertitle"]:'';
+    $trailerurl = !empty($videos_dharmatalks["trailerurl"])?$videos_dharmatalks["trailerurl"]:'';
+    $trailertl = !empty($videos_dharmatalks["trailertl"])?$videos_dharmatalks["trailertl"]:'';
+    ?>
+    <script type="text/javascript">
+        
+        function upload_meta_image(title,textboxinput)
+        {
+            var meta_image_frame;
+            meta_image_frame = wp.media.frames.meta_image_frame = wp.media({
+            title: title,
+            button: { text:  title },
+            multiple: false
+            }) 
+            .on('select',function(){
+            var attachment = meta_image_frame.state().get('selection').first().toJSON();
+            jQuery("#"+textboxinput).val(attachment.url); 
+            })
+            meta_image_frame.open();
+        }
+        
+    </script>
+    <?php
+    wp_nonce_field('dharmatalks_save_meta_box_data', 'dharmatalks_meta_box_nonce');
+    ?>
+    <label>Title:</label><div style="clear: both;"></div>
+    <input type="text" name="<?php echo DHARMA_TALKS_TRAILER_TITLE_META_KEY; ?>" style="width: 100%;" value="<?php echo esc_attr($trailertitle); ?>" />
+    <label>Enter the EMBED URL below, which you will find in the SRC attribute within YouTube/Vimeos full embed code snippet.</label><div style="clear: both;"></div>
+    <input placeholder="For example: https://player.vimeo.com/video/###" type="text" name="<?php echo DHARMA_TALKS_TRAILER_URL_META_KEY; ?>" style="width: 100%;" value="<?php echo esc_attr($trailerurl); ?>" />
+    <label>Time Length (In Minutes):</label><div style="clear: both;"></div>
+    <input type="text" name="<?php echo DHARMA_TALKS_TRAILER_TIME_LENGTH_META_KEY; ?>" style="width: 15%;" maxlength="10" value="<?php echo esc_attr($trailertl); ?>" />
+    <!--    <div style="clear: both;"></div><label>Transcripts PDF URL:</label><div style="clear: both;"></div>-->
+    <?php
+    $htmlpdf = '<input id="upload_file" type="hidden" size="36" name="upload_file" value="" />';
+    echo $htmlpdf . "<br>";
+}
+
+
+function add_dharmatalks_videos_metabox($post, $av){
+        $videos_dharmatalks = json_decode(get_post_meta($post->ID, "videos_dharmatalks", true),true);
+        $video_number = $av['args']-1;
+        $title = !empty($videos_dharmatalks["title"][$video_number])?$videos_dharmatalks["title"][$video_number]:'';
+        $url = !empty($videos_dharmatalks["url"][$video_number])?$videos_dharmatalks["url"][$video_number]:'';
+        $tl = !empty($videos_dharmatalks["tl"][$video_number])?$videos_dharmatalks["tl"][$video_number]:'';
+        $upload_dir = wp_upload_dir();
+        $savepdffile = !empty($videos_dharmatalks["pdfs"][$video_number])?$videos_dharmatalks["pdfs"][$video_number]:'';
+        if (!empty($savepdffile)) {
+            $upload_baseurl = $upload_dir['baseurl'] . '/' . $savepdffile;
+        } else {
+            $upload_baseurl = "";
+        }?>
+            <label>Title:</label><div style="clear: both;"></div>
+            <input type="text" id="dharma_talks_video<?php echo $video_number; ?>_title" name="dharma_talks_video_title[]" style="width: 100%;" value="<?php echo $title;?>" />
+            <label>Enter the EMBED URL below, which you will find in the SRC attribute within YouTube/Vimeos full embed code snippet.</label><div style="clear: both;"></div>
+            <input placeholder="For example: https://player.vimeo.com/video/###" type="text" name="dharma_talks_video_url[]" style="width: 100%;" value="<?php echo $url;?>" />
+            <label>Time Length (In Minutes):</label><div style="clear: both;"></div>
+            <input type="text" name="dharma_talks_video_time_length[]" style="width: 15%;" maxlength="10" value="<?php echo $tl;?>" />
+            <div style="clear: both;"></div><label>Transcripts PDF URL:</label><div style="clear: both;"></div>
+            <?php
+            $htmlvideo = '<input id="upload_file_pdf_video_'.$video_number.'" type="text" size="90%" name="upload_file_pdf_video[]" value="' . $upload_baseurl . '" />';
+            $htmlvideo .='<input type="button" onclick = upload_meta_image("upload-PDF","upload_file_pdf_video_'.$video_number.'") id="upload_file_pdf_video_'.$video_number.'" value="Upload PDF" />';
+            echo $htmlvideo . "<br>";?>
+       <?php 
+}
+
+function add_morevideos_dharmatalks($post)
+{
+    $videos_dharmatalks = json_decode(get_post_meta($post->ID, "videos_dharmatalks", true),true);
+    $counter_dtalks = count($videos_dharmatalks["title"]);
+    $counter_videos = get_post_meta($post->ID, "countervideos_dharmatalks", true);
+    if(!$counter_videos){
+        $counter_videos = '5';
+    }
+    ?>
+    <div id="morevideos">
+        <input type="hidden" value="<?php echo $counter_videos;?>" id="countervideos" name="countervideos">
+            <?php if($counter_dtalks > 4){
+                $videos_dharmatalks = json_decode(get_post_meta($post->ID, "videos_dharmatalks", true),true);
+                $count_more = 5; 
+                $videos_values = json_decode(get_post_meta($post->ID, "results_more_videos_metakey", true),true);
+               
+                //pr($videos_values);
+                for($i = 4; $i<$counter_dtalks; $i++)
+                {
+                    $title = !empty($videos_dharmatalks["title"][$i])?$videos_dharmatalks["title"][$i]:'';
+                    $url = !empty($videos_dharmatalks["url"][$i])?$videos_dharmatalks["url"][$i]:'';
+                    $time_length = !empty($videos_dharmatalks["tl"][$i])?$videos_dharmatalks["tl"][$i]:'';
+                    if(empty($title) && empty($url) && empty($time_length)){
+                        continue;
+                    }
+                    $upload_dir = wp_upload_dir();
+                        $savepdffile = !empty($videos_dharmatalks["pdfs"][$i])?$videos_dharmatalks["pdfs"][$i]:'';
+                    if (!empty($savepdffile)) {
+                        $upload_baseurl = $upload_dir['baseurl'] . '/' . $savepdffile;
+                    } else {
+                        $upload_baseurl = "";
+                    }?>
+                    <div id="video_<?php echo $i?>">
+                        <label><b>Video <?php echo $count_more;?></b></label></br>
+                        <label>Title:</label><div style="clear: both;"></div>
+                        <input type="text" id="dharma_talks_video<?php echo $i; ?>_title" name="dharma_talks_video_title[]" style="width: 100%;" value="<?php echo $title;?>" />
+                        <label>Enter the EMBED URL below, which you will find in the SRC attribute within YouTube/Vimeos full embed code snippet.</label><div style="clear: both;"></div>
+                        <input placeholder="For example: https://player.vimeo.com/video/###" type="text" name="dharma_talks_video_url[]" style="width: 100%;" value="<?php echo $url;?>" />
+                        <label>Time Length (In Minutes):</label><div style="clear: both;"></div>
+                        <input type="text" name="dharma_talks_video_time_length[]" style="width: 15%;" maxlength="10" value="<?php echo $time_length;?>" />
+                        <div style="clear: both;"></div><label>Transcripts PDF URL:</label><div style="clear: both;"></div>
+                        <?php
+                        $htmlvideo = '<input id="upload_file_pdf_video_'.$i.'" type="text" size="90%" name="upload_file_pdf_video[]" value="' . $upload_baseurl . '" />';
+                        $htmlvideo .='<input type="button" onclick = upload_meta_image("upload-PDF","upload_file_pdf_video_'.$i.'") id="upload_file_pdf_video_'.$i.'" value="Upload PDF" />';
+                        $htmlvideo .='<input type = "submit" class="removemore" name="video_'.$i.'" value = "Remove Video '.$count_more.'">';
+                        echo $htmlvideo . "<br>";?>
+                    </div>
+                <?php
+                $count_more++;
+                }
+            }
+            ?>
+       <!-- More Videos will be added here-->
+    </div>
+    <p id=""><a id="addmorevideo" href="javascript:void(0)">Add More</a></p>
+    <script>
+    jQuery(document).ready(function(){
+        var i = <?php echo $counter_videos;?>;
+        jQuery(document).on('click','#addmorevideo',function(){
+            jQuery('<div id="video_'+i+'"><label><br><b>Another Video</b></label></br>').appendTo('#morevideos');
+            jQuery('<label>Title</label><input type = "text" style="width:100%" name="dharma_talks_video_title[]" >').appendTo('#video_'+i);
+            jQuery('<label>Enter the EMBED URL below, which you will find in the SRC attribute within YouTube/Vimeos full embed code snippet.</label><input placeholder="For example: https://player.vimeo.com/video/###" type = "text" style="width:100%" name="dharma_talks_video_url[]" >').appendTo('#video_'+i);
+            jQuery('<label>Time Length (In Minutes):</label><input type = "text" style="width:100%" name="dharma_talks_video_time_length[]" >').appendTo('#video_'+i);
+            jQuery('<label>Transcripts PDF URL:</label></br><input id="upload_file_pdf_video_'+i+'" type="text" size="90%" name="upload_file_pdf_video[]"/>').appendTo('#video_'+i);
+            jQuery('<input type="button" onclick = upload_meta_image("upload-PDF","upload_file_pdf_video_'+i+'") id="upload_file_pdf_video_'+i+'" value="Upload PDF" />').appendTo('#video_'+i);
+            jQuery('<input type = "submit" class="removemore" name="video_'+i+'" value = "Remove">').appendTo('#video_'+i);
+            i++;
+            jQuery('#countervideos').val(i);        
+        });
+        jQuery(document).on('click','.removemore',function(){
+            var rvideo = jQuery(this).attr('name');
+            console.log(jQuery('#'+rvideo));
+            jQuery('#'+rvideo).empty();
+            return false;
+        });
+    });
+    </script>
+<?php 
+}
+
+function add_dharma_talks_home_featured_articles_meta_box($post) {
+    $home_featured = get_post_meta($post->ID, HOME_FEATURED_META_KEY, true);
+    ?>
+    <label><input type="checkbox" value="1" name="home_featured" id="home_featured" <?php echo ($home_featured) ? "checked='checked'" : ''; ?> /> Set Home Featured</label>
+    <?php
+}
+
+function save_dharma_talks_meta_box_data($post_id) {
+    
+    /*
+     * We need to verify this came from our screen and with proper authorization,
+     * because the save_post action can be triggered at other times.
+     */
+
+    // Check if our nonce is set.
+    if (!isset($_POST['dharmatalks_meta_box_nonce'])) {
+        return;
+    }
+
+    // Verify that the nonce is valid.
+    if (!wp_verify_nonce($_POST['dharmatalks_meta_box_nonce'], 'dharmatalks_save_meta_box_data')) {
+        return;
+    }
+
+    // If this is an autosave, our form has not been submitted, so we don't want to do anything.
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    // Check the user's permissions.
+    if (isset($_POST['post_type']) && 'page' == $_POST['post_type']) {
+        if (!current_user_can('edit_page', $post_id)) {
+            return;
+        }
+    } else {
+        if (!current_user_can('edit_post', $post_id)) {
+            return;
+        }
+    }
+
+    $checkarray = array();
+    $slugarray = array();
+    if(!empty($_POST[DHARMA_TALKS_TRAILER_TITLE_META_KEY]) && !empty($_POST[DHARMA_TALKS_TRAILER_URL_META_KEY])){
+        $checkarray["trailertitle"] = stripslashes($_POST[DHARMA_TALKS_TRAILER_TITLE_META_KEY]);
+        $checkarray["trailerurl"]   = $_POST[DHARMA_TALKS_TRAILER_URL_META_KEY];
+        $checkarray["trailertl"]    = $_POST[DHARMA_TALKS_TRAILER_TIME_LENGTH_META_KEY];
+        $checkarray["trailerslug"]  = sanitize_title($_POST[DHARMA_TALKS_TRAILER_TITLE_META_KEY]);
+    }
+    $checkarray["title"] = $_REQUEST["dharma_talks_video_title"];
+    $checkarray["url"]   = $_REQUEST["dharma_talks_video_url"];
+    $checkarray["tl"]    = $_REQUEST["dharma_talks_video_time_length"];
+    $pdfcheck["pdf"]     = $_REQUEST["upload_file_pdf_video"];
+    
+    $checkarray["title"] = array_map('stripslashes', $checkarray["title"]);
+    for($i = 0; $i < count($checkarray); $i++){
+         if(empty($checkarray["title"][$i]) && !empty($checkarray["url"][$i])){
+             echo $checkarray["title"][$i] = "videos-".$post_id;
+         }
+         
+     }
+    
+    $slugarraynew = array();
+    $slugarraynew[sanitize_title($_POST[DHARMA_TALKS_TRAILER_TITLE_META_KEY])][] = "-";
+    foreach($pdfcheck["pdf"] as $pdf){
+        if (!empty($pdf)){
+            $upload_dir = wp_upload_dir();
+            $upload_baseurl = $upload_dir['baseurl'];
+            $background_file_url = $pdf;
+            $file_array = explode($upload_baseurl, $background_file_url);
+            $filepdf = substr($file_array[1], 1);
+            $checkarray["pdfs"][] = $filepdf;
+        }else{
+           
+            $checkarray["pdfs"][] = ''; 
+        }
+    }
+    //pr($checkarray["pdfs"]);
+    foreach($checkarray["title"] as $title){
+        $slug = sanitize_title($title);
+        $slugarraynew[$slug][] = '-';
+         if(array_key_exists($slug, $slugarraynew)){
+            if(!empty($title) && count($slugarraynew[$slug]) > 1){
+                    $slug = sanitize_title($title)."-".(count($slugarraynew[$slug])-1);
+            }
+            $checkarray["slugs"][] = $slug; 
+        }
+    }
+    $results_json = json_encode($checkarray);
+    $counter_addmore = $_POST['countervideos'];
+    update_post_meta($post_id, "videos_dharmatalks", $results_json);
+    update_post_meta($post_id, "countervideos_dharmatalks", $counter_addmore);
+    $home_featured_post = isset($_POST['home_featured']) ? $_POST['home_featured'] : "";
+    update_post_meta($post_id, HOME_FEATURED_META_KEY, $home_featured_post);
+    if($home_featured_post == "1")
+    {
+        if(!metadata_exists( 'post', $post_id, "menu_order_marquee" ))
+        {
+            update_post_meta($post_id, "menu_order_marquee", "");
+        }
+       
+    }else{
+        delete_post_meta($post_id, "menu_order_marquee", "");
+    }
+}
+
+/**
+ * This action hook is called to call "save_film_club_meta_box_data".
+ */
+add_action('save_post', 'save_dharma_talks_meta_box_data');

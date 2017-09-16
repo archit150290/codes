@@ -1,0 +1,354 @@
+<?php
+//the below code is used to register post type ebooks
+define("EBOOKS_POST_TYPE", "ebooks");
+define("EBOOKS_TAXONOMY", "ebooks-cat");
+
+function custom_post_type_ebooks() {
+   $labels = array(
+        'name' => _x('E-Book', 'post type general name', 'your-plugin-textdomain'),
+        'singular_name' => _x('E-Books', 'post type singular name', 'your-plugin-textdomain'),
+        'menu_name' => _x('E-Books', 'admin menu', 'your-plugin-textdomain'),
+        'name_admin_bar' => _x('E-Books', 'add new on admin bar', 'your-plugin-textdomain'),
+        'add_new' => _x('Add New', 'ebooks', 'your-plugin-textdomain'),
+        'add_new_item' => __('Add New Ebook', 'your-plugin-textdomain'),
+        'new_item' => __('New Ebook', 'your-plugin-textdomain'),
+        'edit_item' => __('Edit Ebook', 'your-plugin-textdomain'),
+        'view_item' => __('View Ebook', 'your-plugin-textdomain'),
+        'all_items' => __('All E-Books', 'your-plugin-textdomain'),
+        'search_items' => __('Search Ebooks', 'your-plugin-textdomain'),
+        'parent_item_colon' => __('Parent Ebooks:', 'your-plugin-textdomain'),
+        'not_found' => __('No Ebooks found.', 'your-plugin-textdomain'),
+        'not_found_in_trash' => __('No Ebooks found in Trash.', 'your-plugin-textdomain')
+    );
+
+    $args = array(
+        'labels' => $labels,
+        'public' => true,
+        'publicly_queryable' => true,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'rewrite' => array('slug' => EBOOKS_POST_TYPE, 'with_front' => false),
+        'capability_type' => 'post',
+        'has_archive' => true,
+        'hierarchical' => false,
+        'menu_position' => null,
+        'supports' => array('title', 'editor', 'author', 'excerpt', 'thumbnail'),
+        'taxonomies' => array('post_tag'),
+            //'register_meta_box_cb' => 'add_ebooks_meta_boxes'
+    );
+    register_post_type(EBOOKS_POST_TYPE, $args);
+}
+
+add_action('init', 'custom_post_type_ebooks');
+
+
+add_action('add_meta_boxes', 'add_ebooks_meta_boxes');
+
+function add_ebooks_meta_boxes() {
+    add_meta_box('ebooks_meta_box_id', 'Upload Ebooks Cover Picture', 'add_ebooks_metabox_cp', EBOOKS_POST_TYPE, 'normal', 'default');
+    add_meta_box('ebooks_download_meta_box_id', 'Upload Ebook File', 'add_ebooks_metabox_files', EBOOKS_POST_TYPE, 'normal', 'default');
+    add_meta_box('ebooks_meta_box_others_id', 'Table of Content', 'add_ebooks_metabox_others', EBOOKS_POST_TYPE, 'normal', 'default');
+    add_meta_box('ebooks_featured_articles_metabox_id', __('Set Home Page Marquee'), 'add_ebooks_home_featured_articles_meta_box', EBOOKS_POST_TYPE, 'normal', 'default');
+}
+
+function add_ebooks_metabox_cp($post) {
+
+    wp_nonce_field(plugin_basename(__FILE__), 'wp_custom_attachment_nonce');
+
+    $coverpicture = '<p class="description">';
+    $coverpicture .= 'Upload your cover picture here.';
+    $coverpicture .= '</p>';
+    $coverpicture .= '<input type="file" id="meta_keyebook_image" name="meta_keyebook_image" value="" size="25" />';
+    echo $coverpicture . "<br>";
+    $coverimagesaved = get_post_meta($post->ID, 'meta_keyebook_image', true);
+    if (!empty($coverimagesaved)) {
+        ?>
+        <img title="<?php echo basename($coverimagesaved['file']); ?>" src="<?php echo $coverimagesaved['url'] ?>" width="100px">
+
+        <?php
+    }
+}
+
+function add_ebooks_metabox_files($post) {
+    $upload_dir = wp_upload_dir();
+    ?>
+
+    <script type="text/javascript">
+        
+        function upload_meta_image(title,textboxinput)
+        {
+            var meta_image_frame;
+            meta_image_frame = wp.media.frames.meta_image_frame = wp.media({
+            title: title,
+            button: { text:  title },
+            multiple: false
+            }) 
+            .on('select',function(){
+            var attachment = meta_image_frame.state().get('selection').first().toJSON();
+            jQuery("#"+textboxinput).val(attachment.url); 
+            })
+            meta_image_frame.open();
+        }
+      
+    </script>
+
+    <?php
+    $savepdffile = get_post_meta($post->ID, 'meta_keyebook_file_pdf', true);
+    if (!empty($savepdffile)) {
+        $upload_baseurl = $upload_dir['baseurl'] . '/' . $savepdffile;
+    } else {
+        $upload_baseurl = "";
+    }
+    $htmlpdf = '<p>';
+    $htmlpdf .= 'Upload your PDF here.';
+    $htmlpdf .= '</p>';
+    $htmlpdf .= '<input id="upload_file_pdf" type="text" size="90%" name="upload_file_pdf" value="' . $upload_baseurl . '" />';
+    $htmlpdf .='<input type="button" onclick = upload_meta_image("upload-PDF-file","upload_file_pdf") id="upload_file_button" value="Upload PDF" />';
+    echo $htmlpdf . "<br>";
+    ?>
+
+    <?php
+    $saveepubfile = get_post_meta($post->ID, 'meta_keyebook_file_epub', true);
+    if (!empty($saveepubfile)) {
+        $upload_baseurl = $upload_dir['baseurl'] . '/' . $saveepubfile;
+    } else {
+        $upload_baseurl = "";
+    }
+    $htmlepub = '<p>';
+    $htmlepub .= 'Upload your EPUB here.';
+    $htmlepub .= '</p>';
+    $htmlepub .='<input id="upload_file_epub" type="text" size="90%" name="upload_file_epub" value="' . $upload_baseurl . '" />';
+    $htmlepub .='<input type="button" onclick = upload_meta_image("upload-EPUB-file","upload_file_epub") id="upload_file_epub_button" value="Upload EPUB" />';
+    echo $htmlepub . "<br>";
+    ?>
+    
+    <?php
+    $savemobifile = get_post_meta($post->ID, 'meta_keyebook_file_mobi', true);
+    if (!empty($savemobifile)) {
+        $upload_baseurl = $upload_dir['baseurl'] . '/' . $savemobifile;
+    } else {
+        $upload_baseurl = "";
+    }
+    $htmlmobi = '<p>';
+    $htmlmobi .= 'Upload your MOBI File here.';
+    $htmlmobi .= '</p>';
+    $htmlmobi .='<input id="upload_file_mobi" type="text" size="90%" name="upload_file_mobi" value="' . $upload_baseurl . '" />';
+    $htmlmobi .='<input type="button" onclick = upload_meta_image("upload-MOBI-file","upload_file_mobi") id="upload_file_mobi_button" value="Upload MOBI" />';
+    echo $htmlmobi . "<br>";
+    ?>
+    <?php
+}
+
+function add_ebooks_metabox_others($post) {
+    $ebooks_title = get_post_meta($post->ID, 'TOC_TITLE_EBOOKS_META_KEY', true);
+    $toc_byline = get_post_meta($post->ID, 'TOC_BYLINE_EBOOKS_META_KEY', true);
+    $toc_title = '<b>';
+    $toc_title .= 'Title';
+    $toc_title .= '</b><br>';
+    $toc_title .='<input type="text" size="100" id="toc_title" name="toc_title" value="' . $ebooks_title . '">';
+    //echo $toc_title.'<br>';
+    $toc = '<b>';
+    $toc .= 'Byline';
+    $toc .= '</b><br>';
+    $toc .= '<input type="text" name="toc_byline" value="" size="100" />';
+    //$toc .='<textarea name="toc_byline" style="width: 100%" rows="10">' . $toc_byline . '</textarea>';
+   //$toc . "<br>";?>
+    
+     
+    <div id="p_scents">
+       <?php
+        $counter=get_post_meta($post->ID, "ebooks_toc_counter", true);
+        if(empty($counter))
+        {
+            $counter="1";
+        }
+        $count=1;
+        for($i=1;$i<=$counter;$i++)
+        {
+        $title=get_post_meta($post->ID, "ebooks_toc_title_".$i, true);
+        //isset ($title) ? $title : "";
+        $author=get_post_meta($post->ID, "ebooks_toc_byline_".$i, true);
+        //isset ($author) ? $author : "";
+        //$eboks_toc= array();
+        ?>
+        <p>
+        <?php if($title=="" & $counter!=1) { 
+             delete_post_meta($post->ID, "ebooks_toc_title_".$i, "");
+             delete_post_meta($post->ID, "ebooks_toc_byline_".$i, "");
+            continue; 
+        }  ?>  
+        <?php echo $count."."; ?>
+        <input type="text" id="ebooks_toc" size="70" name="ebooks_title_<?php echo $i;?>" value="<?php echo $title; ?>" placeholder="Title" />
+        <input type="text" id="ebooks_byline" size="20" name="ebooks_byline_<?php echo $i ?>" value="<?php echo $author; ?>" placeholder="By Line" />
+        <?php $count++; ?>
+        <?php if($i!="1") { ?> <a href="#" id="remScnt">Remove</a> <?php } ?>
+        </p>
+        <?php } ?>
+        <input type="hidden" name="ivalue" id="ivalue" value="<?php echo $counter; ?>" >
+        </div>
+        <p><a href="#" id="addScnt">Click to Add More</a></p>
+
+    <script>
+        
+        jQuery(function() {
+        var scntDiv = jQuery('#p_scents');
+        var i = jQuery('#p_scents p').size() + 1;
+        
+        jQuery('#addScnt').click(function() {
+                jQuery("#ivalue").val(i);
+                jQuery('<p><input type="text" id="p_scnt" size="70" name="ebooks_title_' + i +'" value="" placeholder="Title" /><input type="text" id="p_scnt" size="20" name="ebooks_byline_' + i +'" value="" placeholder="By Line" /></p>').appendTo(scntDiv);
+                i++;
+                return false;
+        });
+        
+        jQuery('#remScnt').live('click', function() { 
+                if( i > 2 ) {
+                        jQuery(this).parent('p').remove();
+                }
+                return false;
+        });
+     });
+    </script>
+    
+<?php }
+
+function add_ebooks_home_featured_articles_meta_box($post) {
+    $home_featured = get_post_meta($post->ID, HOME_FEATURED_META_KEY, true);
+    ?>
+    <label><input type="checkbox" value="1" name="home_featured_ebooks" id="home_featured_ebooks" <?php echo ($home_featured) ? "checked='checked'" : ''; ?> /> Set Home Featured</label>
+        <?php
+    }
+
+    function save_custom_meta_data($post_id) {
+        
+        // Check if our nonce is set.
+        if (!isset($_POST['wp_custom_attachment_nonce'])) {
+            return $post_id;
+        }
+        /* --- security verification --- */
+        if (!wp_verify_nonce($_POST['wp_custom_attachment_nonce'], plugin_basename(__FILE__))) {
+            return $post_id;
+        } // end if
+
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return $post_id;
+        } // end if
+
+        if ('page' == $_POST['post_type']) {
+            if (!current_user_can('edit_page', $post_id)) {
+                return $post_id;
+            } // end if
+        } else {
+            if (!current_user_can('edit_page', $post_id)) {
+                return $post_id;
+            } // end if
+        } // end if
+        /* - end security verification - */
+
+        if (!empty($_FILES['meta_keyebook_image']['name'])) {
+
+            $supported_types = array('image/jpeg', 'image/png', 'image/gif', 'image/jpg');
+
+            // Get the file type of the upload
+            $arr_file_type = wp_check_filetype(basename($_FILES['meta_keyebook_image']['name']));
+            $uploaded_type = $arr_file_type['type'];
+
+
+            // Check if the type is supported. If not, throw an error.
+            if (in_array($uploaded_type, $supported_types)) {
+
+                // Use the WordPress API to upload the file
+                $upload = wp_upload_bits($_FILES['meta_keyebook_image']['name'], null, file_get_contents($_FILES['meta_keyebook_image']['tmp_name']));
+                if (isset($upload['error']) && $upload['error'] != 0) {
+                    wp_die('There was an error uploading your file. The error is: ' . $upload['error']);
+                }
+
+                update_post_meta($post_id, 'meta_keyebook_image', $upload);
+                // end if/else
+            } else {
+                wp_die("The file type that you've uploaded is not a JPEG.");
+            } // end if/else
+        }
+
+
+        if (isset($_POST['upload_file_pdf'])) {
+            $upload_dir = wp_upload_dir();
+            $upload_baseurl = $upload_dir['baseurl'];
+            $background_file_url = $_POST['upload_file_pdf'];
+            $file_array = explode($upload_baseurl, $background_file_url);
+            $filepdf = substr($file_array[1], 1);
+            update_post_meta($post_id, 'meta_keyebook_file_pdf', $filepdf);
+        }
+
+
+        if (isset($_POST['upload_file_epub'])) {
+            $upload_dir = wp_upload_dir();
+            $upload_baseurl = $upload_dir['baseurl'];
+            $background_file_url = $_POST['upload_file_epub'];
+            $file_array = explode($upload_baseurl, $background_file_url);
+            $fileepub = substr($file_array[1], 1);
+            update_post_meta($post_id, 'meta_keyebook_file_epub', $fileepub);
+        }
+
+
+        if (isset($_POST['upload_file_mobi'])) {
+            $upload_dir = wp_upload_dir();
+            $upload_baseurl = $upload_dir['baseurl'];
+            $background_file_url = $_POST['upload_file_mobi'];
+            $file_array = explode($upload_baseurl, $background_file_url);
+            $filemobi = substr($file_array[1], 1);
+            update_post_meta($post_id, 'meta_keyebook_file_mobi', $filemobi);
+        }
+
+//START OF UPDATING OR SAVING VALUES FOR OTHER META BOx
+        $toc_title = sanitize_text_field($_POST['toc_title']);
+        $toc_byline = sanitize_text_field($_POST['toc_title']);
+        $homefeatured_ebooks = sanitize_text_field($_POST['home_featured_ebooks']);
+        update_post_meta($post_id, TOC_TITLE_EBOOKS_META_KEY, $toc_title);
+        update_post_meta($post_id, TOC_BYLINE_EBOOKS_META_KEY, $toc_byline);
+        update_post_meta($post_id, HOME_FEATURED_META_KEY, $homefeatured_ebooks);
+        
+        $counternew=$_REQUEST['ivalue'];
+        update_post_meta($post_id,"ebooks_toc_counter",$counternew);
+        for($i=1;$i<=$counternew;$i++)
+        {
+            echo $ebookstitle=$_REQUEST['ebooks_title_'.$i];
+            echo $ebooksbyline=$_REQUEST['ebooks_byline_'.$i];
+            update_post_meta($post_id,"ebooks_toc_title_".$i,$ebookstitle);
+            update_post_meta($post_id,"ebooks_toc_byline_".$i,$ebooksbyline);
+        } 
+        
+    }
+
+// end save_custom_meta_data
+    add_action('save_post', 'save_custom_meta_data');
+
+    function update_edit_form() {
+        echo ' enctype="multipart/form-data"';
+    }
+
+// end update_edit_form
+    add_action('post_edit_form_tag', 'update_edit_form');
+
+//FUCNTION TO ALLOWED EPUB AND MOBI FILES TO BE UPLOADED.
+    function addUploadMimes($mimes) {
+
+        $mimes = array_merge($mimes, array(
+            'epub' => 'application/octet-stream'
+        ));
+        return $mimes;
+    }
+
+    add_filter('upload_mimes', 'addUploadMimes');
+
+    function addUploadMimesMobi($mimes) {
+
+        $mimes = array_merge($mimes, array(
+            'mobi' => 'application/octet-stream-mobi'
+        ));
+        return $mimes;
+    }
+
+    add_filter('upload_mimes', 'addUploadMimesMobi');
+    ?>
+

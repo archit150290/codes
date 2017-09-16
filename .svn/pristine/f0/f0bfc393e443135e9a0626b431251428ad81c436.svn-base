@@ -1,0 +1,265 @@
+<?php
+/*
+  Template Name: magazine archive
+ */
+//pr($_REQUEST);
+?>
+<?php
+$post = get_post();
+$pageslug = $post->post_name;
+$pageUrl = get_site_url() . "/" . $pageslug . "/";
+?>
+<script>
+    var pageurl = '<?php echo $pageUrl; ?>';
+</script>
+<?php echo get_header(); ?>
+
+<!-- start content -->
+<div class='wrap'>
+
+    <!-- start magazine rubric -->
+    <div class='rubric_top'>
+        <h1><span class='icon icon-dept_magazine'></span>Magazine</h1>
+        <p>The Buddhist Review</p>
+    </div>
+    <!-- end magazine rubric -->
+
+    <!-- start archive_magazine grid -->
+    <div class='archive_magazine'>
+        <div class='rule'></div>
+
+        <header class='rubric_mid magazine'>
+            <h1>Back Issues</h1>
+            <!-- <a class='button' href='#'>Browse By Year</a> -->
+            <?php
+            $currentYear = date('Y');
+            $getSearchArr = explode($pageslug, str_replace("/", "", $_SERVER['REQUEST_URI']));
+            $searchYear = isset($getSearchArr[1]) ? $getSearchArr[1] : $currentYear;
+            ?>
+            <div class='dropdown'>
+                <div class='dropdown-container'>
+                    <p class='button dropdown-button'>Browse By Year</p>
+                    <ul class='dropdown-menu dropdown-select'>
+
+                        <?php
+                        for ($i = $currentYear; $i >= 1991; $i--) {
+                            ?>
+                            <li class="yeardropdown" rel="<?php echo $i; ?>"><a href='javascript:void(0);'><?php echo $i; ?></a></li>
+                            <?php
+                        }
+                        ?>                                                
+                    </ul>
+                </div>
+            </div>
+
+        </header>
+
+        <main>
+            <?php
+            $topicsfinal = get_magazine_issue_terms();
+           // pr($topicsfinal);
+            $count=0;
+            foreach ($topicsfinal as $topics) { 
+                $count;
+                if($count=="12"){break;}
+                $t_id = $topics->term_id;
+                $term_meta = get_option("taxonomy_term_$t_id");
+                $magazine_issue_cover_image = $term_meta['cover_image'];
+                $upload_dir = wp_upload_dir();
+                $upload_baseurl = $upload_dir['baseurl'] . '/' . $magazine_issue_cover_image;
+                ?>
+               <div class='archive-item'>
+                    <?php $term_link = get_term_link( $topics ); ?>
+                <a href='<?php echo $term_link; ?>'>
+                    <figure class='archive-cover_magazine'>
+                        <?php echo getImagewithSrcset($upload_baseurl,'image','','(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,75vw'); ?>
+                    </figure>
+                    <header class='archive-titles'>
+                       <a href="<?php echo $term_link; ?>"> <time class='h2'><?php  echo $topics->name; ?><span class='vol-no'>Volume 24, Number 4</span></time></a>
+                    </header>
+                </a>
+            </div>
+          <?php   $count++; }
+            ?>
+
+            
+        </main>
+
+        <div class='more magazine'>
+            <a class='button' href='#'>Load More</a>
+        </div>
+
+    </div>
+    <!-- end archive_magazine grid -->
+
+    <!-- start Call to Action module -->
+    <div class='CTA-module'>
+        <div class='rule'></div>
+        <div class='CTA-ad' style='
+             background-color: #ddd;
+             line-height: 1; padding: 2em;
+             margin: 0 auto;
+             width: 75%;
+             height: 10em;
+             text-align: center;
+             '>
+            <p>Call-to-Action Module. Can be set in the CMS to any of the following: (1) Ad served via Google DFP Small Business (TBD), (2) Daily Dharma, (3) Subscribe CTA, (4) Newletter CTA</p>
+        </div>
+        <div class='rule'></div>
+    </div>
+    <!-- end Call to Action module -->
+
+    <aside>
+        <div class='aside-depts'>
+            <!-- start aside trikedaily -->
+            <section class='aside-trikedaily'>
+                <header class='rubric_small'>
+                    <h1><a href='<?php echo get_site_url() . '/blog' ?>'><span class='icon icon-dept_trikedaily'></span>Trike Daily</a></h1>
+                    <p>Daily wisdom, teachings &amp; critique</p>
+                </header>
+
+                <main>
+                    <?php
+                    $args = array(
+                        'posts_per_page' => 1,
+                        'orderby' => 'post_date',
+                        'order' => 'DESC',
+                        //'post_type' => 'post',
+                        'post_status' => 'publish',
+                        'suppress_filters' => true
+                    );
+
+                    $querymagazine = new WP_Query($args);
+                    query_posts($querymagazine);
+                    while ($querymagazine->have_posts()) : $querymagazine->the_post();
+
+                        $topicSet = get_the_terms(get_the_ID(), "topic");
+                        $topicName = isset($topicSet[0]) ? $topicSet[0]->name : "";
+                        $topicSlug = isset($topicSet[0]) ? $topicSet[0]->slug : "";
+                        ?>
+                        <article>
+                            <figure>
+                                <a href='<?php the_permalink(); ?>'>
+    <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 50em) 33vw,100vw'); ?>
+                                </a>
+                            </figure>
+                            <section>
+                                <h2 class='rubric trikedaily'><span class='topic'><a href='<?php getTopicUrl($topicSlug); ?>'><?php echo $topicName; ?></a></span></h2>
+                                <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                <p><?php the_excerpt(); ?></p>
+                                <address><?php echo get_post_meta(get_the_ID(), 'authors_select_metabox', true); ?>&nbsp;<?php echo ucfirst(get_post_meta(get_the_ID(), 'authors_name_metabox', true)); ?></address>
+                                <time><?php the_date('M d, Y'); ?></time>
+                            </section>
+                        </article>
+                        <?php
+                    endwhile;
+                    wp_reset_query();
+                    ?>
+                </main>
+                <div class='rule-responsive'></div>
+            </section>
+            <!-- end aside trikedaily -->
+
+            <!-- start aside ebooks -->
+            <section class = 'aside-ebooks'>
+                <header class = 'rubric_small'>
+                    <h1><a href = '<?php echo get_site_url() . '/' . EBOOKS_POST_TYPE; ?>'><span class = 'icon icon-dept_ebooks'></span>E-Books</a></h1>
+                    <p>Tricycle wisdom in e-book format</p>
+                </header>
+
+                <main>
+                    <?php
+                    $args = array(
+                        'posts_per_page' => 1,
+                        'orderby' => 'post_date',
+                        'order' => 'DESC',
+                        'post_type' => EBOOKS_POST_TYPE,
+                        'post_status' => 'publish',
+                        'suppress_filters' => true
+                    );
+
+                    $queryfirst = new WP_Query($args);
+                    query_posts($queryfirst);
+                    while ($queryfirst->have_posts()) : $queryfirst->the_post();
+                        $postId[] = $queryfirst->post->ID;
+
+                        $topicSet = get_the_terms(get_the_ID(), "topic");
+                        $topicName = isset($topicSet[0]) ? $topicSet[0]->name : "";
+                        $topicSlug = isset($topicSet[0]) ? $topicSet[0]->slug : "";
+                        ?>
+                        <article>
+                            <figure>
+                                <a href = '<?php the_permalink(); ?>'>
+    <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 60em) 33vw,(min-width: 37.5em) 50vw,75vw'); ?>	
+                                </a>
+                            </figure>
+                            <section>
+                                <h2 class = 'rubric ebooks'><span class = 'topic'><a href = '<?php getTopicUrl($topicSlug); ?>'><?php echo $topicName; ?></a></span></h2>
+                                <h1><a href = '<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                <p><?php the_excerpt(); ?></p>
+                            </section>
+                        </article>
+                        <?php
+                    endwhile;
+                    wp_reset_query();
+                    ?>
+
+                </main>
+                <div class='rule-responsive'></div>
+            </section>
+            <!-- end aside ebooks -->
+
+            <!-- start aside dharma talks -->
+            <section class='aside-dharmatalks'>
+                <header class='rubric_small'>
+                    <h1><a href='<?php echo get_site_url() . '/' . DHARMATALKS_POST_TYPE; ?>'><span class='icon icon-dept_dharmatalks'></span>Dharma Talks</a></h1>
+                    <p>Video teachings and discussions with contemporary Buddhist teachers</p>
+                </header>
+
+                <main>
+                    <?php
+                    $args = array(
+                        'posts_per_page' => 1,
+                        'orderby' => 'post_date',
+                        'order' => 'DESC',
+                        'post_type' => DHARMATALKS_POST_TYPE,
+                        'post_status' => 'publish',
+                        'suppress_filters' => true
+                    );
+
+                    $querydharma = new WP_Query($args);
+                    query_posts($querydharma);
+                    while ($querydharma->have_posts()) : $querydharma->the_post();
+
+                        $topicSet = get_the_terms(get_the_ID(), "topic");
+                        $topicName = isset($topicSet[0]) ? $topicSet[0]->name : "";
+                        $topicSlug = isset($topicSet[0]) ? $topicSet[0]->slug : "";
+                        ?>
+                        <article>
+                            <figure>
+                                <a href='<?php the_permalink(); ?>'>
+                                    <div class='icon-video_play' data-grunticon-embed></div>
+    <?php echo srcset_post_thumbnail(get_the_ID(), 'image', '', '(min-width: 50em) 33vw,100vw'); ?>    
+                                </a>
+                            </figure>
+                            <section>
+                                <h2 class='rubric dharmatalks'><span class='topic'><a href='<?php getTopicUrl($topicSlug); ?>'><?php echo $topicName; ?></a></span></h2>
+                                <h1><a href='<?php the_permalink(); ?>'><?php the_title(); ?></a></h1>
+                                <address><?php echo get_post_meta(get_the_ID(), 'authors_name_metabox', true); ?></address>
+                                <time><?php the_date('M Y'); ?></time>
+                            </section>
+                        </article>
+                        <?php
+                    endwhile;
+                    wp_reset_query();
+                    ?>
+                </main>
+            </section>
+            <!-- end aside dharma talks -->
+        </div>
+
+        <div class='rule'></div>
+
+        
+
+<?php echo get_footer(); ?>

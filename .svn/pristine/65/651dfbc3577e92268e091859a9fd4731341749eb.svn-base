@@ -1,0 +1,130 @@
+<?php
+
+//Connect to the database
+include_once '../../../wp-config.php';
+$action = $_POST['action'];
+$updateRecordsArray = $_POST['recordsArray'];
+
+if ($action == "updateRecordsListings") {
+    global $wpdb;
+    $listingCounter = 1;
+    foreach ($updateRecordsArray as $recordIDValue) {
+        $my_post = array(
+            'ID' => $recordIDValue,
+            'menu_order' => $listingCounter,
+        );
+        // $query = "UPDATE $wpdb->prefix"."posts SET menu_order = " . $listingCounter . " WHERE ID = " . $recordIDValue;
+        //mysql_query($query) or die('Error.');
+        wp_update_post($my_post);
+        $listingCounter = $listingCounter + 1;
+    }
+    $records = '';
+
+    $args = array(
+       
+        'post_type' => array('post', MAGAZINE_POST_TYPE, DHARMATALKS_POST_TYPE, FILM_CLUB_POST_TYPE, EBOOKS_POST_TYPE, FILM_FESTIVAL_POST_TYPE),
+        'post_status' => 'publish',
+        'meta_query' => array(
+            array(
+                'key' => 'home_featured',
+                'value' => '1',
+                'compare' => 'IN',
+            ),
+        ),
+        'order' => 'ASC',
+        'orderby' => 'menu_order',
+        //'showposts' => 4,
+    );
+    $records = new WP_Query($args);
+
+    if ($records and $records->have_posts()):
+        $data = "";
+        while ($records->have_posts()):
+            $records->the_post();
+            $data .= '
+            <tr id="recordsArray_' . $records->post->ID . '">' .
+                    '<td><a href="post.php?post='.$post->ID.'&action=edit">' . get_the_title() . '</a></td>' .
+//                    '<td>' . $records->post->ID . '</td>' .
+                    '<td>' . $records->post->menu_order . '</td>' .
+                    '</tr>';
+        endwhile;
+        echo $data;
+    else:
+        echo "0";
+    endif;
+}
+
+
+if ($action == "updateCurrentIssues") {
+    global $wpdb, $post;
+    $listingCounter = 1;
+    foreach ($updateRecordsArray as $recordIDValue) {
+        $my_post = array(
+            'ID' => $recordIDValue,
+        );
+        $meta_key = "menu_order";
+        update_post_meta($my_post['ID'], $meta_key, $listingCounter);
+        $listingCounter = $listingCounter + 1;
+    }
+    $records = '';
+
+    $recentissue = get_magazine_issue_terms();
+//pr($topicsfinal);
+    echo $recentissueName = $recentissue[0]->name;
+    
+    function change_order($wp_query) {
+
+        $wp_query->set('meta_key', 'menu_order');
+        $wp_query->set('orderby', 'meta_value');
+        $wp_query->set('order', 'ASC');
+    }
+
+    add_filter('pre_get_posts', 'change_order');
+
+    $args = array(
+        'post_type' => array(MAGAZINE_POST_TYPE),
+        'post_status' => 'publish',
+        'tax_query' => array(
+            'relation' => 'AND',
+            array(
+                'taxonomy' => 'magazine-issue',
+                'field' => 'slug',
+                'terms' => array($recentissueName),
+                'operator' => 'IN',
+            ),
+        ),
+        'meta_query' => array(
+            array(
+                'key' => 'current_issue_meta_key',
+                'value' => '1',
+                'compare' => 'IN',
+            ),
+        ),
+        'order' => 'ASC',
+    );
+
+
+    $eq_query = new WP_Query($args);
+    if ($eq_query and $eq_query->have_posts()):
+        $data = "";
+        while ($eq_query->have_posts()):
+            $eq_query->the_post();
+            $eq_query->post->ID;
+            $abcnew = get_post_meta($post->ID, 'menu_order', true);
+            $data .= '
+            <tr id="recordsArray_' . $post->ID . '">' .
+                    '<td><a href="post.php?post='.$post->ID.'&action=edit">' . get_the_title() . '</a></td>' .
+//                    '<td>' . $post->ID . '</td>' .
+//                    '<td>' . $abcnew . '</td>' .
+                    '</tr>';
+        endwhile;
+        echo $data;
+    else:
+        echo "0";
+    endif;
+}
+
+else {
+    echo "0";
+}
+?>

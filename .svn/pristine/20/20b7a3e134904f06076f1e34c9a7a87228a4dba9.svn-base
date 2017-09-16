@@ -1,0 +1,152 @@
+// Fonts
+//@import url('//hello.myfonts.net/count/2f3547');
+//@import url("//hello.myfonts.net/count/2f591a");
+//@include font-face(gill-sans, '../fonts/2F3547_1_0');
+//@include font-face(gill-sans, '../fonts/2F3547_0_0', normal, italic);
+//@include font-face(gill-sans, '../fonts/2F3547_2_0', bold);
+//@include font-face(gill-sans-cond, '../fonts/2F3547_3_0');
+
+//@include font-face(brandon-grot, '../fonts/2F591A_0_0');
+
+
+@font-face{
+  font-family: brandon-grot;
+  font-style: normal;
+  font-weight: normal;
+  src: url('../fonts/e00ba30a-0bf3-4c76-9392-8641fa237a92.eot?#iefix');
+  src: url('../fonts/e00ba30a-0bf3-4c76-9392-8641fa237a92.eot?#iefix') format('eot'),url('../fonts/69b40392-453a-438a-a121-a49e5fbc9213.woff2') format('woff2'),url('../fonts/9362bca5-b362-4543-a051-2129e2def911.woff') format('woff'),url('../fonts/85060878-ca6c-43cc-ac31-7edccfdca71b.ttf') format('truetype'),url('../fonts/47f089a6-c8ce-46fa-b98f-03b8c0619d8a.svg#47f089a6-c8ce-46fa-b98f-03b8c0619d8a') format('svg');
+}
+
+@font-face{
+  font-family: gill-sans;
+  font-style: italic;
+  font-weight: normal;
+  src:url('../fonts/0fed87fb-0dbf-41e8-a0d1-72f798cdba00.eot?#iefix');
+  src:url('../fonts/0fed87fb-0dbf-41e8-a0d1-72f798cdba00.eot?#iefix') format('eot'),url('../fonts/7120553e-9994-4377-af63-55bd44b0344c.woff2') format('woff2'),url('../fonts/7e6e1775-e8fa-4a7b-87ed-ba0247747274.woff') format('woff'),url('../fonts/195f67f2-28ab-44dd-a756-ee4efcd46111.ttf') format('truetype'),url('../fonts/9d7c8564-0429-4d4f-943a-7cb35892db69.svg#9d7c8564-0429-4d4f-943a-7cb35892db69') format('svg');
+}
+
+@font-face{
+  font-family: gill-sans;
+  font-style: normal;
+  font-weight: bold;
+  src:url('../fonts/e55f9afb-8c92-4a61-ad1a-7f5788bd9c1d.eot?#iefix');
+  src:url('../fonts/e55f9afb-8c92-4a61-ad1a-7f5788bd9c1d.eot?#iefix') format('eot'),url('../fonts/5402bd17-7535-47d2-a0a8-b50dc226348c.woff2') format('woff2'),url('../fonts/1063b047-48b7-4f7c-876b-f93d4ab62b2c.woff') format('woff'),url('../fonts/382d3153-8f7f-4011-9915-0c65e8af150a.ttf') format('truetype'),url('../fonts/f80f42c9-7401-4415-a8d1-575179869201.svg#f80f42c9-7401-4415-a8d1-575179869201') format('svg');
+}
+
+@font-face{
+  font-family: gill-sans;
+  font-style: normal;
+  font-weight: normal;
+  src:url('../fonts/beab4258-af94-4971-a0db-b7bc2bef74bc.eot?#iefix');
+  src:url('../fonts/beab4258-af94-4971-a0db-b7bc2bef74bc.eot?#iefix') format('eot'),url('../fonts/d9f9decc-5fa8-4390-a105-4f89f6b7b055.woff2') format('woff2'),url('../fonts/cd5a93fc-2bb1-48df-8982-11119cd6e270.woff') format('woff'),url('../fonts/b6bdc93b-2720-4c92-b68d-48499456178e.ttf') format('truetype'),url('../fonts/944cce8d-20bf-41c1-ae29-2bc8199859db.svg#944cce8d-20bf-41c1-ae29-2bc8199859db') format('svg');
+}
+
+@font-face{
+  font-family: gill-sans-cond;
+  font-style: normal;
+  font-weight: normal;
+  src:url('../fonts/a44db533-8747-449c-84aa-c0b3e56f8ab4.eot?#iefix');
+  src:url('../fonts/a44db533-8747-449c-84aa-c0b3e56f8ab4.eot?#iefix') format('eot'),url('../fonts/e593d631-0cac-4566-acd4-e56cf65e6804.woff2') format('woff2'),url('../fonts/e3cab668-d4ff-4b5b-84ba-8679fb64707f.woff') format('woff'),url('../fonts/050adafb-8496-40bc-bd7e-c3ac444262da.ttf') format('truetype'),url('../fonts/c702badc-a3be-4674-979d-c07e14404890.svg#c702badc-a3be-4674-979d-c07e14404890') format('svg');
+}
+
+
+@include font-face(lyon-text, '../fonts/LyonText-Regular-Web', $file-formats: eot woff ttf svg);
+@include font-face(lyon-text, '../fonts/LyonText-RegularItalic-Web', normal, italic, $file-formats: eot woff ttf svg);
+@include font-face(lyon-text, '../fonts/LyonText-Bold-Web', bold, $file-formats: eot woff ttf svg);
+@include font-face(lyon-text, '../fonts/LyonText-BoldItalic-Web', bold, italic, $file-formats: eot woff ttf svg);
+
+@include font-face(lyon-display, '../fonts/LyonDisplay-Light-Web', $file-formats: eot woff ttf svg);
+@include font-face(lyon-display, '../fonts/LyonDisplay-LightItalic-Web', normal, italic, $file-formats: eot woff ttf svg);
+@include font-face(lyon-display, '../fonts/LyonDisplay-Medium-Web', bold, $file-formats: eot woff ttf svg);
+@include font-face(lyon-display, '../fonts/LyonDisplay-MediumItalic-Web', bold, italic, $file-formats: eot woff ttf svg);
+
+// Typography
+$gill-sans: 'gill-sans', #{$lucida-grande};
+$gill-sans-cond: 'gill-sans-cond', #{$lucida-grande};
+$brandon-grot: 'brandon-grot', #{$helvetica};
+$lyon-text: 'lyon-text', #{$georgia};
+
+$base-font-family: $gill-sans;
+$article-font-family: $lyon-text;
+$heading-font-family: 'lyon-display', #{$georgia};
+
+// Font Sizes
+$base-font-size: 1em;
+$heading-font-size: 2em;
+$article-font-size: 1.125em;
+
+// Line height
+$base-line-height: 1.2;
+$heading-line-height: 1.125;
+$article-line-height: 1.6;
+
+// Other Sizes
+$base-border-radius: 0;
+$base-spacing: $base-line-height * 1em;
+$small-spacing: $base-spacing / 2;
+$base-z-index: 0;
+
+// Magazine Cover Sizes
+$archive-image-width_mobile: 11.25em;
+$archive-image-width_tablet: 15em;
+$archive-image-width_desktop: 17.5em;
+$archive-image-height_mobile: $archive-image-width_mobile * 1.3175;
+$archive-image-height_tablet: $archive-image-width_tablet * 1.3175;
+$archive-image-height_desktop: $archive-image-width_desktop * 1.3175;
+
+// Colors
+$clr-bg: rgb(245, 243, 243);
+$clr-black: rgb(17, 17, 17);
+$clr-gray-lite: rgb(204, 204, 204);
+$clr-gray-mid: rgb(102, 102, 102);
+$clr-gray-midhi: rgb(153, 153, 153);
+$clr-gray-off: rgb(153, 153, 136);
+$clr-red: rgb(204, 18, 33);
+$clr-text: rgb(45, 45, 45);
+$clr-white: rgb(255, 255, 255);
+$clr-rule: rgb(233, 226, 210);
+
+// Trike Colors
+$clr-trikedaily: rgb(83, 37, 110);
+$clr-ebooks: rgb(0, 97, 118);
+$clr-filmclub: rgb(33, 64, 154);
+$clr-magazine: rgb(128, 28, 74);
+$clr-dharmatalks: rgb(205, 66, 45);
+$clr-filmfestival: rgb(0, 109, 166);
+
+// Our Colors
+// $clr-trikedaily: rgb(242, 159, 5);
+// $clr-ebooks: rgb(2, 40, 115);
+// $clr-filmclub: rgb(4, 191, 173);
+// $clr-magazine: rgb(4, 157, 217);
+// $clr-dharmatalks: rgb(242, 120, 48);
+
+// Font Colors
+$base-font-color: $clr-gray-mid;
+$action-color: $clr-red;
+
+// Border
+$base-border-color: $clr-gray-lite;
+$base-border: 1px solid $base-border-color;
+
+// Background Colors
+$base-background-color: $clr-bg;
+$secondary-background-color: $clr-white;
+
+// Box Shadows
+$header-fixed-shadow: 0 em(1px) em(3px) rgba(0, 0, 0, .2);
+$nav-shadow: .125em 0 .25em rgba(0, 0, 0, .1);
+
+// Forms
+$base-box-shadow: 0 0 3px rgba(#000, .15);
+$form-box-shadow: inset 0 1px 3px rgba(#000, .06);
+$form-box-shadow-focus: $form-box-shadow, 0 0 5px adjust-color($clr-gray-lite, $lightness: -5%, $alpha: -.3);
+
+// Animations
+$base-duration: .15s;
+$base-timing: ease;
+$base-transition: all $base-duration $base-timing;
+
+// Nav padding
+$padding-sides: .75rem;
+$padding-vert: .625rem;

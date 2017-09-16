@@ -1,0 +1,105 @@
+.modal-state[type='checkbox'] {
+  display: none;
+}
+
+.modal-state:checked + .modal-fade-screen {
+  opacity: 1;
+  visibility: visible;
+
+  .modal-inner {
+    top: 0;
+  }
+}
+
+.modal-open {
+  overflow: hidden;
+}
+
+%modal {
+  $modal-background: $base-background-color;
+  $modal-close-color: $clr-gray-lite;
+
+  label {
+    cursor: pointer;
+    margin-bottom: 0;
+  }
+
+  .modal-fade-screen { // overlay
+    @include transition($base-transition);
+    @include position(fixed, 0);
+    background-color: rgba(#000, .85);
+    opacity: 0;
+    padding-top: .6em;
+    text-align: left;
+    visibility: hidden;
+    z-index: 99999999999;
+
+    @include media($desktop-up) {
+      padding-top: 10em;
+    }
+
+    .modal-bg {
+      @include position(absolute, 0);
+      cursor: pointer;
+    }
+  }
+
+  .modal-close {
+    @include position(absolute, $small-spacing $small-spacing null null);
+    @include size(1.5em);
+    background: $modal-background;
+    cursor: pointer;
+
+    &:after,
+    &:before {
+      @include position(absolute, 3px 3px 0 50%);
+      @include transform(rotate(45deg));
+      @include size(.15em 1.5em);
+      background: $modal-close-color;
+      content: '';
+      display: block;
+      margin: -3px 0 0 -1px;
+    }
+
+    &:hover:after,
+    &:hover:before {
+      background: darken($modal-close-color, 10%);
+    }
+
+    &:before {
+      @include transform(rotate(-45deg));
+    }
+  }
+
+  .modal-inner {
+    @include transition(all .5s ease);
+    background: $modal-background;
+    border-radius: $base-border-radius;
+    margin-top: 0;
+    margin: auto;
+    max-height: 95%;
+    overflow: auto;
+    padding: $base-spacing;
+    position: relative;
+    top: -$small-spacing;
+    width: 95%;
+
+    @include media($tablet-up) {
+      max-height: 70%;
+      padding: $base-spacing * 2;
+      width: 60%;
+    }
+
+    @include media($desktop-up) {
+      width: 50%;
+    }
+
+    .modal-intro {
+      margin-bottom: 1em;
+    }
+
+    input {
+      @include margin($small-spacing null);
+    }
+  }
+}

@@ -1,0 +1,99 @@
+<?php
+define("FILM_CLUB_POST_TYPE", "film-club");
+
+function add_film_club_meta_boxes()
+{
+    add_meta_box('article_dek_metabox_id', 'Dek', 'add_film_club_dek_meta_box', FILM_CLUB_POST_TYPE, 'normal', 'default');
+    add_meta_box('home_featured_articles_metabox_id', __('Home Featured Article'), 'add_film_club_home_featured_meta_box', FILM_CLUB_POST_TYPE, 'normal', 'default');
+}
+
+/**
+ * This function adds a meta box of "Dek" and called from "add_post_meta_boxes".
+ * @param Object $post
+ */
+function add_film_club_dek_meta_box($post)
+{
+    wp_nonce_field('film_club_save_meta_box_data', 'film_club_meta_box_nonce');
+    
+    $post_dek = get_post_meta($post->ID, DEK_META_KEY, true);
+    ?>
+    <input type="text" name="post_dek" style="width: 100%;" value="<?php echo esc_attr($post_dek); ?>" />
+    <?php
+}
+
+/**
+ * This function is used to show featured articles meta box.
+ * @param type $post
+ */
+function add_film_club_home_featured_meta_box($post)
+{
+    $home_featured = get_post_meta($post->ID, HOME_FEATURED_META_KEY, true);
+    ?>
+    <label><input type="checkbox" value="1" name="home_featured" id="home_featured" <?php echo ($home_featured) ? "checked='checked'" : ''; ?> /> Set Home Featured</label>
+    <?php
+}
+
+/**
+ * When the post is saved, saves our custom data.
+ *
+ * @param int $post_id The ID of the post being saved.
+ */
+function save_film_club_meta_box_data( $post_id ) 
+{
+    /*
+     * We need to verify this came from our screen and with proper authorization,
+     * because the save_post action can be triggered at other times.
+     */
+
+    // Check if our nonce is set.
+    if ( ! isset( $_POST['film_club_meta_box_nonce'] ) ) 
+    {
+        return;
+    }
+
+    // Verify that the nonce is valid.
+    if ( ! wp_verify_nonce( $_POST['film_club_meta_box_nonce'], 'film_club_save_meta_box_data' ) ) 
+    {
+        return;
+    }
+
+    // If this is an autosave, our form has not been submitted, so we don't want to do anything.
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
+    {
+        return;
+    }
+
+    // Check the user's permissions.
+    if ( isset( $_POST['post_type'] ) && 'page' == $_POST['post_type'] ) 
+    {
+        if ( ! current_user_can( 'edit_page', $post_id ) ) 
+        {
+            return;
+        }
+
+    } 
+    else 
+    {
+        if ( ! current_user_can( 'edit_post', $post_id ) ) 
+        {
+            return;
+        }
+    }
+
+    /* OK, it's safe for us to save the data now. */
+
+    // Sanitize user input.
+    $post_dek_data = sanitize_text_field( $_POST['post_dek'] );
+
+    // Update the meta field in the database.
+    update_post_meta($post_id, DEK_META_KEY, $post_dek_data);
+    
+    $home_featured_post = isset($_POST['home_featured']) ? $_POST['home_featured'] : "";
+    update_post_meta($post_id, HOME_FEATURED_META_KEY, $home_featured_post);
+}
+
+/**
+ * This action hook is called to call "save_film_club_meta_box_data".
+ */
+add_action('save_post', 'save_film_club_meta_box_data');
+?>

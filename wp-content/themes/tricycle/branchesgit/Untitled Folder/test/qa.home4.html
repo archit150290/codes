@@ -1,0 +1,293 @@
+<!--//====neutral link for getting params initially-->
+<div class="link-container">
+    <a class="neutral-link" href="https://www.stitchfix.com/login?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&amp;utm_source=ampush&amp;utm_medium=other">Sign In »</a>
+    <a class="link-login" href="https://www.stitchfix.com/login?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&amp;utm_source=ampush&amp;utm_medium=other">Sign In »</a>
+</div>
+
+<!--Form to test with validations-->
+<div class="get-started__form">
+    <form class="registration-form" novalidate="novalidate" data-init-batch-form-validation="true" data-init-blur-form-validation="true" id="new_user" action="https://www.stitchfix.com/?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_source=ampush&utm_medium=other" accept-charset="UTF-8" method="post">
+        <input name="utf8" type="hidden" value="&#x2713;" />
+        <input type="hidden" name="authenticity_token" value="IOhtRvPWI28RQsC7GTRKOmHMKrq97gG8IRrtGNPtA2UIaKQjGRYBwFJI+00n9HfIZ5D9dupKv4VCCSoXKMTu2Q==" />
+        <div class="registration-form__title">Let’s Get Started</div>
+        <div class="facebook-button facebook-button--inverted">
+            <a href="#/" class="facebook-button__link" id="fb-button" data-controller-path="/linked_accounts/facebook/info" data-controller-action="GET">
+                <div class="facebook-button__content" id="facebook_signup">
+                    <div class="facebook-button__text">SIGN UP WITH FACEBOOK &#xe604;</div>
+                </div>
+            </a>
+        </div>
+        <div class="line-separator"> OR </div>
+
+        <div class="registration-form-main">
+            <div class="registration-form-main__row registration-form-main__row--top bdr-bot">
+                <div class="registration-form-main__input-group registration-form-main__input-group--doubled" data-validate="presence">
+                    <label class="registration-form-main__input-group-label" for="user_first_name">First Name</label>
+                    <input maxlength="30" class="registration-form-main__input" size="30" type="text" name="user[first_name]" id="user_first_name" />
+                    <div class="registration-form-main__input-group-focus"></div>
+                </div>
+                <div class="registration-form-main__input-group registration-form-main__input-group--doubled" data-validate="presence">
+                    <label class="registration-form-main__input-group-label" for="user_last_name">Last Name</label>
+                    <input maxlength="30" class="registration-form-main__input" size="30" type="text" name="user[last_name]" id="user_last_name" />
+                    <div class="registration-form-main__input-group-focus"></div>
+                </div>
+            </div>
+            <div class="registration-form-main__row">
+                <div class="registration-form-main__input-group" data-validate="presence,email,emailUniqueness,emailRareTopLevelDomain">
+                    <label class="registration-form-main__input-group-label" for="user_email">Email</label>
+                    <input maxlength="75" class="registration-form-main__input" size="75" type="email" name="user[email]" id="user_email" />
+                    <div class="registration-form-main__input-group-focus"></div>
+                </div>
+            </div>
+
+            <div class="registration-form-main__row registration-form-main__row--fixed-height registration-form-main__row--hint">
+                <div class="registration-form-main__input-group registration-form-main__input-group--hint" data-validate="presence,zip">
+                    <label class="registration-form-main__input-group-label" for="user_client_attributes_shipping_postcode">Zip Code</label>
+                    <input class="registration-form-main__input" maxlength="10" size="10" type="text" name="user[client_attributes][shipping_postcode]" id="user_client_attributes_shipping_postcode" />
+                    <div class="registration-form-main__input-hint">At this time we ship only to U.S. mailing addresses.</div>
+                    <div class="registration-form-main__input-group-focus"></div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="user[fb_oauth_token]" id="user_fb_oauth_token" />
+        <div class="business-line-toggle">
+            <label for="user[business_line]" class="business-line-toggle__option business-line-toggle__option--womens business-line-toggle__option--selected">
+                Women
+                <input type="radio" name="user[business_line]" id="user_business_line_Womens" value="Womens" class="business-line-toggle__option-input" checked="checked" />
+            </label>
+            <label for="user[business_line]" class="business-line-toggle__option business-line-toggle__option--mens">
+                Men
+                <input type="radio" name="user[business_line]" id="user_business_line_Mens" value="Mens" class="business-line-toggle__option-input" />
+            </label>
+        </div>
+        <div class="registration-form__submission registration-form__submission--womens registration-form__submission--active" data-size-womens>
+            <div>
+                <label class="form-button-group__label" for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id">
+                    Women's Dress Size
+                </label>
+                <div data-validate="presence">
+                    <div class="form-button-group__buttons" id="women-size-buttons">
+                        <input class="form-button-group__button rbtn-scale" type="radio" value="37" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_37" />
+                        <label class="form-button-group__button-label" for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_37">
+                            XS
+                        </label>
+                        <input class="form-button-group__button rbtn-scale" type="radio" value="38" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_38" />
+                        <label class="form-button-group__button-label" for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_38">
+                            S
+                        </label>
+                        <input class="form-button-group__button rbtn-scale" type="radio" value="39" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_39" />
+                        <label class="form-button-group__button-label" for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_39">
+                            M
+                        </label>
+                        <input class="form-button-group__button rbtn-scale" type="radio" value="40" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_40" />
+                        <label class="form-button-group__button-label" for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_40">
+                            L
+                        </label>
+                        <input class="form-button-group__button rbtn-scale" type="radio" value="41" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_41" />
+                        <label class="form-button-group__button-label" for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_41">
+                            XL
+                        </label>
+                        <input class="form-button-group__button rbtn-scale" type="radio" value="119" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_119" />
+                        <label class="form-button-group__button-label" for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_119">
+                            XXL
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <p class="paragraph--fine-print paragraph--fine-print-sizing hidden-xs">
+                Need sizing help? Consult our
+                <a href="#" data-toggle="modal" data-target="#sizeChart-pop" class="size-chart womens-chart">Size Chart &raquo;</a>
+                <br/>
+                We carry sizes 0&ndash;16 (XS&ndash;XXL),
+                as well as maternity and
+                <br> petite&nbsp;clothing. <a href="https://www.stitchfix.com/plus?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Interested in Plus? &raquo; </a>
+            </p>
+
+            <p class="paragraph--fine-print">
+                By signing up you accept the <a href="https://www.stitchfix.com/terms?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">terms and conditions</a> of Stitch&nbsp;Fix.
+            </p>
+            <input type="submit" name="commit" value="Take Your Style Quiz &#xe604;" id="reg_next" class="neutral-btn neutral-btn--primary neutral-btn--cta submit" data-disable-with="Signing up..." />
+            <p class="paragraph--fine-print add-member">
+                Already a member? <a href="https://www.stitchfix.com/login?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Sign In &raquo;</a>
+            </p>
+        </div>
+        <div class="registration-form__submission registration-form__submission--mens  " data-size-mens>
+            <div>
+                <div>
+                    <label class="form-button-group__label" for="user_client_attributes_scalar_attributes_attributes_top_generic_size_id">
+                        Men's Shirt Size
+                    </label>
+                    <div data-validate="presence">
+                        <div class="form-button-group__buttons" id="men-size-buttons">
+                            <input class="form-button-group__button rbtn-scale" type="radio" value="282" name="user[client_attributes][scalar_attributes_attributes][top_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_top_generic_size_id_282" />
+                            <label class="form-button-group__button-label" for="user_client_attributes_scalar_attributes_attributes_top_generic_size_id_282">
+                                XS
+                            </label>
+                            <input class="form-button-group__button rbtn-scale" type="radio" value="283" name="user[client_attributes][scalar_attributes_attributes][top_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_top_generic_size_id_283" />
+                            <label class="form-button-group__button-label" for="user_client_attributes_scalar_attributes_attributes_top_generic_size_id_283">
+                                S
+                            </label>
+                            <input class="form-button-group__button rbtn-scale" type="radio" value="284" name="user[client_attributes][scalar_attributes_attributes][top_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_top_generic_size_id_284" />
+                            <label class="form-button-group__button-label" for="user_client_attributes_scalar_attributes_attributes_top_generic_size_id_284">
+                                M
+                            </label>
+                            <input class="form-button-group__button rbtn-scale" type="radio" value="285" name="user[client_attributes][scalar_attributes_attributes][top_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_top_generic_size_id_285" />
+                            <label class="form-button-group__button-label" for="user_client_attributes_scalar_attributes_attributes_top_generic_size_id_285">
+                                L
+                            </label>
+                            <input class="form-button-group__button rbtn-scale" type="radio" value="286" name="user[client_attributes][scalar_attributes_attributes][top_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_top_generic_size_id_286" />
+                            <label class="form-button-group__button-label" for="user_client_attributes_scalar_attributes_attributes_top_generic_size_id_286">
+                                XL
+                            </label>
+                            <input class="form-button-group__button rbtn-scale" type="radio" value="287" name="user[client_attributes][scalar_attributes_attributes][top_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_top_generic_size_id_287" />
+                            <label class="form-button-group__button-label" for="user_client_attributes_scalar_attributes_attributes_top_generic_size_id_287">
+                                XXL
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="paragraph--fine-print paragraph--fine-print-sizing hidden-xs">
+                Need sizing help? Consult our
+                <a href="#" data-toggle="modal" data-target="#sizeChart-pop" class="size-chart mens-chart">Size Chart &raquo;</a>
+                <br>
+                We currently carry waist sizes 28-42 and inseams 30-34.
+            </p>
+            <p class="paragraph--fine-print">
+                By signing up you accept the <a href="https://www.stitchfix.com/terms?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">terms and conditions</a> of Stitch&nbsp;Fix.
+            </p>
+
+            <input type="submit" name="commit" value="Complete your profile &#xe604;" class="neutral-btn neutral-btn--mens neutral-btn--cta submit" data-disable-with="Signing up..." />
+
+            <p class="paragraph--fine-print">
+                Already have an account? <a href="https://www.stitchfix.com/login?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Sign In &raquo;</a>
+            </p>
+        </div>
+
+    </form>
+</div>
+
+<!--======footer section to test with links-->
+<ul class="footer__nav">
+    <li>
+        <h5>The service</h5>
+        <ul class="unstyled">
+            <li><a title="Help Center" class="help-center-link" href="https://www.stitchfix.com/help_center?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Help Center</a></li>
+            <li><a title="Contact Us" class="contact-us-link" href="https://www.stitchfix.com/contact_us?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Contact Us</a></li>
+            <li><a title="Gift Cards" class="gift-card-link" href="https://style.stitchfix.com/gifts?utm_campaign=111111222222&utm_source=ampush&utm_medium=other">Gift Cards</a></li>
+            <li><a class="iphone-link" href="https://www.stitchfix.com/iphone-app?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">iPhone App</a></li>
+            <li><a class="plus-sizes-link" href="https://www.stitchfix.com/plus?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_medium=other&utm_source=ampush">Plus Sizes</a></li>
+            <li class="nav__style-tips"><a href="javascript:void(0)" class="style-tips-toggle">Style Tips</a>
+                <ul class="footer__styletips__select--small" style="display: none;">
+                    <li class="choose-women"><a href="http://blog.stitchfix.com/?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_source=ampush&utm_medium=other">Women</a></li>
+                    <li class="choose-men"><a href="http://mensguide.stitchfix.com?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&utm_source=ampush&utm_medium=other">Men</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+
+    <form method="post" accept-charset="UTF-8" action="https://www.stitchfix.com/?utm_campaign=68ba126472fa2d9a8bb75a848dbd29cd&amp;utm_source=ampush&amp;utm_medium=other" id="new_user_pop" data-init-blur-form-validation="true" data-init-batch-form-validation="true" novalidate="novalidate" class="">
+        <input type="hidden" value="✓" name="utf8">
+        <input type="hidden" value="37" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="popupsize">
+        <input type="hidden" value="N6XNgkKhiVmZndbJ6BaaajtZsvdaAsj/STamlcwBZl1UtzE0615aJMabpItASAcvH+rJ4Z+BbS7O8xC76FESSg==" name="authenticity_token">
+        <input value="Womens" type="hidden" name="user[business_line]" id="user_business_line" />
+        <input type="hidden" name="user[fb_oauth_token]" id="user_fb_oauth_token" />
+        <div class="sign-in-form fb-login-c" style="">
+            <div>
+                <ul>
+                    <li><div>
+                            <a href="javascript:void(0)" id="fb-button" data-controller-path="/linked_accounts/facebook/info" data-controller-action="GET" onclick="checkLoginState(this, 'new_user_pop')">
+                                <div id="facebook_logo">
+                                    <span class="facebook-f-logo"><img class="center-facebook-f-logo" src="images/facebook_icon.png"></span>
+                                </div>
+                                <div class="facebook-text-box" id="facebook_signup">SIGN UP WITH FACEBOOK</div>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+                <div class="line-separator"> OR </div>
+            </div>
+        </div>
+        <div class="sign-in-form fb-login-d" style="display:none;">
+            <div data-validate="presence" class="form-group">
+                <ul>
+                    <li><a class="linkFB" data-controller-path="/linked_accounts/facebook/info" data-controller-action="GET" href="javascript:void(0)" onclick="checkLoginState(this, 'new_user_pop')"><i aria-hidden="true" class="fa fa-facebook"></i><span>Continue with Facebook</span></a></li>
+                </ul>
+                <div class="midStrip"><span>OR</span></div>
+            </div>
+        </div>
+        <div data-validate="presence" class="form-group">
+            <label for="user_first_name" class="control-label">First Name</label>
+            <input type="text" id="user_first_name" name="user[first_name]" size="30" class="form-control input-lg" maxlength="30">
+            <div style="color:#F05D61;font-size:11pt" class="error-msg"><em><span>This is a required field</span></em></div></div>
+        <div data-validate="presence" class="form-group">
+            <label for="user_last_name" class="control-label">Last Name</label>
+            <input type="text" id="user_last_name" name="user[last_name]" size="30" class="form-control input-lg" maxlength="30">
+        </div>
+        <div data-validate="presence,email,emailUniqueness, emailValidTopLevelDomain, emailRareTopLevelDomain" class="form-group">
+            <label for="user_email" class="control-label">Email</label>
+            <input type="email" id="user_email" name="user[email]" size="75" class="form-control input-lg" maxlength="75">
+        </div>
+        <div data-validate="presence,zip" class="form-group" style="display: none;">
+            <label for="user_client_attributes_shipping_postcode" class="control-label">Zip Code</label>
+            <input type="hidden" id="user_client_attributes_shipping_postcode" name="user[client_attributes][shipping_postcode]" size="10" maxlength="10" class="form-control input-lg" value="94107">
+            <p class="instructional-note  inline-note">At this time we ship only to U.S. mailing addresses.</p>
+        </div>
+        <div class="form-group submission">
+            <p class="instructional-note">By signing up you accept the <a href="https://www.stitchfix.com/terms">terms and conditions</a> of Stitch&nbsp;Fix.</p>
+            <input type="submit" data-disable-with="Signing up..." class="btn btn-red btn-lg submit" value="Take Your Style Quiz" name="commit">
+            <div class="help-block">Already a member? <a href="https://www.stitchfix.com/login">Sign In »</a></div>
+            <div class="registration-opt-in">
+                <div class="email-opt-in">
+                    <div class="checkbox small">
+                        <input type="hidden" value="0" name="user[email_opt_in]">
+                        <input type="checkbox" id="user_email_opt_in" name="user[email_opt_in]" checked="checked" value="1">
+                        <label for="user_email_opt_in" class="control-label">Id like to receive exclusive news, styling tips and more</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="pad4side">
+        <div class="hero-size-chart">
+
+            <div class="explain">
+                Clothing and accessories hand- selected by a personal stylist, delivered to your door.
+            </div>
+            <div class="form-group" data-validate="presence">
+                <label class="control-label" for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id"> What is your dress size? </label>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-default">
+                        <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_37" value="37" class="form-control rbtn-scale-pop">
+                        <span for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_37">XS</span>
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_38" value="38" class="form-control rbtn-scale-pop">
+                        <span for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_38">S</span>
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_39" value="39" class="form-control rbtn-scale-pop">
+                        <span for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_39">M</span>
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_40" value="40" class="form-control rbtn-scale-pop">
+                        <span for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_40">L</span>
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_41" value="41" class="form-control rbtn-scale-pop">
+                        <span for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_41">XL</span>
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="user[client_attributes][scalar_attributes_attributes][dress_generic_size_id]" id="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_119" value="119" class="form-control rbtn-scale-pop">
+                        <span for="user_client_attributes_scalar_attributes_attributes_dress_generic_size_id_119">XXL</span>
+                    </label>
+                </div>
+                <p class="instructional-note">Need sizing help? Consult our 
+                    <a href="#" data-toggle="modal" data-target="#sizeChart-pop" class="size-chart topsizechart">Size Chart &gt;&gt;</a></p>
+            </div>
+            <div class="actions">
+                <a href="#sign-up" class="get-started btn-block btn btn-red" data-toggle="modal" data-target="#getStart-pop">GET STARTED</a>
+            </div>
+        </div>
+    </div>

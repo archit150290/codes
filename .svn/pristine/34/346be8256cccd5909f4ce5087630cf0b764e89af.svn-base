@@ -1,0 +1,151 @@
+<?php
+
+//the below code is used to register post type ebooks
+define("EBOOKS_POST_TYPE","ebooks");
+function custom_post_type_ebooks()
+{
+  $labels = array(
+        'name'               => _x( 'E-Book', 'post type general name', 'your-plugin-textdomain' ),
+        'singular_name'      => _x( 'E-Books', 'post type singular name', 'your-plugin-textdomain' ),
+        'menu_name'          => _x( 'E-Books', 'admin menu', 'your-plugin-textdomain' ),
+        'name_admin_bar'     => _x( 'E-Books', 'add new on admin bar', 'your-plugin-textdomain' ),
+        'add_new'            => _x( 'Add New', 'ebooks', 'your-plugin-textdomain' ),
+        'add_new_item'       => __( 'Add New Ebook', 'your-plugin-textdomain' ),
+        'new_item'           => __( 'New Ebook', 'your-plugin-textdomain' ),
+        'edit_item'          => __( 'Edit Ebook', 'your-plugin-textdomain' ),
+        'view_item'          => __( 'View Ebook', 'your-plugin-textdomain' ),
+        'all_items'          => __( 'All E-Books', 'your-plugin-textdomain' ),
+        'search_items'       => __( 'Search Ebooks', 'your-plugin-textdomain' ),
+        'parent_item_colon'  => __( 'Parent Ebooks:', 'your-plugin-textdomain' ),
+        'not_found'          => __( 'No Ebooks found.', 'your-plugin-textdomain' ),
+        'not_found_in_trash' => __( 'No Ebooks found in Trash.', 'your-plugin-textdomain' )
+    );  
+  
+   $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'rewrite'            => array( 'slug' => EBOOKS_POST_TYPE, 'with_front' => false ),
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_position'      => null,
+        'supports'           => array('title', 'editor', 'author', 'thumbnail', 'comments'),
+        'taxonomies' => array('post_tag'),
+        'register_meta_box_cb' => 'add_ebooks_meta_boxes'
+    );
+   register_post_type( EBOOKS_POST_TYPE, $args );
+  }
+  add_action('init', 'custom_post_type_ebooks');
+
+  function add_ebooks_meta_boxes()
+  {
+      add_meta_box('ebooks_meta_box_id', 'ebooks', 'add_ebooks_metabox', EBOOKS_POST_TYPE, 'normal', 'default'   );
+  }
+
+  function add_ebooks_metabox($post)
+  {
+      wp_nonce_field(plugin_basename(__FILE__), 'wp_custom_attachment_nonce');
+     
+    $html = '<p class="description">';
+    $html .= 'Upload your PDF here.';
+    $html .= '</p>';
+    $html .= '<input type="file" id="meta_keyebook_file" name="meta_keyebook_file" value="" size="25" />';
+    echo $html."<br>";
+    $authorsaved = get_post_meta($post->ID, 'meta_keyebook_file', true);
+    if($authorsaved!="")
+    {
+    echo "<b>Already Uploaded File: </b>".basename($authorsaved['file']);?>
+    <form action="abc.php" method="post"><input type="hidden" name="deleteebookold"/><input type="submit" name="deleteebook" value="Delete Ebook"></form>
+    <?php }
+    else
+    {
+        echo "<b>No Ebook Selected Yet</b>";
+    }
+    $authorsaved = get_post_meta($post->ID, 'meta_key_ebook_author', true);
+    $authorsname = '<p class="description">';
+    $authorsname .= 'Authors Name.';
+    $authorsname .= '</p>';
+    echo $authorsname;
+    ?>
+    <input type="text" id="authorname" name="authorname" value=<?php echo $authorsaved ; ?>> <?php
+    
+  }
+  
+function save_custom_meta_data($post_id) {
+        // Check if our nonce is set.
+       
+    if ( ! isset( $_POST['wp_custom_attachment_nonce'] ) ) 
+    {
+        return $post_id;
+    }
+    /* --- security verification --- */
+    if(!wp_verify_nonce($_POST['wp_custom_attachment_nonce'], plugin_basename(__FILE__))) {
+      return $post_id;
+    } // end if
+       
+    if(defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+      return $post_id;
+    } // end if
+       
+    if('page' == $_POST['post_type']) {
+      if(!current_user_can('edit_page', $post_id)) {
+        return $post_id;
+      } // end if
+    } else {
+        if(!current_user_can('edit_page', $post_id)) {
+            return $post_id;
+        } // end if
+    } // end if
+    /* - end security verification - */
+    
+    if(!empty($_FILES['meta_keyebook_file']['name'])) {
+        
+//        $size=$_FILES['wp_custom_attachment']['size'];
+//        echo $sizenew=$size/1048576;
+//        die("Unable to connect to");
+//        if($sizenew<=2)
+//        {
+        // Setup the array of supported file types. In this case, it's just PDF.
+        $supported_types = array('application/pdf');
+        
+        // Get the file type of the upload
+        $arr_file_type = wp_check_filetype(basename($_FILES['meta_keyebook_file']['name']));
+        $uploaded_type = $arr_file_type['type'];
+              
+        // Check if the type is supported. If not, throw an error.
+        if(in_array($uploaded_type, $supported_types)) {
+ 
+            // Use the WordPress API to upload the file
+            $upload = wp_upload_bits($_FILES['meta_keyebook_file']['name'], null, file_get_contents($_FILES['meta_keyebook_file']['tmp_name']));
+            
+          
+            if(isset($upload['error']) && $upload['error'] != 0) {
+                wp_die('There was an error uploading your file. The error is: ' . $upload['error']);
+            } else {
+               // add_post_meta($post_id, 'wp_custom_attachment', $upload);
+                update_post_meta($post_id, 'meta_keyebook_file', $upload);     
+            } // end if/else
+ 
+        } else {
+            wp_die("The file type that you've uploaded is not a PDF.");
+        } // end if/else
+         
+    } // end if
+  
+    
+    $ebookauthor = sanitize_text_field( $_POST['authorname'] );
+
+    // Update the meta field in the database.
+    update_post_meta($post_id, 'meta_key_ebook_author', $ebookauthor);
+    
+} // end save_custom_meta_data
+add_action('save_post', 'save_custom_meta_data');
+
+function update_edit_form() {
+    echo ' enctype="multipart/form-data"';
+} // end update_edit_form
+add_action('post_edit_form_tag', 'update_edit_form');
+
