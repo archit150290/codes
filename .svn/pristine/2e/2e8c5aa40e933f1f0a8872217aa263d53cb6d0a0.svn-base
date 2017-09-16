@@ -1,0 +1,59 @@
+<?php 
+
+if(isset($zoomingfeature)){
+    $id = "containerzooming";
+}else{
+    $id = "container";
+}
+?>
+<script type="text/javascript">
+$(function () {
+    var id = '<?php echo $id;?>';
+    $('#'+id).highcharts({
+        chart: {
+            type: 'column'
+        },
+		exporting: {
+         enabled: true
+},
+credits: {
+         enabled: false
+},
+        title: {
+            text: 'Endorsement History by day'
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            title: {
+                text: 'Endorsement'
+            }
+
+        },
+        legend: {
+            enabled: true
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    //format: '{point.y:.1f}'
+                }
+            }
+        },
+
+
+         series: [<?php echo  $data;?>]
+    });
+});
+		</script>
+
+<!--<div id="container" style="min-width: 310px; height: 300px; max-width: 500px; margin: 0 auto"></div>-->
+<?php if($id == "container"){
+    echo '<div id="'.$id.'" style="min-width: 350px; height:338px; max-width:1000px; margin: 0 auto"></div>';
+}else{
+    echo '<div id="'.$id.'" style="min-width: 1100px; height:500px; max-width:10000px; margin: 0 auto"></div>';
+}?>
+

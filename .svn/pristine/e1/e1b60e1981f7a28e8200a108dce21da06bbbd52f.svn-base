@@ -1,0 +1,14 @@
+<html>
+				<head>
+				</head>
+				<body>
+								<?php echo $fname;?>,
+								<br/><br/>
+								You have not endorse in last <?php echo $days;?> day on this nDorse <?php echo $organization_name;?> organization.
+								
+								<br>
+<br>
+Feel free to reach out to the nDorse team for any questions or feedback at <a href="mailto:support@ndorse.net">support@ndorse.net</a>
+								<?php echo $this->element('email_footer'); ?>
+				</body>
+</html>

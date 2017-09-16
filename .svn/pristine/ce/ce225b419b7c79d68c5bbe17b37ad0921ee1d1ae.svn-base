@@ -1,0 +1,11 @@
+<?php echo $fname; ?>,
+<br>
+<br>
+Your password has been updated by nDorse team.
+<br>
+<br>
+Your new password is <?php echo $password; ?>
+<br>
+<br>
+Feel free to reach out to the nDorse team for any questions or feedback at <a href="mailto:support@ndorse.net">support@ndorse.net</a>.
+<?php echo $this->element('email_footer'); ?>

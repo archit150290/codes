@@ -1,0 +1,10 @@
+<html>
+				<head>
+				</head>
+				<body>
+								Hi ,
+								<br>
+								Admin accept this your request.you are now endorser of <?php echo $org_name; ?> group.
+								
+				</body>
+</html>

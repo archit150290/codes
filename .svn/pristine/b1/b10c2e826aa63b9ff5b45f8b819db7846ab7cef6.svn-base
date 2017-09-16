@@ -1,0 +1,8 @@
+<?php echo $fname; ?>,
+<br>
+<br>
+You have not used nDorse app since <?php echo $time_diff; ?>
+<br>
+<br>
+Please feel free to contact us at <a href="mailto:support@ndorse.net">support@ndorse.net</a> for any questions or comments.
+<?php echo $this->element('email_footer'); ?>				

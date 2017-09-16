@@ -1,0 +1,31 @@
+$(document).ready(function () {
+    $(document).on("click", "#savereply", function () {
+    var eid = $(this).attr("data-eid");
+   
+    var replymsg = $("#reply").val().trim();
+    if(replymsg==""){
+        $("#replyerr").html("Please enter reply").show();
+        return;
+    }else{
+     $("#replyerr").html("").hide();   
+    }
+    $.ajax({
+        type: "POST",
+        url: siteurl + 'cajax/endorsereply',
+        data: {eid: eid, reply: replymsg},
+        success: function (data, textStatus, xhr) {
+            var jsonparser = $.parseJSON(data);
+            $("#myModalreply").modal("hide");
+            if(jsonparser["result"]["status"]){
+            alertbootboxcb(jsonparser["result"]["msg"], function(){
+                window.location.reload();
+            });
+            }else{
+               alertbootbox(jsonparser["result"]["msg"]); 
+            }
+        },
+    });
+});
+   
+}); //document ready end
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

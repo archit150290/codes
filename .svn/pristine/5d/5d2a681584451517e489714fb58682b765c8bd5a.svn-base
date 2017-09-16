@@ -1,0 +1,15 @@
+<br>
+<section class="contact-us">
+    <div class="container">
+        <div class="col-md-12 text-center">
+            <div class="col-md-8 col-lg-3">
+                <?php echo $this->Html->Image("/images/Contact-Us.png", array("width" => "224", "height" => "60", "alt" => "", "url" => array("controller" => "site", "action" => "contact")));?>
+            </div>
+            <div class="col-md-4 col-lg-offset-5">
+                <?php echo $this->Html->Image("/images/app-store.png" , array("alt" => "")); ?><br />
+                <?php echo $this->Html->Image("/images/google-play.png" , array("alt" => "")); ?> 
+            </div>
+        </div>
+    </div>
+</section>
+<br />

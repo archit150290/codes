@@ -1,0 +1,9 @@
+<?php echo $this->Form->create('Forgot', array('class' => 'form-signin', 'id' => "recoverUsernameForm")); ?>
+<div class="form-group" >
+<label>Recover Username</label>
+<input type="text" class="form-control" placeholder="Email" name="email"/>
+</div>
+<div class="form-group">
+    <button class="btn  btn-orange btn-block" type="submit">Submit </button>
+</div>
+<?php echo $this->Form->end();?>

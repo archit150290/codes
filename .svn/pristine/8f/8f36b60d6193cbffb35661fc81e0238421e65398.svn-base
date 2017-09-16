@@ -1,0 +1,7 @@
+<?php ?>
+<div class="container">
+    <div class="download-ndorse">
+        <?php echo $this->Html->Image("/images/logo.png", array("width" => "100", "alt" => ""));?>
+    </div>
+</div>
+<?php echo $this->Element("footersite");?>

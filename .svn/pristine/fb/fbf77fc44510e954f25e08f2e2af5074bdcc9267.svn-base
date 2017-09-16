@@ -1,0 +1,57 @@
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+class SiteController extends AppController{
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->theme = 'Website';
+        $this->layout = "site";
+        $this->Auth->allow("index", "about", "client", "faq", "contact", "adminandwebapp");
+    }
+    
+    //============Index page
+    public function index(){
+        $this->set('title_for_layout','Home');
+    }
+    
+    //=============home page
+    public function about(){
+        $this->set('title_for_layout','About');
+    }
+    
+    //============Clients page
+    public function client(){
+        $this->set('title_for_layout','Client');
+    }
+    
+    //============faq page
+    public function faq(){
+        $this->set('title_for_layout','Faq');
+    }
+    
+    //============Contact US
+    public function contact(){
+         $this->set('title_for_layout','Contact Us');
+    }
+    
+    //============Contact US
+    public function adminandwebapp(){
+         $this->set('title_for_layout','Admin and Webapp');
+    }
+    
+    //============Tandc
+    public function tnc(){
+         $this->set('title_for_layout','Terms and Conditions');
+    }
+    
+    //============Tandc
+    public function privacypolicy(){
+         $this->set('title_for_layout','Privacy Policy');
+    }
+    
+}
+

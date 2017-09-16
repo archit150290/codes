@@ -1,0 +1,649 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+class CajaxController extends AppController {
+
+    public $helpers = array('Html', 'Form');
+    public $components = array("Common", 'Session', "Apicalls");
+
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow('sendTnC', 'StaticFormContactus');
+    }
+
+    function joinanorganization() {
+        $this->loadModel("UserOrganization");
+        $this->layout = "ajax";
+        $this->autoRender = false;
+        $loggeduser = $this->Auth->User();
+        $secretcode = $this->request->data["secretcode"];
+        try {
+            $postData = array("token" => $loggeduser["token"], "org_code" => $secretcode);
+            echo $response = $this->Apicalls->curlpost("joinOrganization.json", $postData);
+            $newdata = json_decode($response, true);
+            if ($newdata["result"]["status"] == true) {
+                if (!isset($loggeduser["current_org"])) {
+                    $currentOrg = (object) $newdata["result"]["data"]["Organization"];
+                    $this->Session->write('Auth.User.current_org', $currentOrg);
+                    //$loggeduser["current_org"] = $newdata["result"]["data"]["Organization"];
+                }
+            }
+        } catch (Exception $e) {
+            echo json_encode(array("data" => "", "msg" => $e));
+        }
+    }
+
+    public function sendTnC() {
+        $registeredEmail = $this->Session->read('register');
+        if (!empty($registeredEmail)) {
+            $postData = array("email" => $registeredEmail);
+            echo $response = $this->Apicalls->curlget("sendtermconditions.json", $postData);
+        } else {
+            echo json_encode(array("result" => array("status" => false, "msg" => "Session expired. Please try again.")));
+        }
+        exit;
+    }
+
+    function likeendorse() {
+
+        $this->layout = "ajax";
+        $this->autoRender = false;
+        $loggeduser = $this->Auth->User();
+
+        $endorseid = $this->request->data["endorseid"];
+        $like = $this->request->data["like"];
+        try {
+            $postData = array("token" => $loggeduser["token"], "like" => $like, "e_id" => $endorseid);
+            echo $response = $this->Apicalls->curlpost("endorselike.json", $postData);
+        } catch (Exception $e) {
+            echo json_encode(array("data" => "", "msg" => $e));
+        }
+    }
+
+    // endorse statesearch
+    function getstatesearch() {
+
+        $this->layout = "ajax";
+        $this->autoRender = false;
+        $loggeduser = $this->Auth->User();
+        $postData = array("token" => $loggeduser["token"]);
+
+        if (isset($this->request->data["start_date"]) && trim($this->request->data["start_date"]) != "") {
+            // echo $this->request->data["start_date"];
+            $startdate = explode("-", $this->request->data["start_date"]);
+            $startdate = mktime(0, 0, 0, $startdate[0], $startdate[1], $startdate[2]);
+            $postData["start_date"] = $startdate;
+        }
+        if (isset($this->request->data["end_date"]) && trim($this->request->data["end_date"]) != "") {
+            // echo $this->request->data["end_date"];
+            $enddate = explode("-", $this->request->data["end_date"]);
+            $enddate = mktime(0, 0, 0, $enddate[0], $enddate[1], $enddate[2]);
+            $postData["end_date"] = $enddate;
+        }
+
+        // print_r($postData);
+
+
+        try {
+
+            $jsondata = $this->Apicalls->curlpost("endorsestats.json", $postData);
+
+
+            $jsondatadecoded = json_decode($jsondata, true);
+            if ($jsondatadecoded["result"]["status"]) {
+                $endorsedatadata = $jsondatadecoded["result"]["data"];
+
+
+                $this->set('statesdata', $endorsedatadata);
+
+
+
+
+                echo $htmlstring = $this->render('/Elements/endorsestats');
+            } else {
+                echo "";
+            }
+
+            exit;
+        } catch (Exception $e) {
+            echo json_encode(array("data" => "", "msg" => $e));
+        }
+    }
+
+    // end
+    // get chart core value search
+    function getchartsearch() {
+
+        $this->layout = "ajax";
+        $this->autoRender = false;
+        $loggeduser = $this->Auth->User();
+        $postData = array("token" => $loggeduser["token"], "web" => 1);
+
+
+        if (isset($this->request->data["start_date"]) && trim($this->request->data["start_date"]) != "") {
+            // echo $this->request->data["start_date"];
+            $startdate = explode("-", $this->request->data["start_date"]);
+            $startdate = mktime(0, 0, 0, $startdate[0], $startdate[1], $startdate[2]);
+            $postData["start_date"] = $startdate;
+        }
+        if (isset($this->request->data["end_date"]) && trim($this->request->data["end_date"]) != "") {
+            // echo $this->request->data["end_date"];
+            $enddate = explode("-", $this->request->data["end_date"]);
+            $enddate = mktime(0, 0, 0, $enddate[0], $enddate[1], $enddate[2]);
+            $postData["end_date"] = $enddate;
+        }
+
+        // print_r($postData);
+
+
+        try {
+
+            $jsondata = $this->Apicalls->curlpost("endorsementbycorevalues.json", $postData);
+
+
+            $jsondatadecoded = json_decode($jsondata, true);
+
+            if ($jsondatadecoded["result"]["status"]) {
+                $endorsedatadata = $jsondatadecoded["result"]["data"];
+
+                $this->set('graphbycorevalues', $endorsedatadata);
+
+
+                $this->set('chartdata', $endorsedatadata);
+                echo $htmlstring = $this->render('/Elements/endorsecharts');
+            } else {
+                echo "";
+            }
+
+            exit;
+        } catch (Exception $e) {
+            echo json_encode(array("data" => "", "msg" => $e));
+        }
+    }
+
+    // end
+
+    function getendorse() {
+
+        $this->layout = "ajax";
+        $this->autoRender = false;
+        $loggeduser = $this->Auth->User();
+
+        $page = $this->request->data["page"];
+        $type = $this->request->data["type"];
+        try {
+            $postData = array("token" => $loggeduser["token"], "type" => $type, "page" => $page);
+            $jsondata = $this->Apicalls->curlpost("getEndorseList.json", $postData);
+            $jsondatadecoded = json_decode($jsondata, true);
+            if ($jsondatadecoded["result"]["status"]) {
+                $endorsedatadata = $jsondatadecoded["result"]["data"];
+                $this->set('endorsedata', $endorsedatadata["endorse_data"]);
+                $this->set('total_page', $endorsedatadata["total_page"]);
+
+                echo $htmlstring = $this->render('/Elements/endorsedata');
+            } else {
+                echo "";
+            }
+
+            exit;
+        } catch (Exception $e) {
+            echo json_encode(array("data" => "", "msg" => $e));
+        }
+    }
+
+    function getendorsespecifice() {
+
+        $this->layout = "ajax";
+        $this->autoRender = false;
+        $loggeduser = $this->Auth->User();
+
+        $e_id = $this->request->data["endorser_id"];
+        $type = $this->request->data["endorser_type"];
+        $pagetype = $this->request->data["type"];
+        $page = $this->request->data["page"];
+
+        try {
+
+            $postData = array("token" => $loggeduser["token"], "endorse_type" => $type, "endorse_id" => $e_id, "type" => $pagetype, "page" => $page);
+            // print_r($postData);
+
+            $jsondata = $this->Apicalls->curlpost("getEndorseList.json", $postData);
+
+            $jsondatadecoded = json_decode($jsondata, true);
+            if ($jsondatadecoded["result"]["status"]) {
+                $endorsedatadata = $jsondatadecoded["result"]["data"];
+
+                $this->set('total_page', $endorsedatadata["total_page"]);
+                $this->set('endorsedata', $endorsedatadata["endorse_data"]);
+
+
+                echo $htmlstring = $this->render('/Elements/endorsedata');
+            } else {
+                echo "";
+            }
+
+            exit;
+        } catch (Exception $e) {
+            echo json_encode(array("data" => "", "msg" => $e));
+        }
+    }
+
+    function getendorsedatesearch() {
+
+        $this->layout = "ajax";
+        $this->autoRender = false;
+        $loggeduser = $this->Auth->User();
+        $postData = array("token" => $loggeduser["token"]);
+        if (isset($this->request->data["endorser_id"]) && $this->request->data["endorser_id"] > 0) {
+            $e_id = $this->request->data["endorser_id"];
+            $postData["endorse_id"] = $e_id;
+        }
+        if (isset($this->request->data["endorser_type"])) {
+            $postData["endorse_type"] = $this->request->data["endorser_type"];
+        }
+        if (isset($this->request->data["type"])) {
+            $postData["type"] = $this->request->data["type"];
+        }
+        if (isset($this->request->data["page"])) {
+            $postData["page"] = $this->request->data["page"];
+        }
+        if (isset($this->request->data["start_date"]) && trim($this->request->data["start_date"]) != "") {
+            // echo $this->request->data["start_date"];
+            $startdate = explode("-", $this->request->data["start_date"]);
+            $startdate = mktime(0, 0, 0, $startdate[0], $startdate[1], $startdate[2]);
+            $postData["start_date"] = $startdate;
+        }
+        if (isset($this->request->data["end_date"]) && trim($this->request->data["end_date"]) != "") {
+            // echo $this->request->data["end_date"];
+            $enddate = explode("-", $this->request->data["end_date"]);
+            $enddate = mktime(0, 0, 0, $enddate[0], $enddate[1], $enddate[2]);
+            $postData["end_date"] = $enddate;
+        }
+
+        // print_r($postData);
+
+
+        try {
+
+
+
+
+            $jsondata = $this->Apicalls->curlpost("getEndorseList.json", $postData);
+            // print_r($jsondata);
+
+            $jsondatadecoded = json_decode($jsondata, true);
+            if ($jsondatadecoded["result"]["status"]) {
+                $endorsedatadata = $jsondatadecoded["result"]["data"];
+
+                $this->set('total_page', $endorsedatadata["total_page"]);
+                $this->set('endorsedata', $endorsedatadata["endorse_data"]);
+                $this->set('servertime', $endorsedatadata["server_time"]);
+
+
+                echo $htmlstring = $this->render('/Elements/endorsedata');
+            } else {
+                echo "";
+            }
+
+            exit;
+        } catch (Exception $e) {
+            echo json_encode(array("data" => "", "msg" => $e));
+        }
+    }
+
+    function endorsesearch() {
+
+        $this->layout = "ajax";
+        $this->autoRender = false;
+        $loggeduser = $this->Auth->User();
+
+        $keyword = $this->request->data["keyword"];
+        $search_self = false;
+        if(isset($this->request->data["search_self"]) )
+        {
+            $search_self = $this->request->data["search_self"];
+        }
+
+        try {
+            $postData = array("token" => $loggeduser["token"], "search_self" => $search_self, "keyword" => $keyword);
+            $jsondataresult = $this->Apicalls->curlpost("searchInOrganization.json", $postData);
+            $jsondatadecoded = json_decode($jsondataresult, true);
+          //print_r($jsondatadecoded);
+            if ($jsondatadecoded["result"]["status"]) {
+                //$endorsedatadata = $jsondatadecoded["result"]["data"];
+                //$this->set('endorsedata', $endorsedatadata["endorse_data"]);
+                //
+                echo $jsondataresult;
+                //echo $htmlstring = $this->render('/Elements/endorsedata');
+            } else {
+                echo "";
+            }
+
+            exit;
+        } catch (Exception $e) {
+            echo json_encode(array("data" => "", "msg" => $e));
+        }
+    }
+
+    function endorsereply() {
+
+        $this->layout = "ajax";
+        $this->autoRender = false;
+        $loggeduser = $this->Auth->User();
+
+        $e_id = $this->request->data["eid"];
+        $reply = $this->request->data["reply"];
+
+
+        try {
+            $postData = array("token" => $loggeduser["token"], "e_id" => $e_id, "reply" => $reply);
+            $jsondataresult = $this->Apicalls->curlpost("endorsereply.json", $postData);
+            $jsondatadecoded = json_decode($jsondataresult, true);
+            //print_r($jsondatadecoded);
+            if ($jsondatadecoded["result"]["status"]) {
+                //$endorsedatadata = $jsondatadecoded["result"]["data"];
+                //$this->set('endorsedata', $endorsedatadata["endorse_data"]);
+                echo $jsondataresult;
+
+                //echo $htmlstring = $this->render('/Elements/endorsedata');
+            } else {
+                echo $jsondataresult;
+            }
+
+            exit;
+        } catch (Exception $e) {
+            echo json_encode(array("data" => "", "msg" => $e));
+        }
+    }
+
+    function moreorganizationsJoinorg() {
+        $this->layout = "ajax";
+        $this->autoRender = false;
+        $loggeduser = $this->Auth->User();
+        $pageval = $this->request->data["pageval"];
+        $type = $this->request->data["type"];
+        $postdata = array("token" => $loggeduser["token"], "type" => $type, "limit" => 15, "page" => $pageval + 1);
+        $jsondata = $this->Apicalls->curlpost("getAllOrganization.json", $postdata);
+        $jsondatadecoded = json_decode($jsondata, true);
+        //$totalpages = $jsondatadecoded["result"]["data"]["total_page"];
+        //$orgdata = isset($jsondatadecoded["result"]["data"]) ? $jsondatadecoded["result"]["data"] : $jsondatadecoded["result"]["msg"];
+        if (isset($jsondatadecoded["result"]["data"])) {
+            $orgdata = $jsondatadecoded["result"]["data"];
+        } else {
+            $this->Session->setFlash(__($jsondatadecoded["result"]["msg"]), 'default', array('class' => 'alert alert-warning'));
+            $this->redirect($this->Auth->logout());
+        }
+        if (isset($loggeduser["current_org"]) && !empty($loggeduser["current_org"])) {
+            $defaultorg = $loggeduser["current_org"]->id;
+        }
+        $this->set(compact("orgdata", "type", "defaultorg"));
+        $htmlstring = $this->render('/Elements/corganizationslisting');
+    }
+
+    function joinrequestorg() {
+        $this->layout = "ajax";
+        $this->autoRender = false;
+        $loggeduser = $this->Auth->User();
+        $orgid = $this->request->data["orgid"];
+        $postdata = array("token" => $loggeduser["token"], "org_id" => $orgid);
+        echo $jsondata = $this->Apicalls->curlpost("JoinReqOrg.json", $postdata);
+    }
+
+    function searchorg() {
+        try {
+            $this->layout = 'ajax';
+            $this->autoRender = false;
+            $loggeduser = $this->Auth->User();
+            $searchvalue = $this->request->data["searchvalue"];
+            $postdata = array("token" => $loggeduser["token"], "keyword" => $searchvalue);
+            echo $jsondata = $this->Apicalls->curlpost("getOrgSearch.json", $postdata);
+            exit;
+        } catch (Exception $e) {
+            
+        }
+    }
+
+    public function searchInOrg() {
+//        pr($this->request->data);die;
+        $this->layout = "ajax";
+        $loggedinUser = $this->Auth->User();
+        $this->set("endorsementLimit", $this->request->data['limit']);
+
+        $postData = array();
+        $postData['token'] = $loggedinUser['token'];
+        $postData['keyword'] = $this->request->data['keyword'];
+        $postData['searchSelf'] = false;
+        $response = $this->Apicalls->curlpost("searchInOrganization.json", $postData);
+        $response = json_decode($response);
+        $response = $response->result;
+//        pr($response);die;
+        $this->set("searchResult", $response->data);
+        if (isset($this->request->data['endorseSelected'])) {
+            $this->set('endorseSelected', $this->request->data['endorseSelected']);
+        }
+    }
+
+    function livesearcheddata() {
+        try {
+            $this->layout = 'ajax';
+            $this->autoRender = false;
+            $loggeduser = $this->Auth->User();
+            $orgid = $this->request->data["orgid"];
+            $type = $this->request->data["type"];
+            $postdata = array("token" => $loggeduser["token"], "org_id" => $orgid, "type" => "public");
+            $jsondata = $this->Apicalls->curlpost("getAllOrganization.json", $postdata);
+            $jsondecodeddata = json_decode($jsondata, true);
+            if (isset($jsondecodeddata["result"]["data"])) {
+                $orgdata = $jsondecodeddata["result"]["data"];
+            } else {
+                $this->Session->setFlash(__($jsondecodeddata["result"]["msg"]), 'default', array('class' => 'alert alert-warning'));
+                $this->redirect($this->Auth->logout());
+            }
+            //=======0th element as it will be a single organization
+            $this->set(compact("orgdata", "type"));
+            echo $htmlstring = $this->render('/Elements/corganizationslisting');
+            exit;
+        } catch (Exception $e) {
+            
+        }
+    }
+
+    function showallorg() {
+        try {
+            $this->layout = 'ajax';
+            $this->autoRender = false;
+            $loggeduser = $this->Auth->User();
+            $type = $this->request->data["type"];
+            $postdata = array("token" => $loggeduser["token"], "type" => "public", "limit" => 15);
+            $jsondata = $this->Apicalls->curlpost("getAllOrganization.json", $postdata);
+            $jsondecodeddata = json_decode($jsondata, true);
+            if (isset($jsondecodeddata["result"]["data"])) {
+                $orgdata = $jsondecodeddata["result"]["data"];
+            } else {
+                $this->Session->setFlash(__($jsondecodeddata["result"]["msg"]), 'default', array('class' => 'alert alert-warning'));
+                $this->redirect($this->Auth->logout());
+            }
+            //=======0th element as it will be a single organization
+            $this->set(compact("orgdata", "type"));
+            echo $htmlstring = $this->render('/Elements/corganizationslisting');
+            exit;
+        } catch (Exception $e) {
+            
+        }
+    }
+
+    function switchorg() {
+        try {
+            $this->layout = 'ajax';
+            $this->autoRender = false;
+            $loggeduser = $this->Auth->User();
+            $orgid = $this->request->data["orgid"];
+            $postdata = array("token" => $loggeduser["token"], "org_id" => $orgid);
+            echo $jsondata = $this->Apicalls->curlpost("switchGroup.json", $postdata);
+            $jsondecodeddata = json_decode($jsondata, true);
+            if ($jsondecodeddata["result"]["status"] == true) {
+                $currentOrg = (object) $jsondecodeddata["result"]["data"]["Organization"];
+                $this->Session->write('Auth.User.current_org', $currentOrg);
+            }
+            exit;
+        } catch (Exception $e) {
+            
+        }
+    }
+
+    function changerolesfororg() {
+        try {
+            $this->layout = 'ajax';
+            $this->autoRender = false;
+            $loggeduser = $this->Auth->User();
+            $orgid = $this->request->data["orgid"];
+            $roles = json_decode($this->request->data["jsonencodedroles"]);
+            $postdata = array(
+                "token" => $loggeduser["token"],
+                "org_id" => $orgid,
+                "department_id" => $roles->department_id,
+                "entity_id" => $roles->entity_id,
+                "job_title_id" => $roles->job_title_id,
+            );
+            echo $jsondata = $this->Apicalls->curlpost("saveOrgoption.json", $postdata);
+            exit;
+        } catch (Exception $e) {
+            
+        }
+    }
+
+    public function timelyUpdate() {
+        $loggedinUser = $this->Auth->user();
+        $portal = $this->Cookie->read("portal_cookie");
+        if (!$this->Session->check('Auth.User') ||  $portal !='client') {
+            echo json_encode(array("status" => false, "portal" => $portal));exit;
+        }
+        
+        $showMsg = false;
+        
+        if (isset($loggedinUser['current_org']) || 1) {
+            $postdata['token'] = $loggedinUser['token'];
+            $apiResponse = $this->Apicalls->curlpost("getTimelyUpdates.json", $postdata);
+            $response = json_decode($apiResponse);
+            $response->noData = false;
+            
+            if(!empty ($response) && isset($response->result)) {
+                $response = $response->result;
+                
+
+                if($response->status && !empty($response->data)) {
+                    $currentOrgStatus = $loggedinUser['org_updates']['org_status'];
+                    $currentUserStatus = $loggedinUser['org_updates']['user_status'];
+
+                    if (($currentOrgStatus != $response->data->org_updates->org_status) || ($currentUserStatus != $response->data->org_updates->user_status)) {
+                        $orgUpdates = array();
+                        $orgUpdates['org_status'] = $response->data->org_updates->org_status;
+                        $orgUpdates['user_status'] = $response->data->org_updates->user_status;
+                        $this->Session->write('Auth.User.org_updates', $orgUpdates);
+                        $showMsg = true;
+                    }
+
+                    if ($response->data->org_updates->user_role_changed == true) {
+                        $showMsg = true;
+                        $response->data->org_updates->msg = "Your role is updated by admin. Now you are an " . $response->data->org_updates->user_role . ".";
+                    }
+                } else {
+                    $response->noData = true;
+                }
+            } else {
+                echo $apiResponse; die;
+            }
+        } else {
+            $response = new stdClass();
+            $response->status = true;
+        }
+
+        $response->show_msg = $showMsg;
+        $response->user = $loggedinUser;
+        $response->portal = $portal;
+       
+        echo json_encode($response);
+        exit;
+    }
+
+    function getdataleaderboard() {
+        $this->layout = 'ajax';
+        $this->autoRender = false;
+        $loggeduser = $this->Auth->User();
+        $type = $this->request->data["type"];
+        $startdate = "";
+        $enddate = "";
+        if (isset($this->request->data["startdate"]) && isset($this->request->data["enddate"])) {
+            $startdate = explode("-", $this->request->data["startdate"]);
+            $enddate = explode("-", $this->request->data["enddate"]);
+            $startdate = mktime(0, 0, 0, $startdate[0], $startdate[1], $startdate[2]);
+            $enddate = mktime(0, 0, 0, $enddate[0], $enddate[1], $enddate[2]);
+        }
+
+        $postdata = array("token" => $loggeduser["token"], "type" => $type, "start_date" => $startdate, "end_date" => $enddate);
+        $jsondatafororginfo = json_decode($this->Apicalls->curlpost("leaderboard.json", $postdata), true);
+        $alldata = array();
+        if ($jsondatafororginfo["result"]["status"] == 1) {
+            $resultant = $jsondatafororginfo["result"];
+            $alldata = $resultant["data"];
+        }
+        $leaderboardtype = "nDorser";
+        if($type == "endorsed"){
+            $leaderboardtype = "nDorsed";
+        }
+        $this->set(compact("alldata", "leaderboardtype"));
+        $htmlstring = $this->render('/Elements/leaderboarddataclient');
+    }
+
+    function getwhatsnewdata() {
+        $this->layout = 'ajax';
+        $this->autoRender = false;
+        $loggeduser = $this->Auth->User();
+        $month = $this->request->data["month"];
+        $year = $this->request->data["year"];
+        $postdata = array("token" => $loggeduser["token"], "month" => $month, "year" => $year);
+        $jsondata = json_decode($this->Apicalls->curlpost("topendorse.json", $postdata), true);
+        $alldata = array();
+        if ($jsondata["result"]["status"]) {
+            $alldata = $jsondata["result"]["data"];
+        }
+        $this->set(compact("alldata"));
+        $htmlstring = $this->render('/Elements/whatsnewdata');
+    }
+
+    function StaticFormContactus() {
+        $this->layout = 'ajax';
+        $this->autoRender = false;
+        //$loggeduser = $this->Auth->User();
+        $name = $this->request->data["name"];
+        $email = $this->request->data["email"];
+        $subject = $this->request->data["subject"];
+        $message = $this->request->data["message"];
+        $json = '{"ticket": {"requester": {"name": "'.$name.'", "email": "'.$email.'"}, "subject": "'.$subject.'", "comment": { "body": "'.$message.'" }}}';
+        $data = $this->Apicalls->curlWrap("/tickets.json", $json, "POST");
+        if(isset($data->ticket)){
+            echo "Success";
+        }
+        exit;
+    }
+    
+    public function acceptTnC() {
+        $loggedinUser = $this->Auth->user();
+        $postData = array("token" => $loggedinUser['token']);
+        $response = $this->Apicalls->curlpost("acceptTnC.json", $postData);
+        $response = json_decode($response);
+        $response = $response->result;
+        
+        if($response->status) {
+            $this->Session->write('Auth.User.terms_accept', 1);
+        }
+        echo json_encode(array("success" => $response->status, "msg" => $response->msg));
+        exit;
+    }
+
+}

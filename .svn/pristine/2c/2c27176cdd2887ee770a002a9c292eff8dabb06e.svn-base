@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>
+		<?php //echo $cakeDescription ?>
+		<?php echo $this->fetch('title'); ?>
+        </title>
+        <script type='text/javascript'>
+            var siteurl = '<?php echo Router::url('/', true); ?>';
+        </script>
+        <?php
+            echo $this->Html->css("bootstrap.min");
+            echo $this->Html->css("style");
+            echo $this->Html->script('jquery.min');
+            echo $this->Html->script('staticsite');
+            echo $this->Html->script('bootstrap');
+            echo $this->Html->script('bootbox.min');
+            echo $this->Html->script('jquery.validate'); 
+        ?>
+    </head>
+    <body>
+        <div class="container">
+            <nav class="main-nav navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                    </div>
+                    <div class="collapse navbar-collapse static-nav" id="myNavbar" style="">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><?php echo $this->Html->Link("Home", array("controller" => "site", "action" => "index"));?></li>
+                            <li><?php echo $this->Html->Link("About", array("controller" => "site", "action" => "about"));?></li>
+                            <li><?php echo $this->Html->Link("Client", array("controller" => "site", "action" => "client"));?></li>
+                            <li><?php echo $this->Html->Link("Contact Us", array("controller" => "site", "action" => "contact"));?></li>
+                            <li><?php echo $this->Html->Link("Administrator and Web App", array("controller" => "site", "action" => "adminandwebapp"));?></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+	<?php 
+            echo $this->fetch('content'); ?>
+    	<?php //echo $this->element('sql_dump'); ?>
+    </body>
+</html>

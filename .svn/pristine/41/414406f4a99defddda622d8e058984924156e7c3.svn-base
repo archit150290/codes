@@ -1,0 +1,12 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <?php echo Ucfirst($fname);?>,
+        <br/><br/>
+	<?php echo $message ;?>
+        <br /><br />
+        If you have not initiated that or it is not required then please contact nDorse team at <a href="support@nDorse.net">support@nDorse.net</a>. 
+        <?php echo $this->element('email_footer'); ?>
+    </body>
+</html>

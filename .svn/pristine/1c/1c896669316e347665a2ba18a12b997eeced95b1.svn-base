@@ -1,0 +1,10 @@
+<?php ?>
+<div class="container">
+    <div class="download-ndorse">
+        <?php echo $this->Html->Image("/images/logo.png", array("width" => "100", "alt" => ""));?>
+    </div>
+        <?php echo $this->Html->link("Client Portal", array("controller" => "client", "action" => "login"), array('target'=>'_blank','escape'=>false));?>
+        <?php echo $this->Html->link("Admin Portal", array("controller" => "users", "action" => "login"), array('target'=>'_blank','escape'=>false));?>
+    
+</div>
+<?php echo $this->Element("footersite");?>

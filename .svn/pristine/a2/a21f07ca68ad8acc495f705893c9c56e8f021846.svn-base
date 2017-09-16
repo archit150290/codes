@@ -1,0 +1,22 @@
+<?php
+foreach($alldata as $leaderboarddata){
+    if(!empty($leaderboarddata["list"])){
+    ?>
+    <tbody>
+        <tr class="table-head">
+            <td><strong><?php 
+            if(strtolower($leaderboarddata["title"])!="employee"){
+            echo $leaderboarddata["title"];
+            }
+            ?> </strong></td>
+            <td><strong>nDorsed</strong></td>
+        </tr>
+        <?php foreach($leaderboarddata["list"] as $leaderboardlist){?>
+        <tr>
+            <td><?php echo ucwords($leaderboardlist["name"]);?></td>
+            <td><?php echo $leaderboardlist["Total"];?></td>
+        </tr>
+        <?php }?>
+    </tbody>
+<?php } 
+} ?>

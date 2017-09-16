@@ -1,0 +1,1144 @@
+<?php //echo $this->Html->css("nDorser-sidebar");?>
+<!--<style>
+/* mixin for multiline */
+.block-with-text {
+	overflow: hidden;
+	position: relative;
+	line-height: 1.2em;
+	max-height: 3.6em;
+	text-align: justify;
+	margin-right: -1em;
+	padding-right: 1em;
+}
+.block-with-text:before {
+	content: '...';
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+.block-with-text:after {
+	content: '';
+	position: absolute;
+	right: 0;
+	width: 1em;
+	height: 1em;
+	margin-top: 0.2em;
+	background: white;
+}
+</style> -->
+
+<!-- nDorsement detail -->
+
+<div class="col-sm-3 col-md-2 sidebar">
+  <div id="wrapper">
+    <ul class="sidebar-nav">
+      <li class="sidebar-brand"> <a href="/ndorse_dev/organizations">Organizations</a> </li>
+      <li class="sidebar-brand"> <a href="/ndorse_dev/createorg">Set Up New Organization</a> </li>
+      <li class="sidebar-brand"><a href="/ndorse_dev/users/setting">Global Settings</a></li>
+    </ul>
+    <div class="logout"> <span class="userName"> Ruchi Mehta
+      <div class="clearfix"></div>
+      <a class="logoutText" href="/ndorse_dev/users/logout">LOGOUT</a> </span> <span class=""> <img width="61" height="61" class="img-circle" alt="user" src="/ndorse_dev/img/user.png"> </span> </div>
+  </div>
+</div>
+<div class="marg-top"></div>
+<div class="container col-md-10 col-md-offset-2 main "> 
+ 
+ <!-- Whats New -->
+  <div class="whats-new">
+    <section style="">
+      <div class="col-md-12 time-range">
+        <div class="pull-left">
+          <h3>Enter Month or Year Range</h3>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="select-date col-md-12">
+        <div class="col-md-3 form-group">
+          <label> From</label>
+          <input type="text" placeholder="Start Date" class="form-control date">
+        </div>
+        <div class="col-md-3 form-group">
+          <label> To</label>
+          <input type="text" placeholder="End Date" class="form-control date">
+        </div>
+        <div class="col-md-6 ">
+          <button class="btn btn-default">APPLY</button>
+          <button class="btn btn-default">RESET</button>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </section>
+  </div>
+  
+  <div class="top-nDorser">
+     <h4>Top nDorser of the Week <span>(07/11/2016 - 07/20/2016)</span></h4>
+     <section class="bor-white">
+       <div class="no-nDorsements">
+        <h4>No nDorsements done in this week</h4>
+       </div>
+     </section>
+  </div>
+  <div class="clearfix"></div>
+  <div class="top-nDorser">
+     <h4>Top nDorser of the Week <span class="range">(07/11/2016 - 07/20/2016)</span></h4>
+     <section class="bor-white">
+       <div class="media material-media"><div class="media-left"><a href="#0"><img src="http://stas-melnikov.ru/cliparts/stas.jpg" alt="avatar" class="media-object material-media__object"></a></div><div class="media-body"><h4 class="media-heading material-media__title">Title media</h4></div></div>
+     </section>
+  </div>
+ <!-- Whats New -->
+ 
+  
+  <!-- Leader Board -->
+  <div class="user-profile leader-board">
+    <div class="col-md-12">
+      <ul class="nav nav-tabs">
+        <li class=""><a href="#lb01" data-toggle="tab" aria-expanded="false">Top nDorsed</a></li>
+        <li class=""><a href="#lb02" data-toggle="tab" aria-expanded="false">Top nDorser</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane fade " id="lb01" style="border:1px solid #fff; color:#fff;">
+          <div class="col-md-12 bor-bot">
+            <section>
+              <h3>Universal Industrial Pvt. Ltd.</h3>
+              <h4>Street: #01, MIA- Uadaipur</h4>
+              <h4>Rajasthan-INDIA</h4>
+            </section>
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-md-12">
+            <section >
+              <div class="time-range">
+                <div class="pull-left">
+                  <h3>Select a Time Range</h3>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+              <div class="select-date col-md-12">
+                <div class="col-md-3 form-group">
+                  <label> From</label>
+                  <input type="text" placeholder="Start Date" class="form-control date">
+                </div>
+                <div class="col-md-3 form-group">
+                  <label> To</label>
+                  <input type="text" placeholder="End Date" class="form-control date">
+                </div>
+                <div class="col-md-6 ">
+                  <button class="btn btn-default">Apply</button>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+            </section>
+            <section>
+              <div class="">
+                <table class="table table-hover table-striped">
+                  <tbody>
+                    <tr>
+                      <td><strong>Employee </strong></td>
+                      <td class="text-right"><strong>nDorsed</strong></td>
+                    </tr>
+                    <tr>
+                      <td>Deepak Tijori</td>
+                      <td class="text-right">07</td>
+                    </tr>
+                    <tr>
+                      <td>Deepak Tijori</td>
+                      <td class="text-right">07</td>
+                    </tr>
+                    <tr>
+                      <td>Deepak Tijori</td>
+                      <td class="text-right">07</td>
+                    </tr>
+                    <tr>
+                      <td>Deepak Tijori</td>
+                      <td class="text-right">07</td>
+                    </tr>
+                    <tr>
+                      <td>Deepak Tijori</td>
+                      <td class="text-right">07</td>
+                    </tr>
+                    <tr>
+                      <td>Deepak Tijori</td>
+                      <td class="text-right">07</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        
+        
+        <div class="tab-pane fade " id="lb02" style="border:1px solid #fff; color:#fff;">
+          <div class="col-md-12 bor-bot">
+            <section>
+              <h3>Universal Industrial Pvt. Ltd.</h3>
+              <h4>Street: #01, MIA- Uadaipur</h4>
+              <h4>Rajasthan-INDIA</h4>
+            </section>
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-md-12">
+            <section >
+              <div class="time-range">
+                <div class="pull-left">
+                  <h3>Select a Time Range</h3>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+              <div class="select-date col-md-12">
+                <div class="col-md-3 form-group">
+                  <label> From</label>
+                  <input type="text" placeholder="Start Date" class="form-control date">
+                </div>
+                <div class="col-md-3 form-group">
+                  <label> To</label>
+                  <input type="text" placeholder="End Date" class="form-control date">
+                </div>
+                <div class="col-md-6 ">
+                  <button class="btn btn-default">Apply</button>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+            </section>
+            <section>
+              <div class="">
+                <table class="table table-hover table-striped">
+                  <tbody>
+                    <tr>
+                      <td><strong>Employee </strong></td>
+                      <td class="text-right"><strong>nDorsed</strong></td>
+                    </tr>
+                    <tr>
+                      <td>Deepak Tijori</td>
+                      <td class="text-right">07</td>
+                    </tr>
+                    <tr>
+                      <td>Deepak Tijori</td>
+                      <td class="text-right">07</td>
+                    </tr>
+                    <tr>
+                      <td>Deepak Tijori</td>
+                      <td class="text-right">07</td>
+                    </tr>
+                    <tr>
+                      <td>Deepak Tijori</td>
+                      <td class="text-right">07</td>
+                    </tr>
+                    <tr>
+                      <td>Deepak Tijori</td>
+                      <td class="text-right">07</td>
+                    </tr>
+                    <tr>
+                      <td>Deepak Tijori</td>
+                      <td class="text-right">07</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="clearfix"></div>
+  </div>
+  <!-- Leader Board--> 
+  
+  <!-- User Profile -->
+  <div class="user-profile ">
+    <section>
+      <div class="col-md-12">
+        <div class="col-md-2 text-center"> <img src="/ndorse_dev/img/my-pro-def.png" id="client_image" alt=""> </div>
+        <div class="col-md-8">
+          <h2 class="u-name">Rohan Walvekar</h2>
+          <h3 class="u-profile">(SOFTWARE ENGINEER)</h3>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </section>
+    <div class="clearfix"></div>
+    <section>
+      <div class="user-profile">
+        <table class="table table-hover table-striped">
+          <tbody>
+            <tr>
+              <td>Name : </td>
+              <td >Deepak Three</td>
+            </tr>
+            <tr>
+              <td>D. B. O. :</td>
+              <td >07/01/1997</td>
+            </tr>
+            <tr>
+              <td>Hobbies :</td>
+              <td >Reading, Writing, Blogging, Music, Yga, Sports, Community Services, Drawign, Phototgraphy, Playing </td>
+            </tr>
+            <tr>
+              <td>Skills :</td>
+              <td >Reading, Writing, Blogging, Music, Yga, Sports, Community Services, Drawign, Phototgraphy, Playing </td>
+            </tr>
+            <tr>
+              <td>Address :</td>
+              <td >---</td>
+            </tr>
+            <tr>
+              <td>Phone :</td>
+              <td >123456789</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <div class="clearfix"></div>
+  </div>
+  <!-- User Profile -->
+  
+  <div class="hidde">
+    <section>
+      <div class="">
+        <div class="grey-bg">
+          <div class="col-md-4 col-sm-12">
+            <div class="text-left"><img src="<?php echo  Router::url('/', true); ?>img/user.png"  alt=""/><span class="rohan-space">Rohan Walwekar</span>
+              <p class="ndorser-detail">nDorsed</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4">
+            <div class="date-detail">07/08/2016</div>
+          </div>
+          <div class="col-md-4 col-sm-4">
+            <div class="text-right"><span class="rohan-space">Suchi Khurana</span> <img src="<?php echo  Router::url('/', true); ?>img/user.png" alt=""/>
+              <p class="ndorsed-detail">nDorser</p>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="">
+        <h2><strong>Core Values Collected </strong></h2>
+        <div class="core-values-shown">
+          <table class="table table-hover table-core-value-shown">
+            <tr>
+              <td>Treated someone with Respect </td>
+            </tr>
+            <tr>
+              <td>Showed Great Skills </td>
+            </tr>
+            <tr>
+              <td>Hardworking </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="nDorse-Details-msg">
+        <h3>Message :</h3>
+        <div class="mesg">
+          <p>Hi  check ....</p>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="">
+        <div class="col-md-6" style="padding-left:0"> <span class=""><img src="/ndorse_dev/img/addClient.png"  align="left" width="30" alt=""/>
+          <h3 class="attach-img"> &nbsp;Attach Sticker</h3>
+          </span>
+          <div class="panel panel-default" style="padding:10px;">
+            <div class="col-md-4">
+              <div class="onefive">
+                <div class="img-close"  >
+                  <button class="btn btn-default btn-xs">X</button>
+                </div>
+                <img src="/ndorse_dev/img/user.png" class="attached-item" alt=""/> </div>
+            </div>
+            <div class="col-md-4">
+              <div class="onefive">
+                <div class="img-close"  >
+                  <button class="btn btn-default btn-xs">X</button>
+                </div>
+                <img src="/ndorse_dev/img/user.png" class="attached-item" alt=""/> </div>
+            </div>
+            <div class="col-md-4">
+              <div class="onefive">
+                <div class="img-close"  >
+                  <button class="btn btn-default btn-xs">X</button>
+                </div>
+                <img src="/ndorse_dev/img/user.png" class="attached-item" alt=""/> </div>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <div class="col-md-6" style="padding-left:0"> <span class=""><img src="/ndorse_dev/img/addClient.png"  align="left" width="30" alt=""/>
+          <h3 class="attach-img"> &nbsp;Attach Images</h3>
+          </span>
+          <div class="panel panel-default" style="padding:10px;">
+            <div class="col-md-4">
+              <div class="onefive">
+                <div class="img-close"  >
+                  <button class="btn btn-default btn-xs">X</button>
+                </div>
+                <img src="/ndorse_dev/img/user.png" class="attached-item" alt=""/> </div>
+            </div>
+            <div class="col-md-4">
+              <div class="onefive">
+                <div class="img-close"  >
+                  <button class="btn btn-default btn-xs">X</button>
+                </div>
+                <img src="/ndorse_dev/img/user.png" class="attached-item" alt=""/> </div>
+            </div>
+            <div class="col-md-4">
+              <div class="onefive">
+                <div class="img-close"  >
+                  <button class="btn btn-default btn-xs">X</button>
+                </div>
+                <img src="/ndorse_dev/img/user.png" class="attached-item" alt=""/> </div>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </section>
+    <section>
+      <div class="nDorse-Details-msg">
+        <h3>Reply</h3>
+        <div class="mesg">
+          <p>ROHAN WALWEKAR replied - ok</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<!--nDorsement detail  -->
+<div class="clearfix"></div>
+<!-- nDorsement's Profile -->
+<div class="marg-top"></div>
+<div class="container hidde">
+  <div class="nDorsement-profile">
+    <section>
+      <div class="col-md-12">
+        <div class="col-md-2 text-center"> <img  alt="" id="client_image" src="/ndorse_dev/img/my-pro-def.png" > </div>
+        <div class="col-md-8">
+          <h2 class="u-name">Rohan Walvekar</h2>
+          <h3 class="u-profile">(SOFTWARE ENGINEER)</h3>
+          <div class="my-badges">
+            <div class="col-md-3">
+              <h2>My Badges:</h2>
+            </div>
+            <div class="col-md-9">
+              <div class="badge-count text-center"><img  alt="" id="client_image" src="/ndorse_dev/img/medal-green.png" width="60"><br />
+                01 </div>
+              <div class="badge-count text-center"><img  alt="" id="client_image" src="/ndorse_dev/img/medal-orange.png" width="60"><br />
+                01 </div>
+              <div class="badge-count text-center"><img  alt="" id="client_image" src="/ndorse_dev/img/medal-yellow.png" width="60"><br />
+                01 </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 text-center"> <img  alt="" id="client_image" src="/ndorse_dev/img/process.png"> </div>
+      </div>
+      <div class="clearfix"></div>
+    </section>
+  </div>
+  <div class="nDorsement-profile">
+    <section style="padding:10px;">
+      <div class="col-md-12 time-range">
+        <div class="pull-left">
+          <h3>Select a Time Range</h3>
+        </div>
+        <div class="pull-right">
+          <button class="btn btn-default">SHOW ALL</button>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="select-date col-md-12">
+        <div class="col-md-3 form-group">
+          <label > From</label>
+          <input type="text" class="form-control date" placeholder="Start Date" >
+        </div>
+        <div class="col-md-3 form-group">
+          <label > To</label>
+          <input type="text" class="form-control date" placeholder="End Date" >
+        </div>
+        <div class="col-md-6 ">
+          <button class="btn btn-default">SEARCH</button>
+          <button class="btn btn-default">SHOW CHARTS </button>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </section>
+    <section>
+      <div class="ndorse-states">
+        <table class="table table-hover table-states">
+          <tr>
+            <th>nDorsement Given </th>
+            <th class="text-right">15</th>
+          </tr>
+          <tr>
+            <th>nDorsement Recieved </th>
+            <th class="text-right">20</th>
+          </tr>
+        </table>
+      </div>
+      <div class="core-values-div">
+        <table class="table table-hover table-core-value">
+          <tr>
+            <th colspan="2"><strong>Core Values Collected </strong></th>
+          </tr>
+          <tr>
+            <td>Treated someone with Respect </td>
+            <td class="text-right">10
+              </t>
+          </tr>
+          <tr>
+            <td>Showed Great Skills </td>
+            <td class="text-right">14
+              </t>
+          </tr>
+          <tr>
+            <td>Hardworking </td>
+            <td class="text-right">15
+              </t>
+          </tr>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- nDorsement's Profile --> 
+
+<!-- MY PROFILE -->
+<div class="container my-profile ">
+  <section class="">
+    <div class="row ">
+      <div class="col-md-5 col-sm-5 col-lg-5">
+        <div class="pull-right">
+          <button class="btn btn-blue" type="button">Upload Picture</button>
+        </div>
+      </div>
+      <div class="col-md-2 col-sm-2 col-lg-2 text-center"> <img width="115" alt="" id="client_image" src="/ndorse_dev/img/my-pro-def.png"> </div>
+      <div class="col-md-5 col-sm-5 col-lg-5">
+        <div class="pull-left">
+          <button class="btn btn-blue" type="button">Remove Picture</button>
+        </div>
+      </div>
+    </div>
+    <div class="input file">
+      <input type="file" class="btn_uplaod_file hidden" >
+    </div>
+  </section>
+  <section class="">
+    <div class="row">
+      <div class="col-md-2">
+        <div class="my-pro-label">Name :</div>
+      </div>
+      <div class="col-md-10">
+        <div class="input">
+          <input type="text" maxlength="250" class="form-control" placeholder="Name">
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="">
+    <div class="row">
+      <div class="col-md-2">
+        <div class="my-pro-label">Date of Birth :</div>
+      </div>
+      <div class="col-md-10">
+        <div class="input">
+          <input type="date" maxlength="250" class="form-control" placeholder="DOB">
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="">
+    <div class="row">
+      <div class="col-md-2">
+        <div class="my-pro-label">Hobbies :</div>
+      </div>
+      <div class="col-md-10">
+        <div class="input ">
+          <textarea class="my-pro-textarea" placeholder="Enter Your Hobbies Here..."></textarea>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="">
+    <div class="row">
+      <div class="col-md-2">
+        <div class="my-pro-label">Skills  :</div>
+      </div>
+      <div class="col-md-10">
+        <div class="input ">
+          <textarea class="my-pro-textarea" placeholder="Enter Your Skills Here..."></textarea>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="">
+    <div class="row">
+      <div class="col-md-2">
+        <div class="my-pro-label">Address :</div>
+      </div>
+      <div class="col-md-10">
+        <div class="input ">
+          <textarea class="my-pro-textarea" placeholder="Enter Your Address Here..."></textarea>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="">
+    <div class="row">
+      <div class="col-md-2">
+        <div class="my-pro-label">Phone :</div>
+      </div>
+      <div class="col-md-10">
+        <div class="input">
+          <input type="date" maxlength="250" class="form-control" placeholder="Mobile or Phone">
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="">
+    <div class="row">
+      <div class="col-md-2">
+        <div class="my-pro-label">About :</div>
+      </div>
+      <div class="col-md-10">
+        <div class="input ">
+          <textarea class="my-pro-textarea" placeholder="About..."></textarea>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="">
+    <div class="row">
+      <div class="col-md-2">
+        <div class="my-pro-label">&nbsp;</div>
+      </div>
+      <div class="col-md-10">
+        <div class="input ">
+          <button class="btn btn-orange">SAVE</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<!-- MY PROFILE --> 
+
+<!--nDorsement Process -->
+<div class="nDorse-process"> 
+  <!-- Step 02 -->
+  <div class="container">
+    <section>
+      <div class="row">
+        <div class=""> *Max limit per month: 5 per Emoployee <br />
+          * Employee at limit are locked </div>
+        <div class="search-icn" style="margin-top:10px; position:relative">
+          <input type="text" placeholder="SEARCH EMPLOYEE OR DEPARTMENT..." class="form-control">
+          <div class="selected-values ">
+            <div class="col-md-11"><span>Hardware <a href="javascript:void(0);">X</a></span> <span>Hardware <a href="javascript:void(0);">X</a></span></div>
+            <div class="col-md-1 pull-right">
+              <button class="btn btn-clear-all">Clear All</button>
+            </div>
+          </div>
+          <div id="nDorse-search">
+            <div class="searched-values"><a href="javascript:void(0);">Software</a></div>
+            <div class="searched-values"><a href="javascript:void(0);">Hardware</a></div>
+            <div class="searched-values"><a href="javascript:void(0);">Networking</a></div>
+            <div class="searched-values"><a href="javascript:void(0);">Administrator</a></div>
+            <div class="searched-values"><a href="javascript:void(0);">Administrator</a></div>
+            <div class="searched-values"><a href="javascript:void(0);">Administrator</a></div>
+            <div class="searched-values"><a href="javascript:void(0);">Administrator</a></div>
+            <div class="searched-values"><a href="javascript:void(0);">Administrator</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="row">
+        <h2>Select Core Values</h2>
+        <div class="panel panel-default">
+          <div class="col-md-6">
+            <div class="checkbox core-value">
+              <input type="checkbox" checked="checked" value="" class="css-checkbox" id="cor01" name="cor01">
+              <label for="cor01" class="css-label">Treeted someone  with respact </label>
+            </div>
+            <div class="checkbox core-value">
+              <input type="checkbox"  value="" class="css-checkbox" id="cor02" name="cor02">
+              <label for="cor02" class="css-label">Calm </label>
+            </div>
+            <div class="checkbox core-value">
+              <input type="checkbox"  value="" class="css-checkbox" id="cor03" name="cor03">
+              <label for="cor03" class="css-label">Showed great skill </label>
+            </div>
+            <div class="checkbox core-value">
+              <input type="checkbox"  value="" class="css-checkbox" id="cor04" name="cor04">
+              <label for="cor04" class="css-label">Hardworking </label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="checkbox core-value">
+              <input type="checkbox"  value="" class="css-checkbox" id="cor05" name="cor05">
+              <label for="cor05" class="css-label">Showed great skill </label>
+            </div>
+            <div class="checkbox core-value">
+              <input type="checkbox"  value="" class="css-checkbox" id="cor06" name="cor06">
+              <label for="cor06" class="css-label">Treeted someone  with respact </label>
+            </div>
+            <div class="checkbox core-value">
+              <input type="checkbox"  value="" class="css-checkbox" id="cor07" name="cor07">
+              <label for="cor07" class="css-label">Hardworking </label>
+            </div>
+            <div class="checkbox core-value">
+              <input type="checkbox"  value="" class="css-checkbox" id="cor08" name="cor08">
+              <label for="cor08" class="css-label">Calm </label>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="row">
+        <h2>Optional Message to Send <span style="font-size:18px">(Max. 3000 Characters)</span></h2>
+        <div class="panel panel-default">
+          <div class="col-md-12">
+            <textarea placeholder="Add Message..." class="add-msg"  ></textarea>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="row">
+        <div class="col-md-6" style="padding-left:0"> <span class=""><img src="/ndorse_dev/img/addClient.png"  align="left" width="30" alt=""/>
+          <h3 class="attach-img"> &nbsp;Attach Sticker</h3>
+          </span>
+          <div class="panel panel-default" style="padding:10px;">
+            <div class="col-md-4">
+              <div class="onefive">
+                <div class="img-close"  >
+                  <button class="btn btn-default btn-xs">X</button>
+                </div>
+                <img src="/ndorse_dev/img/user.png" class="attached-item" alt=""/> </div>
+            </div>
+            <div class="col-md-4">
+              <div class="onefive">
+                <div class="img-close"  >
+                  <button class="btn btn-default btn-xs">X</button>
+                </div>
+                <img src="/ndorse_dev/img/user.png" class="attached-item" alt=""/> </div>
+            </div>
+            <div class="col-md-4">
+              <div class="onefive">
+                <div class="img-close"  >
+                  <button class="btn btn-default btn-xs">X</button>
+                </div>
+                <img src="/ndorse_dev/img/user.png" class="attached-item" alt=""/> </div>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <div class="col-md-6" style="padding-left:0"> <span class=""><img src="/ndorse_dev/img/addClient.png"  align="left" width="30" alt=""/>
+          <h3 class="attach-img"> &nbsp;Attach Images</h3>
+          </span>
+          <div class="panel panel-default " style="padding:10px;">
+            <div class="col-md-4">
+              <div class="onefive">
+                <div class="img-close"  >
+                  <button class="btn btn-default btn-xs">X</button>
+                </div>
+                <img src="/ndorse_dev/img/user.png" class="attached-item" alt=""/> </div>
+            </div>
+            <div class="col-md-4">
+              <div class="onefive">
+                <div class="img-close"  >
+                  <button class="btn btn-default btn-xs">X</button>
+                </div>
+                <img src="/ndorse_dev/img/user.png" class="attached-item" alt=""/> </div>
+            </div>
+            <div class="col-md-4">
+              <div class="onefive">
+                <div class="img-close"  >
+                  <button class="btn btn-default btn-xs">X</button>
+                </div>
+                <img src="/ndorse_dev/img/user.png" class="attached-item" alt=""/> </div>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <button class="btn btn-orange">SEND NDORSEMENT</button>
+      </div>
+    </section>
+  </div>
+  <!-- Step 02 --> 
+  
+  <!-- Step 01 -->
+  <div class="">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
+    <div class="modal fade bs-example-modal-lg nDorse-process" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title select-type" >Select Type</h4>
+          </div>
+          <div class="modal-body"> <span class="radio">
+            <div class="input radio">
+              <input type="radio" checked="checked"  id="pn" name="nDorseType">
+              <label style="background-color:transperent" for="pn">Public nDorsement </label>
+              <br />
+              <br />
+              <input type="radio" value="2" id="an" name="nDorseType">
+              <label style="background-color:transperent" for="an">Anonymous nDorsement </label>
+              <br />
+              <br />
+              <input type="radio" value="2" id="privet" name="nDorseType">
+              <label style="background-color:transperent" for="privet">Privet nDorsement </label>
+            </div>
+            </span> </div>
+          <div class="modal-footer">
+            <button class="btn btn-blue pull-left">Proceed </button>
+            <button class="btn btn-blue pull-left">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Step 01 --> 
+  
+</div>
+<!--nDorsement Process --> 
+
+<!--Live endorsements -->
+<div class="container live-nDorsements">
+  <div class="marg-top"></div>
+  <div class="row">
+    <nav class="navbar navbar-fixed-top">
+      <div class="header-bg-nav container-fluid">
+        <div class="pull-left menu"> <img src="/ndorse_dev/img/menu.png"  width="40" alt=""/> </div>
+        <div class="pull-right"><img src="/ndorse_dev/img/refresh.png"  width="35" alt=""/> </div>
+      </div>
+    </nav>
+  </div>
+  <section>
+    <div class="search-icn ">
+      <input type="text" placeholder="Search Endorsements..." class="form-control">
+      <div id="livesearch"></div>
+    </div>
+    <div class="clearfix"></div>
+  </section>
+  <section>
+    <div class="live-feeds">
+      <div class="row">
+        <div class="col-md-2 text-center"> <img width="64px" height="64px" alt="64x64" class="img-circle" src="/ndorse_dev/img/department.png">
+          <h5>Sher Khan, Mogli, Radha, Bagira, Ballu, </h5>
+        </div>
+        <div class="col-md-8 text-center"> <span> made a funny joke; showed great skill; treated someone with respect, showed great skill, green </span> </div>
+        <div class="col-md-2 text-center"> <img width="64px" height="64px" alt="64x64" class="img-circle" src="/ndorse_dev/img/department.png">
+          <h5>Javed Ahmed Raza Sheikh </h5>
+        </div>
+        <div class="clearfix"></div>
+        <div class="orange-bg">
+          <div class="col-md-2 text-center"> <a href="javascript:void(0)"><img width="20" alt="img" src="/ndorse_dev/img/like.png" class="like-img"></a><span class="likes">1 like </span> </div>
+          <div class="col-md-8 text-center"> <span>July 11</span> </div>
+          <div class="col-md-2 text-center"> <a href="javascript:void(0)"><img width="20" alt="img" src="/ndorse_dev/img/email.png"></a> </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+    <div class="live-feeds">
+      <div class="row">
+        <div class="col-md-2 text-center"> <img width="64px" height="64px" alt="64x64" class="img-circle" src="/ndorse_dev/img/department.png">
+          <h5>Sher Khan, Mogli, Radha, Bagira, Ballu, </h5>
+        </div>
+        <div class="col-md-8 text-center"> <span> made a funny joke; showed great skill; treated someone with respect, showed great skill, green </span> </div>
+        <div class="col-md-2 text-center"> <img width="64px" height="64px" alt="64x64" class="img-circle" src="/ndorse_dev/img/department.png">
+          <h5>Javed Ahmed Raza Sheikh </h5>
+        </div>
+        <div class="clearfix"></div>
+        <div class="orange-bg">
+          <div class="col-md-2 text-center"> <a href="javascript:void(0)"><img width="20" alt="img" src="/ndorse_dev/img/like.png" class="like-img"></a><span class="likes">1 like </span> </div>
+          <div class="col-md-8 text-center"> <span>July 11</span> </div>
+          <div class="col-md-2 text-center"> <a href="javascript:void(0)"><img width="20" alt="img" src="/ndorse_dev/img/email.png"></a> </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<!--Live endorsements --> 
+
+<!--Join Org -->
+<div class="my-msg hidden">
+  <div class="alert alert-success container fade in"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>Success!</strong> Indicates a successful or positive action. </div>
+</div>
+<div class="join-org ">
+  <div class="marg-top"></div>
+  <div class="row ">
+    <nav class="navbar navbar-fixed-top">
+      <div class="header-bg-nav container">
+        <div class="pull-left menu"> <img src="/ndorse_dev/img/menu.png"  width="40" alt=""/> </div>
+        <div class="pull-right"><img src="/ndorse_dev/img/refresh.png"  width="35" alt=""/> </div>
+      </div>
+    </nav>
+  </div>
+  <div class="row" >
+    <div class="text-center div-center">
+      <h2>Enter Code You Recieved</h2>
+      <div class="form-group">
+        <input type="text" class="form-control text-center" id="email" placeholder="Enter code you recieved" />
+      </div>
+      <div class="form-group">
+        <button class="btn btn-block btn-orange" type="submit">Join Organization </button>
+      </div>
+    </div>
+    <div class="col-md-12 text-center or"> <img src="/ndorse_dev/img/or-join.png" class="img-responsive" alt="" /> </div>
+    <div class="text-center div-center" >
+      <h2>Search Organizations</h2>
+      <form class="form-inline">
+        <div class="form-group">
+          <input type="email" class="form-control"  placeholder="Organizations Name..."  style="width:315px;">
+        </div>
+        <button type="submit" class="btn btn-orange">Search</button>
+      </form>
+      <h2 class="recommend">Recommended Organizations</h2>
+    </div>
+  </div>
+  <div class="row rec-org">
+    <div class="col-md-12 ">
+      <div class="col-md-4 ">
+        <div class="text-center rec-comp"> <img src="/ndorse_dev/img/logo.png" class="recommend-img" alt="" width="100" height="100" />
+          <h3 class="rec-org-name">Arcgate Inc.</h3>
+          <div class="comp-discrptn"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with d </div>
+        </div>
+      </div>
+      <div class="col-md-4 ">
+        <div class="text-center rec-comp"> <img src="/ndorse_dev/img/logo.png" class="recommend-img" alt="" width="100" height="100" />
+          <h3 class="rec-org-name">Arcgate Inc.</h3>
+          <div class="comp-discrptn"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with d </div>
+        </div>
+      </div>
+      <div class="col-md-4 ">
+        <div class="text-center rec-comp"> <img src="/ndorse_dev/img/logo.png" class="recommend-img" alt="" width="100" height="100" />
+          <h3 class="rec-org-name">Arcgate Inc.</h3>
+          <div class="comp-discrptn"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with d </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row rec-org">
+    <div class="col-md-12 ">
+      <div class="col-md-4 ">
+        <div class="text-center rec-comp"> <img src="/ndorse_dev/img/logo.png" class="recommend-img" alt="" width="100" height="100" />
+          <h3 class="rec-org-name">Arcgate Inc.</h3>
+          <div class="comp-discrptn"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with d </div>
+        </div>
+      </div>
+      <div class="col-md-4 ">
+        <div class="text-center rec-comp"> <img src="/ndorse_dev/img/logo.png" class="recommend-img" alt="" width="100" height="100" />
+          <h3 class="rec-org-name">Arcgate Inc.</h3>
+          <div class="comp-discrptn"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with d </div>
+        </div>
+      </div>
+      <div class="col-md-4 ">
+        <div class="text-center rec-comp"> <img src="/ndorse_dev/img/logo.png" class="recommend-img" alt="" width="100" height="100" />
+          <h3 class="rec-org-name">Arcgate Inc.</h3>
+          <div class="comp-discrptn"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with d </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Join Org -->
+
+<div class=""> 
+  <!--Login Page -->
+  <div class="login ">
+    <div class="text-center"><img src="/ndorse_dev/img/logo.png" width="125" alt="" /> </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2>Login</h2>
+      </div>
+      <div class="panel-body">
+        <div class="col-md-12">
+          <div class="col-md-5">
+            <div class="form-group">
+              <input type="text" class="form-control" id="email" placeholder="Email" />
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control" id="email" placeholder="Password" />
+            </div>
+            <div class="form-group">
+              <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+            </div>
+            <div class="checkbox">
+              <input type="checkbox" id="UserRememberMe" class="css-checkbox" name="data[User][rememberme]">
+              <label class="css-label" for="UserRememberMe">Remember Me</label>
+              <div class="pull-right text-right">
+                <div class="text-right"><a href="javascript:void(0);">Forget Password</a></div>
+                <div class="text-right"><a href="javascript:void(0);">Recover Username</a></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 text-center"> <img src="/ndorse_dev/img/or-login.png" alt="" /> </div>
+          <div class="col-md-5 ">
+            <div class="pull-right form-group"> <a href="javascript:void(0);"><img src="/ndorse_dev/img/fb.png" alt="" align="left" /></a> </div>
+            <div class="pull-right form-group"> <a href="javascript:void(0);"><img src="/ndorse_dev/img/g+.png" alt="" align="left" /></a> </div>
+            <div class="pull-right form-group"> <a href="javascript:void(0);"><img src="/ndorse_dev/img/linkedin.png" alt="" align="left" /></a> </div>
+          </div>
+        </div>
+        <div class="col-md-12 text-center dont-have">
+          <h4>Dont have an account yet?</h4>
+          <div class="form-group">
+            <button class="btn small btn-orange" type="submit">Register</button>
+            <div class="faq"><a href="javascript:void(0);">FAQS</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Login Page --> 
+  <!--Register Page -->
+  <div class="login">
+    <div class="text-center"><img src="/ndorse_dev/img/logo.png" width="125" alt="" /> </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2>Register</h2>
+      </div>
+      <div class="panel-body">
+        <div class="col-md-12">
+          <div class="col-md-5">
+            <div class="form-group">
+              <input type="text" class="form-control" id="email" placeholder="Email" />
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control" id="email" placeholder="Password" />
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control" id="email" placeholder="Confirm Password" />
+            </div>
+            <div class="form-group">
+              <button class="btn btn-lg btn-primary btn-block" type="submit">Continue</button>
+            </div>
+          </div>
+          <div class="col-md-2 text-center"> <img src="/ndorse_dev/img/or-login.png" alt="" /> </div>
+          <div class="col-md-5 ">
+            <div class="pull-right form-group"> <a href="javascript:void(0);"><img src="/ndorse_dev/img/fb.png" alt="" align="left" /></a> </div>
+            <div class="pull-right form-group"> <a href="javascript:void(0);"><img src="/ndorse_dev/img/g+.png" alt="" align="left" /></a> </div>
+            <div class="pull-right form-group"> <a href="javascript:void(0);"><img src="/ndorse_dev/img/linkedin.png" alt="" align="left" /></a> </div>
+          </div>
+        </div>
+        <div class="col-md-12 text-center dont-have">
+          <h4>Already have an account?</h4>
+          <div class="form-group">
+            <button class="btn small btn-orange" type="submit">Login</button>
+            <div class="faq"><a href="javascript:void(0);">FAQS</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Register Page --> 
+  <!--Congratulations! -->
+  <div class="congratulation">
+    <div class="text-center"><img src="/ndorse_dev/img/logo.png" width="125" alt="" /> </div>
+    <div class=" col-md-12 text-center">
+      <h2>Congratulations! </h2>
+      <br />
+      <h2>You have successfully created your profile. </h2>
+      <br />
+      <br />
+      <h2>In order to use the app, either you'll<br />
+        have to create your organization or<br />
+        join an existing organization. </h2>
+      <div class="form-group">
+        <button class="btn btn-orange" type="submit">CREATE AN ORG </button>
+        <button class="btn btn-orange" type="submit">JOIN AN ORG </button>
+      </div>
+    </div>
+  </div>
+  <!--Congratulations!  --> 
+</div>
+
+<!--Thankyou message html --> 
+<!--<div class="col-md-6 col-md-offset-2 thanks-subscription">
+  <h3>Thank you <br />
+    for purchasing the subscription.<br /><br />
+    Please note that your payment is under settlement<br />
+    and will be clear in few hours. We will notify you<br />
+    by email once the payment is completed.</h3>
+</div> --> 
+
+<!--Verification -->
+<div class="congratulation ">
+  <div class="text-center"><img src="/ndorse_dev/img/logo.png" width="125" alt="" /> </div>
+  <div class=" col-md-12 text-center">
+    <h2>A verification code is sent<br />
+      to your email address.</h2>
+    <br />
+    <br />
+    <h2>Please enter the code in the box<br />
+      below to verify your email address.</h2>
+    <div class="form-group text-center div-center" style="margin:20px auto">
+      <input type="text" class="form-control" placeholder="Verification Code" />
+    </div>
+    <div class="checkbox div-center ">
+      <input type="checkbox"  value="" class="css-checkbox" id="cor08" name="cor08">
+      <label for="cor08" class="css-label i-accept">I Accept term & conditions </label>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-orange" type="submit">Submit </button>
+      <button class="btn btn-orange" type="submit">Send term & conditions to email</button>
+    </div>
+  </div>
+</div>
+<!--Verification!  -->
+
+<div class="col-md-6 col-md-offset-2 thanks-subscription ">
+  <h3>Your credit card details are not valid. Please try again</h3>
+  <h4>Please wait. We are redirecting you to purchase subscription page.</h4>
+  <div class="text-center"><img src="/ndorse_dev/img/ajax-loader.gif" alt="" /></div>
+</div>
+<div class="hidden">
+  <p class="block-with-text">The Hitch Hiker's Guide to the Galaxy has a few things to say on the subject of towels. A towel, it says, is about the most massivelyuseful thing an interstellar hitch hiker can have. Partly it has great practical value - you can wrap it around you for warmth as you bound across the cold moons of  Jaglan Beta; you can lie on it on the brilliant marble-sanded beaches of Santraginus V, inhaling the heady sea vapours; you can sleep under it beneath the stars which shine so redly on the desert world of Kakrafoon;  use it to sail a mini raft down the slow heavy river Moth; wet it for use in hand-to-hand-combat; wrap it round your head to ward off noxious fumes or to avoid the gaze of the Ravenous Bugblatter Beast of Traal (a mindboggingly stupid animal, it assumes that if you can't see it, it can't see you - daft as a bush, but very ravenous); you can wave your towel in emergencies as a distress signal, and of course dry yourself off with it if it still seems to be clean enough. More importantly, a towel has immense psychological value. For some reason, if a strag (strag: non-hitch hiker) discovers that a hitch hiker has his towel with him, he will automatically assume that he is also in possession of a toothbrush, face flannel, soap, tin of biscuits, flask, compass, map, ball of string, gnat spray, wet weather gear, space suit etc., etc. Furthermore, the strag will then happily lend the hitch hiker any of these or a dozen other items that the hitch hiker might accidentally have "lost". What the strag will think is that any man who can hitch the length and breadth of the galaxy, rough it, slum it, struggle against terrible odds, win through, and still knows where his towel is is clearly a man to be reckoned with.</p>
+  <p class="block-with-text">The Hitch Hiker's Guide to the Galaxy has a few things to say on the subject of towels. A towel</p>
+</div>
+
+<!-- Menu -->
+
+<div class="container header-bg ">
+  <div class="row">
+    <div class="pull-left menu-toggle "> <a href="#" id="menu-toggle"><img src="/ndorse_dev/img/menu.png" alt="img" class="img-responsive"></a>
+      <div id="wrapper" >
+        <div id="sidebar-wrapper" class="">
+          <div class="" style="margin-left:20%;">
+            <ul class="sidebar-nav">
+              <li class="sidebar-brand"> <a href="#"> Organizations</a> </li>
+              <li class="sidebar-brand"> <a href="#">Create New Organization</a> </li>
+            </ul>
+            <div class="logout" style=""> <span class="pull-left userName"> Rohan Walvekar
+              <div class="clearfix"></div>
+              <a href="#" class="logoutText">LOGOUT</a> </span> <span class="pull-right"> <img src="/ndorse_dev/img/user.png" alt="user" class="img-circle"> </span> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="title-org">
+      <p class="text-center">Organizations</p>
+    </div>
+    <div class="pull-right"><a href="#" class="pull-right"><img src="img/refresh.png" alt="img"  class="img-responsive"></a> </div>
+  </div>
+</div>
+
+<!-- Menu --> 

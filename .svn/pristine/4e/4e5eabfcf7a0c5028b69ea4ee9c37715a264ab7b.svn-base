@@ -1,0 +1,9 @@
+<html>
+				<head>
+				</head>
+				<body>
+								Hi,
+								<br>
+								You are awarded with <?php echo $trophy_name; ?>
+				</body>
+</html>

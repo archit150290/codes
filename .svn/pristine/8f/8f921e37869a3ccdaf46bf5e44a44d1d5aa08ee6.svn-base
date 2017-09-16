@@ -1,0 +1,253 @@
+@font-face {
+	font-family: 'enriquetabold';
+	src: url('../fonts/enriqueta-bold-webfont.woff2') format('woff2'), url('../fonts/enriqueta-bold-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'enriquetaregular';
+	src: url('../fonts/enriqueta-regular-webfont.woff2') format('woff2'), url('../fonts/enriqueta-regular-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+body {
+	font-family: 'enriquetaregular';
+}
+.banner {
+	background: url(../images/banner.jpg) no-repeat;
+	background-position: center center;
+	background-size: cover;
+	height: 391px;
+	box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+}
+.banner h2 {
+	font-family: 'enriquetaregular';
+	font-size: 45px;
+}
+.adm-rep-btn {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.adm-rep-btn img {
+	margin-right: 10px;
+}
+.main-nav.navbar.navbar-default {
+	background: #fff;
+	margin: 0 0;
+	border: 0;
+}
+.main-nav.navbar.navbar-default .nav > li > a {
+	font-family: 'enriquetaregular';
+	font-size: 16px;
+	color: #060605;
+}
+.bor {
+	border: 1px solid #f00;
+}
+section {
+	margin: 50px 0;
+}
+.real-time h3 {
+	color: #f5741d;
+	font-family: 'enriquetaregular';
+	font-size: 14px;
+	text-align: left;
+	font-weight: bold;
+}
+.home-contact {
+	background: #1e245a;
+	color: #fff;
+	border-radius: 20px;
+	padding-top: 10px;
+	padding-right: 23px;
+	padding-left: 20px;
+	padding-bottom: 10px;
+	width: 80%;
+}
+section.looks-great {
+	background: #e5701a;
+}
+.looks-great h2 {
+	color: #fff;
+	font-family: 'enriquetaregular';
+}
+.get-app-looks-great {
+	position: absolute;
+	top: 180px;
+	left: -30px
+}
+section.follow-us {
+	background: #1e245a;
+	margin-top: -48px;
+	margin-right: 0;
+	margin-left: 0;
+	margin-bottom: 0;
+	height: 200px;
+	padding-top: 20px;
+}
+.social {
+	margin-top: 30px;
+}
+.social img {
+	margin: 10px;
+}
+.contact-us {
+	background: #fff;
+}
+.contact-us .form-control {
+	border: 1px solid #f4771a;
+	border-radius: 0;
+	box-shadow: 0 0;
+}
+.contact-us .btn-green {
+	background: #f4771a;
+	color: #fff;
+	border-radius: 0
+}
+section.get-app {
+	background: #273186;
+	padding: 30px 0;
+}
+.download-ndorse h2 {
+	font-family: 'enriquetaregular';
+	font-weight: bold;
+	font-size: 20px;
+}
+.download-ndorse h5 {
+	font-family: 'enriquetaregular';
+}
+.clients h2 {
+	font-family: 'enriquetaregular';
+	color: #F17D27;
+	font-size: 20px;
+	margin-top: 30px;
+}
+.our-clients {
+	width: 80%;
+	margin: 0 auto;
+}
+.what-nDorse h3 {
+	font-family: 'enriquetaregular';
+	color: #F17D27;
+	font-size: 20px;
+}
+.what-nDorse h3.what {
+	font-family: 'enriquetaregular';
+	color: #F17D27;
+	font-size: 20px;
+	display: inline-block;
+	margin: 10px 0 10px -20px;
+}
+.what-nDorse h3.goal {
+	font-family: 'enriquetaregular';
+	color: #F17D27;
+	font-size: 20px;
+	display: inline-block;
+	margin: 10px 0 10px 20px;
+}
+.what-nDorse h3.recog, .recog {
+	font-family: 'enriquetaregular';
+	color: #F17D27;
+	font-size: 20px;
+	display: inline-block;
+	margin: 20px 0 20px 20px;
+}
+.about-nDorse img.left {
+	margin: 0 50px 20px 10px;
+}
+.img-center {
+	margin: 0 auto;
+	text-align: center;
+}
+.how-it-works {
+	background: #f4771a;
+	margin: 20px 0;
+	color: #fff;
+}
+.how-it-works h3 {
+	font-family: 'enriquetaregular';
+	font-size: 20px;
+	font-weight: bold;
+}
+.how-it-works ul {
+	font-family: 'enriquetaregular';
+	font-size: 20px;
+	margin-top: 40px;
+}
+.how-it-works ul li {
+	list-style-image: url(../images/arrow.png);
+	line-height: 50px;
+}
+.motto h2 {
+	color: #f5741d;
+}
+.motto h3 {
+	color: #252f86;
+}
+.motto h3 a {
+	color: #060605;
+	text-decoration: underline;
+}
+.faq-accordion .panel-heading [data-toggle="collapse"]:after {
+	content: url(../images/up.png);
+	float: right;
+	color: #F58723;
+	font-size: 18px;
+	line-height: 22px;
+}
+.faq-accordion .panel-heading [data-toggle="collapse"].collapsed:after {
+	content: url(../images/down.png);
+}
+.faq-accordion .panel-heading{background:none; border:0; padding:30px 0; }
+.faq-accordion .panel-title{font-size:18px;font-family: 'enriquetaregular';}
+.faq-accordion .panel{border:0;box-shadow:none;}
+.faq-accordion .panel-default{border:none; border-bottom:2px solid;  border-color:rgba(148, 149, 141, 0.67); border-radius:0;}
+.faq-accordion .panel-body{padding:0 0 20px 0;color:#f17d27; font-size:18px;font-family: 'enriquetaregular';}
+
+.faq-accordion .panel-group .panel-heading + .panel-collapse > .list-group, .faq-accordion  .panel-group .panel-heading + .panel-collapse > .panel-body{
+	border-top:0px;
+	}
+a.site-active{color:#F17D27 !important;}
+.btn-orange {
+	background: #f47521 linear-gradient(to bottom, #f47521, #ed5b13) repeat scroll 0 0;
+	border: 2px solid #e34e04;
+	border-radius: 4px;
+	color: #ffffff !important;
+	font-family: "Avenir-Medium";
+	font-size: 18px;
+	padding: 10px;
+	text-decoration: none;
+	margin:10px;
+}
+#zdeskContactForm .error{color:#f00;float:left;font-weight:lighter;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**/

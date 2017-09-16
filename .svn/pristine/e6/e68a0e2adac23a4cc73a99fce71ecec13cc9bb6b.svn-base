@@ -1,0 +1,14 @@
+<!--Join Org -->
+    <?php //pr($orgdata["organization"]);?>
+    <div id ="orglisting">
+        <?php 
+        if(isset($orgdata["organization"]) && !empty($orgdata["organization"])){
+            echo $this->Element("corganizationslisting");
+        }else{
+            echo "<div class = 'nodataavailable'>No Data Available</div>";
+        }?>
+    </div>
+    <input type="hidden" id="pagename" value="myorg">
+    <div class="col-md-offset-1 text-center col-md-12"> <?php echo $this->Html->Image("ajax-loader.gif", array("class" => "hiddenloader hidden")); ?> </div>
+    <!--Join Org -->
+</div>

@@ -1,0 +1,144 @@
+<?php
+App::uses('AppController', 'Controller');
+App::uses('Urbanairship','Lib');
+
+/**
+ *Purpose : This controller used for to send Push notification
+ *Author : Manish Shamra - Arcgate.com
+ *Created On : 28 april 2016
+**/
+
+class PushNotificationController extends AppController {
+    protected $APP_MASTER_SECRET = 'X5cSRAcsQdWqZsfaqgaOnw';
+    protected $APP_KEY = '6I0M2qzRRMqQ6gx10HaD9w';
+
+    public function beforeFilter()
+    {
+        parent::beforeFilter();
+
+        $this->Auth->allow();
+        $this->layout = '';
+    }
+
+
+    /**
+     *Purpose: THis is the default function of any controller
+     *Author : AJit
+    **/
+    function index()
+    {
+        // default method
+        die('sdsd');
+    }
+
+    /**
+     *Purpose : This Function Would send an alert mail to users for their pending forms using Cron
+    **/
+	
+	function dumpnotification() {
+		
+		$deviceToken_msg_arr = array();
+
+		
+				$token = '2e9a943fae3c386dd4bc99d961721fa2ee3eb9339151eaa089d5fbbfda4a2843';
+				$count = 11;
+				$msg = 'Hey Congrats!. You got a push notification.';
+				$deviceToken_msg_arr[] = array('token' => $token, 'count' => $count, 'msg' => $msg);
+			
+
+		$this->sendPushNotification($deviceToken_msg_arr);
+		print_r($deviceToken_msg_arr);
+		die('Done');
+	}
+    function notification() {
+		$this->loadModel('User');
+		$this->loadModel('UserAlert');
+
+		$this->User->virtualFields['msg_count'] = 'SELECT count(id) FROM user_alerts where read_status = 0 AND user_id = User.id';
+		$allUsers = $this->User->find('all', array('conditions' => array('role' => 'User', 'verification_status' => 'yes', 'active' => 1, 'device_token !=' => '', 'msg_count >=' => 1), 'fields' => array('id', 'device_token', 'msg_count')));
+		$deviceToken_msg_arr = array();
+
+		if(!empty($allUsers)) {
+			foreach($allUsers as $user) {
+				$token = $user['User']['device_token'];
+				$count = $user['User']['msg_count'];
+				$deviceToken_msg_arr[] = array('token' => $token, 'count' => $count);
+			}
+		}
+
+		$this->sendPushNotification($deviceToken_msg_arr);
+		//pr($deviceToken_msg_arr);
+		die('Done');
+	}
+
+	function sendPushNotification($deviceToken_msg_arr = null) {
+
+		if(!empty($deviceToken_msg_arr)) {
+			// Put your private key's passphrase here:
+			//$pem_file = dirname(__FILE__) . '/'.'complianceprod.pem';
+			$location = dirname(__FILE__) . '/'.'Certificates.pem';
+echo PEM_FILE_LOCATION;exit;
+			$ctx = stream_context_create();
+			stream_context_set_option($ctx, 'ssl', 'local_cert', $location);
+			//stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
+
+			// Open a connection to the APNS server
+			////gateway.sandbox.push.apple.com
+			$fp = stream_socket_client(
+				'ssl://gateway.push.apple.com:2195', $err,
+				$errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
+
+			if (!$fp) {
+				exit("Failed to connect: $err $errstr" . PHP_EOL);
+			} else {
+				//echo 'Connected to APNS' . PHP_EOL;
+			}
+
+			foreach($deviceToken_msg_arr as $key => $val) {
+				if(!empty($val['token']) && !empty($val['count']) && strlen($val['token']) > 10) {
+					$deviceToken = $val['token'];
+
+					$message = 'Hey Congrats!. You got a push notification.';
+					//$val['count']
+					$abc = (int) trim($val['count']);
+
+					$body['aps'] = array (
+						'alert' => $message,
+						'sound' => 'default',
+						'badge' => $abc
+					);
+
+					// Encode the payload as JSON
+					$payload = json_encode($body);
+
+					// Build the binary notification
+					$msg = chr(0) . pack('n', 32) . pack('H*', $deviceToken) . pack('n', strlen($payload)) . $payload;
+
+					// Send it to the server
+					$result = fwrite($fp, $msg, strlen($msg));
+					if(!$result){
+						// error not send notification
+						//echo 'message send error';
+					} else {
+						//pr($result);
+
+					}
+				}
+				//usleep(250000);
+			}
+
+			// Close the connection to the server
+			fclose($fp);
+
+			return true;
+		}else {
+			 return false;
+		}
+
+		return true;
+
+		die('Done');
+    }
+
+
+}

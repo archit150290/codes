@@ -1,0 +1,18 @@
+<?php ?>
+<div class="container">
+    <div class="download-ndorse">
+        <?php echo $this->Html->Image("/images/logo.png", array("width" => "100", "alt" => ""));?>
+    </div>
+    
+    <div class="our-clients">    <?php echo $this->Html->link("Client Portal", array("controller" => "client", "action" => "login"), array('target'=>'_blank','escape'=>false, 'class' => 'btn btn-orange' )) ;?>
+			<div class="clearfix"></div>
+        <?php echo $this->Html->link("Admin Portal", array("controller" => "users", "action" => "login"), array('target'=>'_blank','escape'=>false, 'class' => 'btn btn-orange'));?><br />
+<br />
+<br />
+<br />
+<br />
+<br />
+</div>
+    
+</div>
+<?php echo $this->Element("footersite");?>

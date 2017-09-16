@@ -1,0 +1,379 @@
+<?php
+
+    echo $this->Html->script("highcharts");
+    echo $this->Html->script("modules/exporting");
+    echo $this->Html->script("modules/no-data-to-display");
+    $data = array(
+        "textcenter" => "Organization Info",
+        "righttabs" => "3",
+        "orgid" => $organization_id
+    );
+    $headerpage = ($authUser["role"]==1) ? 'header' : 'headerorg';
+    if($authUser["role"]== 2){
+            $data['auth_users'] = $authUser;
+    }
+    echo $this->Element($headerpage, array('data' => $data));
+    $orgdetails = array(
+        "id"        => $organization_id,
+        "image"     => $companydetail["image"],
+        "name"      => $companydetail["name"],
+        "sname"     => $companydetail["shortname"],
+        "street"    => $companydetail["street"],
+        "city"      => $companydetail["city"],
+        "state"     => $companydetail["state"],
+        "zip"       => $companydetail["zip"],
+        "country"   => $companydetail["country"],
+    );  
+    $orgname = $companydetail['name'];
+    $orgid = $organization_id;
+    ?>
+
+<div class="row row-padding"> <?php echo $this->Element("orgdetails", array('orgdetails' => $orgdetails, 'page' => 'other'));?>
+  <?php /*?>
+    <div class="col-md-2">
+    <?php
+        $org_image = $companydetail['image'];
+        if($org_image==""){
+        echo $this->Html->image('img1.png',array('class'=>"img-responsive", 'width' => '175')); 
+        //echo $this->Html->image($companydetail['healthurl'],array('class'=>"img-responsive smiley", "width" => "40"));
+        }else{
+            $org_imagenew = Router::url('/', true) . "app/webroot/" . ORG_IMAGE_DIR  .$org_image;
+            echo $this->Html->image($org_imagenew, array('width'=>'175','id'=>'org_image'));
+           //echo $this->Html->image($org_imagenew,array('width'=>'270', 'height' => '180px', 'id'=>'org_image'));
+           //echo $this->Html->image($companydetail['healthurl'],array('class'=>"img-responsive smiley", "width" => "40"));
+        }
+    ?>
+    </div>
+    <div class="col-md-3 comp-name">
+    <?php
+                $orgname = $companydetail['name'];
+                $orgid = $organization_id;
+                echo '<h2>'.$this->Html->link($orgname,array('controller'=>'users','action'=>'editorg',$orgid)); 
+                echo $this->Html->Image("edit_icon.png", array("data-toggle" => "tooltip", "title" => "Edit Organization", "class" => "editorgimage", "url" => array('controller'=>'users','action'=>'editorg',$orgid))).'</h2>';
+                echo '<h3>'.$companydetail['shortname'].'</h3>'
+            ?>
+        <p><?php echo $companydetail["street"]; if(!empty($companydetail["street"])){echo ", ";}?> <?php echo $companydetail["city"];?></p>
+        <p><?php echo $companydetail["state"];if(!empty($companydetail["state"])){echo ", ";}?> <?php echo $companydetail["zip"];?></p>
+        
+    </div>
+    <?php */?>
+    <input type="hidden" value="<?php echo $organization_id ;?>" id="randcorgid">
+    <div class="col-md-7"> <?php echo $this->Html->link("All Endorsements", array('controller'=>'organizations','action'=>'allendorsements',$orgid), array('class' => 'btn btn-success')); ?>
+        <div class="row date-range" style="margin-top:85px;">
+            <div class="col-md-3" >
+                <h4 class="date-range">Enter a date range</h4>
+            </div>
+      <?php echo $this->Form->Create("daterangerandc");?>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <input id="startdaterandc" readonly="readonly" name="startdaterandc" type='text'value="<?php echo $this->Time->Format($datesarray["startdate"], DATEFORMAT)?>" class="form-control datepickerrandc" placeholder="Start Date"/>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <input id="enddaterandc" readonly="readonly" name="enddaterandc" type='text' value="<?php echo $this->Time->Format($datesarray["enddate"], DATEFORMAT)?>" class="form-control datepickerrandc" placeholder="End Date"/>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-xs btn-info datesubmitter">Apply</button>
+                <button id="resetdates" title="Click to Reset Date"  class="btn btn-info btn-xs resetendorsementsfilters" type="button">Reset Date</button>
+        <?php echo $this->Form->End();?> </div>
+        </div>
+    </div>
+</div>
+<div style="display:none"><img name="img_val" id="img_val"  ></div>
+  <?php /*?>
+    <section>
+        <div class="row borBot address">
+            <div class="col-lg-2 col-md-2 col-sm-12">
+        <?php
+            $org_image = $companydetail['image'];
+            if($org_image==""){
+            echo $this->Html->image('img1.png',array('class'=>"img-responsive", 'width' => '225')); 
+            echo $this->Html->image($companydetail['healthurl'],array('class'=>"img-responsive smiley", "width" => "40"));
+            }else{
+                $org_imagenew = Router::url('/', true) . "app/webroot/" . ORG_IMAGE_DIR  .$org_image;
+                echo $this->Html->image($org_imagenew, array('width'=>'270','height'=>'180','id'=>'org_image'));
+               //echo $this->Html->image($org_imagenew,array('width'=>'270', 'height' => '180px', 'id'=>'org_image'));
+               echo $this->Html->image($companydetail['healthurl'],array('class'=>"img-responsive smiley", "width" => "40"));
+            }
+
+        ?>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-12">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 our-lady" align="left">
+            <?php
+                $orgname = $companydetail['name'];
+                $orgid = $organization_id;
+                echo $this->Html->link($orgname,array('controller'=>'users','action'=>'editorg',$orgid)); 
+                echo $this->Html->Image("edit_icon.png", array("class" => "editorgimage", "url" => array('controller'=>'users','action'=>'editorg',$orgid)));
+            ?>
+                    </div>
+                </div>
+                <div class="row content-color">
+                    <div class="col-md-12 col-sm-12">
+                        <h3><?php echo $companydetail['shortname']; ?> </h3>
+                    </div>
+                </div>
+                <div class="row address">
+                    <div class="col-md-12">
+                        <p><?php echo $companydetail["street"]; if(!empty($companydetail["street"])){echo ", ";}?> <?php echo $companydetail["city"];?></p>
+                        <p><?php echo $companydetail["state"];if(!empty($companydetail["state"])){echo ", ";}?> <?php echo $companydetail["zip"];?></p>
+                    </div>
+                </div>
+                <div class="row date-range">
+                    <div class="col-md-3">
+                        <p>Enter a date range</p>
+                    </div>
+        <?php echo $this->Form->Create("daterangerandc");?>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input id="startdaterandc" name="startdaterandc" type='text'value="<?php echo $datesarray["startdate"]?>" class="form-control datepickerrandc"/>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input id="enddaterandc" name="enddaterandc" type='text' value="<?php echo $datesarray["enddate"]?>" class="form-control datepickerrandc"/>
+                            <!--<div class='input-group date' id='datetimepicker1'>
+                                                <input type='text' class="form-control datepickerrandc" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>--> 
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-info">Apply</button>
+                    </div>
+        <?php echo $this->Form->End();?> </div>
+            </div>
+        </div>
+    </section>
+ * 
+ * <?php */ ?>
+<section>
+    <div class="row">
+        <div class="col-md-6 charts-height"> 
+
+            <!-- /.container-fluid --> 
+            <?php echo $this->Element("leaderboarddata");?> 
+        </div>
+        <div class="col-md-6 charts-height">
+            <div class="row">
+                <div class="" style="position:absolute; right:60px; z-index:10;">
+                    <div class="btn-controll">
+              <?php
+                echo $this->Html->image('fullview.png',array('class'=>"img-responsive full-view", "onclick" => "reportsandchartszoom(".$organization_id.", 'history_by_day')"));
+            ?>
+                    </div>
+                </div>
+            </div>
+            <div data-example-id="striped-table" class="row bs-example chart-container">
+                <div class="table-responsive" >
+            <?php 
+                $series="";
+                if(!empty($endorsementbyday)){
+                    $seriesdata ="";
+                    foreach($endorsementbyday as $lval){
+                       if( $seriesdata==""){
+                        $seriesdata="{
+                  name: '".$this->Time->Format($lval[0]["cdate"], DATEFORMAT)."',
+                 y: ".$lval[0]["cnt"]."}";
+                       }else{
+                        $seriesdata.=",{
+                   name: '".$this->Time->Format($lval[0]["cdate"], DATEFORMAT)."',
+                 y: ".$lval[0]["cnt"]."}";
+                       }
+                    }
+
+                //echo $seriesdata;exit;
+                  $series="  {
+                    name: 'Date',
+                    colorByPoint: false,
+                    data: [".$seriesdata."]}";
+                      //echo $seriesdata;
+                }
+                echo $this->Element("endorsementbyday_web", array("data" => $series));
+            ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="row">
+        <div class="col-md-6 charts-height">
+            <div class="row">
+                <div class="" style="position:absolute; right:60px; z-index:10">
+            <?php
+                echo $this->Html->image('fullview.png',array('class'=>"img-responsive full-view", "onclick" => "reportsandchartszoom(".$organization_id.", 'history_by_department')"));
+            ?>
+                </div>
+            </div>
+            <div data-example-id="striped-table" class="row bs-example">
+          <?php
+            echo $this->Element("endorsementhistorybydept_web");
+        ?>
+            </div>
+        </div>
+        <div class="col-md-6 charts-height">
+            <div class="row">
+                <div class="" style="position:absolute; right:60px; z-index:10">
+            <?php
+            echo $this->Html->image('fullview.png',array('class'=>"img-responsive full-view", "onclick" => "reportsandchartszoom(".$organization_id.", 'by_department')"));
+        ?>
+                </div>
+            </div>
+            <div data-example-id="striped-table" class="row bs-example">
+                <div class="table-responsive">
+            <?php
+                        $series="";
+                        /*$departmentids = $allvaluesfordeptandentity["department"];
+                        
+                        if(!empty($resultantendorsementbyDept)){
+                            $seriesdata ="";
+                            foreach($resultantendorsementbyDept as $key => $val){
+                                if( $seriesdata==""){
+                                $seriesdata="{
+                                name: '".$departmentids[$key]."',
+                                y: ".$val."}";
+                                }else{
+                                $seriesdata.=",{
+                                name: '".$departmentids[$key]."',
+                                y: ".$val."}";
+                                }
+                            }
+                            $series="  {
+                            name: 'organization',
+                            colorByPoint: true,
+                            data: [".$seriesdata."]}";
+                        }*/
+                        if(!empty($leaderboard)){
+                            $seriesdata ="";
+                            foreach($leaderboard as $lval){
+                                if( $seriesdata==""){
+                                $seriesdata="{
+                                name: '".addslashes($lval["OrgDepartments"]["department"])."',
+                                y: ".$lval[0]["cnt"]."}";
+                                }else{
+                                $seriesdata.=",{
+                                name: '".addslashes($lval["OrgDepartments"]["department"])."',
+                                y: ".$lval[0]["cnt"]."}";
+                                }
+                            }
+                            $series="  {
+                            name: 'organization',
+                            colorByPoint: true,
+                            data: [".$seriesdata."]}";
+                        }
+                        
+                        echo $this->Element("endorsementbydept_web", array("data" => $series));
+            ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- job title charts-->
+<section>
+    <div class="row">
+        <div class="col-md-6 charts-height">
+            <div class="row">
+                <div class="" style="position:absolute; right:60px; z-index:10">
+            <?php
+            echo $this->Html->image('fullview.png',array('class'=>"img-responsive full-view", "onclick" => "reportsandchartszoom(".$organization_id.", 'by_jobtitle')"));
+        ?>
+                </div>
+            </div>
+            <div data-example-id="striped-table" class="row bs-example">
+                <div class="table-responsive">
+            <?php
+                $seriesjbtitle = "";
+                $htmljbtitledata = "";
+                if(!empty($detailedjobtitlechart)){
+                    
+                    foreach($detailedjobtitlechart["data"] as $name => $yaxis){
+                        if(isset($detailedjobtitlechart["jobtitles"][$name])){
+                            $htmljbtitledata .= "{
+                                name:'".$detailedjobtitlechart["jobtitles"][$name]."',
+                                y:".$yaxis.",
+                            },";
+                        }
+                    }
+                }
+                $seriesjbtitle="  {
+                    name: 'jbendorsement',
+                    colorByPoint: true,
+                    data: [".$htmljbtitledata."]}";
+                
+                
+                    $dataarray = array("data" => $seriesjbtitle, "chartfor" => "jobtitle", "zoomchart" => "no");
+                    echo $this->Element("endorsementspiecharts_web", array("dataarray" => $dataarray));
+                ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 charts-height">
+            <div class="row">
+                <div class="" style="position:absolute; right:60px; z-index:10">
+            <?php
+                        echo $this->Html->image('fullview.png',array('class'=>"img-responsive full-view", "onclick" => "reportsandchartszoom(".$organization_id.", 'by_suborganization')"));
+                    ?>
+                </div>
+            </div>
+            <div data-example-id="striped-table" class="row bs-example">
+                <div class="table-responsive">
+            <?php
+                $seriesentity = "";
+                $htmlentity = "";
+                if(!empty($detailedentitychart)){
+                    $htmlentitydata = "";
+                    foreach($detailedentitychart["data"] as $name => $yaxis){
+                         
+                            //======as in if elelment is deleted so we need to check
+                            if(isset($detailedentitychart["entites"][$name])){
+                                $htmlentity .= "{
+                                    name:'".$detailedentitychart["entites"][$name]."',
+                                    y:".$yaxis.",
+                                },";
+                            }
+                            
+                    }
+                }
+                $seriesentity="  {
+                    name: 'jbendorsement',
+                    colorByPoint: true,
+                    data: [".$htmlentity."]}";
+                
+                
+                    $dataarray = array("data" => $seriesentity, "chartfor" => "entity", "zoomchart" => "no");
+                    echo $this->Element("endorsementspiecharts_web", array("dataarray" => $dataarray));
+                ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--end of job title chart--> 
+
+<!-- Enitites Chart--> 
+
+<!-- -end of entites chart-->
+
+<div class="modal fade" id="myModal2_commonrandc" role="dialog">
+    <div class="modal-dialog"> 
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn btn-default pull-right close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" style="text-align: center">
+                <h4 class="modal-title"></h4>
+                <div id="bodytext"></div>
+            </div>
+        </div>
+    </div>
+</div>
