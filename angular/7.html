@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html ng-app="">
+<head>
+	<title></title>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+</head>
+<body>
+    <div ng-init="myfavnum=[{name:'1', other : '11'}, 
+    {name:'2', other : '22'},{name:'3', other : '33'}]"></div>
+    <p ng-repeat="number in myfavnum">
+        Main Number : {{number.name}}
+        Other Number : {{number.other}}
+    </p>
+
+</body>
+</html>
