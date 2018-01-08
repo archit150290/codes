@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-
+use Cake\Event\Event;
 /**
  * Users Controller
  *
@@ -12,6 +12,10 @@ use App\Controller\AppController;
  */
 class UsersController extends AppController
 {
+
+    public function beforeFilter(Event $event){
+        $this->Auth->allow("signup", "forgorpassword");
+    }
 
     /**
      * Index method
@@ -23,6 +27,10 @@ class UsersController extends AppController
         $users = $this->paginate($this->Users);
         
         $this->set(compact('users'));
+    }
+
+    public function forgorpassword(){
+        //==empty
     }
 
     /**
@@ -108,8 +116,18 @@ class UsersController extends AppController
 
     public function login()
     {
-       
-       
+       //=====logged user in
+        if($this->request->is("post")){
+            $user = $this->Auth->identify();
+            if($user){
+                $this->Flash->success(__("Login Successfull"));
+                $this->Auth->setUser($user);
+                //=redirect to the page to the user they wanted
+                return $this->redirect(["controller" => "Users", "action" => "index"]);
+            }
+            $this->Flash->error(__("Sorry the login wasn't successful"));
+        }
+        
     }
 
     public function signup()
