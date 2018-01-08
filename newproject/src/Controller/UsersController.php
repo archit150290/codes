@@ -14,7 +14,7 @@ class UsersController extends AppController
 {
 
     public function beforeFilter(Event $event){
-        $this->Auth->allow("signup", "forgorpassword");
+        $this->Auth->allow("signup", "forgorpassword", "logout");
     }
 
     /**
@@ -117,6 +117,10 @@ class UsersController extends AppController
     public function login()
     {
        //=====logged user in
+        if($this->Auth->user("id")){
+            $this->Flash->warning(__("Already Logged In..."));
+            return $this->redirect(["controller" => "Users", "action" => "index"]);
+        }
         if($this->request->is("post")){
             $user = $this->Auth->identify();
             if($user){
@@ -143,5 +147,10 @@ class UsersController extends AppController
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
         $this->set(compact('user'));
+    }
+
+    public function logout(){
+        $this->Flash->success("u r now logged out");
+        return $this->redirect($this->Auth->logout());
     }
 }

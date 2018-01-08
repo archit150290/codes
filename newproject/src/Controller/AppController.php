@@ -16,6 +16,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\Utility\Inflector as Inflector;
 
 /**
  * Application Controller
@@ -48,6 +49,10 @@ class AppController extends Controller
                 'controller' => 'Users',
                 'action' => 'login'
             ],
+            'logoutRedirect' => [
+                'controller' => 'Users',
+                'action'     => 'login'
+            ],
             'authError' => 'Did you really think you are allowed to see that?',
             'authenticate' => [
                 'Form' => [
@@ -62,5 +67,11 @@ class AppController extends Controller
          */
         //$this->loadComponent('Security');
         //$this->loadComponent('Csrf');
+
+        
+    }
+    public function beforeRender(Event $event){
+        $this->set("auth", $this->request->session()->read("Auth"));
+        $this->set("inflector", new Inflector);
     }
 }

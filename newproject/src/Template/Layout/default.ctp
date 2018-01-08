@@ -49,13 +49,39 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </ul>
         <div class="top-bar-section">
             <ul class="right">
-                <li><a target="_blank" href="https://book.cakephp.org/3.0/">Documentation</a></li>
-                <li><a target="_blank" href="https://api.cakephp.org/3.0/">API</a></li>
+            <?php 
+                if($auth){
+                    //pr();
+                    ?>
+                    <li><?php echo $this->Html->link($auth["User"]["email"], ["controller" => "Users", "action" => "view",  $auth["User"]["id"]]) ;?></li>
+                    <li>
+                        <?php echo $this->Html->link("logout", ["controller" => "Users", "action" => "logout"]);?>
+                    </li>
+                <?php }else{?>
+                    <li>
+                        <?php echo $this->Html->link("log in", ["controller" => "Users", "action" => "login"]);?>
+                    </li>
+                    <li>
+                        <?php echo $this->Html->link("Sign up", ["controller" => "Users", "action" => "signup"]);?>
+                    </li>
+                    <li>
+                        <?php echo $this->Html->link("Forget Passsword", ["controller" => "Users", "action" => "forgotpassword"]);?>
+                    </li>
+                <?php }
+            ?>
+                
             </ul>
         </div>
     </nav>
     <?= $this->Flash->render() ?>
+    
     <div class="container clearfix">
+        <?php if($auth){
+            echo $this->element("sidemenus/sidemenu-loggedin", ["viewName" => $inflector::singularize($this->name)]);
+        }
+        else
+            echo $this->element("sidemenus/sidemenu-loggedout");
+        ?>
         <?= $this->fetch('content') ?>
     </div>
     <footer>
