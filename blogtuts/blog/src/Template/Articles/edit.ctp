@@ -17,14 +17,42 @@
     </ul>
 </nav>
 <div class="articles form large-9 medium-8 columns content">
-    <?= $this->Form->create($article) ?>
+    <?= $this->Form->create($article,  ['enctype' => 'multipart/form-data']) ?>
     <fieldset>
         <legend><?= __('Edit Article') ?></legend>
         <?php
             echo $this->Form->control('title');
+            echo $this->Form->control('excerpt');
             echo $this->Form->control('body');
+            echo $this->Form->control('category_id');
+            echo "<br>";
+            
         ?>
+        <?php 
+        
+        
+        if(file_exists(WWW_ROOT."files/".$article->image)): ?>
+            <div class="input">
+            <label>Existing Image:</label>
+            <?php 
+                echo $this->Html->image("../files/".$article->image, array('width'=>200));
+            ?>
+            </div>
+            <div class="editornotedit">
+                <span class="edit"><a class="editimage">edit image</a></span>
+            </div>
+            
+           
+        <?php endif; ?>
+        <div id="divhidden" style="">
+            <?php echo $this->Form->control('image', ['type' => 'file',  'label' => __('Featured Image')]); ?>
+        </div>
+        
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>
+
+<script>
+
+</script>

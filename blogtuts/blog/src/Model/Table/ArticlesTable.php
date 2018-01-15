@@ -5,7 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-
+use Cake\Routing\Router;
 /**
  * Articles Model
  *
@@ -50,7 +50,9 @@ class ArticlesTable extends Table
      * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator)
-    {
+    {   
+
+        $action = Router::getRequest()->params['action'];
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
@@ -58,11 +60,98 @@ class ArticlesTable extends Table
         $validator
             ->scalar('title')
             ->maxLength('title', 50)
-            ->allowEmpty('title');
+            ->notEmpty('title');
 
         $validator
             ->scalar('body')
-            ->allowEmpty('body');
+            ->notEmpty('body');
+
+        if($action!="edit"){
+            $validator
+        ->add('image', [
+
+            'uploadError' => [
+                    'rule' => 'uploadError',
+                    'message' => 'The cover image upload failed.'
+            ],
+            'fileSize' => [
+                    'rule' => [
+                        'fileSize', '<', '5MB'
+                    ],
+                    'message' => 'Please upload file smaller than 5MB',
+                    'last' => true
+
+                ],
+            'mimeType' => [
+                'rule' => [
+                    'mimeType', ['image/jpeg','image/png','image/jpg']
+                ],
+                'message' => 'Please upload only png images'
+            ]
+        ])
+        ->requirePresence('image', 'create')
+        ->notEmpty('image');
+        }else{
+
+        
+        $validator
+        ->add('image', [
+
+            'uploadError' => [
+                    'rule' => 'uploadError',
+                    'message' => 'The cover image upload failed.'
+            ],
+            'fileSize' => [
+                    'rule' => [
+                        'fileSize', '<', '5MB'
+                    ],
+                    'message' => 'Please upload file smaller than 5MB',
+                    'last' => true
+
+                ],
+            'mimeType' => [
+                'rule' => [
+                    'mimeType', ['image/jpeg','image/png','image/jpg']
+                ],
+                'message' => 'Please upload only png images'
+            ]
+        ])
+        ->requirePresence('image', 'create')
+        ->allowEmpty('image');
+
+        }
+        /* $validator
+            ->add('image', [
+
+                'uploadError' => [
+                        'rule' => 'uploadError',
+                        'message' => 'The cover image upload failed.',
+                        'allowEmpty' => TRUE,
+                        'last' => true
+                ],
+
+                'mimeType' => [
+                        'rule' => array('mimeType', array('image/gif', 'image/png', 'image/jpg', 'image/jpeg')),
+                        'message' => 'Please only upload images (gif, png, jpg).',
+                        'allowEmpty' => TRUE,
+                        'last' => true
+                ],
+
+                'fileSize' => [
+                        'rule' => array('fileSize', '<=', '1MB'),
+                        'message' => 'Cover image must be less than 1MB.',
+                        'allowEmpty' => TRUE,
+                        'last' => true
+                ],
+
+                'processCoverUpload' => [
+                        'rule' => 'processCoverUpload',
+                        'message' => 'Unable to process cover image upload.',
+                        'allowEmpty' => TRUE,
+                        'last' => true
+                ],
+
+            ]); */
 
         return $validator;
     }

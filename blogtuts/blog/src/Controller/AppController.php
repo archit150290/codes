@@ -16,7 +16,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
-
+use Cake\Core\Configure;
 /**
  * Application Controller
  *
@@ -38,12 +38,15 @@ class AppController extends Controller
      * @return void
      */
     public function initialize()
-    {
+    {   
         parent::initialize();
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
-
+        
+        //$imagePathGlobal = Configure::read('ImageFolder');
+        $imagePathGlobal = $this->request->webroot.'files/';
+        $this->set(compact('imagePathGlobal'));
         /*
          * Enable the following components for recommended CakePHP security settings.
          * see https://book.cakephp.org/3.0/en/controllers/components/security.html

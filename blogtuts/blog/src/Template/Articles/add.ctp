@@ -11,13 +11,15 @@
     </ul>
 </nav>
 <div class="articles form large-9 medium-8 columns content">
-    <?= $this->Form->create($article); ?>
+    <?= $this->Form->create($article, ['enctype' => 'multipart/form-data']); ?>
     <fieldset>
         <legend><?= __('Add Article') ?></legend>
         <?php
             echo $this->Form->control('title');
+            echo $this->Form->control('excerpt');
             echo $this->Form->control('body');
             echo $this->Form->control('category_id');
+            echo $this->Form->control('image', ['type' => 'file', 'multiple' => true, 'label' => __('Featured Image')]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
