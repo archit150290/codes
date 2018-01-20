@@ -98,35 +98,11 @@ class ArticlesController extends AppController
         ]);
 
         $articleImage = $article->image;
-
-        
-        
-
-       /*  if($file!=""){
-            $file['name'] =  time() . '-' . str_replace(' ', '_', $file['name']); 
-            
-            $dir = new Folder(WWW_ROOT . 'files', true, 0777);
-        } */
-        
-        //if(move_uploaded_file($file['tmp_name'], WWW_ROOT . 'files/' . $file['name'])){
-
-       /*  $file['name'] =  time() . '-' . str_replace(' ', '_', $file['name']); 
-        echo WWW_ROOT . 'files';
-        $dir = new Folder(WWW_ROOT . 'files', true, 0777);
-        if(move_uploaded_file($file['tmp_name'], WWW_ROOT . 'files/' . $file['name'])){
-            //$this->request->data['image'] = $file['name'];
-            $article->image = $file['name'];
-            if ($this->Articles->save($article)) {
-                $this->Flash->success(__('The article has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            }
-        } */
-
-
         if ($this->request->is(['patch', 'post', 'put'])) {
             $article = $this->Articles->patchEntity($article, $this->request->getData());
             $file = $this->request->data['image'];
-            if(count($file) > 0){
+            
+            if($file["size"] > 0){
                 $file['name'] =  time() . '-' . str_replace(' ', '_', $file['name']);
                 move_uploaded_file($file['tmp_name'], WWW_ROOT . 'files/' . $file['name']);
                 $article->image = $file['name'];
@@ -135,6 +111,8 @@ class ArticlesController extends AppController
                 if(file_exists(WWW_ROOT . 'files/'.$articleImage)){
                     unlink($filePath);
                 }
+            }else{
+                $article->image = $articleImage;
             }
             
             if ($this->Articles->save($article)) {

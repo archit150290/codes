@@ -19,7 +19,7 @@
             echo $this->Form->control('excerpt');
             echo $this->Form->control('body');
             echo $this->Form->control('category_id');
-            echo $this->Form->control('image', ['type' => 'file', 'multiple' => true, 'label' => __('Featured Image')]);
+            echo $this->Form->control('image', ['type' => 'file', 'label' => __('Featured Image')]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

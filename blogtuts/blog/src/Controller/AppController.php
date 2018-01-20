@@ -28,6 +28,7 @@ use Cake\Core\Configure;
 class AppController extends Controller
 {
 
+    
     /**
      * Initialization hook method.
      *
@@ -43,15 +44,62 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+        $this->loadComponent('Auth', [
+            'authenticate' => [
+                'Form' => [
+                    'fields' => [
+                        'username' => 'username',
+                        'password' => 'password'
+                    ]
+                ]
+            ],
+            'loginRedirect' => [
+                'controller' => 'Articles',
+                'action' => 'index'
+            ],
+            'logoutRedirect' => [
+                'controller' => 'Users',
+                'action' => 'index'
+            ],
+            
+            'loginAction' => [
+                'controller' => 'Users',
+                'action' => 'index'
+            ],
+            'unauthorizedRedirect' => $this->referer() // If unauthorized, return them to page they were just on
+        ]);
+
+        
         
         //$imagePathGlobal = Configure::read('ImageFolder');
         $imagePathGlobal = $this->request->webroot.'files/';
         $this->set(compact('imagePathGlobal'));
+
+       /*  $this->loadComponent('Auth', [
+            'loginAction' => [
+                'controller' => 'Users',
+                'action' => 'index'
+            ],
+            'authenticate' => [
+                'Form' => [
+                    'userModel' => 'Users',
+                    'fields' => [
+                        'username' => 'username',
+                        'password' => 'passwords'
+                    ]
+                ]
+            ]
+        ]); */
+
+       
+
         /*
          * Enable the following components for recommended CakePHP security settings.
          * see https://book.cakephp.org/3.0/en/controllers/components/security.html
          */
         //$this->loadComponent('Security');
         //$this->loadComponent('Csrf');
+
+        
     }
 }

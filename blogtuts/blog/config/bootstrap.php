@@ -217,3 +217,6 @@ if (Configure::read('debug')) {
 Plugin::load('Migrations');
 
 //Configure::write('ImageFolder', $this->request->webroot . 'files/');
+
+Plugin::load('Twit', ['bootstrap' => false, 'routes' => true]);
+Plugin::load('Bootstrap');

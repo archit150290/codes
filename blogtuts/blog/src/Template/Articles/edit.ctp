@@ -17,7 +17,7 @@
     </ul>
 </nav>
 <div class="articles form large-9 medium-8 columns content">
-    <?= $this->Form->create($article,  ['enctype' => 'multipart/form-data']) ?>
+    <?= $this->Form->create($article,  ['enctype' => 'multipart/form-data', "id" => "editform"]) ?>
     <fieldset>
         <legend><?= __('Edit Article') ?></legend>
         <?php
@@ -35,17 +35,15 @@
             <div class="input">
             <label>Existing Image:</label>
             <?php 
-                echo $this->Html->image("../files/".$article->image, array('width'=>200));
+                echo $this->Html->image("../files/".$article->image, array('width'=>200, 'id' => "editimage"));
             ?>
             </div>
-            <div class="editornotedit">
-                <span class="edit"><a class="editimage">edit image</a></span>
-            </div>
+            
             
            
         <?php endif; ?>
         <div id="divhidden" style="">
-            <?php echo $this->Form->control('image', ['type' => 'file',  'label' => __('Featured Image')]); ?>
+            <?php echo $this->Form->control('image', ['type' => 'file',"label" => false]); ?>
         </div>
         
     </fieldset>
