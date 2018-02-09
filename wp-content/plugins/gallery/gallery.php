@@ -71,7 +71,7 @@ class GallerySimple{
                 console.log(attachment.length)
 
                 for(var i =0; i < attachment.length; i++){
-                    var htmlElement = '<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><img style="width:40%" src="'+attachment[i].url+'"><input type="text" name="imagesSelection[]" value="'+attachment[i].url+'"><input type="text" name="position[]" value="'+ ++counter +'"</li>'
+                    var htmlElement = '<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><img style="width:40%" src="'+attachment[i].url+'"><input type="text" name="imagesSelection[]" value="'+attachment[i].url+'"></li>'
                     console.log(attachment[i].url)
                     $("#sortable").append(htmlElement);
                 }
@@ -83,12 +83,10 @@ class GallerySimple{
         });
 
         $( "#sortable" ).sortable({
-            start: function(event, ui) {
-                ui.item.startPos = ui.item.index();
-            },
             stop: function(event, ui) {
-                console.log("Start position: " + ui.item.startPos);
-                console.log("New position: " + ui.item.index());
+               /*  $("#sortable li").each(function(i, el){
+                    $(el).find(".position").val($(el).index())
+                }); */
             }
         });
         $( "#sortable" ).disableSelection();
@@ -105,7 +103,8 @@ class GallerySimple{
 
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $allDataSelected = $_REQUEST["imagesSelection"];
-        pr($allDataSelected);
+        $allDataSelected = json_encode($allDataSelected);
+        update_options("galleryImages", $allDataSelected);
     }
   }
 
