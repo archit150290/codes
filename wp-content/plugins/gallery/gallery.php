@@ -95,16 +95,26 @@ class GallerySimple{
     
     </script>
     <?php 
+    $getImages = get_option("galleryImages");
+    
+    
     echo  '<div class="wrap"><h2>Select Images</h2><div class="upload"><div><button type="submit" id="upload_image_button" class="upload_image_button button">Upload</button></div></div></div>';
     echo '<form method="post">';
     echo '<ul id="sortable"></ul>';
+    if($getImages != ""){
+        $allDataImages = json_decode($getImages);
+        for($i =0; $i < count($allDataImages); $i++){
+            echo 
+        }
+    }
+   
     echo '<input name="save" type="submit" class="button button-primary button-large" id="publish" value="Update">';
     echo '</form>';
 
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $allDataSelected = $_REQUEST["imagesSelection"];
         $allDataSelected = json_encode($allDataSelected);
-        update_options("galleryImages", $allDataSelected);
+        update_option("galleryImages", $allDataSelected);
     }
   }
 
