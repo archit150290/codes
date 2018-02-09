@@ -437,8 +437,20 @@ add_filter( 'widget_tag_cloud_args', 'twentysixteen_widget_tag_cloud_args' );
 function pw_load_scripts() {
 	if($_GET["page"] == "select-Section")
 		wp_enqueue_script('custom-js', '/wp-content/plugins/sectionSelection/js/custom.js');
+	if($_GET["page"] == "gallery-Section"){
+		wp_enqueue_media();
+		$wp_scripts = wp_scripts();
+		wp_enqueue_style('plugin_name-admin-ui-css',
+						'http://ajax.googleapis.com/ajax/libs/jqueryui/' . $wp_scripts->registered['jquery-ui-core']->ver . '/themes/smoothness/jquery-ui.css',
+						false,
+						PLUGIN_VERSION,
+						false);
+	}
 }
 add_action('admin_enqueue_scripts', 'pw_load_scripts');
+
+
+
 
 function pr($arrayValue){
 	echo "<pre>";print_r($arrayValue);echo "<pre>";
@@ -500,3 +512,4 @@ function my_textbox_callback($args) {  // Textbox Callback
 	$option = get_option($args[0]);
     echo '<input type="text" id="'. $args[0] .'" name="'. $args[0] .'" value="' . $option . '" />';
 }
+
