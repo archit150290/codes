@@ -437,7 +437,7 @@ add_filter( 'widget_tag_cloud_args', 'twentysixteen_widget_tag_cloud_args' );
 function pw_load_scripts() {
 	if($_GET["page"] == "select-Section")
 		wp_enqueue_script('custom-js', '/wp-content/plugins/sectionSelection/js/custom.js');
-	if($_GET["page"] == "gallery-Section"){
+	if($_GET["page"] == "gallery-Section" || "timing-Section"){
 		wp_enqueue_media();
 		$wp_scripts = wp_scripts();
 		wp_enqueue_style('plugin_name-admin-ui-css',
@@ -497,11 +497,23 @@ function my_general_section() {
         array( // The $args
             'phone' // Should match Option ID
         )  
-    ); 
+	); 
+	
+	add_settings_field( // Option 2
+        'timings', // Option ID
+        'Timings', // Label
+        'my_textbox_callback', // !important - This is where the args go!
+        'general', // Page it will be displayed
+        'my_settings_section', // Name of our section (General Settings)
+        array( // The $args
+            'timings' // Should match Option ID
+        )  
+	); 
 
     register_setting('general','tagline2', 'esc_attr');
 	register_setting('general','info', 'esc_attr');
 	register_setting('general','phone', 'esc_attr');
+	register_setting('general','timings', 'esc_attr');
 }
 
 function my_section_options_callback() { // Section Callback
@@ -509,7 +521,82 @@ function my_section_options_callback() { // Section Callback
 }
 
 function my_textbox_callback($args) {  // Textbox Callback
-	$option = get_option($args[0]);
-    echo '<input type="text" id="'. $args[0] .'" name="'. $args[0] .'" value="' . $option . '" />';
+	
+	if($args[0] != 'timings'){
+		$option = get_option($args[0]);
+		echo '<input type="text" id="'. $args[0] .'" name="'. $args[0] .'" value="' . $option . '" />';
+	}else{
+
+		$option = html_entity_decode(get_option($args[0]));
+		
+		$settings = array( 'media_buttons' => false, 'editor_height' => '40px', 'textarea_name' => $args[0]);
+		$content = $option;
+		$editor_id = 'mycustomeditor';
+		wp_editor( $content, $editor_id, $settings );
+	}
+	
 }
 
+
+/*
+* Creating a function to create our CPT
+*/
+ 
+function chef() {
+ 
+// Set UI labels for Custom Post Type
+    $labels = array(
+        'name'                => _x( 'Chef', 'Post Type General Name', 'twentythirteen' ),
+        'singular_name'       => _x( 'Chef', 'Post Type Singular Name', 'twentythirteen' ),
+        'menu_name'           => __( 'Chef', 'twentythirteen' ),
+        //'parent_item_colon'   => __( 'Parent Movie', 'twentythirteen' ),
+        'all_items'           => __( 'All Chef', 'twentythirteen' ),
+        'view_item'           => __( 'View Chef', 'twentythirteen' ),
+        'add_new_item'        => __( 'Add New Chef', 'twentythirteen' ),
+        'add_new'             => __( 'Add New', 'twentythirteen' ),
+        'edit_item'           => __( 'Edit Chef', 'twentythirteen' ),
+        'update_item'         => __( 'Update Chef', 'twentythirteen' ),
+        'search_items'        => __( 'Search Chef', 'twentythirteen' ),
+        'not_found'           => __( 'Not Found', 'twentythirteen' ),
+        'not_found_in_trash'  => __( 'Not found in Trash', 'twentythirteen' ),
+    );
+     
+// Set other options for Custom Post Type
+     
+    $args = array(
+        'label'               => __( 'chef', 'twentythirteen' ),
+        'description'         => __( 'Chef news and reviews', 'twentythirteen' ),
+        'labels'              => $labels,
+        // Features this CPT supports in Post Editor
+        'supports'            => array( 'title', 'editor', 'thumbnail', 'custom-fields', ),
+        // You can associate this CPT with a taxonomy or custom taxonomy. 
+        'taxonomies'          => array( 'genres' ),
+        /* A hierarchical CPT is like Pages and can have
+        * Parent and child items. A non-hierarchical CPT
+        * is like Posts.
+        */ 
+        'hierarchical'        => false,
+        'public'              => true,
+        'show_ui'             => true,
+        'show_in_menu'        => true,
+        'show_in_nav_menus'   => true,
+        'show_in_admin_bar'   => true,
+        'menu_position'       => 5,
+        'can_export'          => true,
+        'has_archive'         => true,
+        'exclude_from_search' => false,
+        'publicly_queryable'  => true,
+        'capability_type'     => 'page',
+    );
+     
+    // Registering your Custom Post Type
+    register_post_type( 'chef', $args );
+ 
+}
+ 
+/* Hook into the 'init' action so that the function
+* Containing our post type registration is not 
+* unnecessarily executed. 
+*/
+ 
+add_action( 'init', 'chef', 0 );

@@ -103,9 +103,7 @@ class GallerySimple{
     echo '<ul id="sortable"></ul>';
     if($getImages != ""){
         $allDataImages = json_decode($getImages);
-        for($i =0; $i < count($allDataImages); $i++){
-            echo 
-        }
+       
     }
    
     echo '<input name="save" type="submit" class="button button-primary button-large" id="publish" value="Update">';
