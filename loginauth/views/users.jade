@@ -1,0 +1,39 @@
+extends layout
+
+block content
+  h1= title
+  table.table
+    thead
+      tr
+          th Name
+          |         
+          th Username
+          |         
+          th Email
+          |  
+          th Role
+          |        
+          th Image
+          |         
+          th Action
+          
+      |     
+      tbody
+       if(data)
+        each item in data
+         tr
+           td #{item.name}
+           |         
+           td #{item.username}
+           |         
+           td #{item.email}
+           |  
+           td #{item.role}
+           |       
+           td
+             img(src= "/uploads/"+item.profileimage, width="50px") 
+           td
+             a.btn.btn-default(type='button', rel=item._id, class='edituser', href='/users/edituser/'+item._id) Edit
+             button.btn.btn-default(type='button',rel=item._id, class='deleteuser') Delete
+           
+ 

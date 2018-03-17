@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  form(action='/categories/add', method='post')
+    .form-group
+        label(for='name') Name:
+        input#email.form-control(type='text', name='name')
+
+    button.btn.btn-default(type='submit') Submit

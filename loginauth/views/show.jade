@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1= title
+  dl.dl-horizontal
+  if datalength > 0
+    dt Category Name
+    p 
+    - var counter = 1
+    each item in data
+        dd  
+        strong= counter + " "
+        span #{item.name}
+        - counter = counter+1

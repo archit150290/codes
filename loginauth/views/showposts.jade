@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  h1= title
+  
+  table.table.table-bordered
+    thead
+      tr
+        th(scope='col') #
+        th(scope='col') Title
+        th(scope='col') Category
+        th(scope='col') Fetarued Image
+    tbody
+      each post, i in posts
+        tr
+          th(scope='row') #{i+1}
+          td
+            a(href="/posts/editpost/"+post._id) #{post.title}
+          td= post.category
+            td
+             img(src="/uploads/posts/" + post.featuredimage, width=100)
+         
+      

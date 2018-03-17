@@ -1,0 +1,32 @@
+extends layout
+
+block content
+ h2.page-header #{title}
+ form(method='post', action='/users/register',enctype='multipart/form-data')
+  .form-group
+   label Name
+   input.form-control(name='name', type='text', placeholder='Enter Name')
+  .form-group
+   label Email
+   input.form-control(name='email', type='email', placeholder='Enter Email')
+  .form-group
+   label Username
+   input.form-control#username(name='username', type='text', placeholder='Enter Username' Validator.getValue('username'))
+  .form-group
+   label Password
+   input.form-control(name='password', type='password', placeholder='Enter Password')
+  .form-group
+   label Confirm Password
+   input.form-control(name='password2', type='password', placeholder='Confirm Password')
+  .form-group
+      label(for='sel1') Select Role:
+      |   
+      select#sel1.form-control(name='role')
+        each item in roles
+         option #{item.role}
+         |     
+        
+  .form-group
+   label Profile Image
+   input.form-control(name='profileimage', type='file')
+  input.btn.btn-primary(type='submit', name='submit',value='Register')
